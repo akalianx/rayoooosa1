@@ -1,0 +1,239 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Added Monster Killing quests.
+//= Repeatable EXP Quest (Huge Leaves)
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+ayo_fild01,44,241,5	script	Lella#LeafCat_Hunt	877,{
+	if (checkquest(60143) != -1) {
+		if (checkquest(60143,HUNTING) != 2 ) {
+			mes "[Lella]";
+			mes "Has terminado de cazar los 50 Leaf Cats?";
+			next;
+			switch(select("Si:No:Renuncio")) {
+			case 1:
+				mes "[Lella]";
+				mes "Hmm, no creo que hayas cazado a 50 todavia...";
+				close;
+			case 2:
+				mes "[Lella]";
+				mes "Recuerda, necesito ayuda para cazar Leaf Cats asi que ve y caza 50 de esos.";
+				close;
+			case 3:
+				mes "[Lella]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Yes:No")) {
+				case 1:
+					mes "[Lella]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60143;
+					close;
+				case 2:
+					mes "[Lella]";
+					mes "Por favor mata 50 Leaf Cats.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Lella]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 25740,31512;
+			erasequest 60143;
+			close;
+		}
+	}
+	if (checkquest(60144) != -1) {
+		if (checkquest(60144,HUNTING) != 2 ) {
+			mes "[Lella]";
+			mes "Has terminado de cazar los 100 Leaf Cats?";
+			next;
+			switch(select("Si:No:Renuncio")) {
+			case 1:
+				mes "[Lella]";
+				mes "Hmm, no creo que hayas cazado a 100 todavia...";
+				close;
+			case 2:
+				mes "[Lella]";
+				mes "Recuerda, necesito ayuda para cazar Leaf Cats asi que ve y caza 100 de esos.";
+				close;
+			case 3:
+				mes "[Lella]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Estas seguro de que quieres dejar de cazar";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Lella]";
+					mes "Ok, entonces vuelve aqui si cambias de parecer.";
+					erasequest 60144;
+					close;
+				case 2:
+					mes "[Lella]";
+					mes "Por favor mata 100 Leaf Cats.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Lella]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 25740,31512;
+			getexp 25740,31512;
+			erasequest 60144;
+			close;
+		}
+	}
+	if (checkquest(60145) != -1) {
+		if (checkquest(60145,HUNTING) != 2 ) {
+			mes "[Lella]";
+			mes "Has terminado de cazar los 150 Leaf Cats?";
+			next;
+			switch(select("Si:No:Renuncio")) {
+			case 1:
+				mes "[Lella]";
+				mes "Hmm, no creo que hayas cazado a 150 todavia...";
+				close;
+			case 2:
+				mes "[Lella]";
+				mes "Recuerda, necesito ayuda para cazar Leaf Cats asi que ve y caza 150 de esos.";
+				close;
+			case 3:
+				mes "[Lella]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Lella]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60145;
+					close;
+				case 2:
+					mes "[Lella]";
+					mes "Por favor mata 150 Leaf Cats.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Lella]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 25740,31512;
+			getexp 25740,31512;
+			getexp 25740,31512;
+			erasequest 60145;
+			close;
+		}
+	}
+	//for minimum level
+	if (BaseLevel > 35) {
+		//for maximum level
+		if (BaseLevel < 66) {
+			mes "[Lella]";
+			mes "Hmm, Hmm Haa, Hola!!!";
+			mes "Pareces alguien que esta dispuesto a ayudar a alguien que se esta volviendo loca poco a poco.";
+			next;
+			mes "[Lella]";
+			switch(select("Seguro:No")) {
+			case 1:
+				
+				mes "Gracias!!! Eres un salvavidas!";
+				next;
+				switch(select("Recolectar Items:Cazar Leaf Cats:Cancel")) {
+				case 1:
+					// Item turn in
+					mes "Realmente necesito reunir ^00CE0050 Huge Leafs^000000 por mi integridad fisica.";
+					mes "Tienes algunas?";
+					next;
+					switch(select("Tengo 50 Huge Leafs:Que? Lo siento, estaba pensando.")) {
+					case 1:
+						/*
+						if (checkweight(503,10) == 0) {
+							mes "[Lella]";
+							mes "Hey!!!, parece que el peso sobre";
+							mes "tu espalda te aplastara";
+							mes "Vuelve!!! despues de perder algo de peso.";
+							close;
+						}
+						*/
+						if (countitem(7198) > 49) {
+							mes "[Lella]";
+							mes "Maravilloso!!! puedo decir que ahora es un poco mas tranquilo por aqui!";
+							next;
+							mes "[Lella]";
+							mes "Mientras mas hojas recojo, mas tranquilo se hace el lugar.";
+							delitem 7198,50; //Great_Leaf
+							getexp 32175,39390;
+							//getitem 503,10; //Yellow_Potion
+							close;
+						}
+						else {
+							mes "[Lella]";
+							mes "Meow meow meow meow meow...";
+							mes "NOOOOOOOOOOOO.";
+							close;
+						}
+					case 2:
+						mes "[Lella]";
+						mes "Necesito ^00CE0050 Huge Leafs^000000.";
+						close;
+					}
+				case 2:
+					// Kill Count Quest
+					mes "[Lella]";
+					mes "Pienso que tu puedes ayudarme a cazar alguno Leaf Cats.";
+					mes "Cuantos crees que puedes cazar?";
+					next;
+					switch(select("50 Leaf Cats:100 Leaf Cats:150 Leaf Cats")) {
+					case 1:
+						mes "[Lella]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60143;
+						close;
+					case 2:
+						mes "[Lella]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60144;
+						close;
+					case 3:
+						mes "[Lella]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60145;
+						close;
+					}
+				case 3:
+					mes "[Lella]";
+					mes "Si cambias de parecer, por favor, regresa.";
+					close;
+				}
+			case 2:
+				mes "[Lella]";
+				mes "Si cambias de parecer, por favor, regresa.";
+				close;
+			}
+		}
+		else {
+			mes "[Lella]";
+			mes "No estoy seguro de por que estas aqui, pero no puedo ofrecerte una recompensa ya que no te supondria ningun esfuerzo!!!";
+			close;
+		}
+	}
+	else {
+		mes "[Lella]";
+		mes "Escapa rapido antes de que pongan sus garras en tu integridad fisica!!!";
+		close;
+	}
+}

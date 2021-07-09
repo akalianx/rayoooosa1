@@ -1,0 +1,124 @@
+//===== rAthena Script =======================================
+//= Floating Server Rates
+//===== By: ==================================================
+//= Lupus
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= It's a simply example of setbattleflag
+//= This script will change your server rates from 1x to 1.5x every 6 hours
+//= Note: It doesn't affect Card granted drops, MVP & Treasure Chests drops ^_-
+//=       It also doesn't affect CARD drops, because they are just 0.01%
+//===== Additional Comments: =================================
+//= You can make incredible scripts with 'setbattleflag'!
+//============================================================
+
+//-	script	FloatingRates	-1,{
+FirstTown,210,231,3	script	Floating Rates	837,{
+//league,152,162,3	script	Floating Rates	837,{
+mes "[Rates]";
+mes " ";
+mes "Los rates en este momento son";
+mes "BASE:  "+($@brate/100)+"x";
+mes "JOB:   "+($@jrate/100)+"x";
+mes "DROP:  "+($@drate/100)+"x";
+close;
+
+
+
+
+
+
+
+//===========AUMENTO DE BASE Y JOB 15x	========
+//OnInit:
+OnMon0100:
+	set $@brate,1500;
+	set $@jrate,1500;
+	//set $@brate,(rand(18,30)*100);
+	//set $@jrate,(rand(18,30)*100);
+	set $@drate,1500;
+
+
+
+
+	//Base exp
+	setbattleflag("base_exp_rate",$@brate);
+	//Job exp
+	setbattleflag("job_exp_rate",$@jrate);
+	//Drops
+	setbattleflag("item_rate_common",$@drate);
+	setbattleflag("item_rate_heal",$@drate);
+	setbattleflag("item_rate_use",$@drate);
+	setbattleflag("item_rate_equip",$@drate,true); 
+	//setbattleflag("item_rate_card",$@drate); 
+	// Apply new rates to configs set above
+	//we don't change card drops rate, because these values won't change them anyway
+	
+	
+	
+	
+	announce "Los rates hoy son: BASE: "+($@brate/100)+"x      JOB: "+($@jrate/100)+"x      DROP: "+($@drate/100)+"x",bc_all,0xFF6060;
+	
+	
+	delwaitingroom;
+	waitingroom ($@brate/100)+"x / "+($@jrate/100)+"x / "+($@drate/100)+"x",0;
+	
+	end;
+
+
+	
+//===========AUMENTO DE BASE Y JOB 20x	========
+//add any other HOURS
+OnInit:
+OnFri1200:	//viernes 12 mañana
+OnFri1800:
+OnFri2350:
+OnSat0700:	//viernes 12 noche
+OnSat1300:	//sabado 6 am
+OnSat1900:	//sabado 12 mañana
+OnSun0100:	//sabado 6 pm	
+OnSun0700:	//sabado 12 noche
+OnSun1300:	//domingo 6 am
+OnSun1900:	//domingo 12 mañana
+//OnMon0100:	//domingo 6 pm
+//atcommand ("@reloadbattleconf");
+
+//-------------------
+	set $@brate,2000;
+	set $@jrate,2000;
+	//set $@brate,(rand(18,30)*100);
+	//set $@jrate,(rand(18,30)*100);
+	set $@drate,2000;
+	
+	//Base exp
+	setbattleflag("base_exp_rate",$@brate);
+	//Job exp
+	setbattleflag("job_exp_rate",$@jrate);
+	//Drops
+	setbattleflag("item_rate_common",$@drate);
+	setbattleflag("item_rate_heal",$@drate);
+	setbattleflag("item_rate_use",$@drate);
+	setbattleflag("item_rate_equip",$@drate,true); 
+	//setbattleflag("item_rate_card",$@drate); 
+	// Apply new rates to configs set above
+	//we don't change card drops rate, because these values won't change them anyway
+	
+	
+	
+	
+	announce "Los rates hoy son: BASE: "+($@brate/100)+"x      JOB: "+($@jrate/100)+"x      DROP: "+($@drate/100)+"x",bc_all,0xFF6060;
+	
+	
+	delwaitingroom;
+	waitingroom ($@brate/100)+"x / "+($@jrate/100)+"x / "+($@drate/100)+"x",0;
+	
+	end;
+
+
+
+	
+}
+

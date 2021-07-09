@@ -1,0 +1,426 @@
+/*
+league,142,176,1	script	Ragnarok#2	90,{
+
+
+
+//----------------- INICIO DE EVENTO -----------------
+
+OnInit:
+announce "Prontera ha sido rodeada por una orda de monstruos.",bc_all;
+announce "Valientes Aventureros, prontejan la capital en estos 7 dias de oscuridad",bc_all;
+killmonster "prt_fild05","All";
+killmonster "prt_fild08","All";
+killmonster "prt_fild06","All";
+atcommand ("@reloadbattleconf");
+atcommand ("@cleanmap");
+
+
+monster "prt_fild05",0,0,"Bow Guardian R",3005,30,strnpcinfo(0)+"::OnKill";
+monster "prt_fild05",0,0,"Sword Guardian R",3006,30,strnpcinfo(0)+"::OnKill9";
+monster "prt_fild05",0,0,"High Orc",1213,170,strnpcinfo(0)+"::OnKill2";
+monster "prt_fild05",0,0,"Phendark",1202,60,strnpcinfo(0)+"::OnKill5";
+
+monster "prt_fild06",0,0,"Anubis",1098,40,strnpcinfo(0)+"::OnKill3";
+monster "prt_fild06",0,0,"Khalitzburg",1132,40,strnpcinfo(0)+"::OnKill4";
+monster "prt_fild06",0,0,"Firelock Soldier",1403,170,strnpcinfo(0)+"::OnKill10";
+
+
+monster "prt_fild08",0,0,"Goblin",1122,110,strnpcinfo(0)+"::OnKill6";
+monster "prt_fild08",0,0,"Goblin Archer",1577,110,strnpcinfo(0)+"::OnKill7";
+monster "prt_fild08",0,0,"Goblin Leader",1299,40,strnpcinfo(0)+"::OnKill8";
+monster "prt_fild08",0,0,"Panzer Goblin",1308,40,strnpcinfo(0)+"::OnKill11";
+
+end;
+
+
+
+
+
+//----------------- RESPAWN DE MONSTRUOS -----------------
+
+OnKill:
+getitem 40095,2;
+monster "prt_fild05",0,0,"Bow Guardian R",3005,1,strnpcinfo(0)+"::OnKill";
+//callfunc("ItemAleatorio");
+end;
+
+OnKill2:
+getitem 40095,1;
+monster "prt_fild05",0,0,"High Orc ",1213,1,strnpcinfo(0)+"::OnKill2";
+//callfunc("ItemAleatorio");
+end;
+
+OnKill9:
+getitem 40095,2;
+monster "prt_fild05",0,0,"Sword Guardian R",3006,1,strnpcinfo(0)+"::OnKill9";
+//callfunc("ItemAleatorio");
+end;
+
+
+
+OnKill3:
+getitem 40095,2;
+monster "prt_fild06",0,0,"Anubis",1098,1,strnpcinfo(0)+"::OnKill3";
+//callfunc("ItemAleatorio");
+end;
+
+OnKill4:
+getitem 40095,2;
+monster "prt_fild06",0,0,"Khalitzburg",1132,1,strnpcinfo(0)+"::OnKill4";
+//callfunc("ItemAleatorio");
+end;
+
+OnKill5:
+getitem 40095,2;
+monster "prt_fild05",0,0,"Phendark",1202,1,strnpcinfo(0)+"::OnKill5";
+//callfunc("ItemAleatorio");
+end;
+
+OnKill10:
+getitem 40095,1;
+monster "prt_fild06",0,0,"Firelock Soldier",1403,1,strnpcinfo(0)+"::OnKill10";
+//callfunc("ItemAleatorio");
+end;
+
+
+OnKill6:
+getitem 40095,1;
+monster "prt_fild08",0,0,"Goblin",1122,1,strnpcinfo(0)+"::OnKill6";
+//callfunc("ItemAleatorio");
+end;
+
+OnKill7:
+getitem 40095,1;
+monster "prt_fild08",0,0,"Goblin Archer",1577,1,strnpcinfo(0)+"::OnKill7";
+//callfunc("ItemAleatorio");
+end;
+
+OnKill8:
+getitem 40095,2;
+monster "prt_fild08",0,0,"Goblin Leader",1299,1,strnpcinfo(0)+"::OnKill8";
+//callfunc("ItemAleatorio");
+end;
+
+OnKill11:
+getitem 40095,2;
+monster "prt_fild08",0,0,"Panzer Goblin",1308,1,strnpcinfo(0)+"::OnKill11";
+//callfunc("ItemAleatorio");
+end;
+
+
+
+
+/*
+
+
+//----------------- ANUNCIO DE PROXIMA TERMINACION -----------------
+
+OnFri0600:
+announce "El evento terminara en 1 hora",bc_all;
+end;
+
+
+
+OnFri0650:
+announce "El evento terminara en 10 minutos",bc_all;
+end;
+
+//----------------- FINALIZACION DE EVENTO -----------------
+
+OnFri0700:
+announce "El evento a terminado, gracias a todos por participar",bc_all;
+killmonster "prt_fild05","All";
+killmonster "prt_fild06","All";
+killmonster "prt_fild08","All";
+end;
+
+*/
+
+
+
+
+}
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+function	script	ItemAleatorio	{
+	
+					  //ID , % , CANTIDAD
+	setarray .@reward,	501, 40, 1, 		//50 red potion
+						502, 35, 1, 		//50 orange potion
+						503, 35, 1, 		//50 yellow potion
+						504, 25, 1, 		//50 white potion
+						505, 15, 1, 		//50 blue potion
+						506, 25, 1, 		//50 green potion
+						972, 5, 1, 			//50 Karvodailnirol
+						547, 5, 1, 			//50 Condensed White Potion
+						7135, 3, 1, 		//50 Bottle Grenade
+						970, 5, 1, 			//50 Alcohol
+						678, 3, 1, 			//50 Poison Bottle
+						510, 10, 1, 		//50 Blue Herb
+						511, 25, 1, 		//50 Green Herb
+						507, 25, 1, 		//50 Red Herb
+						509, 15, 1, 		//50 White Herb
+						508, 20, 1, 		//50 Yellow Herb
+						514, 10, 1, 		//50 Grape
+						533, 5, 1, 			//50 Grape Juice
+						14579, 2, 1, 		//50 Green Salad
+						12043, 2, 1, 		//50 Bomber Steak
+						970, 5, 1, 			//50 Alcohol
+						7137, 5, 1, 		//50 Plant Bottle
+						546, 10, 1, 		//50 Condensed Yellow Potion
+						713, 20, 1, 		//	Empty Bottle 
+						994, 10, 1, 		//	Flame Heart 
+						995, 10, 1, 		//	Mystic Frozen
+						996, 10, 1, 		//	Rough Wind
+						997, 10, 1, 		//	Great Nature
+						1000, 10, 1, 		//	Star Crumb
+						1003, 10, 1, 		//	Coal
+						999, 10, 1, 		//	Steel  
+						1061, 5, 1; 		//50 Witched Starsand
+						
+						
+						
+	set .@size, getarraysize( .@reward );
+	for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+		.@percent[.@i] = .@total + .@reward[.@i];
+		.@total += .@reward[.@i];
+	}
+	.@r = rand( .@total +1 );
+	for( set .@i, 1; .@i < .@size; .@i += 3 )
+		if( .@percent[.@i] > .@r )
+			break;
+	getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+	end;
+	
+}
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+
+
+
+
+// Settings :
+//	-	Only required to edit the ShopSetting() Function
+//			Notes : You may also add / remove Menu ( If any ) 
+//	-	Shop Currency can be either ItemID or Variable Name, but must write within Quotation Marks ( "" )
+//			Ex. of Variable.	->	Zeny , #CASHPOINTS , #KAFRAPOINTS , CustomVariable , #CustomVariable
+//	-	ERROR Message are used to show Invalid Settings in your NPC.
+
+
+// Leave this alone...
+-	shop	Emistry_Shop	-1,512:100
+
+prontera,129,215,5	script	Mirely	10079,{
+
+function ShopSettings;
+function ValidateCost;
+function CurrencyInfo;
+function ClearData;
+function ValueConvert;
+function ErrorNotice;
+
+mes "Hola " + "^0000FF" + strcharinfo(0) + "^000000" + " mi nombre es ^0000FF" + "Mirely." + "^000000, aqui puedes canjear tus ^0000FFHunting Badge^000000.";
+mes "^00FF00____________________________^000000";
+mes "Gracias por ayudarnos a combatir esta invasion";
+next;
+// Menu Selection
+select("Hunting Badge");
+
+ClearData();
+ShopSettings( @menu );
+npcshopitem "Emistry_Shop",512,100;
+npcshopdelitem "Emistry_Shop",512;
+for(set .@i,0; .@i < getarraysize( @ItemLists ); set .@i,.@i+1)
+	npcshopadditem "Emistry_Shop",@ItemLists[.@i],@ItemCost[.@i];
+mes "Okay...wait awhile";
+mes "^00FF00____________________________^000000";
+CurrencyInfo( @Currency$ );
+mes "^00FF00____________________________^000000";
+callshop "Emistry_Shop",1;
+npcshopattach "Emistry_Shop";
+end;
+
+
+function	ShopSettings	{
+	switch( getarg(0) ){
+	
+	
+	
+
+	
+	 
+		Case 1:
+			// Currency [ Item ID / Variable Name GUILD COIN 1]
+			set @Currency$,"40095";
+			// Item ID Lists
+			setarray @ItemLists[0],40094,40096,40097;
+			// Item Price
+			setarray @ItemCost[0],500,200,100;
+			break;
+			 
+			
+	
+		// Case 4,5,6.....etc...
+		default:
+			ErrorNotice( "Invalid Menu Selection for Menu "+@menu+"." );
+			close;
+	}
+	
+	
+if( @Currency$ == "" )
+	ErrorNotice( "Invalid Currency Setting in Menu "+@menu+" ." );
+if( getarraysize( @ItemCost ) != getarraysize( @ItemLists ) || getarraysize( @ItemLists ) != getarraysize( @ItemCost ) )
+	ErrorNotice( "Missing or Extra Value of Item or Cost Settings in Menu "+@menu+" ." );
+return;
+}
+
+function	ErrorNotice	{
+	mes "^FF0000ERROR^000000 - "+getarg(0);
+	mes "^00FF00____________________________^000000";
+	mes "Inform this Message to ^0000FFGame Staffs^000000 immediately !";
+	close;
+}
+
+function	CurrencyInfo	{
+	if( getitemname( atoi( getarg(0) ) ) != "null" ){
+		mes "Item Currency : ^FF0000"+getitemname( atoi( getarg(0) ) )+"^000000";
+		mes "Available Amount : ^0000FF"+ValueConvert( countitem( atoi( getarg(0) ) ) )+"^000000";
+	}else if( getitemname( atoi( getarg(0) ) ) == "null" ){
+		mes "Variable Currency : ^FF0000"+getarg(0)+"^000000";
+		mes "Available Amount : ^0000FF"+ValueConvert( getd( getarg(0) ) )+"^000000";
+	}
+return;
+}
+
+function	ValidateCost	{
+	if( getitemname( atoi( getarg(0) ) ) != "null" ){
+		if( countitem( atoi( getarg(0) ) ) < getarg(1) ) return 1;
+	}else{
+		if( getd( getarg(0) ) < getarg(1) ) return 1;
+	}
+return 0;
+}
+
+function ClearData	{
+	set @Currency$,"";
+	set @TotalCost,0;
+	deletearray @bought_nameid[0],getarraysize( @bought_nameid );
+	deletearray @bought_quantity[0],getarraysize( @bought_quantity );
+	deletearray @ItemLists[0],getarraysize( @ItemLists );
+	deletearray @ItemCost[0],getarraysize( @ItemCost );
+return;
+}
+
+function	ValueConvert	{
+	set .@num, atoi(""+getarg(0));
+	if ( .@num == 0 || .@num >= 2147483647 ) return getarg(0);
+	set .@l, getstrlen(""+.@num);
+	for ( set .@i,0; .@i < .@l; set .@i, .@i + 1 ) {
+		set .@num$, .@num % pow(10,.@i+1) / pow(10,.@i) + .@num$;
+			if ( (.@i+1) % 3 == 0 && .@i+1 != .@l ) set .@num$, ","+ .@num$;
+	}
+	return .@num$;
+}
+
+OnBuyItem:
+	ShopSettings( @menu );
+	for(set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1)
+		for(set @j,0; @j < getarraysize( @ItemLists ); set @j,@j+1)
+			if( @ItemLists[@j] == @bought_nameid[@i] )
+			set @TotalCost,@TotalCost + ( @ItemCost[@j] * @bought_quantity[@i] );
+	mes "^FF0000       BILLING LIST^000000";
+	mes "^00FF00____________________________^000000";
+	for( set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1 )
+			mes "^FF0000"+@bought_quantity[@i]+" x ^0000FF"+getitemname( @bought_nameid[@i] )+"^000000";
+	mes "^00FF00____________________________^000000";
+
+	if( getitemname( atoi( @Currency$ ) ) != "null" )
+		mes "Total Cost : ^0000FF"+ValueConvert( @TotalCost )+" x "+getitemname( atoi( @Currency$ ) )+"^000000";
+	else if( getitemname( atoi( @Currency$ ) ) == "null" ){
+		mes "Total Cost : ^0000FF"+ValueConvert( @TotalCost )+" "+@Currency$+"^000000";
+	}
+	
+	mes "^00FF00____________________________^000000";
+	if( ValidateCost( @Currency$,@TotalCost ) ){
+		if( getitemname( atoi( @Currency$ ) ) != "null" )
+			mes "[ ^FF0000X^000000 ] Insufficient ^0000FF"+getitemname( atoi( @Currency$ ) )+"^000000";
+		else{
+			mes "[ ^FF0000X^000000 ] Insufficient ^0000FF"+@Currency$+"^000000";
+		}
+	}else{
+		if( select( "^0000FFPurchase^000000:Cancel" ) == 1 ){
+			if( getitemname( atoi( @Currency$ ) ) != "null" )
+				delitem atoi( @Currency$ ),@TotalCost;
+			else{
+				set getd( @Currency$ ),getd( @Currency$ ) - @TotalCost;
+			}
+			for(set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1)
+				getitem @bought_nameid[@i],@bought_quantity[@i];
+			message strcharinfo(0),"Purchased "+getarraysize( @bought_nameid )+" Items.";
+			mes "Thank you for shopping.";
+		}
+	}
+ClearData();
+close;
+
+close;
+OnInit:
+	waitingroom "Invasion",0;
+	end;
+
+}
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

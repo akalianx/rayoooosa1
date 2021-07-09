@@ -1,0 +1,638 @@
+
+/*
+
+
+// Settings :
+//	-	Only required to edit the ShopSetting() Function
+//			Notes : You may also add / remove Menu ( If any ) 
+//	-	Shop Currency can be either ItemID or Variable Name, but must write within Quotation Marks ( "" )
+//			Ex. of Variable.	->	Zeny , #CASHPOINTS , #KAFRAPOINTS , CustomVariable , #CustomVariable
+//	-	ERROR Message are used to show Invalid Settings in your NPC.
+
+
+// Leave this alone...
+-	shop	Emistry_Shop	-1,512:100
+
+prontera,129,215,5	script	Mirely	10079,{
+
+function ShopSettings;
+function ValidateCost;
+function CurrencyInfo;
+function ClearData;
+function ValueConvert;
+function ErrorNotice;
+
+mes "Hola " + "^0000FF" + strcharinfo(0) + "^000000" + " mi nombre es ^0000FF" + "Mirely." + "^000000, aqui puedes canjear tus ^0000FFChristmas Cookie^000000 y ^0000FFChristmas Candy^000000.";
+mes "^00FF00____________________________^000000";
+mes "Espero estes disfrutando el evento.";
+next;
+// Menu Selection
+select("Christmas Cookie:Christmas Candy");
+
+ClearData();
+ShopSettings( @menu );
+npcshopitem "Emistry_Shop",512,100;
+npcshopdelitem "Emistry_Shop",512;
+for(set .@i,0; .@i < getarraysize( @ItemLists ); set .@i,.@i+1)
+	npcshopadditem "Emistry_Shop",@ItemLists[.@i],@ItemCost[.@i];
+mes "Okay...wait awhile";
+mes "^00FF00____________________________^000000";
+CurrencyInfo( @Currency$ );
+mes "^00FF00____________________________^000000";
+callshop "Emistry_Shop",1;
+npcshopattach "Emistry_Shop";
+end;
+
+
+function	ShopSettings	{
+	switch( getarg(0) ){
+	
+	
+	
+
+	
+		//Christmas Cookie
+		Case 1:
+			// Currency [ Item ID / Variable Name GUILD COIN 1]
+			set @Currency$,"40147";
+			// Item ID Lists
+			setarray @ItemLists[0],5390,5384,31315,19976,5381,31440,19686,19677,5742,2236;
+			// Item Price
+			setarray @ItemCost[0],1000,1000,600,500,400,400,200,200,200,50;
+			break;
+			 
+		 
+		//Christmas Candy
+		Case 2:
+			// Currency [ Item ID / Variable Name GUILD COIN 1]
+			set @Currency$,"40148";
+			// Item ID Lists
+			setarray @ItemLists[0],40094,40096,40097,12107,664,665,666,667;
+			// Item Price
+			setarray @ItemCost[0],500,200,100,100,50,50,50,50;
+			break;		
+	
+		// Case 4,5,6.....etc...
+		default:
+			ErrorNotice( "Invalid Menu Selection for Menu "+@menu+"." );
+			close;
+	}
+	
+	
+if( @Currency$ == "" )
+	ErrorNotice( "Invalid Currency Setting in Menu "+@menu+" ." );
+if( getarraysize( @ItemCost ) != getarraysize( @ItemLists ) || getarraysize( @ItemLists ) != getarraysize( @ItemCost ) )
+	ErrorNotice( "Missing or Extra Value of Item or Cost Settings in Menu "+@menu+" ." );
+return;
+}
+
+function	ErrorNotice	{
+	mes "^FF0000ERROR^000000 - "+getarg(0);
+	mes "^00FF00____________________________^000000";
+	mes "Inform this Message to ^0000FFGame Staffs^000000 immediately !";
+	close;
+}
+
+function	CurrencyInfo	{
+	if( getitemname( atoi( getarg(0) ) ) != "null" ){
+		mes "Item Currency : ^FF0000"+getitemname( atoi( getarg(0) ) )+"^000000";
+		mes "Available Amount : ^0000FF"+ValueConvert( countitem( atoi( getarg(0) ) ) )+"^000000";
+	}else if( getitemname( atoi( getarg(0) ) ) == "null" ){
+		mes "Variable Currency : ^FF0000"+getarg(0)+"^000000";
+		mes "Available Amount : ^0000FF"+ValueConvert( getd( getarg(0) ) )+"^000000";
+	}
+return;
+}
+
+function	ValidateCost	{
+	if( getitemname( atoi( getarg(0) ) ) != "null" ){
+		if( countitem( atoi( getarg(0) ) ) < getarg(1) ) return 1;
+	}else{
+		if( getd( getarg(0) ) < getarg(1) ) return 1;
+	}
+return 0;
+}
+
+function ClearData	{
+	set @Currency$,"";
+	set @TotalCost,0;
+	deletearray @bought_nameid[0],getarraysize( @bought_nameid );
+	deletearray @bought_quantity[0],getarraysize( @bought_quantity );
+	deletearray @ItemLists[0],getarraysize( @ItemLists );
+	deletearray @ItemCost[0],getarraysize( @ItemCost );
+return;
+}
+
+function	ValueConvert	{
+	set .@num, atoi(""+getarg(0));
+	if ( .@num == 0 || .@num >= 2147483647 ) return getarg(0);
+	set .@l, getstrlen(""+.@num);
+	for ( set .@i,0; .@i < .@l; set .@i, .@i + 1 ) {
+		set .@num$, .@num % pow(10,.@i+1) / pow(10,.@i) + .@num$;
+			if ( (.@i+1) % 3 == 0 && .@i+1 != .@l ) set .@num$, ","+ .@num$;
+	}
+	return .@num$;
+}
+
+OnBuyItem:
+	ShopSettings( @menu );
+	for(set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1)
+		for(set @j,0; @j < getarraysize( @ItemLists ); set @j,@j+1)
+			if( @ItemLists[@j] == @bought_nameid[@i] )
+			set @TotalCost,@TotalCost + ( @ItemCost[@j] * @bought_quantity[@i] );
+	mes "^FF0000       BILLING LIST^000000";
+	mes "^00FF00____________________________^000000";
+	for( set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1 )
+			mes "^FF0000"+@bought_quantity[@i]+" x ^0000FF"+getitemname( @bought_nameid[@i] )+"^000000";
+	mes "^00FF00____________________________^000000";
+
+	if( getitemname( atoi( @Currency$ ) ) != "null" )
+		mes "Total Cost : ^0000FF"+ValueConvert( @TotalCost )+" x "+getitemname( atoi( @Currency$ ) )+"^000000";
+	else if( getitemname( atoi( @Currency$ ) ) == "null" ){
+		mes "Total Cost : ^0000FF"+ValueConvert( @TotalCost )+" "+@Currency$+"^000000";
+	}
+	
+	mes "^00FF00____________________________^000000";
+	if( ValidateCost( @Currency$,@TotalCost ) ){
+		if( getitemname( atoi( @Currency$ ) ) != "null" )
+			mes "[ ^FF0000X^000000 ] Insufficient ^0000FF"+getitemname( atoi( @Currency$ ) )+"^000000";
+		else{
+			mes "[ ^FF0000X^000000 ] Insufficient ^0000FF"+@Currency$+"^000000";
+		}
+	}else{
+		if( select( "^0000FFPurchase^000000:Cancel" ) == 1 ){
+			if( getitemname( atoi( @Currency$ ) ) != "null" )
+				delitem atoi( @Currency$ ),@TotalCost;
+			else{
+				set getd( @Currency$ ),getd( @Currency$ ) - @TotalCost;
+			}
+			for(set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1)
+				getitem @bought_nameid[@i],@bought_quantity[@i];
+			message strcharinfo(0),"Purchased "+getarraysize( @bought_nameid )+" Items.";
+			mes "Thank you for shopping.";
+		}
+	}
+ClearData();
+close;
+
+close;
+OnInit:
+	waitingroom "Xmas Shop",0;
+	
+	
+	end;
+
+}
+
+
+
+
+
+
+
+
+
+league,139,166,1	script	Diciembre2020#2	90,{
+
+
+
+//----------------- INICIO DE EVENTO -----------------
+
+OnInit:
+
+//announce "Monstruos han invadido las ciudades de Prontera, Izlude y Lutie",bc_all;
+killmonster "prontera","All";
+killmonster "xmas","All";
+killmonster "izlude","All";
+killmonster "geffen","All";
+
+end;
+end;
+
+
+
+
+atcommand ("@reloadbattleconf");
+
+monster "prontera",0,0,"Myst Case",1249,200,strnpcinfo(0)+"::OnKill";
+monster "prontera",0,0,"Christmas Jakk",1244,90,strnpcinfo(0)+"::OnKill2";
+monster "prontera",0,0,"Santa Poring",1062,200,strnpcinfo(0)+"::OnKill3";
+monster "prontera",0,0,"Antonio",1247,15,strnpcinfo(0)+"::OnKill4";
+
+
+monster "xmas",0,0,"Christmas Cookie",1246,50,strnpcinfo(0)+"::OnKill5";
+monster "xmas",0,0,"Christmas Goblin",1245,35,strnpcinfo(0)+"::OnKill6";
+monster "xmas",0,0,"Isilla",1772,25,strnpcinfo(0)+"::OnKill7";
+monster "xmas",0,0,"Christmas Orc",1588,35,strnpcinfo(0)+"::OnKill8";
+monster "xmas",0,0,"Vanberk",1771,25,strnpcinfo(0)+"::OnKill9";
+
+
+monster "izlude",0,0,"Nightmare",1061,60,strnpcinfo(0)+"::OnKill10";
+monster "izlude",0,0,"Ghoul",1036,80,strnpcinfo(0)+"::OnKill11";
+monster "izlude",0,0,"Santa Poring",1062,60,strnpcinfo(0)+"::OnKill12";
+
+
+
+set .@Base,0;
+set .@Job,0;
+end;
+
+
+
+
+
+
+//----------------- RESPAWN DE MONSTRUOS -----------------
+
+OnKill:
+monster "prontera",0,0,"Myst Case",1249,1,strnpcinfo(0)+"::OnKill";
+set .@Base,15000;
+set .@Job,15000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+OnKill2:
+monster "prontera",0,0,"Christmas Jakk",1244,1,strnpcinfo(0)+"::OnKill2";
+set .@Base,15000;
+set .@Job,15000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+OnKill3:
+monster "prontera",0,0,"Santa Poring",1062,1,strnpcinfo(0)+"::OnKill3";
+set .@Base,10000;
+set .@Job,10000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+OnKill4:
+monster "prontera",0,0,"Antonio",1247,1,strnpcinfo(0)+"::OnKill4";
+set .@Base,10000;
+set .@Job,10000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+OnKill5:
+monster "xmas",0,0,"Christmas Cookie",1246,1,strnpcinfo(0)+"::OnKill5";
+set .@Base,10000;
+set .@Job,10000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+OnKill6:
+monster "xmas",0,0,"Christmas Goblin",1245,1,strnpcinfo(0)+"::OnKill6";
+set .@Base,10000;
+set .@Job,10000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+OnKill7:
+monster "xmas",0,0,"Isilla",1772,1,strnpcinfo(0)+"::OnKill7";
+set .@Base,25000;
+set .@Job,25000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+OnKill8:
+monster "xmas",0,0,"Christmas Orc",1588,1,strnpcinfo(0)+"::OnKill8";
+set .@Base,12000;
+set .@Job,12000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+
+OnKill9:
+monster "xmas",0,0,"Vanberk",1771,1,strnpcinfo(0)+"::OnKill9";
+set .@Base,25000;
+set .@Job,25000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+
+
+OnKill10:
+monster "izlude",0,0,"Nightmare",1061,1,strnpcinfo(0)+"::OnKill10";
+set .@Base,8000;
+set .@Job,8000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+
+OnKill11:
+monster "izlude",0,0,"Ghoul",1036,1,strnpcinfo(0)+"::OnKill11";
+set .@Base,0;
+set .@Job,0;
+set .@Base,4000;
+set .@Job,4000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+
+
+OnKill12:
+monster "izlude",0,0,"Santa Poring",1062,1,strnpcinfo(0)+"::OnKill12";
+set .@Base,6000;
+set .@Job,6000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+//dispbottom "Bono Exp Base " + .@Base*($@brate/100) + "     Bono Exp Job " + .@Job*($@jrate/100) + ".",0xFCF506;
+callfunc("Dic2020");
+end;
+
+
+
+
+
+
+
+//----------------- ANUNCIO DE PROXIMA TERMINACION -----------------
+
+OnFri0600:
+announce "El evento terminara en 1 hora",bc_all;
+end;
+
+
+
+OnFri0650:
+announce "El evento terminara en 10 minutos",bc_all;
+end;
+
+//----------------- FINALIZACION DE EVENTO -----------------
+
+OnFri0700:
+announce "El evento a terminado, gracias a todos por participar",bc_all;
+killmonster "prontera","All";
+killmonster "xmas","All";
+killmonster "izlude","All";
+killmonster "geffen","All";
+end;
+
+
+
+
+
+}
+
+*/
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+function	script	Dic2020	{
+	
+	//ID , % , CANTIDAD
+	setarray .@reward,	40147, 50, 1, 		//christmas cookie
+						40148, 50, 1; 		//christmas candy
+						
+	set .@size, getarraysize( .@reward );
+	for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+		.@percent[.@i] = .@total + .@reward[.@i];
+		.@total += .@reward[.@i];
+	}
+	.@r = rand( .@total +1 );
+	for( set .@i, 1; .@i < .@size; .@i += 3 )
+		if( .@percent[.@i] > .@r )
+			break;
+	dispbottom "Item obtenido ^FCF506" + getitemname(.@reward[ .@i-1 ]) + "^000000.",0xFCF506;
+	getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+	
+	end;
+	
+}
+
+
+
+
+function	script	ItemAleatorio	{
+	
+					  //ID , % , CANTIDAD
+	setarray .@reward,	501, 40, 1, 		//50 red potion
+						502, 35, 1, 		//50 orange potion
+						503, 35, 1, 		//50 yellow potion
+						504, 25, 1, 		//50 white potion
+						505, 15, 1, 		//50 blue potion
+						506, 25, 1, 		//50 green potion
+						972, 5, 1, 			//50 Karvodailnirol
+						547, 5, 1, 			//50 Condensed White Potion
+						7135, 3, 1, 		//50 Bottle Grenade
+						970, 5, 1, 			//50 Alcohol
+						678, 3, 1, 			//50 Poison Bottle
+						510, 10, 1, 		//50 Blue Herb
+						511, 25, 1, 		//50 Green Herb
+						507, 25, 1, 		//50 Red Herb
+						509, 15, 1, 		//50 White Herb
+						508, 20, 1, 		//50 Yellow Herb
+						514, 10, 1, 		//50 Grape
+						533, 5, 1, 			//50 Grape Juice
+						14579, 2, 1, 		//50 Green Salad
+						12043, 2, 1, 		//50 Bomber Steak
+						970, 5, 1, 			//50 Alcohol
+						7137, 5, 1, 		//50 Plant Bottle
+						546, 10, 1, 		//50 Condensed Yellow Potion
+						713, 20, 1, 		//	Empty Bottle 
+						994, 10, 1, 		//	Flame Heart 
+						995, 10, 1, 		//	Mystic Frozen
+						996, 10, 1, 		//	Rough Wind
+						997, 10, 1, 		//	Great Nature
+						1000, 10, 1, 		//	Star Crumb
+						1003, 10, 1, 		//	Coal
+						999, 10, 1, 		//	Steel  
+						1061, 5, 1; 		//50 Witched Starsand
+						
+						
+						
+	set .@size, getarraysize( .@reward );
+	for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+		.@percent[.@i] = .@total + .@reward[.@i];
+		.@total += .@reward[.@i];
+	}
+	.@r = rand( .@total +1 );
+	for( set .@i, 1; .@i < .@size; .@i += 3 )
+		if( .@percent[.@i] > .@r )
+			break;
+	dispbottom "Item obtenido ^FCF506" + getitemname(.@reward[ .@i-1 ]) + ".",0xFCF506;
+	getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+	
+	end;
+	
+}
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+
+
+
+//prontera,155,350,0	warp	prt_castle	2,3,prt_castle,101,25
+//prt_castle,101,19,0	warp	prt_castle	2,3,prontera,155,341
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+OnInit:
+OnClock0135:
+OnClock0235:
+OnClock0335:
+OnClock0435:
+OnClock0535:
+OnClock0635:
+OnClock0735:
+OnClock0835:
+OnClock0935:
+OnClock1035:
+OnClock1135:
+OnClock1248:
+OnClock1251:
+OnClock1435:
+OnClock1535:
+OnClock1635:
+OnClock1735:
+OnClock1835:
+OnClock1935:
+OnClock2035:
+OnClock2135:
+OnClock2235:
+OnClock2335:
+OnClock0035:
+
+OnClock1255:
+	killmonster "jawaii","All"; //Elimina todos los mobs sobrantes en el mapa
+	
+	announce "Se ha iniciado una Invasion en la Ciudad de prontera !!!!",bc_all;
+	set $Monsters_2,50;
+	monster "prontera",0,0,"Wolf",1013,50,"Ragnarok#2::OnMyMobDead"; // 1
+	
+	
+	
+	monster "jawaii",0,0,"Amon Ra",1511,1,"Ragnarok#2::OnMyMobDead"; // 1
+	monster "jawaii",0,0,"Atroce",1785,1,"Ragnarok#2::OnMyMobDead"; // 2
+	monster "jawaii",0,0,"White Lady",1630,1,"Ragnarok#2::OnMyMobDead";// 3
+	monster "jawaii",0,0,"Baphomet",1039,1,"Ragnarok#2::OnMyMobDead";// 4
+	monster "jawaii",0,0,"Dark Lord",1272,1,"Ragnarok#2::OnMyMobDead";// 5
+	monster "jawaii",0,0,"Detardeurus",1719,1,"Ragnarok#2::OnMyMobDead";// 6
+	monster "jawaii",0,0,"Doppelganger",1046,1,"Ragnarok#2::OnMyMobDead";// 7
+	monster "jawaii",0,0,"Dracula",1389,1,"Ragnarok#2::OnMyMobDead";// 8
+	monster "jawaii",0,0,"Drake",1112,1,"Ragnarok#2::OnMyMobDead";// 9
+	monster "jawaii",0,0,"Eddga",1115,1,"Ragnarok#2::OnMyMobDead";// 10
+	monster "jawaii",0,0,"Evil Snake Lord",1418,1,"Ragnarok#2::OnMyMobDead";// 11
+	monster "jawaii",0,0,"Garm",1252,1,"Ragnarok#2::OnMyMobDead";// 12
+	monster "jawaii",0,0,"Turtle General",1312,1,"Ragnarok#2::OnMyMobDead";// 13
+	monster "jawaii",0,0,"Golden Thief Bug",1086,1,"Ragnarok#2::OnMyMobDead";// 14
+	monster "jawaii",0,0,"Gopinich",1885,1,"Ragnarok#2::OnMyMobDead";// 15
+	monster "jawaii",0,0,",Incantation Samurai",1492,1,"Ragnarok#2::OnMyMobDead";// 16
+	monster "jawaii",0,0,"Stormy Knight",1251,1,"Ragnarok#2::OnMyMobDead";// 17
+	monster "jawaii",0,0,"Amon Ra",1511,1,"Ragnarok#2::OnMyMobDead";// 18
+	monster "jawaii",0,0,"Lady Tanee",1688,1,"Ragnarok#2::OnMyMobDead";// 19
+	monster "jawaii",0,0,"Lord of Death",1373,1,"Ragnarok#2::OnMyMobDead";// 20
+	monster "jawaii",0,0,"Maya",1147,1,"Ragnarok#2::OnMyMobDead";// 21
+	monster "jawaii",0,0,"Mistress",1059,1,"Ragnarok#2::OnMyMobDead";// 22
+	monster "jawaii",0,0,"Moonlight Flower",1150,1,"Ragnarok#2::OnMyMobDead";// 23
+	monster "jawaii",0,0,"Orc Hero",1087,1,"Ragnarok#2::OnMyMobDead";// 24
+	monster "jawaii",0,0,"Orc Lord",1190,1,"Ragnarok#2::OnMyMobDead";// 25
+	monster "jawaii",0,0,"Osiris",1038,1,"Ragnarok#2::OnMyMobDead";// 26
+	monster "jawaii",0,0,"Pharaoh",1157,1,"Ragnarok#2::OnMyMobDead";// 27
+	monster "jawaii",0,0,"Phreeoni",1159,1,"Ragnarok#2::OnMyMobDead";// 28
+	monster "jawaii",0,0,"RSX-0806",1623,1,"Ragnarok#2::OnMyMobDead";// 29
+	monster "jawaii",0,0,"Tao Gunka",1583,1,"Ragnarok#2::OnMyMobDead";// 30
+	monster "jawaii",0,0,"Turtle General",1312,1,"Ragnarok#2::OnMyMobDead";// 31
+	monster "jawaii",0,0,"Vesper",1685,1,"Ragnarok#2::OnMyMobDead";// 32
+	
+	
+	
+	
+	
+	
+	end;
+
+OnMyMobDead:
+	#RPs++;
+	$Monsters_2--;
+	if ($Monsters_2 != 0)
+	announce "Quedan "+$Monsters_2+" monstruos en Jawaii.",bc_all;
+	else
+	announce "Felicidades " + strcharinfo(0) + " que mato al ultimo invasor que quedaba",bc_all,"008800";	
+	end;
+}
+
+
+
+
+//prontera.gat,0,0	monster	Lunatic	1063,400,5000
+
+
+*/

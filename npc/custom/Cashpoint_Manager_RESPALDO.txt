@@ -1,0 +1,72 @@
+
+
+// 1 poring coin = 10 cash point
+
+prontera,147,163,5	script	Sample#cashitem	757,{
+.@item = 7539;
+.@rate = 10;
+
+.@countitem = countitem( .@item );
+mes "Exchange "+.@countitem+" x "+getitemname( .@item )+" to "+( .@countitem * .@rate )+" Point ?";
+
+if( .@countitem )
+	if( select( "YES","Cancel" ) == 1 ){
+		delitem .@item,.@countitem;
+		#CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+		mes "Done";
+	}
+close;
+}
+
+
+
+
+
+//pocion roja por 10 cashpoints
+
+prontera,150,150,5	script	Sample#cashitem	757,{
+.@item = 501;
+.@rate = 1;
+
+.@countitem = countitem( .@item );
+mes "Exchange "+.@countitem+" x "+getitemname( .@item )+" to "+( .@countitem * .@rate )+" Point ?";
+
+if( .@countitem )
+	if( select( "YES","Cancel" ) == 1 ){
+		delitem .@item,.@countitem;
+		#CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+		mes "Done";
+	}
+close;
+}
+
+
+
+
+
+
+
+
+
+
+// 50 Rotten bandage x 1 Light Blue Potion Box
+
+prontera,150,160,5	script	Sample#cashitem	757,{
+.@item = 930;
+.@rate = 1;
+.@item2 = 13810;
+
+
+.@countitem = countitem( .@item );
+mes "Exchange "+.@countitem+" x "+getitemname( .@item )+" to "+( .@countitem * .@rate )+" Light Blue Potion Box ?";
+
+if( .@countitem )
+	if( select( "YES","Cancel" ) == 1 ){
+		delitem .@item,.@countitem;
+		getitem .@item2,((.@countitem/50) * .@rate );
+		//getitem 13810,((.@countitem/50) * .@rate );
+		mes "Done";
+	}
+close;
+}
+

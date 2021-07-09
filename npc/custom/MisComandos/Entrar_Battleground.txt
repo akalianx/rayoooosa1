@@ -1,0 +1,41 @@
+/*
+//----------------COMANDO @JOINBG-------------
+-	script	joinbg	-1,{
+OnInit:
+	bindatcmd "joinbg","BG_Queue_Join::OnDoJoin",0,99;
+	end;
+
+OnDoJoin: // @joinbg
+	
+	if (strcharinfo(3) != "bat_room"){
+	dispbottom "Lo siento, no puedes usar @joinbg fuera de la sala de Battleground.";
+	end;
+	}
+else if (strcharinfo(3) == "bat_room"){
+	if (getbattleflag("bg_eAmod_mode") == 0) {
+		message strcharinfo(0),"Battlegrounds are currently disabled.";
+		end;
+	} else if (agitcheck() || agitcheck2()) {
+		dispbottom "[Battleground is currently disabled for this moment due to War of Emperium.]";
+		end;
+	} else if (checkquest(8600,PLAYTIME) == 2) {
+		erasequest 8600;
+	} else if (checkquest(8600,PLAYTIME) == 0) {
+		dispbottom "[You are a Deserter. You can't participate until the indicator goes off]";
+		end;
+	}
+
+	bg_queue_join .BG_Queue;
+
+	end;
+}	
+}
+
+*/
+ 
+
+
+	
+	
+	
+	

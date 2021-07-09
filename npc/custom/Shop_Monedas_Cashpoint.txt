@@ -1,0 +1,94 @@
+vend_zone,94,101,5	script	Elizabeth Mably	10116,{
+setarray .@CoinID[0],40085;
+
+
+
+switch(select("Convertir Cash Points en Donation Coins:Convertir Donation Coins en Cash Points")) {
+
+
+case 1:
+
+		for( set .@i,0; .@i < getarraysize( .@CoinID ); set .@i,.@i + 1 )
+			set .@Menu$,.@Menu$ + getitemname( .@CoinID[.@i] )+":";
+		mes "Por cada 10 Cash Points recibes 1 Donation Coin.";
+		next;
+		set .@i,( select( .@Menu$ ) - 1 );
+		if( #CASHPOINTS < 10 ){
+			mes "Lo siento, pero no tienes 10 Cash Points.";
+		}else{
+			mes "Cuantas Donation Coins deseas ?";
+			mes "Amount : 1 ~ "+( #CASHPOINTS / 10 );
+			input .@Amount,0,( #CASHPOINTS / 10 );
+			if( .@Amount ){
+				set #CASHPOINTS,#CASHPOINTS - ( .@Amount * 10 );
+				getitem .@CoinID[.@i],.@Amount;
+				next;
+				mes "Listo, has recibido tus Donation Coins";
+			}
+		}
+		break;
+		
+
+
+case 2:		
+
+		
+		.@item = 40085;
+		.@rate = 10;
+
+		.@countitem = countitem( .@item );
+		if (countitem( .@item ) < 1){
+		mes "No tienes suficientes Donation Coins";
+		}
+		else {
+		mes "Por cada Donation Coin recibes 10 Cash Points .";
+		mes " ";
+		mes " ";
+		mes "Puedes convertir "+.@countitem+" "+getitemname( .@item )+" en "+( .@countitem * .@rate )+" Cash Points.";
+		next;
+		//if( .@countitem )
+		mes "Deseas convertir tu Donation Coins en Cash Points?";
+			if( select( "Si","Cancelar" ) == 1 ){
+				next;
+				mes "Cuantas Donation Coins quieres Convertir?";
+			mes "Cantidad : 1 ~ "+( countitem( .@item ));
+			input .@Amount,0,( countitem( .@item ) * 10 );
+			if( .@Amount ){
+				delitem .@CoinID[.@i],.@Amount;
+				set #CASHPOINTS,#CASHPOINTS + ( .@Amount * 10 );
+				next;
+				mes "Listo, Hemos agregado tus Cash Poitns";
+			}
+				
+				
+				
+				/*
+				delitem .@item,.@countitem;
+				#CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+				mes "Done";
+				*/
+			}
+		}
+		break;
+
+
+
+
+
+
+
+
+
+
+} //Fin Switch
+
+
+
+close;
+
+OnInit:
+waitingroom "Cash Converter",0;
+end;
+}
+
+first_cas01,26,54,4	duplicate(Elizabeth Mably)	Elizabeth Mably#ciuIni	10116

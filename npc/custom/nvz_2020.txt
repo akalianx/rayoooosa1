@@ -1,0 +1,171 @@
+//This event is constructed on a basis on RFYL by aN00B1s
+//ZvN mod by Sanasol
+//[English] by cutelilkittie and Soryia
+
+-	script	announce_nvz	-1,{
+
+// Event Start Time
+
+OnClock0100:
+OnClock0300:
+OnClock0500:
+OnClock0700:
+OnClock0900:
+OnClock1100:
+OnClock1300:
+OnClock1500:
+OnClock1700:
+OnClock1900:
+OnClock2100:
+
+announce "The Novice Vs. Zombie Event will begin in 3 minutes.",0;
+killmonsterall "quiz_01";
+sleep 5000;
+announce "The NPC 'Novice vs. Zombie' has appeared in Prontera!",0;
+enablenpc "Novice vs. Zombie";
+sleep 55000;
+announce "Event: Novice Vs. Zombie will begin in 2 minutes. You better get ready!",0;
+sleep 60000;
+announce "Event: Novice Vs. Zombie will begin in 1 minute!",0;
+sleep 30000;
+mapannounce "quiz_01","In 30 seconds the monster will appear!",0;
+sleep 25000;
+announce "Event: Novice Vs. Zombie will begin in ~5~",0;
+sleep 1000;
+announce "~4~",0;
+sleep 1000;
+announce "~3~",0;
+sleep 1000;
+announce "~2~",0;
+sleep 1000;
+announce "~1~",0;
+sleep 1000;
+announce "Event: 'Novice Vs. Zombie' has begun!!",0,0x00FF00;
+monster "quiz_01",42,369,"Zombie",1015,1;
+disablenpc "Novice vs. Zombie";
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-2",1015,2;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-3",1015,3;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-4",1015,4;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-5",1015,5;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-6",1015,6;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-7",1015,7;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-8",1015,8;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-9",1015,9;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-10",1015,10;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-11",1015,11;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-12",1015,12;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-13",1015,13;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-14",1015,14;
+sleep 10000;
+monster "quiz_01",42,369,"Zombie-15",1015,15;
+initnpctimer;
+end;
+
+OnTimer5000:
+if ( getmapusers("quiz_01") == 0 )
+{
+killmonsterall "quiz_01";
+announce "'Novice Vs. Zombie' has ended. All of the Zombies are gone.",0;
+disablenpc "Prize";
+stopnpctimer;
+end;
+}
+else if ( getmapusers("quiz_01") > 1 )
+{
+if ($@NvZCounter >= 5){
+    switch(rand(0,2)){
+        case 0: mapannounce "quiz_01",getmapusers("quiz_01") +" players are still alive.",0,0x00FF00; break;
+        case 1: mapannounce "quiz_01",getmapusers("quiz_01") +" players are STILL alive? Are you sure you're not cheating?",0,0x00FF00; break;
+        case 2: mapannounce "quiz_01",getmapusers("quiz_01") +" players are STILL ALIVE? Seriously, I'm gonna have to report you.",0,0x00FF00; break;
+        }
+} else {
+    mapannounce "quiz_01",getmapusers("quiz_01") +" players are still alive.",0,0x00FF00;
+}
+sleep 10000;
+set $@NvZCounter,$@NvZCounter+1;
+initnpctimer;
+end;
+}
+initnpctimer;
+end;
+
+OnPCDieEvent:
+getmapxy .@mapnvz$,.@xnvz,.@ynvz,0;
+if ( .@mapnvz$ == "quiz_01") {
+sleep2 1;
+warp "prontera",156,223;
+atcommand "@alive "+ strcharinfo(0);
+dispbottom "You have lost...";
+}
+sleep2 1000;
+if ( getmapusers("quiz_01") == 1 ) {
+killmonsterall "quiz_01";
+mapannounce "quiz_01","You have won, please approach to Prize NPC.",0;
+enablenpc "Prize";
+set $@NvZCounter,0;
+stopnpctimer;
+end;
+}
+end;
+}
+
+quiz_01,42,369,3	script	Prize	72,{
+if (sex == 1) {
+announce "In 'Novice Vs. Zombie', " + strcharinfo (0) + " has won! Let's congratulate him!",0;
+}
+else {
+announce "In 'Novice Vs. Zombie'" + strcharinfo (0) + " has won! Let's congratulate her!",0;
+};
+getitem 7960,5;
+warp "prontera",156,223;
+sleep2 250;
+disablenpc "Prize";
+end;
+}
+
+prontera,160,180,3	script	Novice vs. Zombie	1015,{
+if (BaseLevel > 1) goto L_No;
+if (class == 0) goto L_event;
+if (class > 0) goto L_No;
+L_event:
+mes "[^0000FFNovice Vs. Zombie^000000]";
+mes "Brains brain brain brain brainybrain brain brain brain Zahhh Brain?";
+mes "^696969Do you wish to participate in the Novice Vs. Zombie Event?^000000";
+next;
+switch(select("Yes","No")) {
+case 1:
+sc_end SC_ALL;
+percentheal 100,100;
+warp "quiz_01",42,369;
+end;
+break;
+case 2:
+mes "[^0000FFNovice Vs. Zombie^000000]";
+mes "Brains brainnnss.. brains? Mind.";
+mes "^696969It's really fun! Come join us when you change your mind.^000000";
+close;
+break;
+L_No:
+mes "[^0000FFNovice Vs. Zombie^000000]";
+mes "Brains!!!!!!! D=<";
+mes "^696969You are not a level 1 novice! Cheater!^000000";
+close;
+}
+OnInit:
+disablenpc "Novice vs. Zombie";
+disablenpc "Prize";
+end;
+}

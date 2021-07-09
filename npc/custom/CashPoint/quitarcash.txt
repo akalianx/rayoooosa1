@@ -1,0 +1,85 @@
+// para usar se usa el comando    @addcashpoints
+// colocamos nombre del pj y la cantidad
+
+
+-	script	cashpoint	-1,{
+
+    OnInit:
+        bindatcmd "quitarcash",strnpcinfo(3)+"::OnAtcommand";
+        end;  
+	
+
+    OnAtcommand:
+        if (getgmlevel() < 10) end;
+
+        set .@AID, getcharid(3);        // save their RID
+
+       
+
+        mes "Hello GM";
+
+        mes "Enter the char's name:";
+
+        input .@name$;
+
+        query_sql "SELECT `account_id`,`name` FROM `char` WHERE `name` = '"+escape_sql(.@name$)+"'", .@account_id,.@name$;
+
+        if (!.@account_id) {
+
+                mes "^FF0000This player doesn't exist!";
+
+                close;
+
+        }
+
+        mes "How many Activity points would you like give to^0000FF " + .@name$ + "^000000?";
+
+        input .@amt;
+
+        if (.@amt < 1) {
+
+                mes "Amount must be positive.";
+
+                close;
+
+        }
+
+       
+
+        mes " ";
+
+        mes "Give "+.@amt+" Activity points to "+.@name$+"?";
+
+        if(select("Yes:No")==2) close;
+
+       
+
+        if (attachrid(.@account_id)) {
+
+                set #CASHPOINTS, #CASHPOINTS - .@amt;
+
+                dispbottom "Lost "+.@amt+" Activity points. Total "+#CASHPOINTS+" points";
+
+        } else {
+
+                query_sql "SELECT COUNT(`account_id`) FROM `global_reg_value` WHERE `str`='#CASHPOINTS' AND `account_id`='"+.@account_id+"'", .@update;
+
+                if (.@update)
+
+                        query_sql "UPDATE `global_reg_value` SET `value` = (CAST(`value` AS UNSIGNED)+'"+.@amt+"') WHERE `str`='#CASHPOINTS' AND `account_id`='"+.@account_id+"'";
+
+                else
+
+                        query_sql "INSERT INTO `global_reg_value` (`str`,`value`,`type`,`account_id`) VALUES ('#CASHPOINTS',"+.@amt+",2,"+.@account_id+")";
+
+        }
+
+        attachrid(.@AID);
+
+        mes "Gave "+.@amt+" Activity points to "+.@name$+".";
+
+       // announce "GM "+strcharinfo(0)+" gave to "+.@name$+" "+.@amt+" Cash Points",bc_all;
+
+        end;
+
+}

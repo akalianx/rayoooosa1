@@ -1,0 +1,135 @@
+/*
+-	script	AFK_Vaporizer	-1,{
+		end;
+
+OnPCLoadMapEvent:
+	for( set .@i,0; .@i < getarraysize(.MapTown$); set .@i, .@i + 1 )
+	if(Class == 18 || Class == 4019 && gethominfo(0) && strcharinfo(3) != .MapTown$[.@i]) initnpctimer getcharid(3);
+	end;
+
+OnTimer60000:
+	if (checkhomcall() == 0 && (checkidle() / 60 >= .vaporize)) {
+		if ( ((Weight*100)/MaxWeight) >= 89)
+		warp "SavePoint",0,0;
+		atcommand "@useskill 244 1 "+strcharinfo(0);
+		dispbottom "No esta permitido el leveo AFK.";
+	}
+	initnpctimer getcharid(3);	
+	end;
+
+OnWhisperGlobal:
+	if ( getgmlevel() <= 60 ) end;
+ 		if (@whispervar0$ != "activar") end;
+OnInit:
+	set .vaporize, 1; // How many minutes to use vaporize.
+
+     setarray .MapTown$,"FirstTown",
+			"Alberta",
+			"prontera",
+			"morocc",
+			"geffen",
+			"payon",
+			"izlude",
+			"aldebaran",
+			"xmas",
+			"comodo",
+			"yuno",
+			"amatsu",
+			"gonryun",
+			"umbala",
+			"louyang",
+			"jawaii",
+			"ayothaya",
+			"einbroch",
+			"lighthalzen",
+			"einbech",
+			"hugel",
+			"rachel",
+			"veins",
+			"moscovia",
+			"mid_camp",
+			"manuk",
+			"splendide",
+			"vend_zone";
+  
+	for( set .@i,0; .@i < getarraysize(.MapTown$); set .@i, .@i + 1 ) 
+		setmapflag .MapTown$[.@i],mf_loadevent;
+	end;
+
+}
+/*
+
+/*
+-	script	AFK_Vaporizer	-1,{
+
+OnPCLoginEvent:
+set CompAlcheCrea,0;
+
+if(Class == 18 || Class == 4019) {
+set CompAlcheCrea,1;
+}
+
+		
+if (CompAlcheCrea < 1){
+end;		
+}
+
+
+
+	initnpctimer getcharid(3);
+	end;
+
+OnTimer60000:
+for ( .@i = 0; .@i < getarraysize(.MapTown$); .@i++ ) {
+	if (strcharinfo(3) == .MapTown$[.@i] && checkhomcall() == 0) {
+			goto Timer_ini;
+            end;
+        }	
+
+
+	else 	if (strcharinfo(3) != .MapTown$[.@i] && checkhomcall() == 0 && (checkidle() / 60 >= .vaporize) && ((Weight*100)/MaxWeight) >= 89) {
+				warp "SavePoint",0,0;
+				dispbottom "No esta permitido el leveo AFK.";
+				goto Timer_ini;
+				end;
+				}
+				
+	else if (strcharinfo(3) != .MapTown$[.@i] && checkhomcall() == 0 && (checkidle() / 60 >= .vaporize)) {
+		atcommand "@useskill 244 1 "+strcharinfo(0);
+		dispbottom "No esta permitido el leveo AFK.";
+		goto Timer_ini;
+		end;	
+	}
+	
+		
+}	
+
+
+Timer_ini:
+initnpctimer getcharid(3);	
+end;
+
+
+
+OnPCLogoutEvent:
+stopnpctimer getcharid(3);	
+end;
+
+
+
+
+OnInit:
+	set .vaporize, 1; // How many minutes to use vaporize.
+
+  setarray .MapTown$,"FirstTown","Alberta","prontera","morocc","geffen","payon"
+			,"izlude","aldebaran","xmas","comodo","yuno"
+			,"amatsu","gonryun","umbala","louyang","jawaii"
+			,"ayothaya","einbroch","lighthalzen","einbech","hugel"
+			,"rachel","veins","moscovia","mid_camp","manuk"
+			,"splendide","vend_zone";
+  
+	end;
+
+
+}
+*/

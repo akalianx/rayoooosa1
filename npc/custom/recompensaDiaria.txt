@@ -1,0 +1,330 @@
+//===== EinherjarRO Scripts ================================== 
+//= Daily Rewards
+//===== By: ================================================== 
+//= Stolao
+//===== Current Version: ===================================== 
+//= 1.8C
+//===== Compatible With: ===================================== 
+//= rAthena SVN
+//===== Description: ========================================= 
+//= A reward system for players who play more frequently
+//===== Todo: ================================================
+//= Maybe make .MinWait an array mins,days,weeks,months,years;
+//= Make Logging out then it continue count
+//= Seperate Timer from script for optional go collect reward
+//= Remove use of sleep2
+//= Suggestions?
+//===== Additional Comments: =================================
+//= For Older See Old Versions
+//= 1.7C Added custom item binding mode [Secretdataz]
+//= 1.7D Added cutin for next day option + command
+//= 1.7E Added IP Check
+//= 1.7F Moved .Rest Message to after .MinWait Check
+//= 1.80 Added MacAddress check for those using Gepard Shield (disabled by default)
+//= 1.81 Fixed Typo in .MacCheck
+//= 1.82 Moved .Rest Check before rewards check to prevent bug
+//= 1.83 Added strnpcinfo(3) for bindatcomands
+//= 1.84 Rephrased some conf settings
+//= 1.85 Fixed Capilazation
+//= 1.86 Small Tabulation Tweaks
+//= 1.87 Noted Changes to Reward Farmatting
+//= 1.88 Added 'fixreward' Command for those who get negative wait times ( not sure of issues still)
+//= 1.89 Changed soeme Messaging Formatting
+//= 1.8A Made Fix Command GM 99 Only, to use on others do '#fixreward'
+//= 1.8B Added Overwieght Collection
+//= 1.8C Added 'recompensa', 'collectdaily' and 'dailyreward' commands
+//===== Contact Info: ========================================
+//= [Stolao] 
+//= Email: Taingram11@gmail.com
+//============================================================
+
+//#LastDailyReward3
+//#DRewardCon3
+//#DROverweight3
+
+
+
+-	script	LOGIN	-1,{
+OnWhisperGlobal:
+OnLoginCmnd:
+OnPCLoginEvent:
+	if(.IPCheck){
+		query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIp$);
+		query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIp$+"'", .@AccountId);
+		if(getarraysize(.@AccountId) > .IPCheck){
+			message strcharinfo(0),"[Daily Rewards]: Rewards are limited to "+.IPCheck+" per IP sorry.";
+			end;
+		}
+	}
+	
+	if(.MacCheck){
+		query_sql("SELECT last_unique_id FROM `login` WHERE account_id = "+getcharid(3)+"", .@last_unique_id$);
+		query_sql("SELECT account_id FROM `login` WHERE last_unique_id = '"+.@last_unique_id$+"'", .@AccountId2);
+		if(getarraysize(.@AccountId2) > .MacCheck){
+			message strcharinfo(0),"[Daily Rewards]: Rewards are limited to "+.MacCheck+" per computer sorry.";
+			end;
+		}
+	}
+
+	.@i = (gettime(7) * 365 * 24 * 60) + (gettime(8) * 24 * 60) + (gettime(3) * 60) + gettime(2);
+	if(.@i >= (#LastDailyReward3 + .MinWait) && .Rest && !#DROverweight3){
+		message strcharinfo(0),"[Daily Rewards]: Para recolectar la siguiente recompensa debes permanecer logueado "+ .Rest +" minutos";
+		sleep2 1000 + .Rest * 60000;
+	}
+	if(.@i >= (#LastDailyReward3 + .MinWait)){
+		if(checkvending() & 2 && .Mode & 64){
+			message strcharinfo(0),"[Daily Rewards]: Venders cannot recive rewards.";
+			end;
+		}
+		if(.@i < #LastDailyReward3 + .MaxWait)
+			#DRewardCon3 += 1;
+		else	#DRewardCon3 = 1;
+		.@size = getarraysize(.Rewards$);
+		if(#DRewardCon3 >= .@size){
+			if(.Reset)
+				#DRewardCon3 = 1;
+			else	#DRewardCon3 = .@size-1;
+		}
+		explode(.@XT$,.Rewards$[#DRewardCon3],",");
+		.@size = getarraysize(.@XT$);
+		for(.@x = 0; .@x < .@size; .@x++)
+			.@TT[.@x] = atoi(.@XT$[.@x]);
+		if(.Mode & 1 && .@TT[4] > 0){
+			.@size = getarraysize(.@TT);
+			for(.@x = 4; .@x <= .@size - 1 ; .@x += 2){
+				.@itms[.@y] = .@TT[.@x];
+				.@qnts[.@y] = .@TT[.@x + 1];
+				.@y++;
+			}
+			if(checkweight2(.@itms,.@qnts)){
+				for(.@x = 0; .@x < .@y; .@x++){
+					if(.Mode & 32)
+						getitembound  .@itms[.@x], .@qnts[.@x], .Bound_Mode;
+					else	getitem  .@itms[.@x], .@qnts[.@x];
+				}
+				#DROverweight3 = 0;
+			} else {
+				message strcharinfo(0),"[Daily Rewards]: You can not carry the prizes, please use storage and type @relog.";
+				if(#DRewardCon3) #DRewardCon3 -= 1;
+				#DROverweight3 = 1;
+				end;
+			}
+		}
+		if(.Mode & 16)
+			cutin .Cutins$[#DRewardCon3],4;
+		if(.Mode & 2){
+			if(.@TT[0]){
+				zeny += .@TT[0];
+				message strcharinfo(0),"[Daily Rewards]: Recieved "+ .@TT[0] +"z";
+			}
+			if(.@TT[1]){
+				setd getd(.Points$[0]),getd(.Points$[0]) + .@TT[1];
+				message strcharinfo(0),"[Daily Rewards]: Recieved "+ .@TT[1] +" "+.Points$[1];
+			}
+		}
+		if(.Mode & 4 && (.@TT[3] || .@TT[4]))
+			getexp .@TT[3], .@TT[4];
+		if(.Mode & 8){
+			.@size = getarraysize(.BuffInfo);
+			for(.@x = 0; .@x < .@size; .@x += 4){
+				if(#DRewardCon3 % .BuffInfo[.@x + 1] == 0)
+					sc_start .BuffInfo[.@x], .BuffInfo[.@x + 2] * 60000, .BuffInfo[.@x + 3];
+			}
+		}
+		message strcharinfo(0),"[Daily Rewards]: You have collected your daily reward, for "+callfunc("F_InsertPlural",#DRewardCon3,"day")+" now.";
+		#LastDailyReward3 = (gettime(7) * 365 * 24 * 60) + (gettime(8) * 24 * 60) + (gettime(3) * 60) + gettime(2) - .Rest;
+		end;
+	}
+OnNextCmnd:
+	if(!.@i) .@i = (gettime(7) * 365 * 24 * 60) + (gettime(8) * 24 * 60) + (gettime(3) * 60) + gettime(2) - .Rest;
+	if(#LastDailyReward3 + .MinWait - .@i < 0){
+		message strcharinfo(0),"[Daily Rewards]: Your rewards should be available.";
+	} else {
+		.@days = (#LastDailyReward3 + .MinWait - .@i) / 60 / 24;
+		.@hours = ((#LastDailyReward3 + .MinWait - .@i) / 60) % 24;
+		.@mins = (#LastDailyReward3 + .MinWait - .@i) % 60;
+		message strcharinfo(0),"[Daily Rewards]: You have "+ ((.@days) ? .@days +" Days " : "") + ((.@hours) ? .@hours +" Hours " : "") + ((.@mins) ? .@mins +" Minutes " : "") +"till your next reward.";
+		if(.Mode & 128){
+			set .@size,getarraysize(.Rewards$);
+			if(#DRewardCon3 + 1 >= .@size){
+				if(.Reset) .@g = 1;
+				else	   .@g = .@size-1;
+			} else		   .@g = #DRewardCon3 + 1;
+			cutin .Cutins$[.@g],4;
+		}
+	}
+	end;
+OnFixCmnd:
+	#LastDailyReward3 = (gettime(7) * 365 * 24 * 60) + (gettime(8) * 24 * 60) + (gettime(3) * 60) + gettime(2);
+	message strcharinfo(0),"[Daily Rewards]: Next reward has be forcively reset.";
+	.@days = .MinWait / 60 / 24;
+	.@hours = .MinWait / 60 % 24;
+	.@mins = .MinWait % 60;
+	message strcharinfo(0),"[Daily Rewards]: You have "+ ((.@days) ? .@days +" Days " : "") + ((.@hours) ? .@hours +" Hours " : "") + ((.@mins) ? .@mins +" Minutes " : "") +"till your next reward.";
+	end;
+OnInit:
+	// Basic Settings
+	//   1: Item | 2: Points | 4: Exp  
+	//   8: Gain Buffs Every X Consecutive Days logged in
+	//   16: Show Cutins | 32: Bound Items
+	//   64: No Rewards ffor Autotraders
+	//   128: Show Next Day Cutin
+	//     (a bit value, e.g. 3 = Items & Points from Multi)
+	//.Mode = 1|2|4|8|16|64;
+	//.Mode = 211;
+	.Mode = 195;
+	
+
+	// Number of times same IP can recive rewards
+	//   0 = unlimited
+	.IPCheck = 0;
+
+	// Number of times same Computer (MacAdress) can recive rewards
+	//   0 = unlimited
+	.MacCheck = 0;
+
+	// Item Binding Mode
+	//	 Bound_Account : Account Bound item
+	//	 Bound_Guild   : Guild Bound item
+	//	 Bound_Party   : Party Bound item
+	//	 Bound_Char    : Character Bound item
+	.Bound_Mode = Bound_Account;
+	
+	// To disable the command '@loginreward' comment the next lines
+	// * Needs extra commands for typos
+	bindatcmd("relog",strnpcinfo(3)+"::OnLoginCmnd",0,99);
+	bindatcmd("recompensa",strnpcinfo(3)+"::OnLoginCmnd",0,99);
+	bindatcmd("dailyreward",strnpcinfo(3)+"::OnLoginCmnd",0,99);
+	bindatcmd("collectdaily",strnpcinfo(3)+"::OnLoginCmnd",0,99);
+	bindatcmd("nextreward",strnpcinfo(3)+"::OnNextCmnd",0,99);
+
+	// GM Command to fix the negative time till reward issue
+	// #fixreward <playername>
+	// * Needs extra commands for typos
+	bindatcmd("fixreward",strnpcinfo(3)+"::OnFixCmnd",0,99);
+
+	// Minimum minutes between collecting daily reward
+	//   Day: 22*60 - 24*60
+	//   Week: 10080
+	//.MinWait = 1320;
+	.MinWait = 1320;
+	//.MinWait = 5;
+
+	// Minutes before losing the consecutive reward
+	//   Day: 48*60 - 50*60
+	//   Week: 20160
+	.MaxWait = 43200;
+	
+
+	// What to do upon reaching last day defined
+	//   [0] Repeat last day
+	//   [1] Restart at 1
+	.Reset = 1;
+
+	// Number of mins after logging before collecting prize
+	.Rest = 60;
+
+	// Point Type
+	//   [0] Points earned
+	//   [1] Point name in mes
+	setarray .Points$,"#KAFRAPOINTS","K-Points";
+
+	// Consecutive Days Buff
+	// Each buff contains 4 variables (32 Total Max)
+	// <Type>,<Days>,<Duration>,<Rate>, // Buff 1
+	// <Type>,<Days>,<Duration>,<Rate>, // Buff 2
+	//   ...;
+	//
+	//  Example: 188,7,45,3
+	//    -Every 7th consecutive day logged in Player gains +3 Str for 45 mins
+	//
+	//  Type is 188, which references which SC_ to use, SC_INCSTR in this example
+	//     -For a full list of SC_ visit the db/const.txt
+	//  Days is days buff is applied, in this example 7, so every 7th day, 14,21,28....
+	//  Duration is buff duration is Minuits, in this example 45 mins
+	//  Rate is buff strength, in this example player gains 3 Str
+	setarray .BuffInfo	,260,2,360,1	// Life Insurance for 360 Mins Every 2nd Day
+				,198,3,120,10	// +10% Hp for 120 Mins Every 3th Day
+				,196,5,120,25	// +25 Flee for 120 Mins Every 5th Day
+				,257,7,240,50;	// +50% Exp for 240 Mins Every 7th Day
+
+	// Daily Prize items (max 128 days):
+	//   "<Zeny>,<Points>,<BaseExp>,<JobExp>,<itemID-1>,<amount-1>,<itemID-2>,<amount-2>...etc", // Day 1
+	//   "<Zeny>,<Points>,<BaseExp>,<JobExp>,<itemID-1>,<amount-1>,<itemID-2>,<amount-2>...etc"  // Day 2
+	//   ...;
+	// Total length of any days string must be 255 or shorter
+	// * If players login longer than the last set
+	//   day, they will keep getting the last prize.
+	setarray .Rewards$[1],
+		"0,0,0,0,40294,30",	// Day 1: 30 jugo fresa
+		"0,0,0,0,40291,30",	// Day 2: 30 jugo naranja
+		"0,0,0,0,40292,30",	// Day 3: 30 jugo limon
+		"0,0,0,0,40298,30",	// Day 4: 30 jugo yam
+		"0,0,0,0,533,40",	// Day 5: 40 Grape Juice
+		"0,0,0,0,12211,5",	// Day 6: 5 kafra card
+		"0,0,0,0,521,30",	// Day 7: 30 Aloe Leaflet
+		"0,0,0,0,14532,1",	// Day 8: 1 field manual 25%
+		"100000,0,0,0,0,0",	// Day 8: 100,000 zeny
+		"0,0,0,0,31579,1",	// Day 10: 1 Costume I Love Games
+		"0,0,0,0,40118,1",	// Day 11: 1 Potion Box
+		"0,0,0,0,40296,20",	// Day 12: 20 Prickly Fruit Juice
+		"0,0,0,0,11502,10",	// Day 13: 10 Light Blue Potion
+		"0,0,0,0,605,5",	// Day 14: 5 Anodyne 
+		"0,0,0,0,40293,10",	// Day 15: 10 Ginseng Juice
+		"0,0,0,0,606,10",	// Day 15: 5 aloe vera
+		"0,0,0,0,40096,1",	// Day 17: 1 poring box
+		"0,0,0,0,12211,5",	// Day 18: 5 kafra card
+		"0,0,0,0,40297,20",	// Day 19: 20 Red Prickly Fruit Juice
+		"0,0,0,0,40295,10",	// Day 20: 20 Unripe Fruit Juice
+		"0,0,0,0,40094,1",	// Day 21: 1 tenarius box
+		"0,0,0,0,12212,15",	// Day 22: 15 giant flywing
+		"0,0,0,0,5914,1",	// Day 23: 1 C Flutter Butterfly
+		"0,0,0,0,19613,1",	// Day 24: 1 Costume Valkyrie Feather Hat
+		"0,0,0,0,40294,40",	// Day 25: 40 jugo fresa
+		"0,0,0,0,40291,40",	// Day 26: 40 jugo naranja
+		"0,0,0,0,40292,40",	// Day 27: 40 jugo limon
+		"0,0,0,0,40298,40",	// Day 28: 40 jugo yam
+		"0,0,0,0,533,40",	// Day 29: 40 Grape Juice
+		"0,0,0,0,12211,3";	// Day 30: 3 kafra card
+		
+	
+		
+		
+/*
+
+	// Cutin Array
+	//	Shows a cuting for each date
+	//	
+	setarray .Cutins$[1],
+			"cutinTenarius1",
+			"cutinTenarius2",
+			"cutinTenarius3",
+			"cutinTenarius4",
+			"cutinTenarius5",
+			"cutinTenarius6",
+			"cutinTenarius7",
+			"cutinTenarius8",
+			"cutinTenarius9",
+			"cutinTenarius10",
+			"cutinTenarius11",
+			"cutinTenarius12",
+			"cutinTenarius13",
+			"cutinTenarius14",
+			"cutinTenarius15",
+			"cutinTenarius16",
+			"cutinTenarius17",
+			"cutinTenarius18",
+			"cutinTenarius19",
+			"cutinTenarius20",
+			"cutinTenarius21",
+			"cutinTenarius22",
+			"cutinTenarius23",
+			"cutinTenarius24",
+			"cutinTenarius25",
+			"cutinTenarius26",
+			"cutinTenarius27",
+			"cutinTenarius28";
+*/
+
+end;
+}

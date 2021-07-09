@@ -1,0 +1,302 @@
+//prontera,146,167,5	script	Minerva	10192,{
+
+
+
+//MENSAJE DE BIENVENIDA
+mes "Hola " + "^0000FF" + strcharinfo(0) + "^000000" + " mi nombre es ^0000FF" + "Minerva." + "^000000";
+mes " ";
+mes "Aqui podras intercambiar tus tickets Guild Pack";
+mes" ";
+next;
+
+
+
+
+
+//MENU
+switch(select("Guild Pack 1:Guild Pack - Guild Master 5:Guild Pack - Guild Master 10:Guild Pack - Guild Master 11")) {   
+
+
+
+//Guild Pack 1 - PESO TOTAL 504
+case 1:    if( countitem(40014) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 40014 ) + "^000000";
+	else{
+		delitem 40014,1; 
+		getitem 19613,1; //Costume Valkyrie Feather Hat
+		getitem 19884,1; //Costume Vanargand Helm
+		getitem 2353,1; //Odin's Blessing [1]
+		getitem 5122,1; //Magni's Cap [0]		
+		getitem 2114,1; //Stone Buckler [1]	
+		getitem 40013,3; //Field Manual 25%
+		getitem 12531,1; //White Potion 100 Box
+		getitem 13810,1; //Blue Potion Box 	
+		
+		mes "Listo, has recibido tu Guild Pack";
+		}
+		break;
+
+  
+
+//Guild Pack 5 - PESO TOTAL 355
+case 2:    if( countitem(40015) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 40015 ) + "^000000";
+	else{
+		delitem 40015,1;
+		set zeny,zeny+3000000; //3 millones de zeny
+		getitem 714,1; //Emperium    
+		getitem 658,3; //Union of Tribe
+		getitem 4107,3; //3 Verit Card	
+		getitem 4058,2; //2 Thara Frog Card
+		getitem 2517,2; //2 Vali's Manteau [0] 
+		getitem 2418,2; //2 Vidar's Boots [0]
+	
+		
+		mes "Listo, has recibido tu Guild Pack 5";
+		}
+		break;
+
+
+//Guild Pack 10 - PESO TOTAL 714
+case 3:    if( countitem(40016) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 40016 ) + "^000000";
+	else{
+		delitem 40016,1;
+		set zeny,zeny+6000000; //6 millones de zeny
+		getitem 714,1; //Emperium    
+		getitem 658,3; //Union of Tribe
+		getitem 4107,3; //3 Verit Card	
+		getitem 4058,4; //4 Thara Frog Card
+		getitem 4097,2; //2 Matyr Card	
+		getitem 2115,1; //1 Valkyrja's Shield [1] 
+		getitem 2517,3; //3 Vali's Manteau [0] 
+		getitem 2418,3; //3 Vidar's Boots [0]
+		getitem 2516,2; //2 Falcon Muffler [0]
+		getitem 2417,2; //2 Fricco's Shoes [0]
+
+		
+		mes "Listo, has recibido tu Guild Pack 10";
+		}
+		break;
+
+
+
+//Guild Pack 11 - PESO TOTAL 1350
+case 4:    if( countitem(40017) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 40017 ) + "^000000";
+	else{
+		delitem 40017,1;
+		set zeny,zeny+10000000; //10 millones de zeny
+		getitem 714,1; //Emperium  
+		getitem 658,3; //Union of Tribe		
+		getitem 4107,5; //5 Verit Card	
+		getitem 4058,6; //6 Thara Frog Card
+		getitem 4097,4; //4 Matyr Card	
+		getitem 2115,3; //3 Valkyrja's Shield [1] 
+		getitem 2517,5; //5 Vali's Manteau [0] 
+		getitem 2418,5; //5 Vidar's Boots [0]
+		getitem 2516,4; //4 Falcon Muffler [0]
+		getitem 2417,4; //4 Fricco's Shoes [0]
+		getitem 5123,2; //2 Ulle's Cap [1]
+		
+		mes "Listo, has recibido tu Guild Pack 11";
+		}
+		break;
+
+
+
+
+
+} 
+
+
+
+close;
+OnInit:
+	waitingroom "Guild Pack",0;
+	end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 50 Rotten Bandage = 1 Light Blue Potion Box
+
+//prontera,159,166,5	script	Intercambiadora	757,{
+if( countitem(930) < 50 )
+	mes "You didnt have 50 "+getitemname( 930 );
+else{
+	set .@Amount,( countitem(930) / 50 );
+	delitem 930,( .@Amount * 50 );
+	getitem 13810,.@Amount;
+	mes "Done...you gained "+.@Amount+" "+getitemname(13810);
+}
+close;
+}
+
+
+
+
+
+
+//prontera,154,180,4	script	Test	85,{
+//.@testID = getcharid(3);
+mes strcharinfo(0) +" is my name";
+mes getcharid(3) +" is my ID";
+mes .@testID +" is target ID";
+mes rid2name(.@testID) +" is the target name ...";
+close;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 1 poring coin = 10 cash point
+
+//prontera,147,163,5	script	Sample#cashitem	757,{
+// Menu Selection
+select("Hats","Consumibles","Armaduras");
+
+switch(cosas){
+
+	case 1:
+		.@item = 7539;
+		.@rate = 10;
+
+		.@countitem = countitem( .@item );
+		mes "Exchange "+.@countitem+" x "+getitemname( .@item )+" to "+( .@countitem * .@rate )+" Point ?";
+
+		if( .@countitem )
+			if( select( "YES","Cancel" ) == 1 ){
+			delitem .@item,.@countitem;
+			#CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+			mes "Done";
+			}
+		breake;
+
+		
+close;
+	
+}}
+
+		
+
+
+
+
+
+
+
+//pocion roja por 10 cashpoints
+
+//prontera,150,150,5	script	Sample#cashitem	757,{
+.@item = 501;
+.@rate = 1;
+
+.@countitem = countitem( .@item );
+mes "Exchange "+.@countitem+" x "+getitemname( .@item )+" to "+( .@countitem * .@rate )+" Point ?";
+
+if( .@countitem )
+	if( select( "YES","Cancel" ) == 1 ){
+		delitem .@item,.@countitem;
+		#CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+		mes "Done";
+	}
+close;
+}
+
+
+
+
+
+
+
+
+
+
+// 50 Rotten bandage x 1 Light Blue Potion Box
+
+//prontera,150,160,5	script	Sample#cashitem	757,{
+.@item = 930;
+.@rate = (1/50);
+.@item2 = 13810;
+
+
+.@countitem = countitem( .@item );
+mes "Exchange "+.@countitem+" x "+getitemname( .@item )+" to "+(( .@countitem) * .@rate )+" Light Blue Potion Box ?";
+
+if( .@countitem )
+	if( select( "YES","Cancel" ) == 1 ){
+		delitem .@item,(.@countitem * .@rate);
+		getitem .@item2,((.@countitem) * .@rate );
+		//getitem 13810,((.@countitem) * .@rate );
+		mes "Done";
+	}
+close;
+}
+
+
+
+
+
+
+
+
+
+

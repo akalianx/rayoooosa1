@@ -1,0 +1,33 @@
+
+/*
+function	script	CajaExplosiva	{
+
+set .cajitapum,rand(100);
+
+if (.cajitapum <=30){
+atcommand "@useskill 173 1 "+strcharinfo(0);
+end;
+}
+
+else {
+	specialeffect2 709;
+	//specialeffect2 301;
+	
+	end;
+	}
+
+
+end;
+}
+
+
+FirstTown,213,194,4	script	bombas	90,{
+
+if (#bombitas8>0) {mes "ya tienes cajas"; end;}
+
+getitem 12477,20;
+set #bombitas8,1;
+
+end;}
+
+*/

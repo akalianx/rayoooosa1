@@ -1,0 +1,107 @@
+arena_5,157,118,4	script	widee	90,{
+mes "hola";
+skill 348,1,2;
+skill 663,1,2;
+skill 664,1,2;
+skill 665,1,2;
+skill 666,1,2;
+skill 667,1,2;
+skill 668,1,2;
+skill 669,1,2;
+skill 672,1,2;
+skill 677,1,2;
+skill 678,1,2;
+skill 294,1,2;
+
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+//=====================@MERCADO=====================//
+
+-	script	mercado	-1,{
+OnInit:
+	bindatcmd "mercado",strnpcinfo(0)+"::OnAtcommand";
+	end;
+OnAtcommand:
+if (strcharinfo(3) == "bat_room"){
+	dispbottom "Lo siento, no puedes usar @mercado en esta area.";
+	end;
+	}
+	atcommand ("@warp vend_zone,99,99");
+	end;
+}
+
+
+
+//=====================@CASTILLO=====================//
+
+-	script	castillo	-1,{
+OnInit:
+	bindatcmd "castillo",strnpcinfo(0)+"::OnAtcommand";
+	end;
+OnAtcommand:
+if (strcharinfo(3) == "bat_room"){
+	dispbottom "Lo siento, no puedes usar @castillo en esta area.";
+	end;
+	}
+	atcommand ("@warp first_cas01,57,16");
+	end;
+}
+
+
+//=====================@CACERIA=====================//
+
+-	script	caceria	-1,{
+OnInit:
+	bindatcmd "caceria",strnpcinfo(0)+"::OnAtcommand";
+	end;
+OnAtcommand:
+if (strcharinfo(3) == "bat_room"){
+	dispbottom "Lo siento, no puedes usar @caceria en esta area.";
+	end;
+	}
+	atcommand ("@warp moc_para01,30,16");
+	end;
+}
+
+
+
+
+//=====================@BG=====================//
+
+-	script	bg	-1,{
+OnInit:
+	bindatcmd "bg",strnpcinfo(0)+"::OnAtcommand";
+	end;
+OnAtcommand:
+if (strcharinfo(3) == "bat_room"){
+	dispbottom "Lo siento, no puedes usar @bg en esta area.";
+	end;
+	}
+	atcommand ("@warp bat_room,154,149");
+	end;
+}
+
+
+
+
+//=====================@LEAVEBG SI SALES DE LA SALA=====================//
+-	script	deslogueoBg	-1,{
+OnPCLogoutEvent:
+if (strcharinfo(3) == "bat_room"){
+	atcommand ("@leavebg");
+	end;
+	}
+	
+end;
+}

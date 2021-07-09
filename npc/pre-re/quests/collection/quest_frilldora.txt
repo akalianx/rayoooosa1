@@ -1,0 +1,240 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Added Monster Killing quests.
+//= Repeatable EXP Quest (Frills)
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+moc_fild17,66,273,5	script	Lemly#Frilldora_Hunt	725,{
+	if (checkquest(60134) != -1) {
+		if (checkquest(60134,HUNTING) != 2 ) {
+			mes "[Lemly]";
+			mes "Has terminado de cazar las 50 Frilldora?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Lemly]";
+				mes "Hmm, no creo que hayas cazado a 50 todavia...";
+				close;
+			case 2:
+				mes "[Lemly]";
+				mes "Recuerda, necesito ayuda para cazar Frilldora asi que ve y caza 50 de esas.";
+				close;
+			case 3:
+				mes "[Lemly]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Lemly]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60134;
+					close;
+				case 2:
+					mes "[Lemly]";
+					mes "Por favor mata 50 Frilldora.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Lemly]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 60000,46000;
+			erasequest 60134;
+			close;
+		}
+	}
+	if (checkquest(60135) != -1) {
+		if (checkquest(60135,HUNTING) != 2 ) {
+			mes "[Lemly]";
+			mes "Has terminado de cazar las 100 Frilldora?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Lemly]";
+				mes "Hmm, no creo que hayas cazado a 100 todavia...";
+				close;
+			case 2:
+				mes "[Lemly]";
+				mes "Recuerda, necesito ayuda para cazar Frilldora asi que ve y caza a 100 de esas.";
+				close;
+			case 3:
+				mes "[Lemly]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Lemly]";
+					mes "Ok, entonces vuelve aqui si cambias de parecer.";
+					erasequest 60135;
+					close;
+				case 2:
+					mes "[Lemly]";
+					mes "Por favor mata 100 Frilldora.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Lemly]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 60000,46000;
+			getexp 60000,46000;
+			erasequest 60135;
+			close;
+		}
+	}
+	if (checkquest(60136) != -1) {
+		if (checkquest(60136,HUNTING) != 2 ) {
+			mes "[Lemly]";
+			mes "Has terminado de cazar las 150 Frilldora?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Lemly]";
+				mes "Hmm, no creo que hayas cazado a 150 todavia...";
+				close;
+			case 2:
+				mes "[Lemly]";
+				mes "Recuerda, necesito ayuda para cazar Frilldora asi que ve y caza 150 de esas.";
+				close;
+			case 3:
+				mes "[Lemly]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Lemly]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60136;
+					close;
+				case 2:
+					mes "[Lemly]";
+					mes "Por favor mata 150 Frilldora.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Lemly]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 60000,46000;
+			getexp 60000,46000;
+			getexp 60000,46000;
+			erasequest 60136;
+			close;
+		}
+	}
+	//for minimum level
+	if (BaseLevel > 29) {
+		//for maximum level
+		if (BaseLevel < 66) {
+			mes "[Lemly]";
+			mes "Hola, Honey!!!";
+			next;
+			mes "[Lemly]";
+			mes "Crees que puedas tomarte un tiempo para poder ayudarme?";
+			next;
+			switch(select("Seguro:No")) {
+			case 1:
+				mes "[Lemly]";
+				mes "Estoy buscando de los lizard ^FF0000Frills^000000.";
+				next;
+				mes "[Lemly]";
+				mes "Los lagartos de por aqui tienen un sigilo natural, una propiedad que la Assassin's Guild quiere estudiar.";
+				next;
+				switch(select("Reunir Items:Cazar Frilldora:Cancel")) {
+				case 1:
+					// Item turn in
+					switch(select("Tengo Frills:Que necesitas?")) {
+					case 1:
+						if (countitem(1012) > 24) {
+							mes "[Lemly]";
+							mes "Hey, gracias.";
+							mes "Aunque estos son bastante asquerosos.";
+							delitem 1012,25; //Lizard_Scruff
+							getexp 37500,28750;
+							close;
+						}
+						else {
+							mes "[Lemly]";
+							mes "Pffff!!!,";
+							mes "Por favor, no me hagas perder el tiempo.";
+							next;
+							mes "[Lemly]";
+							mes "Necesito ^FF000025 Frills^000000 para la Assassin's Guild.";
+							close;
+						}
+					case 2:
+						mes "[Lemly]";
+						mes "Necesito ^FF000025 Frills^000000 para la Assassin's Guild.";
+						close;
+					}
+				case 2:
+					// Kill Count Quest
+					mes "[Lemly]";
+					mes "Ahh, creo que puedes ayudarme cazando algunos Frilldora.";
+					mes "Cuantos quieres cazar?";
+					next;
+					switch(select("50 Frilldora:100 Frilldora:150 Frilldora")) {
+					case 1:
+						mes "[Lemly]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60134;
+						close;
+					case 2:
+						mes "[Lemly]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60135;
+						close;
+					case 3:
+						mes "[Lemly]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60136;
+						close;
+					}
+				case 3:
+					mes "[Lemly]";
+					mes "Si cambias de parecer, por favor, regresa.";
+					close;
+				}
+			case 2:
+				mes "[Lemly]";
+				mes "Si cambias de parecer, por favor, regresa.";
+				close;
+			}
+		}
+		else {
+			mes "[Lemly]";
+			mes "Hola!!!.";
+			next;
+			mes "[Lemly]";
+			mes "Estos lagartos son asquerosos.";
+			next;
+			mes "[Lemly]";
+			mes "No puedo creer que este atorada haciendo cosas asi.";
+			close;
+		}
+	}
+	else {
+		mes "[Lemly]";
+		mes "Que estas haciendo aqui?";
+		mes "El desierto te matara aqui!!!";
+		close;
+	}
+}
+
+

@@ -1,0 +1,129 @@
+//league,135,164,3	script	Plagearism Master	482,{
+first_cas01,20,109,5	script	Plagearism Master	482,{
+
+set comprobar,0;
+
+if(Class == 17 || Class == 4018) {
+set comprobar,1;
+}
+
+		
+if (comprobar < 1){
+mes "^0000FFLudmila Lourie^000000";
+mes "No puedo ayudarte, ya que no eres Job ^0000FFRogue / Stalker^000000."; 
+end;		
+}
+
+
+if (comprobar >= 1){
+
+if (getskilllv(225)<1) {
+mes "^0000FFLudmila Lourie^000000";
+mes "No puedes copiar skills, debes aprender la skill ^0000FFPlagiarism ^000000.";
+end;
+}
+
+if (Zeny < 5000) {
+mes "^0000FFLudmila Lourie^000000";
+mes "No cuentas con zeny suficiente";
+mes " ";
+mes "El servicio tiene un costo de ^0000FF5,000z^000000.";
+end;}
+
+
+
+mes "^0000FFLudmila Lourie^000000";
+mes "El servicio tiene un costo de ^0000FF5,000z^000000.";
+mes " ";
+mes "Selecciona la skill que deseas copiar, la skill existente sera reemplazada";
+	next;
+	set .@menu, select(.menu$) -1;
+	if ( getskilllv(.skill$[.@menu * 3 +1]) ) {
+		mes "Listo, has copiado esa skill";
+		close;
+	}
+	mes "^0000FFLudmila Lourie^000000";
+	mes "Estas seguro que quieres copiar ^0000FF"+ .skill$[.@menu * 3] +"^000000?";
+	mes " ";
+	mes "^FF0000Para aplicar los cambios seras sacado del servidor y necesitaras loguear.^000000";
+	next;
+	if ( select ( "Si", "No" ) == 2 ) close;
+	.@text$ = atoi( .skill$[.@menu * 3 +2] ) > 1 ? "-" + .skill$[.@menu * 3 +2] : "" ;
+	mes "^0000FFLudmila Lourie^000000";
+	mes "Elige el nivel que deseas copiar (1" + .@text$ + ")";
+	mes " ";
+	mes "^FF0000Podras copiar hasta el nivel maximo que tengas la skill Plagearism.^000000";
+	if ( input( .@input, 1, ( atoi( .skill$[.@menu * 3 +2] ) > 1 ? atoi( .skill$[.@menu * 3 +2] ) : 1 )) != 0 ) {
+		mes "wrong level";
+		close;
+	}
+	set Zeny, Zeny-5000;
+	set CLONE_SKILL, atoi( .skill$[.@menu * 3 +1] );
+	set CLONE_SKILL_LV, .@input;
+	atcommand "@kick "+ strcharinfo(0);
+	
+	end;
+
+
+} //FIN IFF COMPROBAR
+
+
+
+OnInit:
+waitingroom "Plagearism",0;
+
+
+
+	setarray .skill$, 
+		// "< Remove >", 0, 0,
+		"Fire Bolt", 19, 10,
+		"Cold Bolt", 14, 10,
+		"Lightning Bolt", 20, 10,
+		"Earth Spike", 90, 10,
+		"Napalm Beat", 11, 10,
+		"Soul Strike", 13, 10,
+		"Frost Diver", 15, 10,
+		"Jupitel Thunder", 84, 10,
+		"Meteor Storm", 83, 10,
+		"Lord of Vermillion", 85, 10,
+		"Storm Gust", 89, 10,
+		"Heaven's Drive", 91, 5,
+		"Bash", 5, 10,
+		"Magnum Break", 7, 10,
+		"Bowling Bash", 62, 10,
+		"Shield Charge", 250, 5,
+		"Shield Boomerang", 251, 5,
+		"Holy Cross", 253, 10,
+		"Grand Cross", 254, 10,
+		"Double Strafing", 46, 10,
+		"Arrow Shower", 47, 10,
+		"Heal", 28, 10,
+		"Resurrection", 54, 4,
+		"Sanctuary", 70, 10,
+		"Magnus Exorcismus", 79, 10,
+		"Triple Attack", 263, 10,
+		"Investigate", 266, 5,
+		"Finger Offensive", 267, 5,
+		"Asura Strike", 271, 5,
+		"Mammonite", 42, 10,
+		"Demonstration", 229, 5,
+		"Acid Terror", 230, 5,
+		"Envenom", 52, 10,
+		"Venom Splasher", 141, 10,
+		"Flying Side Kick", 421, 7,
+		"Crimson Fire Blossom", 534, 10,
+		"Crimson Fire Formation", 535, 10,
+		"Dragon Fire Formation", 536, 5,
+		"Lightning Spear of Ice", 537, 10,
+		"Falling Ice Pillar", 539, 10,
+		"Wind Blade", 540, 10,
+		"Lightning Crash", 541, 5;
+	set .@skillsize, getarraysize(.skill$);
+	for ( set .@i,0; .@i < .@skillsize; set .@i, .@i +3 )
+		set .menu$, .menu$ + .skill$[.@i] +":";
+	end;
+
+
+
+
+}

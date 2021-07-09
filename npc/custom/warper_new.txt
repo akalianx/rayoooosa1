@@ -1,0 +1,30 @@
+izlude,122,118,3	script	Kimi	664,{
+mes "[Kimi]";
+mes "Buen dia, a donde quieres ser enviado?";
+switch(select("Gremio de Aventureros:Salir")) {
+
+case 1:	close2;
+		warp "moc_para01",30,24;
+		break;
+		
+		
+case 2:
+	Break;
+
+}
+
+
+
+OnInit:
+waitingroom "Adventurer's Guild",0;
+end;
+
+end;
+}
+
+
+alberta,46,250,4	duplicate(Kimi)	Kimi#alb	664
+aldebaran,156,111,4	duplicate(Kimi)	Kimi#ald	664
+brasilis,184,218,6	duplicate(Kimi)	Kimi#bra	664
+geffen,135,56,4	duplicate(Kimi)	Kimi#gef	664
+hugel,90,158,6	duplicate(Kimi)	Kimi#hug	664

@@ -1,0 +1,101 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= Masao
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Custom Version.
+//= Repeatable EXP Quest : Kill 50 Mantis.
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+lou_fild01,240,354,4	script	Mantis Researcher	878,{
+
+	if (checkquest(60179) != -1) {
+		if (checkquest(60179,HUNTING) != 2 ) {
+			mes "[Mantis Researcher]";
+			mes "Has terminado de cazar los 50 Mantis?";
+			next;
+			switch(select("Si:No:Renuncio")) {
+			case 1:
+				mes "[Mantis Researcher]";
+				mes "Hmm, no creo que hayas cazado a 50 todavia.";
+				close;
+			case 2:
+				mes "[Mantis Researcher]";
+				mes "Recuerda, necesito ayuda para cazar Mantis asi que ve y caza 50 de esos.";
+				close;
+			case 3:
+				mes "[Mantis Researcher]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Mantis Researcher]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60179;
+					close;
+				case 2:
+					mes "[Mantis Researcher]";
+					mes "Por favor mata 50 Mantis para hacer de este un lugar donde la gente pueda acudir y reunir experiencia.";
+					close;
+				}
+			}
+		}
+		mes "[Mantis Researcher]";
+		mes "Increible!!!, lo hiciste con rapidez.";
+		getexp 18818,7527;
+		erasequest 60179;
+		close;
+	}
+	if ((BaseLevel > 34) && (BaseLevel < 71)) {
+		mes "[Mantis Researcher]";
+		mes "Ooh grandioso!!!";
+		mes "Estas aqui para ayudarme?";
+		mes "Si no, no se que hacer con los monstruos de este lugar!!!";
+		next;
+		switch(select("Seguro:No")) {
+		case 1:
+			mes "[Mantis Researcher]";
+			mes "Grandioso!!! Desde que te vi supe que podia confiar en ti!!!!";
+			mes "Necesito que reduzcas la Cantidad de Monstruos que estan actualmente arrasando en este lugar!!!";
+			mes "Hay demasiados Mantis alrededor, que hace imposible que los jugadores de menor nivel adquieran una buena experiencia aqui.";
+			next;
+			mes "[Mantis Researcher]";
+			mes "Entonces, aun quieres ayudarme?";
+			next;
+			switch(select("Seguro:Cancel")) {
+			case 1:
+				if (BaseLevel > 70) {
+					mes "[Mantis Researcher]";
+					mes "Gracias por tu gran ayuda contra las Mantis!!!";
+					mes "Actualmente la situacion esta estable y ya no necesito de tu ayuda para cazarlas.";
+					close;
+				}
+				mes "[Mantis Researcher]";
+				mes "Mata a 50 de esas Mantis y hazme saber cuando hayas terminado. Te recompensare por tus esfuerzos.";
+				setquest 60179;
+				close;
+			case 2:
+				mes "[Mantis Researcher]";
+				mes "Si cambias de parecer, por favor, regresa.";
+				close;
+			}
+		case 2:
+			mes "[Mantis Researcher]";
+			mes "Si cambias de parecer, por favor, regresa.";
+			close;
+		}
+	}
+	mes "[Mantis Researcher]";
+	mes "Oh, muchacho, oh, muchacho!!!";
+	next;
+	mes "[Mantis Researcher]";
+	mes "Lo siento no puedo hablar en este momento estoy en un mundo de complicaciones por estas condenadas Mantis me van a matar.";
+	close;
+}

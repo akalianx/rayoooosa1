@@ -1,0 +1,231 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Added Monster Killing quests.
+//= Repeatable EXP Quest (Fluffs)
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+gef_fild07,321,193,4	script	Langry#Fabre_Hunt	754,{
+	if (checkquest(60107) != -1) {
+		if (checkquest(60107,HUNTING) != 2 ) {
+			mes "[Langry]";
+			mes "Has terminado de cazar los 50 Fabres?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Langry]";
+				mes "Hmm, no creo que hayas cazado a 50 todavia...";
+				close;
+			case 2:
+				mes "[Langry]";
+				mes "Recuerda, necesito ayuda para cazar Fabres asi que ve y caza 50 de ellos.";
+				close;
+			case 3:
+				mes "[Langry]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Langry]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60107;
+					close;
+				case 2:
+					mes "[Langry]";
+					mes "Por favor mata 50 Fabres.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Langry]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 770,60;
+			erasequest 60107;
+			close;
+		}
+	}
+	if (checkquest(60108) != -1) {
+		if (checkquest(60108,HUNTING) != 2 ) {
+			mes "[Langry]";
+			mes "Has terminado de cazar los 100 Fabres?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Langry]";
+				mes "Hmm, no creo que hayas cazado a 100 todavia...";
+				close;
+			case 2:
+				mes "[Langry]";
+				mes "Recuerda, necesito ayuda para cazar Fabres asi que ve y caza a 100 de ellos.";
+				close;
+			case 3:
+				mes "[Langry]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Langry]";
+					mes "Ok, entonces vuelve aqui si cambias de parecer.";
+					erasequest 60108;
+					close;
+				case 2:
+					mes "[Langry]";
+					mes "Por favor mata 100 Fabres.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Langry]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 770,60;
+			getexp 770,60;
+			erasequest 60108;
+			close;
+		}
+	}
+	if (checkquest(60109) != -1) {
+		if (checkquest(60109,HUNTING) != 2 ) {
+			mes "[Langry]";
+			mes "Has terminado de cazar los 150 Fabres?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Langry]";
+				mes "Hmm, no creo que hayas cazado a 150 todavia...";
+				close;
+			case 2:
+				mes "[Langry]";
+				mes "Recuerda, necesito ayuda para cazar Fabres asi que ve y caza 150 de ellos.";
+				close;
+			case 3:
+				mes "[Langry]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Langry]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60109;
+					close;
+				case 2:
+					mes "[Langry]";
+					mes "Por favor mata 150 Fabres.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Langry]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 770,60;
+			getexp 770,60;
+			getexp 770,60;
+			erasequest 60109;
+			close;
+		}
+	}
+	//for minimum level
+	if (BaseLevel > 1) {
+		//for maximum level
+		if (BaseLevel < 21) {
+			mes "[Langry]";
+			mes "Crees que puedas ayudarme?";
+			mes "Por favor?";
+			next;
+			switch(select("Seguro:No")) {
+			case 1:
+				mes "[Langry]";
+				mes "Enserio?!";
+				mes "Eso es genial!!!";
+				next;
+				switch(select("Reunir Items:Cazar Fabres:Cancel")) {
+				case 1:
+					// Item turn in
+					mes "[Langry]";
+					mes "Necesito reunir ^0000CE25 Fluff^000000 para";
+					mes "completar este proyecto de servicio comunitario.";
+					mes "Sabes que? Hasta puedo recompensarte un poco por haberme ayudado.";
+					next;
+					switch(select("Tengo Fluff:Que necesitas?")) {
+					case 1:
+						if (countitem(914) > 24) {
+							mes "[Langry]";
+							mes "Gracias por los Fluff. Esto me ayuda notablemente.";
+							mes "Oh, y aqui tienes, esto deberia ayudarte a ser mas fuerte, mas rapido!!!";
+							delitem 914,25; //Fluff
+							getexp 481,38;
+							close;
+						}
+						else {
+							mes "[Langry]";
+							mes "No veo ningun Fluff, espera, esas son las mentiras que salen de tu boca.";
+							close;
+						}
+					case 2:
+						mes "[Langry]";
+						mes "Necesito ^00CE0025 Fluff^000000.";
+						close;
+					}
+				case 2:
+					// Kill Count Quest
+					mes "[Langry]";
+					mes "Ahh, creo que puedes ayudarme cazando algunos Fabres.";
+					mes "Cuantos quieres cazar?";
+					next;
+					switch(select("50 Fabres:100 Fabres:150 Fabres")) {
+					case 1:
+						mes "[Langry]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60107;
+						close;
+					case 2:
+						mes "[Langry]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60108;
+						close;
+					case 3:
+						mes "[Langry]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60109;
+						close;
+					}
+				case 3:
+					mes "[Langry]";
+					mes "Si cambias de parecer, por favor, regresa.";
+					close;
+				}
+			case 2:
+				mes "[Langry]";
+				mes "Si cambias de parecer, por favor, regresa.";
+				close;
+			}
+		}
+		else {
+			mes "[Langry]";
+			mes "Hola, mi nombre es Langry.";
+			mes "Tengo que completar este servicio comunitario, pero soy demasiado perezoso.";
+			close;
+		}
+	}
+	else {
+		mes "[Langry]";
+		mes "Puede que seas la persona con menos posibilidades, reune algunos Fabres y vuelve.";
+		close;
+	}
+}
+
+

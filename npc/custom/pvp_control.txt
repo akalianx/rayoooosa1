@@ -1,0 +1,124 @@
+//league,141,166,5	script	bg_pvp_register	100,{
+	if ( getgmlevel() < 60 ) end;
+	else if ( !.start ) {
+		mes "start ?";
+		next;
+		select "yeah";
+		mes "select how many players in a team";
+		mes "if 3vs3, set to 3";
+		mes "range : 1~9";
+		next;
+		if ( input( .min2start, 1, 9 ) ) {
+			mes "invalid range";
+			close;
+		}
+		.start = 1;
+		announce strcharinfo(0) +" has hosted a "+ .min2start +"vs"+ .min2start +" battleground", 0;
+		waitingroom "BG PVP", .min2start *2 +1, strnpcinfo(0)+"::OnStart", .min2start *2;
+	}
+	else if ( .start == 1 ) {
+		mes "abort registration?";
+		next;
+		select "yeah";
+		.start = 0;
+		delwaitingroom strnpcinfo(0);
+	}
+	else {
+		mes "a match is currently running now";
+		mes "abort ?";
+		next;
+		select "yeah";
+		.start = 0;
+		awake strnpcinfo(0);
+	}
+	close;
+OnStart:
+	getmapxy .@map$, .@x, .@y, 1;
+	warpwaitingpc .@map$, .@x, .@y;
+	announce "event started", 0;
+	.start = 2;
+	.red = createbgid( "guild_vs3", 13,50, strnpcinfo(0)+"::Onredout", strnpcinfo(0)+"::Onredout" );
+	.blue = createbgid( "guild_vs3", 86,50, strnpcinfo(0)+"::Onblueout", strnpcinfo(0)+"::Onblueout" );
+	callfunc "rand__", .min2start *2, $@rand;
+	for ( .@i = 0; .@i < $@warpwaitingpcnum; .@i++ )
+		setbgid ( .@i %2 )? .red : .blue, $@warpwaitingpc[ $@rand[.@i] ];
+	delwaitingroom strnpcinfo(0);
+	bg_warp .red, "guild_vs3", 13,50;
+	bg_warp .blue, "guild_vs3", 86,50;
+	bg_updatescore "guild_vs3", 0,0;
+	sleep .eventlasting * 1000;
+	if ( .start == 2 ) {
+		if ( .score[1] == .score[2] )
+			mapannounce "guild_vs3", "Draw !", 0;
+		else if ( .score[1] > .score[2] ) {
+			mapannounce "guild_vs3", " Red side wins !", 0;
+			callsub L_reward, .red;
+		}
+		else if ( .score[1] < .score[2] ) {
+			mapannounce "guild_vs3", " Blue side wins !", 0;
+			callsub L_reward, .blue;
+		}
+	}
+	bg_warp .red, "prontera", 155,182;
+	bg_warp .blue, "prontera", 158,182;
+	bg_destroy .red;
+	bg_destroy .blue;
+	.start = .score[1] = .score[2] = 0;
+	end;
+L_reward:
+	getbgusers getarg(0);
+	for ( .@i = 0; .@i < $@arenamembersnum; .@i++ )
+		getitem 501, 1, $@arenamembers[.@i]; // item reward
+	return;
+Onredout: callsub L_out, 2;
+Onblueout: callsub L_out, 1;
+L_out:
+	announce strcharinfo(0) +" is out from the match !", 1;
+	bg_leave;
+	warp "SavePoint", 0,0;
+	.score[ getarg(0) ]++;
+	bg_updatescore "guild_vs3", .score[1], .score[2];
+	if ( .score[ getarg(0) ] == .min2start )
+		awake strnpcinfo(0);
+	end;
+OnInit:
+	.eventlasting = 30 * 60; // how long would the event last or it auto-reset. 30 *60 = 30 mins
+	end;
+	
+	
+		OnInit:
+
+		bindatcmd "tool",strnpcinfo(3)+"::OnAtcommand",0,40;
+
+		//Disabled on WoE maps? 1 = Yes, 0 = No
+		set .WoeCheck,1;
+		
+		//Disabled on PvP maps? 1 = Yes, 0 = No
+		set .PvpCheck,1;
+		
+		end;
+	
+	OnAtcommand:
+
+		if(.WoeCheck == 1 && getmapflag(strcharinfo(3),mf_gvg)) {
+			message strcharinfo(0),"You cannot use this command on GvG maps.";
+			end;
+		}
+		else if (.PvpCheck == 1 && getmapflag(strcharinfo(3),mf_pvp)){
+			message strcharinfo(0),"You cannot use this command on PvP maps.";
+			end;		
+		}
+
+		callshop "Aqua Tools",0;
+		end;
+}
+
+guild_vs3	mapflag	battleground	2
+guild_vs3	mapflag	nosave	SavePoint
+guild_vs3	mapflag	nowarp
+guild_vs3	mapflag	nowarpto
+guild_vs3	mapflag	noteleport
+guild_vs3	mapflag	nomemo
+guild_vs3	mapflag	nopenalty
+guild_vs3	mapflag	nobranch
+guild_vs3	mapflag	noicewall

@@ -1,0 +1,82 @@
+//====================== FUNCION GEPARD ID ======================
+
+-	script	GePard_Registry	0,{
+OnPCLoginEvent:
+	unique_id$ = get_unique_id();
+end;
+OnPCLogoutEvent:
+	unique_id$ = "";
+end;
+}
+
+function	script	getgpmapunits	{
+	.@map_name$ = getarg(0);
+	.@unique_id$ = unique_id$;
+	getmapunits(BL_PC,.@map_name$,.@AccountID);
+	for(.@i=0;.@i<getarraysize(.@AccountID);.@i++)
+		if(getvar(unique_id$,getcharid(0,rid2name(.@AccountID[.@i]))) == .@unique_id$)
+			.@count++;
+	return .@count;
+}
+
+
+
+//====================== FUNCION INTERNET IP ======================
+
+function	script	getipmapunits	{
+	.@map_name$ = getarg(0);
+	.@ip$ = getcharip();
+	getmapunits(BL_PC,.@map_name$,.@name$);
+	
+	for(.@i=0;.@i<getarraysize(.@name$);.@i++)
+		if(getcharip(.@name$[.@i]) == .@ip$)
+			.@count++;
+	return .@count;
+}
+
+
+
+
+
+
+//============================= SCRIPT NO DOLE SALA BATTLEGROUND =============================\\
+
+-	script	DL_Battleground	-1,{
+
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .sender$, "bat_room";
+set .Limit,1;
+end;
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.sender$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa.";
+		warp "SavePoint",0,0;
+	}
+
+end;
+}
+
+
+bat_room	mapflag	loadevent

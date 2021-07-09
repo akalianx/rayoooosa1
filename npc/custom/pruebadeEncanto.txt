@@ -1,0 +1,83 @@
+izlude_in,72,100,4	script	holito	90,{
+//if (getiteminfo(getequipid(EQI_HAND_R),5)==2 && getiteminfo(getequipid(EQI_HAND_R),11)==11){
+
+if(getiteminfo(getequipid(EQI_HAND_R),11)==12){
+mes "hola";
+close;
+}
+
+/*
+if(getstatus(SC_STEELBODY,0)) {mes "hola"; end;}
+mes "no tienes bless activo";
+
+
+set .@part,EQI_HAND_R;
+if (getequipid(EQI_HAND_R)&& (getiteminfo(getequipid(EQI_HAND_R),5)==2) && getiteminfo(getequipid(EQI_HAND_R),11)==12) {mes "hola"; close;}
+*/
+end;
+}
+
+
+
+
+function	script	PruebaEncantamiento	{
+set .nombreNPC$,"^0000FF[Rune Armor - Stats]^000000";
+
+if (getequipid(EQI_ARMOR) < 1) {
+mes .nombreNPC$;
+mes " ";
+mes "No tienes equipada una Armadura"; 
+end;
+}
+
+mes .nombreNPC$;
+mes " ";
+	switch(select(getitemname(getequipid(EQI_ARMOR))+" - Armor:Salir")) {
+			case 1:
+			
+					set .@part,EQI_ARMOR;
+					set .@hg,getequipid(.@part); // Saving Item ID
+					
+					
+					//ITEM REQUERIDO PARA ENCANTAR
+					//set .@itemRequerido,1;   
+					set .@RandonRun,rand(100);
+					set .@ProbailidadEnchan,60;   
+					
+					
+		if (.@RandonRun <= .@ProbailidadEnchan) {
+			specialeffect2 155;
+			delequip .@part;
+			mes "^FF0000Oh no... Se ha roto, cosas que pasan, buena suerte para la proxima.^000000";
+		end;}
+		
+		else if (.@RandonRun > .@ProbailidadEnchan) {
+			mes "Felicidades has podido encantar tu Armadura (^0000FF"+getitemname(getequipid(EQI_ARMOR))+"^000000).";
+			setarray .@enchant_slot3[0],40315,40316,40317,40318,40319,40320,40321,40322,40323,40324,40325,40326,40327,40328,40329,40330,40331,40332;
+			setarray .@enchants[3],
+			.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+		
+		specialeffect2 EF_REPAIRWEAPON;
+		delequip .@part;
+		getitem2 .@hg,1,1,0,0,0,.@enchants[1],.@enchants[2],.@enchants[3];
+		equip .@hg;
+		end;}
+		
+			
+					
+				
+				break;
+				
+				
+			case 2:
+					break;
+	
+	}
+
+
+
+
+close;
+
+
+}

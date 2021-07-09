@@ -1,0 +1,489 @@
+//====================== FUNCION GEPARD ID ======================
+
+-	script	GePard_Registry	0,{
+OnPCLoginEvent:
+	unique_id$ = get_unique_id();
+end;
+OnPCLogoutEvent:
+	unique_id$ = "";
+end;
+}
+
+function	script	getgpmapunits	{
+	.@map_name$ = getarg(0);
+	.@unique_id$ = unique_id$;
+	getmapunits(BL_PC,.@map_name$,.@AccountID);
+	for(.@i=0;.@i<getarraysize(.@AccountID);.@i++)
+		if(getvar(unique_id$,getcharid(0,rid2name(.@AccountID[.@i]))) == .@unique_id$)
+			.@count++;
+	return .@count;
+}
+
+
+
+
+
+//====================== FUNCION INTERNET IP ======================
+
+function	script	getipmapunits	{
+	.@map_name$ = getarg(0);
+	.@ip$ = getcharip();
+	getmapunits(BL_PC,.@map_name$,.@name$);
+	
+	for(.@i=0;.@i<getarraysize(.@name$);.@i++)
+		if(getcharip(.@name$[.@i]) == .@ip$)
+			.@count++;
+	return .@count;
+}
+
+
+
+/*
+prontera,152,183,5	script	Warper IP Test	446,{
+	if(getipmapunits("izlude") > 0){
+		mes "you already have a char inside this map";
+	}else{
+		warp "izlude",152,183;
+	}
+end;
+}
+*/
+
+
+
+
+
+
+
+//============================= SCRIPT NO DOLE LOGIN KOE =============================\\
+
+-	script	DL_KOE	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .sender$, "guild_vs1";
+set .Limit,1;
+end;
+
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.sender$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa durante KOE.";
+		set #koe1, 2;
+		warp "prontera",156,183;
+	}
+
+end;
+
+
+
+
+}
+
+
+//============================= SCRIPT NO DOBLE DARK PRONTERA PVP =============================\\
+
+-	script	DL_DARK_PRONTERA_PV	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .sender$, "prontera_pv";
+set .Limit,1;
+end;
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.sender$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa.";
+		warp "prontera",156,183;
+	}
+
+end;
+
+
+
+
+}
+
+
+
+
+
+
+
+
+//============================= SCRIPT WOE NORMAL =============================\\
+
+-	script	DL_WOE_NORMAL	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .sender$, "prtg_cas05";
+set .Limit,10;
+end;
+
+OnMon0200:
+
+set .Limit,1;
+end;
+
+OnMon0300:
+set .Limit,10;
+end;
+
+
+
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.sender$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa durante WOE.";
+		warp "prontera",156,183;
+	}
+
+end;
+
+
+
+
+}
+
+
+
+
+
+
+//============================= SCRIPT WOE ANCIENT =============================\\
+
+
+-	script	DL_WOE_ANCIENT	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .sender2$, "aldeg_cas04";
+set .Limit2,10;
+end;
+
+OnSun0200:
+
+set .Limit2,1;
+end;
+
+OnSun0300:
+set .Limit2,10;
+end;
+
+
+
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.sender2$) > .Limit2){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa durante WOE.";
+		warp "prontera",156,183;
+	}
+
+end;
+
+
+
+
+}
+
+
+
+
+
+
+
+//============================= SCRIPT NO DOBLE valefor =============================\\
+
+-	script	DL_valefor3	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .sender$, "1@valefor",instance_id();
+set .Limit,1;
+end;
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.sender$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa.";
+		warp "prontera",156,183;
+	}
+
+end;
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//============================= SCRIPT DISPELL WOE ANCIENT =============================\\
+
+-	script	DispellAncient	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+
+
+OnPCLoadMapEvent:
+if(strcharinfo(3)== "aldeg_cas04"){
+/*
+	while( .@i < 553 ){
+		if(  .@i != SC_WEIGHT50 && .@i != SC_WEIGHT90 && .@i != SC_JAILED && .@i != SC_NOCHAT )
+			sc_end .@i;
+		set .@i,.@i + 1;
+	}
+*/
+		sc_end SC_SPIRIT;
+		sc_end SC_KAIZEL;
+		sc_end SC_KAAHI;
+		sc_end SC_KAUPE;
+		sc_end SC_KAITE;
+		sc_end SC_ASSUMPTIO;
+		
+		}
+
+
+
+
+OnInit:
+set .mapdispell$,"aldeg_cas04";
+
+end;
+
+
+
+end;
+}
+
+
+
+
+//============================= SCRIPT NO DOBLE DARK PRONTERA PVP =============================\\
+
+-	script	DL_DARK_PRONTERA_PV	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .sender$, "prontera_pv";
+set .Limit,1;
+end;
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.sender$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa.";
+		warp "prontera",156,183;
+	}
+
+end;
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------- MAP FLAGS PARA CASTILLOS -------------------
+//aldebaran	mapflag	loadevent
+//payon	mapflag	loadevent
+//izlude	mapflag	loadevent
+prtg_cas01	mapflag	loadevent
+prtg_cas02	mapflag	loadevent
+prtg_cas03	mapflag	loadevent
+prtg_cas04	mapflag	loadevent
+prtg_cas05	mapflag	loadevent
+aldeg_cas01	mapflag	loadevent
+aldeg_cas02	mapflag	loadevent
+aldeg_cas03	mapflag	loadevent
+aldeg_cas04	mapflag	loadevent
+aldeg_cas05	mapflag	loadevent
+payg_cas01	mapflag	loadevent
+payg_cas02	mapflag	loadevent
+payg_cas03	mapflag	loadevent
+payg_cas04	mapflag	loadevent
+payg_cas05	mapflag	loadevent
+gefg_cas01	mapflag	loadevent
+gefg_cas02	mapflag	loadevent
+gefg_cas03	mapflag	loadevent
+gefg_cas04	mapflag	loadevent
+gefg_cas05	mapflag	loadevent
+arug_cas01	mapflag	loadevent
+arug_cas02	mapflag	loadevent
+arug_cas03	mapflag	loadevent
+arug_cas04	mapflag	loadevent
+arug_cas05	mapflag	loadevent
+schg_cas01	mapflag	loadevent
+schg_cas02	mapflag	loadevent
+schg_cas03	mapflag	loadevent
+schg_cas04	mapflag	loadevent
+schg_cas05	mapflag	loadevent
+prontera_pv	mapflag	loadevent
+guild_vs1	mapflag	loadevent
+bat_b02	mapflag	loadevent
+bat_b04	mapflag	loadevent
+bat_a02	mapflag	loadevent
+bat_a03	mapflag	loadevent
+bat_a04	mapflag	loadevent
+1@valefor	mapflag	loadevent		
+
+
+
+
+
+
+
+
+
+

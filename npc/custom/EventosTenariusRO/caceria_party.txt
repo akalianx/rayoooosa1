@@ -1,0 +1,943 @@
+//league,160,150,5	script	Marcus Bathory	10298,{
+moc_para01,43,36,5	script	Ferid Bathory	10298,{
+
+	if(c_run==true){
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "^0000FF"+getd("." + currentquest$ + "_collectionname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ currentquest$ + "_collectionitem"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+getitemname(getd("."+currentquest$+"_collectionitem["+.@j+"]"))+" - "+countitem(getd("."+currentquest$+"_collectionitem["+.@j+"]"))+"/"+getd("."+currentquest$+"_collectionitem["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item: ^0000FF"+((getd("." +currentquest$+"_collectionprize"))?getitemname(getd("." +currentquest$+"_collectionprize"))+" - "+getd("." +currentquest$+"_collectionamount")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +currentquest$+"_collectionzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +currentquest$+"_collectionexp["+0+"]")+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +currentquest$+"_collectionexp["+1+"]")+"^000000";
+		next;
+		if(select("Finish:Abort") == 2){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "Quest aborted.";
+			set currentquest$, "";
+			set c_run, false;
+			close;
+		}
+		goto L_checkitems;
+	}
+
+	if(h_run==true){
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "^0000FF"+getd("." + currentquest$ + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ currentquest$ + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@j)+"]");
+			mes "^FF0000"+strmobinfo(1,getd("."+currentquest$+"_huntingmob["+.@j+"]"))+" - "+getd(currentquest$+"_"+.@currentmob+"_"+(.@j+1)+"_killcount")+"/"+getd("."+currentquest$+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +currentquest$+"_huntingprize"))?getitemname(getd("." +currentquest$+"_huntingprize"))+" - "+getd("." +currentquest$+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +currentquest$+"_huntingprize2"))?getitemname(getd("." +currentquest$+"_huntingprize2"))+" - "+getd("." +currentquest$+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +currentquest$+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +currentquest$+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +currentquest$+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+		if(select("Finish:Abort") == 2){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "Quest aborted.";
+			for(set .@x, 1; .@x < .@size; set .@x,.@x+2){
+				set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@x-1)+"]");
+				setd(currentquest$+"_"+.@currentmob+"_"+.@x+"_killcount", 0);
+			}
+			set currentquest$, "";
+			set h_run, false;
+			close;
+		}
+		goto L_checkmobs;
+	}
+
+	mes "[^FF7700Ferid Bathory^000000]";
+	mes "Buen dia aventurero, necesito que cumplas unas misiones por mi, a cambio te recompensare con Experiencia";
+	mes "^0000FFNota: Los monstruos de las ciudades no se cuentan en la caceria.^000000";
+	next;
+	mes "[^FF7700Ferid Bathory^000000]";
+	mes "Selecciona las quest segun tu nivel";
+	mes " ";
+	mes "^0000FFNota: Al entregar cada quest, podras volver a retomarla despues de 3 horas.^000000";
+	next;
+
+	switch(select((.collection)?"Collection Quests":"",
+				(.hunting)?"Nivel [01 - 30]":"",
+				(.hunting)?"Nivel [31 - 50]":"",
+				(.hunting)?"Nivel [51 - 70]":"",
+				(.hunting)?"Nivel [71 - 85]":"",
+				(.hunting)?"Nivel [86 - 90]":"",
+				(.hunting)?"Nivel [91 - 99]":"",
+				"Exit")) {
+
+	case 1:
+		set .@collectmenu$, "";
+		for( set .@i,0; .@i < .collectionquestcount; set .@i,.@i+1){
+			if (.@i) set .@collectmenu$,.@collectmenu$+":";
+			set .@collectmenu$, .@collectmenu$ + "[" + getd("." +(.@i+1)+"_collectionmin") + " - " + getd("." +(.@i+1)+"_collectionmax") + "] " + getd("." + (.@i+1) + "_collectionname$");
+		}
+		set .@selection,select(.@collectmenu$);
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_collection_delay")){
+				set .@time_left, getd(.@selection + "_collection_delay")-gettimetick(2);
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_collection_repeat") == true){
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_collectionname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_collectionitem"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+getitemname(getd("."+.@selection+"_collectionitem["+.@j+"]"))+" - "+getd("."+.@selection+"_collectionitem["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item: ^0000FF"+((getd("." +.@selection+"_collectionprize"))?getitemname(getd("." +.@selection+"_collectionprize"))+" - "+getd("." +.@selection+"_collectionamount")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_collectionzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_collectionexp["+0+"]")+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_collectionexp["+1+"]")+"^000000";
+		next;
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		if(BaseLevel >= getd("." +.@selection+"_collectionmin") && BaseLevel <= getd("." +.@selection+"_collectionmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "Quest aceptada.";
+			set c_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+
+
+case 2:
+
+	if(BaseLevel < 1 || BaseLevel > 30){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 1 && BaseLevel <= 30){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=1 && getd("." +(.@i+1)+"_huntingmax")<=30)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+case 3:
+
+	if(BaseLevel < 31 || BaseLevel > 50){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 31 && BaseLevel <= 50){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=31 && getd("." +(.@i+1)+"_huntingmax")<=50)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+case 4:
+
+	if(BaseLevel < 51 || BaseLevel > 70){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 51 && BaseLevel <= 70){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=51 && getd("." +(.@i+1)+"_huntingmax")<=70)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+
+
+
+case 5:
+
+	if(BaseLevel < 71 || BaseLevel > 85){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 71 && BaseLevel <= 85){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=71 && getd("." +(.@i+1)+"_huntingmax")<=85)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+
+
+
+
+case 6:
+
+	if(BaseLevel < 86 || BaseLevel > 90){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 86 && BaseLevel <= 90){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=86 && getd("." +(.@i+1)+"_huntingmax")<=90)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+case 7:
+
+	if(BaseLevel < 91 || BaseLevel > 99){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 91 && BaseLevel <= 99){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=91 && getd("." +(.@i+1)+"_huntingmax")<=99)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Ferid Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Ferid Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+	case 8:
+		close;
+	}
+
+
+
+
+L_checkitems:
+	set .@size, getarraysize(getd("."+currentquest$+"_collectionitem"));
+	for( set .@k,0; .@k < .@size; set .@k,.@k+2){
+		if(countitem(getd("."+currentquest$+"_collectionitem["+.@k+"]"))>=getd("."+currentquest$+"_collectionitem["+(.@k+1)+"]")){
+			set .@checkitem,.@checkitem+2;
+		}
+	}
+	if(.@checkitem<.@size){
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "You don't have everything.";
+		close;
+	}
+	for( set .@delcount,0; .@delcount < .@size; set .@delcount,.@delcount+2){
+		delitem getd("."+currentquest$+"_collectionitem["+.@delcount+"]"),getd("."+currentquest$+"_collectionitem["+(.@delcount+1)+"]");
+	}
+	mes "[^FF7700Ferid Bathory^000000]";
+	mes "Congratulation! Here is your Reward.";
+	if(getd("." +currentquest$+"_collectionprize")!=0) getitem(getd("." +currentquest$+"_collectionprize"),getd("." +currentquest$+"_collectionamount"));
+	set Zeny,Zeny+getd("." +currentquest$+"_collectionzeny");
+	getexp getd("." +currentquest$+"_collectionexp["+0+"]"),getd("." +currentquest$+"_collectionexp["+1+"]");
+	setd(currentquest$ + "_collection_delay"),gettimetick(2)+.quest_delay;
+	setd(currentquest$ + "_collection_repeat"),true;
+	set currentquest$, "";
+	set c_run, false;
+	close;
+
+L_checkmobs:
+	set .@size, getarraysize(getd("."+currentquest$+"_huntingmob"));
+	set .@goal, .@size/2;
+	for(set .@i, 1; .@i < .@size; set .@i,.@i+2){
+		set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@i-1)+"]");
+		if(getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")==getd("."+currentquest$+"_huntingmob["+.@i+"]")){
+			set .@checkmonster, .@checkmonster+1;
+			if(.@checkmonster==.@goal){
+				goto L_checkmobs2;
+			}
+			continue;
+		}
+		goto L_checkmobs2;
+	}
+
+L_checkmobs2:
+	if(.@checkmonster<.@goal){
+		mes "[^FF7700Ferid Bathory^000000]";
+		mes "You didn't kill everything.";
+		close;
+	}
+	mes "[^FF7700Ferid Bathory^000000]";
+	mes "Congratulation! Here is your Reward.";
+	set .@size, getarraysize(getd("."+currentquest$+"_huntingmob"));
+	for(set .@x, 1; .@x < .@size; set .@x,.@x+2){
+		set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@x-1)+"]");
+		setd(currentquest$+"_"+.@currentmob+"_"+.@x+"_killcount", 0);
+	}
+	if(getd("." +currentquest$+"_huntingprize")!=0) getitem(getd("." +currentquest$+"_huntingprize"),getd("." +currentquest$+"_huntingamount"));
+	if(getd("." +currentquest$+"_huntingprize2")!=0) getitem(getd("." +currentquest$+"_huntingprize2"),getd("." +currentquest$+"_huntingamount2"));
+	set Zeny, Zeny+getd("." +currentquest$+"_huntingzeny");
+	getexp getd("." +currentquest$+"_huntingexp["+0+"]"),getd("." +currentquest$+"_huntingexp["+1+"]");
+	setd(currentquest$ + "_hunting_delay"),gettimetick(2)+.quest_delay;
+	setd(currentquest$ + "_hunting_repeat"),true;
+	set currentquest$, "";
+	set h_run, false;
+	close;
+
+OnNPCKillEvent:
+	if(h_run!=true) end;
+	set .@size, getarraysize(getd("."+currentquest$+"_huntingmob"));
+	for(set .@i, 1; .@i < .@size; set .@i,.@i+2){
+		if(killedrid==getd("."+currentquest$+"_huntingmob["+(.@i-1)+"]")){
+			set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@i-1)+"]");
+			if(getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")<getd("."+currentquest$+"_huntingmob["+.@i+"]")){
+				setd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount", getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")+1);
+				dispbottom getd("."+currentquest$+"_huntingname$")+": ["+strmobinfo(1,.@currentmob)+"] ("+ getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")+"/"+getd("."+currentquest$+"_huntingmob["+.@i+"]")+")";
+			}
+			if(getcharid(1) != 0 && .party_support == true){
+				getmapxy(.@map1$,.@x1,.@y1);
+				set .@killerid, getcharid(3);
+				set .@currentquest$, currentquest$;
+				getpartymember getcharid(1),1;
+				getpartymember getcharid(1),2;
+				for(set .@j, 0; .@j < $@partymembercount; .@j++){
+					if(isloggedin($@partymemberaid[.@j], $@partymembercid[.@j])){
+						if(h_run==true && $@partymemberaid[.@j] != .@killerid && .@currentquest$ == getvar(currentquest$, $@partymembercid[.@j]) && readparam(HP, $@partymembercid[.@j]) > 0){
+							getmapxy(.@map2$,.@x2,.@y2,BL_PC,rid2name($@partymemberaid[.@j]));
+							if(.@map1$ == .@map2$ && distance(.@x1,.@y1,.@x2,.@y2) < .party_range){
+								set .@kill_amt,getvar(getd(.@currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount"), $@partymembercid[.@j]);
+								set .@kill_goal,getd("."+.@currentquest$+"_huntingmob["+.@i+"]");
+								if(.@kill_amt<.@kill_goal)
+								{
+									setd(.@currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount", .@kill_amt+1, $@partymembercid[.@j]);
+									dispbottom getd("."+.@currentquest$+"_huntingname$")+": ["+strmobinfo(1,.@currentmob)+"] ("+(.@kill_amt+1)+"/"+.@kill_goal+")", 0xB6FF00, $@partymembercid[.@j];
+								}
+							}
+						}
+					}
+				}
+			}
+			break;
+		}
+	}
+	end;
+
+OnInit:
+
+waitingroom "Misiones Party",0;
+
+	function AddCollection;
+	function AddHunting;
+
+	//Activate/Deactivate quest categories (true/1 - activated, false/0 - deactivated)
+	set .collection, false;
+	set .hunting, true;
+
+	//Quest Delay (seconds)
+	//24 hours = 86400 seconds
+	//set .quest_delay, 0;
+	set .quest_delay, 10800;
+	
+
+	//Activate/Deactivate repeatable quests (true/1 - activated, false/0 - deactivated)
+	set .quest_repeat, true;
+
+	//Activate/Deactivate party support (true/1 - activated, false/0 - deactivated)
+	set .party_support, true;
+
+	//Max range for party support (+- x & y coordinations)
+	set .party_range, 25;
+
+	//Checks if quests are loaded (prevents out of index)
+	if(.questsloaded==true) end;
+	set .questsloaded, true;
+
+
+
+
+
+
+
+	//Add Collection Quests here (You can add as many required items as you want)
+	//AddCollection("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Item ID>,<Item Amount>,...);
+	//AddCollection("Bloody Branch Wisdom",99,255,12103,1,500000,10000,2000,604,150,7939,5,7203,5);
+
+
+
+			AddCollection("Costume Bandit Beard",1,99,40006,1,0,0,0,1040,100,1017,100,2241,1);
+
+			AddCollection("Costume Bride's Corolla",1,99,40007,1,0,0,0,710,100,629,150,1032,300,2253,1,2207,1);
+
+			AddCollection("Costume Cat Ear Beret",1,99,40008,1,0,0,0,7263,200,7298,200,7206,300,979,1,5172,1);
+
+			AddCollection("Costume Wandering Wolf Helm",1,99,40011,1,0,0,0,40012,1,6252,1);
+
+
+	//Add Hunting Quests here (You can add as many required mobs as you want)
+	//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
+	//AddHunting("Leveling Quest 1-70",1,70,32503,2,500000,300000,150000,1219,25);
+
+			
+			
+
+
+
+
+//QUEST [01-30]
+			AddHunting("Anthell",1,30,40095,1,501,100,0,15000,15000,1097,80,1105,50,1160,50);
+			AddHunting("Payon Forest",1,30,40095,1,501,100,0,15000,15000,1013,50,1025,50,1014,50);
+			
+			
+			
+			
+//QUEST [31-50]
+			AddHunting("Payon Dungeon 2",31,50,40095,1,503,50,0,100000,100000,1188,50,2872,50,1028,50,1016,50);
+			AddHunting("Undersea Tunnel 2",31,50,40095,1,503,50,0,100000,100000,1067,70,1066,70,1070,70,1141,70);
+			
+			
+			
+
+//QUEST [51-70]
+			AddHunting("Geffen Dungeon",51,70,40095,1,504,40,0,400000,400000,1179,70,1143,80,1109,80,1061,70);
+			AddHunting("Moscovia Dungeon",51,70,40095,1,504,40,0,400000,400000,1880,100,1881,100);
+			
+			
+
+//QUEST [71-85]
+			AddHunting("Moscovia Dungeon 3",71,85,40095,2,504,50,0,500000,500000,1882,80,1883,70,1884,70);
+			AddHunting("Orc Dungeon",71,85,40095,2,504,50,0,500000,500000,1273,80,1023,80,1213,80,1189,80);
+			
+
+
+
+//QUEST [86-90]
+			AddHunting("Brasilis Dungeon",86,90,40095,3,1,1,0,1000000,1000000,2072,80,2073,50,2074,100,2071,120);
+			AddHunting("Yuno Field",86,90,40095,3,1,1,0,1000000,1000000,1372,100,1378,80,1386,100);
+
+
+//QUEST [91-99]
+			AddHunting("Juperos",91,99,40095,3,1,2,0,1700000,1700000,1676,70,1677,70,1678,70,1679,70);
+			AddHunting("Sphinx",91,99,40095,3,1,2,0,1700000,1700000,1098,60,1149,80,1154,80);
+			AddHunting("Ice Dungeon 3",91,99,40095,3,1,2,0,1700000,1700000,1775,78,1777,100,1778,70);
+			AddHunting("Thor Volcano Dungeon 3",91,99,40095,3,1,2,0,2300000,2300000,1833,100,1831,100);
+
+
+
+
+
+
+	end;
+
+
+	function AddCollection{
+		set .collectionquestcount,.collectionquestcount+1;
+		setd ("." +.collectionquestcount+"_collectionname$", getarg(0));
+		setd ("." +.collectionquestcount+"_collectionmin", getarg(1));
+		setd ("." +.collectionquestcount+"_collectionmax", getarg(2));
+		setd ("." +.collectionquestcount+"_collectionprize", getarg(3));
+		setd ("." +.collectionquestcount+"_collectionamount", getarg(4));
+		setd ("." +.collectionquestcount+"_collectionzeny", getarg(5));
+		set .@argcount, 6;
+		set .@size, getarraysize(getd("."+ .collectionquestcount + "_collectionexp"));
+		setd ("." +.collectionquestcount+"_collectionexp["+.@size+"]",getarg(.@argcount)); 
+		setd ("." +.collectionquestcount+"_collectionexp["+(.@size+1)+"]",getarg(.@argcount+1)); 
+		set .@argcount, .@argcount+2;
+		set .@size, getarraysize(getd("."+ .collectionquestcount + "_collectionitem"));
+		while(getarg(.@argcount,-1)!=-1 && getarg(.@argcount+1,-1)!=-1){
+			setd ("."+.collectionquestcount+"_collectionitem["+.@size+"]",getarg(.@argcount)); 
+			setd ("."+.collectionquestcount+"_collectionitem["+(.@size+1)+"]",getarg(.@argcount+1));
+			set .@argcount,.@argcount+2;
+			set .@size, .@size+2;
+		}
+		return;
+	}
+
+	function AddHunting{
+		set .huntingquestcount,.huntingquestcount+1;
+		setd ("." +.huntingquestcount+"_huntingname$", getarg(0));
+		setd ("." +.huntingquestcount+"_huntingmin", getarg(1));
+		setd ("." +.huntingquestcount+"_huntingmax", getarg(2));
+		setd ("." +.huntingquestcount+"_huntingprize", getarg(3));
+		setd ("." +.huntingquestcount+"_huntingamount", getarg(4));
+		setd ("." +.huntingquestcount+"_huntingprize2", getarg(5));
+		setd ("." +.huntingquestcount+"_huntingamount2", getarg(6));
+		setd ("." +.huntingquestcount+"_huntingzeny", getarg(7));
+		set .@size, getarraysize(getd("."+ .huntingquestcount + "_huntingexp"));
+		set .@argcount, 8;
+		setd ("." +.huntingquestcount+"_huntingexp["+.@size+"]",getarg(.@argcount));
+		setd ("." +.huntingquestcount+"_huntingexp["+(.@size+1)+"]",getarg(.@argcount+1)); 
+		set .@argcount, .@argcount+2;
+		set .@size, getarraysize(getd("."+ .huntingquestcount + "_huntingmob"));
+		while(getarg(.@argcount,-1)!=-1 && getarg(.@argcount+1,-1)!=-1){
+			setd ("."+.huntingquestcount+"_huntingmob["+.@size+"]",getarg(.@argcount)); 
+			setd ("."+.huntingquestcount+"_huntingmob["+(.@size+1)+"]",getarg(.@argcount+1));
+			set .@argcount, .@argcount+2;
+			set .@size, .@size+2;
+		}
+		return;
+	}
+}
+

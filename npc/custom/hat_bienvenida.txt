@@ -1,0 +1,22 @@
+//prontera,146,163,5	script	Marcus	405,{
+
+if( #accountz == 1) {
+			mes "[Marcus]";
+			mes "Ya reclamaste tu recompensa!";
+			emotion e_bzz;
+			close;}
+	
+
+
+			// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],40003,40004,40005,40002; 
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);	
+			set #accountz, 1;		
+
+end;
+
+OnInit:
+	waitingroom "Hat de Bienvenida",0;
+	end;
+}

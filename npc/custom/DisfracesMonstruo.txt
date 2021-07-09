@@ -1,0 +1,118 @@
+prontera,140,177,5	script	Espiritista	792,{
+ 
+    mes "Dulce o truco, si me traes un candy puedo convertirte en un monstruo";
+	mes "sino afronta las consecuencias";
+    mes "Que monstruo te gustaria disfrazarte?";
+    next;
+    switch(select("Zombie:Skeleton:Wraith:Les:Mavka:Galion:High Orc:Orc Archer:Shinobi:Alice:Bacsojin:Salir")) {
+        case 1: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1015; 
+		delitem 529,1;
+		break;
+        
+		
+		case 2: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1076; 
+		delitem 529,1;
+		break;
+        
+		case 3: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1192; 
+		delitem 529,1;
+		break;
+		
+		case 4: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1881; 
+		delitem 529,1;
+		break;
+		
+		case 5: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1884; 
+		delitem 529,1;
+		break;
+		
+		
+		case 6: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1783; 
+		delitem 529,1;
+		break;
+		
+		case 7: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1213; 
+		delitem 529,1;
+		break;
+		
+		
+		case 8: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1473; 
+		delitem 529,1;
+		break;
+		
+		
+		case 9: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1401; 
+		delitem 529,1;
+		break;
+		
+		
+		case 10: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1275; 
+		delitem 529,1;
+		break;
+		
+		
+		case 11: if (countitem (529)<1) 
+				{mes "No tienes 1 Candy";
+				mes "Sufre mi ira.";
+				atcommand ("@heal -3000");
+				end;}
+		disguise 1630; 
+		delitem 529,1;
+		break;
+		
+		
+		case 12: break;
+    }
+  
+    end;
+}

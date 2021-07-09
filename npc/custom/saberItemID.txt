@@ -1,0 +1,428 @@
+/*
+
+prontera,155,188,0	script	#warp_to_morocc	45,2,2,{
+	end; // do nothing when clicked
+	
+OnTouch: // behave like a warp portal
+	warp "morocc", 156,93;
+	end;
+	
+OnInit:
+	set .message$, "Enter here to Morroc!     ";
+	while (1) {
+		set .message$, delchar(.message$+charat(.message$,0),0);
+		delwaitingroom;
+		waitingroom .message$, 0;
+		sleep 200;
+	}
+}
+
+*/
+
+
+
+
+
+
+//BUSCADOR DE ITEMS POR ID Y QUIEN LO DROPEA
+FirstTown,257,187,3	script	Maverik el Explorador	556,{	
+
+
+mes "[BUSCADOR]";
+mes " ";
+mes "Bienvendio, que deseas buscar?";
+next;
+L_menuprincipal:
+switch(select("Buscar item por Nombre:Buscar item por ID:Buscar monstruo por ID:Buscar monstruo por Nombre:Salir")) {   
+
+
+case 1:
+		/*	mes "What item are you looking for?";
+			input .@name$;
+			.@qty = searchitem(.@matches[0],.@name$);
+			mes "I found " + .@qty + " items:";
+			for (.@i = 0; .@i < .@qty; .@i++)
+			// Display name (eg: "Apple[0]")
+			//mes .@id +" "+ getiteminfo(.@matches[.@i],0) + " " + getitemname(.@matches[.@i]) + "[" + getitemslots(.@matches[.@i]) + "]";
+			//setarray @ID[0],.@matches[.@i]
+			mes getitemname(.@matches[.@i]) + "[" + getitemslots(.@matches[.@i]) + "]";
+			close;
+		*/
+//	if ( getgmlevel() < 99 ) end;
+
+
+	
+	 
+	
+	
+	mes "[BUSCAR ITEM POR NOMBRE]";	
+	MES " ";
+	mes "Ingresa el Nombre del item que deseas buscar";
+	deletearray .@tmp_array[0];
+	deletearray .@menu$;
+	input .@tmp$;
+	set .@item_id, atoi( .@tmp$ );
+	
+	if ( .@item_id == 0 && getstrlen( .@tmp$ ) > 2 ) { // item name, eventually
+		
+		
+		
+		
+		
+		set .@count, searchitem( .@tmp_array, .@tmp$ );
+		if ( .@count == 0 ) {// none item found
+			mes "None item found.";
+			close;
+		} 
+		mes "I found the following items: ";
+		next;
+		for (.@i = 0; .@i < .@count; .@i++){
+		//while( .@i < .@count ) {
+			set .@menu$, .@menu$ + getitemname( .@tmp_array[.@i] )+  " [" + getitemslots(.@tmp_array[.@i]) + "]" +"   (ID "+ .@tmp_array[.@i] +"):";
+			//set .@i, .@i +1;
+			
+		}
+		
+		set .@s, select( .@menu$ ) -1;
+		set .@item_id, .@tmp_array[.@s];
+		L_menu6:
+		menu "Quien lo dropea",L_find6,"Volver al menu",L_menuprincipal,"Salir",L_later6;
+	}
+	
+	else if ( .@item_id == 0 || getiteminfo( .@item_id,2 ) == -1 ) {
+		mes "Wrong item id";
+		close;
+	}
+		
+
+	close;
+	
+	
+			
+			L_find6:
+			next;
+			atcommand "@whodrops "+.@item_id;
+			deletearray .@tmp_array[0];
+			goto L_menu6;
+
+
+
+
+			L_later6:
+				close;	
+
+
+
+close;		
+
+
+
+case 2:
+			mes "[BUSCAR ITEM POR ID]";	
+			MES " ";
+			mes "Ingresa la ID del item que deseas buscar";
+			progressbar "0xRRGGBB",0;
+			dispbottom "Initiating database...";
+			input .@id;
+			query_sql ("SELECT `id`, `name_japanese` FROM `item_db` WHERE `id` LIKE '"+ .@itemname$ +"'", .@id);
+			query_sql ("SELECT `id`, `name_japanese` FROM `item_db2` WHERE `id` LIKE '"+ .@itemname$ +"'", .@id);
+			//query_sql("SELECT `ID`, `iName` FROM `mob_db` WHERE `id` LIKE '"+ .@id$ +"'", .@cid, .@id$);
+				next;		
+				mes "Name: "+.@id;				
+				mes "Name: "+getitemname(.@id);
+				next;
+				goto L_menu;
+
+			L_menu:
+			menu "Quien lo dropea",L_find,"Volver al menu",L_menuprincipal,"Salir",L_later;
+
+			L_find:
+			next;
+			atcommand "@whodrops "+.@id;
+			goto L_menu;
+
+
+			L_later:
+				close;
+				
+			close;	
+	
+
+
+
+
+
+
+/*
+
+case 3:
+
+	
+	
+			mes "[BUSCAR ITEM POR NOMBRE]";	
+			MES " ";
+			mes "Ingresa la ID del item que deseas buscar";
+			progressbar "0xRRGGBB",0;
+			dispbottom "Initiating database...";
+			input .@itemname$;
+			query_sql ("SELECT `id`, `name_japanese` FROM `item_db` WHERE `name_japanese` LIKE '"+ escape_sql(.@itemname$) +"'", .@id$);
+			query_sql ("SELECT `id`, `name_japanese` FROM `item_db2` WHERE `name_japanese` LIKE '"+ escape_sql(.@itemname$) +"'", .@id$);
+			//input .@mobname$;
+			//query_sql ("SELECT `ID`, `iName`, `HP`, `SP`, `ATK1`, `Race`, `Element`, `DEF`, `MDEF` FROM `mob_db` WHERE `iName` LIKE '"+ escape_sql(.@mobname$) +"'", .@id$, .@hp, .@sp, .@atk1, .@race, .@element, .@def, .@mdef);
+			//query_sql("SELECT `ID`, `iName` FROM `mob_db` WHERE `id` LIKE '"+ .@id$ +"'", .@cid, .@id$);
+				next;	
+				mes "ID: "+.@id$;				
+				mes "Nombre: "+.@itemname$;
+				next;
+				goto L_menu4;
+
+			L_menu4:
+			menu "Quien lo dropea",L_find4,"Volver al menu",L_menuprincipal,"Salir",L_later4;
+
+			L_find4:
+			next;
+			atcommand "@whodrops "+.@id$;
+			goto L_menu4;
+
+
+			L_later4:
+				close;
+				
+			close;	
+	
+	
+*/
+
+
+
+
+
+
+	
+	
+case 3:
+			mes "[BUSCAR MONSTRUO POR ID]";	
+			mes " ";
+			mes "Ingresa la ID del monstruo que deseas buscar";
+			progressbar "0xRRGGBB",0;
+			dispbottom "Initiating database...";
+			input .@id$;
+			query_sql ("SELECT `ID`, `HP`, `SP`, `ATK1`, `Race`, `Element`, `DEF`, `MDEF` FROM `mob_db` WHERE `id` LIKE '"+ .@mobname$ +"'", .@id$, .@hp, .@sp, .@atk1, .@race, .@element, .@def, .@mdef);
+			query_sql ("SELECT `ID`, `HP`, `SP`, `ATK1`, `Race`, `Element`, `DEF`, `MDEF` FROM `mob_db2` WHERE `id` LIKE '"+ .@mobname$ +"'", .@id$, .@hp, .@sp, .@atk1, .@race, .@element, .@def, .@mdef);
+			//query_sql("SELECT `ID`, `iName` FROM `mob_db` WHERE `id` LIKE '"+ .@id$ +"'", .@cid, .@id$);
+//ELEMENTOS				
+if(getmonsterinfo(.@id$,20)==0) {
+set .@elemento$, "Neutral";}
+else if(getmonsterinfo(.@id$,20)==1){ 
+set .@elemento$, "Water / Agua";}
+else if(getmonsterinfo(.@id$,20)==2){ 
+set .@elemento$, "Earth / Tierra";}
+else if(getmonsterinfo(.@id$,20)==3){ 
+set .@elemento$, "Fire / Fuego";}
+else if(getmonsterinfo(.@id$,20)==4){ 
+set .@elemento$, "Wind / Viento";}
+else if(getmonsterinfo(.@id$,20)==5){ 
+set .@elemento$, "Poison / Veneno";}
+else if(getmonsterinfo(.@id$,20)==6){ 
+set .@elemento$, "Holy / Sagrado";}
+else if(getmonsterinfo(.@id$,20)==7){ 
+set .@elemento$, "Shadow / Oscuridad";}
+else if(getmonsterinfo(.@id$,20)==8){ 
+set .@elemento$, "Ghost / Fantasma";}
+else if(getmonsterinfo(.@id$,20)==9){ 
+set .@elemento$, "Undead / No Muerto";
+}
+
+
+//RAZAS				
+if(getmonsterinfo(.@id$,19)==0) {
+set .@raza$, "Formless";}
+else if(getmonsterinfo(.@id$,19)==1){ 
+set .@raza$, "Undead";}
+else if(getmonsterinfo(.@id$,19)==2){ 
+set .@raza$, "Brute";}
+else if(getmonsterinfo(.@id$,19)==3){ 
+set .@raza$, "Plant";}
+else if(getmonsterinfo(.@id$,19)==4){ 
+set .@raza$, "Insect";}
+else if(getmonsterinfo(.@id$,19)==5){ 
+set .@raza$, "Fish";}
+else if(getmonsterinfo(.@id$,19)==6){ 
+set .@raza$, "Demon";}
+else if(getmonsterinfo(.@id$,19)==7){ 
+set .@raza$, "Demi-Human";}
+else if(getmonsterinfo(.@id$,19)==8){ 
+set .@raza$, "Angel";}
+else if(getmonsterinfo(.@id$,19)==9){ 
+set .@raza$, "Dragon";
+}
+
+
+//TAMAÑO				
+if(getmonsterinfo(.@id$,18)==0) {
+set .@tamano$, "Small";}
+else if(getmonsterinfo(.@id$,18)==1){ 
+set .@tamano$, "Medium";}
+else if(getmonsterinfo(.@id$,18)==2){ 
+set .@tamano$, "Large";}
+
+
+
+				next;					
+				mes "ID: "+.@id$;
+				mes "Nombre: "+getmonsterinfo(.@id$,0);
+				mes "HP: "+getmonsterinfo(.@id$,2);
+				mes "ATK: "+getmonsterinfo(.@id$,5)+" ~ " +getmonsterinfo(.@id$,6);
+				mes "Raza: "+.@raza$; 
+				mes "Elemento: "+.@elemento$;
+				mes "Size: "+.@tamano$;
+				mes "DEF: "+getmonsterinfo(.@id$,7);
+				mes "MDEF: "+getmonsterinfo(.@id$,8);
+				next;
+				goto L_menu2;
+
+			L_menu2:
+			menu "Donde encontrarlo",L_find2,"Volver al menu",L_menuprincipal,"Salir",L_later2;
+
+			L_find2:
+			next;
+			atcommand "@whereis "+.@id$;
+			goto L_menu2;
+
+
+			L_later2:
+				close;
+						
+	close;		
+			
+
+		
+case 4:
+			mes "[BUSCAR MONSTRUO POR NOMBRE]";	
+			mes " ";
+			mes "Ingresa el Nombre del monstruo que deseas buscar";
+			progressbar "0xRRGGBB",0;
+			dispbottom "Initiating database...";
+			input .@mobname$;
+			query_sql ("SELECT `ID`, `iName`, `HP`, `SP`, `ATK1`, `Race`, `Element`, `DEF`, `MDEF` FROM `mob_db` WHERE `iName` LIKE '"+ escape_sql(.@mobname$) +"'", .@id$, .@hp, .@sp, .@atk1, .@race, .@element, .@def, .@mdef);
+			query_sql ("SELECT `ID`, `iName`, `HP`, `SP`, `ATK1`, `Race`, `Element`, `DEF`, `MDEF` FROM `mob_db2` WHERE `iName` LIKE '"+ escape_sql(.@mobname$) +"'", .@id$, .@hp, .@sp, .@atk1, .@race, .@element, .@def, .@mdef);
+			//query_sql("SELECT `ID`, `iName` FROM `mob_db` WHERE `id` LIKE '"+ .@id$ +"'", .@cid, .@id$);
+
+//ELEMENTOS				
+if(getmonsterinfo(.@id$,20)==0) {
+set .@elemento$, "Neutral";}
+else if(getmonsterinfo(.@id$,20)==1){ 
+set .@elemento$, "Water / Agua";}
+else if(getmonsterinfo(.@id$,20)==2){ 
+set .@elemento$, "Earth / Tierra";}
+else if(getmonsterinfo(.@id$,20)==3){ 
+set .@elemento$, "Fire / Fuego";}
+else if(getmonsterinfo(.@id$,20)==4){ 
+set .@elemento$, "Wind / Viento";}
+else if(getmonsterinfo(.@id$,20)==5){ 
+set .@elemento$, "Poison / Veneno";}
+else if(getmonsterinfo(.@id$,20)==6){ 
+set .@elemento$, "Holy / Sagrado";}
+else if(getmonsterinfo(.@id$,20)==7){ 
+set .@elemento$, "Shadow / Oscuridad";}
+else if(getmonsterinfo(.@id$,20)==8){ 
+set .@elemento$, "Ghost / Fantasma";}
+else if(getmonsterinfo(.@id$,20)==9){ 
+set .@elemento$, "Undead / No Muerto";
+}
+
+
+//RAZAS				
+if(getmonsterinfo(.@id$,19)==0) {
+set .@raza$, "Formless";}
+else if(getmonsterinfo(.@id$,19)==1){ 
+set .@raza$, "Undead";}
+else if(getmonsterinfo(.@id$,19)==2){ 
+set .@raza$, "Brute";}
+else if(getmonsterinfo(.@id$,19)==3){ 
+set .@raza$, "Plant";}
+else if(getmonsterinfo(.@id$,19)==4){ 
+set .@raza$, "Insect";}
+else if(getmonsterinfo(.@id$,19)==5){ 
+set .@raza$, "Fish";}
+else if(getmonsterinfo(.@id$,19)==6){ 
+set .@raza$, "Demon";}
+else if(getmonsterinfo(.@id$,19)==7){ 
+set .@raza$, "Demi-Human";}
+else if(getmonsterinfo(.@id$,19)==8){ 
+set .@raza$, "Angel";}
+else if(getmonsterinfo(.@id$,19)==9){ 
+set .@raza$, "Dragon";
+}
+
+
+//TAMAÑO				
+if(getmonsterinfo(.@id$,18)==0) {
+set .@tamano$, "Small";}
+else if(getmonsterinfo(.@id$,18)==1){ 
+set .@tamano$, "Medium";}
+else if(getmonsterinfo(.@id$,18)==2){ 
+set .@tamano$, "Large";}
+					
+				
+				next;		
+				mes "ID: "+.@id$;
+				mes "Nombre: "+.@mobname$;
+				mes "HP: "+getmonsterinfo(.@id$,2);
+				mes "ATK: "+getmonsterinfo(.@id$,5)+" ~ " +getmonsterinfo(.@id$,6);
+				mes "Raza: "+.@raza$; 
+				mes "Elemento: "+.@elemento$;
+				mes "Size: "+.@tamano$;
+				mes "DEF: "+getmonsterinfo(.@id$,7);
+				mes "MDEF: "+getmonsterinfo(.@id$,8);
+				next;
+				goto L_menu3;
+
+			L_menu3:
+			menu "Donde encontrarlo",L_find3,"Volver al menu",L_menuprincipal,"Salir",L_later3;
+
+			L_find3:
+			next;
+			atcommand "@whereis "+.@id$;
+			goto L_menu3;
+
+
+			L_later3:
+				close;
+						
+	close;
+
+
+	
+case 5:
+			close;
+	
+	
+	
+	
+	
+	
+	
+	
+	} //termina switch
+	
+OnInit:
+	waitingroom "Buscador",0;
+	end;
+
+
+	}
+
+
+
+
+
+alberta,59,250,3	duplicate(Maverik el Explorador)	Maverik el Explorador#alb	556
+
+
+
+
+
+
+
+

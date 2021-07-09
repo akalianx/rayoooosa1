@@ -1,0 +1,33 @@
+// 1 poring coin = 10 cash point
+
+ 
+
+prontera,155,181,5      script  item a kafra 757,{
+
+.@item = 7539;
+
+.@rate = 10;
+
+ 
+
+.@countitem = countitem( .@item );
+
+mes "Exchange "+.@countitem+" x "+getitemname( .@item )+" to "+( .@countitem * .@rate )+" Point ?";
+
+ 
+
+if( .@countitem )
+
+        if( select( "YES","Cancel" ) == 1 ){
+
+                delitem .@item,.@countitem;
+
+                #CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+
+                mes "Done";
+
+        }
+
+close;
+
+}

@@ -1,0 +1,1001 @@
+
+prt_in,43,115,3	script	Herrero Maestro	813,{
+set .nombreNPC$,"^0000FF[Hefesto]^000000";
+
+
+mes .nombreNPC$;
+mes "Buen dia ^0000FF" + strcharinfo(0) + "^000000";
+mes "Que te trae por estos lugares?";
+if(select("^FF0000Solo ando de paso^000000:^0000FFBusco las Llaves de Calabozo^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes "Muy bien, que los Dioses bendigan tu camino, hasta la proxima.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+mes "Entonces haz venido al lugar indicado.";
+mes "En mis viajes por el mundo, aprendi a crear diferentes llaves maestras.";
+mes "Que llave deseas crear?";
+
+switch(select("Llave de Rachel Dungeon:Llave de Nameless Dungeon:Llave de Geffenia Dungeon:Llave de Kiel Dungeon 1:Llave de Kiel Dungeon 2:Debo pensarlo")) {   
+
+//Rachel
+case 1:
+	
+	//======================CONFIGURACIONES======================
+			set .@item1,615; 	//Oridecon Hammer
+			set .@cantidad1,5;
+			set .@item2,40124;	//Light Steel
+			set .@cantidad2,7;
+			set .@item3,1005;	//Hammer of Blacksmith
+			set .@cantidad3,5;
+			set .@item4,987;	//Oridecon Anvil   
+			set .@cantidad4,1;
+			set .@recompemsa,40120;
+			set .nombrerecompensa$,"^0000FFKey of Rachel Dungeon^000000";
+			
+
+
+	//Limitante de una Llave
+			if (#Rachel == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Lo siento mucho ^0000FF" + strcharinfo(0) + "^000000, pero ya has forjado una " + .nombrerecompensa$ + " es esta cuenta.";
+			end;			
+			}
+		
+
+
+
+	// VERIFICACION DE ITEM Y ENTREGA DE RECOMPENSA
+			if (Rachel == 1) {
+			next;
+			if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4) {
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que aun te falta algunos items.";
+			mes "Revisa de nuevo la ^0000FFLista de Materiales^000000 y vuelve cuando tengas todos los items.";
+			next;
+			goto Lista_Rachel_verificacion;
+				}
+			next;	
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que haz traido todos los items necesarios, ahora mismo forjare tu llave.";
+			next;
+			progressbar "0xRRGGBB",4;
+			specialeffect 154;
+			mes "Listo aqui tienes tu " + .nombrerecompensa$ + ".";
+			mes " ";
+			mes "Que tengas un excelente viaje y los Dioses bendigan tu camino.";
+			next;
+			delitem .@item1,.@cantidad1;
+			delitem .@item2,.@cantidad2;
+			delitem .@item3,.@cantidad3;
+			delitem .@item4,.@cantidad4;
+			getitem .@recompemsa,1;
+			set #Rachel,1;
+			set Rachel, 0;
+			close;
+			} //FIN == if (Rachel == 1)
+
+
+	//SI ACEPTAS LA QUEST
+			if (Rachel == 0) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien ^0000FF" + strcharinfo(0) + "^000000";
+			mes "Para forjar una " + .nombrerecompensa$ +" necesito que me traigas algunos materiales.";
+			next;
+			mes .nombreNPC$;
+			mes "Podras hacerlo?";
+			if(select("^FF0000Dejame pensalo^000000:^0000FFSi, Claro^000000") == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien, que los Dioses bendigan tu camino, hasta la proxima.";
+			end; } //FIN MENU
+			next;
+			mes .nombreNPC$;
+			set Rachel,1;
+			mes "Esta es la ^0000FFLista de Materiales^000000 que necesito para poder forjarla.";
+			next;
+			goto Lista_Rachel;
+			}   // === FIN  if (Rachel == 0)
+			
+			
+			
+			close;
+
+
+
+			//LISTA DE ITEMS
+			Lista_Rachel:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+				mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+				mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+				mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+			next;
+			mes .nombreNPC$;
+			mes "NOTA";
+			mes "Los ^0000FFLight Steel^000000 los puedes forjar con mi aprendiz ^0000FFIrina^000000, por cada 10 Steel, ella te entregara 1 Light Steel";
+			close;
+
+			//LISTA DE VERIFICACION
+			Lista_Rachel_verificacion:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes " ";
+			
+			//ITEM 1
+				if (countitem(.@item1) < .@cantidad1)
+				mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				if (countitem(.@item1) >= .@cantidad1)
+				mes "^0000FF" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				
+			
+			//ITEM 2
+				if (countitem(.@item2) < .@cantidad2)
+				mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+				if (countitem(.@item2) >= .@cantidad2)
+				mes "^0000FF" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+
+
+			//ITEM 3
+				if (countitem(.@item3) < .@cantidad3)
+				mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+				if (countitem(.@item3) >= .@cantidad3)
+				mes "^0000FF" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+			
+
+			//ITEM 4
+				if (countitem(.@item4) < .@cantidad4)
+				mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+				if (countitem(.@item4) >= .@cantidad4)
+				mes "^0000FF" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+			
+
+
+	
+				
+		
+			
+			close;
+
+		close;
+		
+
+//Nameless
+case 2:
+	
+	//======================CONFIGURACIONES======================
+			set .@item1,614; 	//Golden Hammer
+			set .@cantidad1,10;
+			set .@item2,40124;	//Light Steel
+			set .@cantidad2,10;
+			set .@item3,1005;	//Hammer of Blacksmith
+			set .@cantidad3,10;
+			set .@item4,988;	//Golden Anvil   
+			set .@cantidad4,1;
+			set .@item5,523;	//Holy Water  
+			set .@cantidad5,20;
+			set .@recompemsa,40119;
+			set .nombrerecompensa$,"^0000FFKey of Nameless Dungeon^000000";
+			
+
+
+	//Limitante de una Llave
+			if (#Nameless == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Lo siento mucho ^0000FF" + strcharinfo(0) + "^000000, pero ya has forjado una " + .nombrerecompensa$ + " es esta cuenta.";
+			end;			
+			}
+		
+
+
+
+	// VERIFICACION DE ITEM Y ENTREGA DE RECOMPENSA
+			if (Nameless == 1) {
+			next;
+			if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4 || countitem(.@item5) < .@cantidad5) {
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que aun te falta algunos items.";
+			mes "Revisa de nuevo la ^0000FFLista de Materiales^000000 y vuelve cuando tengas todos los items.";
+			next;
+			goto Lista_Nameless_verificacion;
+				}
+			next;	
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que haz traido todos los items necesarios, ahora mismo forjare tu llave.";
+			next;
+			progressbar "0xRRGGBB",4;
+			specialeffect 154;
+			mes "Listo aqui tienes tu " + .nombrerecompensa$ + ".";
+			mes " ";
+			mes "Que tengas un excelente viaje y los Dioses bendigan tu camino.";
+			next;
+			delitem .@item1,.@cantidad1;
+			delitem .@item2,.@cantidad2;
+			delitem .@item3,.@cantidad3;
+			delitem .@item4,.@cantidad4;
+			delitem .@item5,.@cantidad5;
+			getitem .@recompemsa,1;
+			set #Nameless,1;
+			set Nameless, 0;
+			close;
+			} //FIN == if (Nameless == 1)
+
+
+	//SI ACEPTAS LA QUEST
+			if (Nameless == 0) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien ^0000FF" + strcharinfo(0) + "^000000";
+			mes "Para forjar una " + .nombrerecompensa$ +" necesito que me traigas algunos materiales.";
+			next;
+			mes .nombreNPC$;
+			mes "Podras hacerlo?";
+			if(select("^FF0000Dejame pensalo^000000:^0000FFSi, Claro^000000") == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien, que los Dioses bendigan tu camino, hasta la proxima.";
+			end; } //FIN MENU
+			next;
+			mes .nombreNPC$;
+			set Nameless,1;
+			mes "Esta es la ^0000FFLista de Materiales^000000 que necesito para poder forjarla.";
+			next;
+			goto Lista_Nameless;
+			}   // === FIN  if (Nameless == 0)
+			
+			
+			
+			close;
+
+
+
+			//LISTA DE ITEMS
+			Lista_Nameless:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+				mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+				mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+				mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+				mes "^C02908" + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").";
+				next;
+			mes .nombreNPC$;
+			mes "NOTA";
+			mes "Los ^0000FFLight Steel^000000 los puedes forjar con mi aprendiz ^0000FFIrina^000000, por cada 10 Steel, ella te entregara 1 Light Steel";
+			close;
+
+			//LISTA DE VERIFICACION
+			Lista_Nameless_verificacion:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes " ";
+			
+			//ITEM 1
+				if (countitem(.@item1) < .@cantidad1)
+				mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				if (countitem(.@item1) >= .@cantidad1)
+				mes "^0000FF" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				
+			
+			//ITEM 2
+				if (countitem(.@item2) < .@cantidad2)
+				mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+				if (countitem(.@item2) >= .@cantidad2)
+				mes "^0000FF" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+
+
+			//ITEM 3
+				if (countitem(.@item3) < .@cantidad3)
+				mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+				if (countitem(.@item3) >= .@cantidad3)
+				mes "^0000FF" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+			
+
+			//ITEM 4
+				if (countitem(.@item4) < .@cantidad4)
+				mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+				if (countitem(.@item4) >= .@cantidad4)
+				mes "^0000FF" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+			
+			//ITEM 5
+				if (countitem(.@item5) < .@cantidad5)
+				mes "^C02908" + countitem(.@item5) + "/"  + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").^000000";
+				if (countitem(.@item5) >= .@cantidad5)
+				mes "^0000FF" + countitem(.@item5) + "/"  + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").^000000";
+
+
+	
+				
+		
+			
+			close;
+
+		close;
+
+
+
+
+//Geffenia
+case 3:
+	
+	//======================CONFIGURACIONES======================
+			set .@item1,615; 	//Oridecon Hammer
+			set .@cantidad1,15;
+			set .@item2,40124;	//Light steel
+			set .@cantidad2,15;
+			set .@item3,1005;	//Hammer of Blacksmith
+			set .@cantidad3,15;
+			set .@item4,988;	//Golden Anvil   
+			set .@cantidad4,1;
+			set .@item5,523;	//Holy Water  
+			set .@cantidad5,50;
+			set .@item6,1038;	//Little Evil Horn
+			set .@cantidad6,100;
+			set .@recompemsa,40121;
+			set .nombrerecompensa$,"^0000FFKey of Geffenia Dungeon^000000";
+			
+
+
+	//Limitante de una Llave
+			if (#Geffenia == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Lo siento mucho ^0000FF" + strcharinfo(0) + "^000000, pero ya has forjado una " + .nombrerecompensa$ + " es esta cuenta.";
+			end;			
+			}
+		
+
+
+
+	// VERIFICACION DE ITEM Y ENTREGA DE RECOMPENSA
+			if (Geffenia == 1) {
+			next;
+			if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4 || countitem(.@item5) < .@cantidad5 || countitem(.@item6) < .@cantidad6) {
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que aun te falta algunos items.";
+			mes "Revisa de nuevo la ^0000FFLista de Materiales^000000 y vuelve cuando tengas todos los items.";
+			next;
+			goto Lista_Geffenia_verificacion;
+				}
+			next;	
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que haz traido todos los items necesarios, ahora mismo forjare tu llave.";
+			next;
+			progressbar "0xRRGGBB",4;
+			specialeffect 154;
+			mes "Listo aqui tienes tu " + .nombrerecompensa$ + ".";
+			mes " ";
+			mes "Que tengas un excelente viaje y los Dioses bendigan tu camino.";
+			next;
+			delitem .@item1,.@cantidad1;
+			delitem .@item2,.@cantidad2;
+			delitem .@item3,.@cantidad3;
+			delitem .@item4,.@cantidad4;
+			delitem .@item5,.@cantidad5;
+			delitem .@item6,.@cantidad6;
+			getitem .@recompemsa,1;
+			set #Geffenia,1;
+			set Geffenia, 0;
+			close;
+			} //FIN == if (Geffenia == 1)
+
+
+	//SI ACEPTAS LA QUEST
+			if (Geffenia == 0) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien ^0000FF" + strcharinfo(0) + "^000000";
+			mes "Para forjar una " + .nombrerecompensa$ +" necesito que me traigas algunos materiales.";
+			next;
+			mes .nombreNPC$;
+			mes "Podras hacerlo?";
+			if(select("^FF0000Dejame pensalo^000000:^0000FFSi, Claro^000000") == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien, que los Dioses bendigan tu camino, hasta la proxima.";
+			end; } //FIN MENU
+			next;
+			mes .nombreNPC$;
+			set Geffenia,1;
+			mes "Esta es la ^0000FFLista de Materiales^000000 que necesito para poder forjarla.";
+			next;
+			goto Lista_Geffenia;
+			}   // === FIN  if (Geffenia == 0)
+			
+			
+			
+			close;
+
+
+
+			//LISTA DE ITEMS
+			Lista_Geffenia:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+				mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+				mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+				mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+				mes "^C02908" + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").";
+				mes "^C02908" + .@cantidad6 + " " + getitemname(.@item6) + "  ID: (" + .@item6 + ").";
+				next;
+			mes .nombreNPC$;
+			mes "NOTA";
+			mes "Los ^0000FFLight Steel^000000 los puedes forjar con mi aprendiz ^0000FFIrina^000000, por cada 10 Steel, ella te entregara 1 Light Steel";
+			close;
+
+			//LISTA DE VERIFICACION
+			Lista_Geffenia_verificacion:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes " ";
+			
+			//ITEM 1
+				if (countitem(.@item1) < .@cantidad1)
+				mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				if (countitem(.@item1) >= .@cantidad1)
+				mes "^0000FF" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				
+			
+			//ITEM 2
+				if (countitem(.@item2) < .@cantidad2)
+				mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+				if (countitem(.@item2) >= .@cantidad2)
+				mes "^0000FF" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+
+
+			//ITEM 3
+				if (countitem(.@item3) < .@cantidad3)
+				mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+				if (countitem(.@item3) >= .@cantidad3)
+				mes "^0000FF" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+			
+
+			//ITEM 4
+				if (countitem(.@item4) < .@cantidad4)
+				mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+				if (countitem(.@item4) >= .@cantidad4)
+				mes "^0000FF" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+			
+			//ITEM 5
+				if (countitem(.@item5) < .@cantidad5)
+				mes "^C02908" + countitem(.@item5) + "/"  + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").^000000";
+				if (countitem(.@item5) >= .@cantidad5)
+				mes "^0000FF" + countitem(.@item5) + "/"  + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").^000000";
+
+			//ITEM 6
+				if (countitem(.@item6) < .@cantidad6)
+				mes "^C02908" + countitem(.@item6) + "/"  + .@cantidad6 + " " + getitemname(.@item6) + "  ID: (" + .@item6 + ").^000000";
+				if (countitem(.@item6) >= .@cantidad6)
+				mes "^0000FF" + countitem(.@item6) + "/"  + .@cantidad6 + " " + getitemname(.@item6) + "  ID: (" + .@item6 + ").^000000";
+
+	
+				
+		
+			
+			close;
+
+		close;
+
+
+//Kiel 1
+case 4:
+	
+	//======================CONFIGURACIONES======================
+			set .@item1,615; 	//Oridecon Hammer
+			set .@cantidad1,15;
+			set .@item2,40124;	//Light steel
+			set .@cantidad2,10;
+			set .@item3,1005;	//Hammer of Blacksmith
+			set .@cantidad3,15;
+			set .@item4,988;	//Golden Anvil   
+			set .@cantidad4,1;
+			set .@item5,7317;	//Rusty Screw 
+			set .@cantidad5,100;
+			set .@recompemsa,40122;
+			set .nombrerecompensa$,"^0000FFKey of Kiel Dungeon 1^000000";
+			
+
+
+	//Limitante de una Llave
+			if (#Kiel1 == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Lo siento mucho ^0000FF" + strcharinfo(0) + "^000000, pero ya has forjado una " + .nombrerecompensa$ + " es esta cuenta.";
+			end;			
+			}
+		
+
+
+
+	// VERIFICACION DE ITEM Y ENTREGA DE RECOMPENSA
+			if (Kiel1 == 1) {
+			next;
+			if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4 || countitem(.@item5) < .@cantidad5) {
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que aun te falta algunos items.";
+			mes "Revisa de nuevo la ^0000FFLista de Materiales^000000 y vuelve cuando tengas todos los items.";
+			next;
+			goto Lista_Kiel1_verificacion;
+				}
+			next;	
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que haz traido todos los items necesarios, ahora mismo forjare tu llave.";
+			next;
+			progressbar "0xRRGGBB",4;
+			specialeffect 154;
+			mes "Listo aqui tienes tu " + .nombrerecompensa$ + ".";
+			mes " ";
+			mes "Que tengas un excelente viaje y los Dioses bendigan tu camino.";
+			next;
+			delitem .@item1,.@cantidad1;
+			delitem .@item2,.@cantidad2;
+			delitem .@item3,.@cantidad3;
+			delitem .@item4,.@cantidad4;
+			delitem .@item5,.@cantidad5;
+			getitem .@recompemsa,1;
+			set #Kiel1,1;
+			set Kiel1, 0;
+			close;
+			} //FIN == if (Kiel1 == 1)
+
+
+	//SI ACEPTAS LA QUEST
+			if (Kiel1 == 0) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien ^0000FF" + strcharinfo(0) + "^000000";
+			mes "Para forjar una " + .nombrerecompensa$ +" necesito que me traigas algunos materiales.";
+			next;
+			mes .nombreNPC$;
+			mes "Podras hacerlo?";
+			if(select("^FF0000Dejame pensalo^000000:^0000FFSi, Claro^000000") == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien, que los Dioses bendigan tu camino, hasta la proxima.";
+			end; } //FIN MENU
+			next;
+			mes .nombreNPC$;
+			set Kiel1,1;
+			mes "Esta es la ^0000FFLista de Materiales^000000 que necesito para poder forjarla.";
+			next;
+			goto Lista_Kiel1;
+			}   // === FIN  if (Kiel1 == 0)
+			
+			
+			
+			close;
+
+
+
+			//LISTA DE ITEMS
+			Lista_Kiel1:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+				mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+				mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+				mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+				mes "^C02908" + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").";
+				next;
+			mes .nombreNPC$;
+			mes "NOTA";
+			mes "Los ^0000FFLight Steel^000000 los puedes forjar con mi asistente ^0000FFIrina^000000, por cada 10 Steel, ella te entregara 1 Light Steel";
+			close;
+
+			//LISTA DE VERIFICACION
+			Lista_Kiel1_verificacion:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes " ";
+			
+			//ITEM 1
+				if (countitem(.@item1) < .@cantidad1)
+				mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				if (countitem(.@item1) >= .@cantidad1)
+				mes "^0000FF" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				
+			
+			//ITEM 2
+				if (countitem(.@item2) < .@cantidad2)
+				mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+				if (countitem(.@item2) >= .@cantidad2)
+				mes "^0000FF" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+
+
+			//ITEM 3
+				if (countitem(.@item3) < .@cantidad3)
+				mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+				if (countitem(.@item3) >= .@cantidad3)
+				mes "^0000FF" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+			
+
+			//ITEM 4
+				if (countitem(.@item4) < .@cantidad4)
+				mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+				if (countitem(.@item4) >= .@cantidad4)
+				mes "^0000FF" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+			
+			//ITEM 5
+				if (countitem(.@item5) < .@cantidad5)
+				mes "^C02908" + countitem(.@item5) + "/"  + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").^000000";
+				if (countitem(.@item5) >= .@cantidad5)
+				mes "^0000FF" + countitem(.@item5) + "/"  + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").^000000";
+
+			
+	
+				
+		
+			
+			close;
+
+		close;
+
+
+
+
+//Kiel 2
+case 5:
+	
+	//======================CONFIGURACIONES======================
+			set .@item1,615; 	//Oridecon Hammer
+			set .@cantidad1,15;
+			set .@item2,40124;	//Light steel
+			set .@cantidad2,10;
+			set .@item3,1005;	//Hammer of Blacksmith
+			set .@cantidad3,15;
+			set .@item4,988;	//Golden Anvil   
+			set .@cantidad4,1;
+			set .@item5,7317;	//Rusty Screw 
+			set .@cantidad5,100;
+			set .@item6,7167;	//	Strange Steel Piece
+			set .@cantidad6,100;
+			set .@recompemsa,40123;
+			set .nombrerecompensa$,"^0000FFKey of Kiel Dungeon 2^000000";
+			
+
+
+	//Limitante de una Llave
+			if (#Kiel2 == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Lo siento mucho ^0000FF" + strcharinfo(0) + "^000000, pero ya has forjado una " + .nombrerecompensa$ + " es esta cuenta.";
+			end;			
+			}
+		
+
+
+
+	// VERIFICACION DE ITEM Y ENTREGA DE RECOMPENSA
+			if (Kiel2 == 1) {
+			next;
+			if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4 || countitem(.@item5) < .@cantidad5 || countitem(.@item6) < .@cantidad6) {
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que aun te falta algunos items.";
+			mes "Revisa de nuevo la ^0000FFLista de Materiales^000000 y vuelve cuando tengas todos los items.";
+			next;
+			goto Lista_Kiel2_verificacion;
+				}
+			next;	
+			mes .nombreNPC$;
+			mes "Bienvenido de vuelta ^0000FF" + strcharinfo(0) + "^000000"; 
+			mes "Dejame revisar los items que traes.";
+			next;
+			mes .nombreNPC$;
+			mes "Veo que haz traido todos los items necesarios, ahora mismo forjare tu llave.";
+			next;
+			progressbar "0xRRGGBB",4;
+			specialeffect 154;
+			mes "Listo aqui tienes tu " + .nombrerecompensa$ + ".";
+			mes " ";
+			mes "Que tengas un excelente viaje y los Dioses bendigan tu camino.";
+			next;
+			delitem .@item1,.@cantidad1;
+			delitem .@item2,.@cantidad2;
+			delitem .@item3,.@cantidad3;
+			delitem .@item4,.@cantidad4;
+			delitem .@item5,.@cantidad5;
+			delitem .@item6,.@cantidad6;
+			getitem .@recompemsa,1;
+			set #Kiel2,1;
+			set Kiel2, 0;
+			close;
+			} //FIN == if (Kiel2 == 1)
+
+
+	//SI ACEPTAS LA QUEST
+			if (Kiel2 == 0) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien ^0000FF" + strcharinfo(0) + "^000000";
+			mes "Para forjar una " + .nombrerecompensa$ +" necesito que me traigas algunos materiales.";
+			next;
+			mes .nombreNPC$;
+			mes "Podras hacerlo?";
+			if(select("^FF0000Dejame pensalo^000000:^0000FFSi, Claro^000000") == 1) {
+			next;
+			mes .nombreNPC$;
+			mes "Muy bien, que los Dioses bendigan tu camino, hasta la proxima.";
+			end; } //FIN MENU
+			next;
+			mes .nombreNPC$;
+			set Kiel2,1;
+			mes "Esta es la ^0000FFLista de Materiales^000000 que necesito para poder forjarla.";
+			next;
+			goto Lista_Kiel2;
+			}   // === FIN  if (Kiel2 == 0)
+			
+			
+			
+			close;
+
+
+
+			//LISTA DE ITEMS
+			Lista_Kiel2:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+				mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+				mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+				mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+				mes "^C02908" + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").";
+				mes "^C02908" + .@cantidad6 + " " + getitemname(.@item6) + "  ID: (" + .@item6 + ").";
+				next;
+			mes .nombreNPC$;
+			mes "NOTA";
+			mes "Los ^0000FFLight Steel^000000 los puedes forjar con mi asistente ^0000FFIrina^000000, por cada 10 Steel, ella te entregara 1 Light Steel";
+			close;
+
+			//LISTA DE VERIFICACION
+			Lista_Kiel2_verificacion:
+				mes "^0000FF[Lista de Materiales]^000000";
+				mes " ";
+			
+			//ITEM 1
+				if (countitem(.@item1) < .@cantidad1)
+				mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				if (countitem(.@item1) >= .@cantidad1)
+				mes "^0000FF" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").^000000";
+				
+			
+			//ITEM 2
+				if (countitem(.@item2) < .@cantidad2)
+				mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+				if (countitem(.@item2) >= .@cantidad2)
+				mes "^0000FF" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").^000000";
+
+
+			//ITEM 3
+				if (countitem(.@item3) < .@cantidad3)
+				mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+				if (countitem(.@item3) >= .@cantidad3)
+				mes "^0000FF" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").^000000";
+			
+
+			//ITEM 4
+				if (countitem(.@item4) < .@cantidad4)
+				mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+				if (countitem(.@item4) >= .@cantidad4)
+				mes "^0000FF" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").^000000";
+			
+			//ITEM 5
+				if (countitem(.@item5) < .@cantidad5)
+				mes "^C02908" + countitem(.@item5) + "/"  + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").^000000";
+				if (countitem(.@item5) >= .@cantidad5)
+				mes "^0000FF" + countitem(.@item5) + "/"  + .@cantidad5 + " " + getitemname(.@item5) + "  ID: (" + .@item5 + ").^000000";
+
+			//ITEM 6
+				if (countitem(.@item6) < .@cantidad6)
+				mes "^C02908" + countitem(.@item6) + "/"  + .@cantidad6 + " " + getitemname(.@item6) + "  ID: (" + .@item6 + ").^000000";
+				if (countitem(.@item6) >= .@cantidad6)
+				mes "^0000FF" + countitem(.@item6) + "/"  + .@cantidad6 + " " + getitemname(.@item6) + "  ID: (" + .@item6 + ").^000000";
+
+	
+				
+		
+			
+			close;
+
+		close;
+
+
+
+
+
+
+Case 6:
+		Close;
+
+}
+
+
+
+
+
+	
+
+
+//CARTEL
+OnInit:
+	waitingroom "Herrero Maestro",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+prt_in,35,115,3	script	Irina	726,{
+setarray .@CoinID[0],999;
+
+
+//MENSAJE DE BIENVENIDA
+mes "Hola " + "^0000FF" + strcharinfo(0) + "^000000" + " mi nombre es ^0000FF" + "Irina." + "^000000";
+mes " ";
+mes "Te ayudare en la fabricacion de diferentes items";
+mes" ";
+next;
+
+
+
+//MENU
+switch(select("10 Steel => 1 Light Steel:Hammer of Blacksmith:Salir")) {   
+
+	case 1:    
+    
+		.@item = 999;
+		.@rate = 10;
+
+		.@countitem = countitem( .@item );
+		if (countitem( .@item ) <= 9){
+		mes "No tienes suficientes Steels";
+		close;
+		}
+		if (countitem( .@item ) >= .@rate){
+		mes "Por 10 Steel recibes 1 Light Steel .";
+		mes " ";
+		mes "Puedes convertir "+.@countitem+" "+getitemname( .@item )+" en "+( .@countitem / .@rate )+" Light Steel(s).";
+		next;
+		//if( .@countitem )
+		mes "Deseas convertir tu Steel en Light Steel?";
+			if( select( "Si","Cancelar" ) == 1 ){
+				next;
+				mes "Cuantos Light Steel deseas obtener?";
+			mes "Cantidad : 1 ~ "+(( countitem( .@item ))/ .@rate);
+			input .@Amount,0, (countitem( .@item )  );
+			if( .@Amount ){
+				delitem .@CoinID[.@i],.@Amount*.@rate;
+				getitem 40124,.@Amount;
+				next;
+				mes "Listo, Hemos convertido tus Light Steel";
+			}
+						
+			}
+		}
+	
+		break;
+
+
+
+case 2:    
+    
+		
+		if ( countitem(615) < 1 || countitem(986) < 1 || countitem(999) < 50 || countitem(998) < 20) {
+		next;
+		mes "[Irina]";
+		mes " ";
+		mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+		mes "^0000FF" + countitem(615) +"/1 " + getitemname(615) + "^000000.";
+		mes "^0000FF" + countitem(986) +"/1 " + getitemname(986) + "^000000.";
+		mes "^0000FF" + countitem(998) +"/20 " + getitemname(998) + "^000000.";
+		mes "^0000FF" + countitem(999) +"/50 " + getitemname(999) + "^000000.";
+		end;}
+	
+		next;
+		mes "[Irina]";
+		mes "Estas seguro de crearlos?";
+		if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+		next;
+		mes "[Irina]";
+		mes "Vuelve cuando gustes, ten un excelente dia.";
+		end; } //FIN MENU
+		
+		next;
+		progressbar "0xRRGGBB",3;
+		specialeffect 154;
+		delitem 615,1;
+		delitem 986,1;
+		delitem 998,20;
+		delitem 999,50;
+		getitem 1005,1;
+		
+		break;
+		
+
+
+case 3:     
+		close;
+
+
+
+
+} //FIN SWITCH
+
+
+
+end;
+
+
+OnInit:
+	waitingroom "Asistente Hefesto",0;
+	end;
+
+
+}
+
+
+
+
+
+
+
+
+

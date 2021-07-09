@@ -1,0 +1,131 @@
+iz_dun04,130,235,2	script	Puerta	111,{
+	if ($rachel_donate<5000){
+		mes "[Puerta]";
+		mes " ";
+		mes "Una criatura terrible habita detras de estas puertas.";
+		mes "Mientras Rachel permanezca cerrado, el sello no sera roto.";
+	end;
+	}
+
+			if($Izlude_kraken<1){
+				mes "[Puerta]";
+				mes " ";
+				mes "El sello de Rachel ha sido destrudio.";
+				mes "Ahora el sello que nos protege del Kraken, esta por romperse.";
+				next;
+				mes "[Puerta]";
+				mes " ";
+				mes "Para hacerlo deberan traer una cantidad de items, que deberan ofrecer en este templo.";
+				mes "200 " + getitemname(961);		//Conch    
+				mes "200 " + getitemname(950);		//Heart of Mermaid
+				mes "200 " + getitemname(1024);		//Squid Ink  
+				mes "200 " + getitemname(956);		//Gill     
+				mes "200 " + getitemname(951);		//Fin    
+				mes "200 " + getitemname(963);		//Sharp Scale
+				mes "200 " + getitemname(1054);		//Ancient Lips
+				mes "200 " + getitemname(960);		//Nipper  
+				set $Izlude_kraken,1;
+			end;
+			}
+
+
+			if($Izlude_kraken==1){
+			
+			
+				//if ($Conch>=5){
+				if ($Concha>=200 && $hom>=200 && $squid>=200 && $gill>=200 && $fin>=200 && $sharpsca>=200 && $ancientl>=200 && $nipperr>=nipper  ){
+						mes "[Puerta]";
+						mes " ";
+						mes "El sello fue destruido, una bestia poderosa deanbula por el Calabozo.";
+						close2;
+						warp "iz_dun05",142,21;
+					end;
+				}
+
+
+				mes "[Puerta]";
+				mes "El sello de Rachel ha sido destrudio ";
+				mes "La puerta que conecta a lo mas profundo de Izlude Dungeon, esta por abrirse, ofrecezcan estos items para abrirla.";
+				next;
+				mes "[Puerta]";
+				mes " ";
+				mes $Concha+"/200 " + getitemname(961);			//Conch    
+				mes $hom+"/200 " + getitemname(950);			//Heart of Mermaid
+				mes $squid+"/200 " + getitemname(1024);			//Squid Ink  
+				mes $gill+"/200 " + getitemname(956);			//Gill     
+				mes $fin+"/200 " + getitemname(951);				//Fin    
+				mes $sharpsca+"/200 " + getitemname(963);		//Sharp Scale
+				mes $ancientl+"/200 " + getitemname(1054);		//Ancient Lips
+				mes $nipperr+"/200 " + getitemname(960);			//Nipper  		
+				
+			switch(select("Salir:Donar items")){
+			case 1:
+				close;
+				
+			case 2:
+					if ($Concha<200){
+						set $Concha,$Concha + countitem(961);
+						delitem 961,countitem(961);
+					}
+	
+					if ($hom<200){
+						set $hom,$hom + countitem(950);
+						delitem 950,countitem(950);
+					}
+					
+					if ($squid<200){
+						set $squid,$squid + countitem(1024);
+						delitem 1024,countitem(1024);
+					}
+					
+					if ($gill<200){
+						set $gill,$gill + countitem(956);
+						delitem 956,countitem(956);
+					}
+					
+					
+					if ($fin<200){
+						set $fin,$fin + countitem(951);
+						delitem 951,countitem(951);
+					}
+					
+					
+					if ($sharpsca<200){
+						set $sharpsca,$sharpsca + countitem(963);
+						delitem 963,countitem(963);
+					}
+					
+					
+					if ($ancientl<200){
+						set $ancientl,$ancientl + countitem(1054);
+						delitem 1054,countitem(1054);
+					}
+					
+					
+					if ($nipperr<200){
+						set $nipperr,$nipperr + countitem(960);
+						delitem 960,countitem(960);
+					}
+			
+			
+			
+			close;
+			}
+			end;
+			}
+
+
+
+
+
+
+
+
+
+
+end;
+}
+
+
+
+iz_dun05,142,16,0	warp	krakenquest#01	2,3,iz_dun04,129,232

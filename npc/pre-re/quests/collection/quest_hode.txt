@@ -1,0 +1,241 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Added Monster Killing quests.
+//= Repeatable EXP Quest (Earthworm Peelings)
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+moc_fild17,208,346,5	script	Shone#Hode_Hunt	707,{
+	if (checkquest(60104) != -1) {
+		if (checkquest(60104,HUNTING) != 2 ) {
+			mes "[Shone]";
+			mes "Has terminado de cazar los 50 Hodes?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Shone]";
+				mes "Hmm, no creo que hayas cazado a 50 todavia...";
+				close;
+			case 2:
+				mes "[Shone]";
+				mes "Recuerda, necesito ayuda para cazar Hodes asi que ve y caza 50 de esos.";
+				close;
+			case 3:
+				mes "[Shone]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Shone]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60104;
+					close;
+				case 2:
+					mes "[Shone]";
+					mes "Por favor mata 50 Hodes.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Shone]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 31550,2250;
+			erasequest 60104;
+			close;
+		}
+	}
+	if (checkquest(60105) != -1) {
+		if (checkquest(60105,HUNTING) != 2 ) {
+			mes "[Shone]";
+			mes "Has terminado de cazar los 100 Hodes?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Shone]";
+				mes "Hmm, no creo que hayas cazado a 100 todavia...";
+				close;
+			case 2:
+				mes "[Shone]";
+				mes "Recuerda, necesito ayuda para cazar Hodes asi que ve y caza a 100 de esos.";
+				close;
+			case 3:
+				mes "[Shone]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Shone]";
+					mes "Ok, entonces vuelve aqui si cambias de parecer.";
+					erasequest 60105;
+					close;
+				case 2:
+					mes "[Shone]";
+					mes "Por favor mata 100 Hodes.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Shone]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 31550,2250;
+			getexp 31550,2250;
+			erasequest 60105;
+			close;
+		}
+	}
+	if (checkquest(60106) != -1) {
+		if (checkquest(60106,HUNTING) != 2 ) {
+			mes "[Shone]";
+			mes "Has terminado de cazar los 150 Hodes?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Shone]";
+				mes "Hmm, no creo que hayas cazado a 150 todavia...";
+				close;
+			case 2:
+				mes "[Shone]";
+				mes "Recuerda, necesito ayuda para cazar Hodes asi que ve y caza 150 de esos.";
+				close;
+			case 3:
+				mes "[Shone]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Shone]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60106;
+					close;
+				case 2:
+					mes "[Shone]";
+					mes "Por favor mata 150 Hodes.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Shone]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 31550,2250;
+			getexp 31550,2250;
+			getexp 31550,2250;
+			erasequest 60106;
+			close;
+		}
+	}
+	//for minimum level
+	if (BaseLevel > 24) {
+		//for maximum level
+		if (BaseLevel < 61) {
+			mes "[Shone]";
+			mes "Espera!!! Me puedes ver?";
+			mes "Oh bueno, todavia no domino mis habilidades.";
+			next;
+			mes "[Shone]";
+			mes "Oye, crees que puedes ayudarme??";
+			next;
+			switch(select("Seguro:No")) {
+			case 1:
+				mes "[Shone]";
+				mes "Muchas gracias, amigo!";
+				next;
+				switch(select("Reunir Items:Cazar Hodes:Cancel")) {
+				case 1:
+					// Item turn in
+					mes "[Shone]";
+					mes "Estoy tratando de reunir ^00CE0025 Earthworm Peelings^000000.";
+					mes "Te recompensare si me ayudas.";
+					next;
+					switch(select("Tengo 25 Earthworm Peelings:Que es lo que ha sucedido?")) {
+					case 1:
+						/*
+						if (checkweight(502,10) == 0) {
+							mes "[Shone]";
+							mes "Hey!!!, parece que el peso sobre";
+							mes "tu espalda te aplastara";
+							mes "Vuelve!!! despues de perder algo de peso.";
+							close;
+						}
+						*/
+						if (countitem(1055) > 24) {
+							mes "Muchas gracias por los 25 Earthworm";
+							mes "Peelings!";
+							mes "Aqui tienes la recompensa que te prometi, Espero que tomes esta sabiduria que te he transmitido y la compartas con otros.";
+							delitem 1055,25; //Earthworm_Peeling
+							getexp 19719,14060;
+							//getitem 502,10; //Orange_Potion
+							close;
+						}
+						else {
+							mes "[Shone]";
+							mes "No veo que tengas ningun ^00CE00Earthworm Peerlings^000000.";
+							mes "Estas tratando de estafarme?";
+							close;
+						}
+					case 2:
+						mes "[Shone]";
+						mes "Necesito ^00CE0025 Earthworm Peelings^000000.";
+						close;
+					}
+				case 2:
+					// Kill Count Quest
+					mes "[Shone]";
+					mes "Ahh, creo que puedes ayudarme cazando algunos Hodes.";
+					mes "Cuantos quieres cazar?";
+					next;
+					switch(select("50 Hodes:100 Hodes:150 Hodes")) {
+					case 1:
+						mes "[Shone]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60104;
+						close;
+					case 2:
+						mes "[Shone]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60105;
+						close;
+					case 3:
+						mes "[Shone]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60106;
+						close;
+					}
+				case 3:
+					mes "[Shone]";
+					mes "Si cambias de parecer, por favor, regresa.";
+					close;
+				}
+			case 2:
+				mes "[Shone]";
+				mes "Si cambias de parecer, por favor, regresa.";
+				close;
+			}
+		}
+		else {
+			mes "[Shone]";
+			mes "Eres demasiado fuerte para luchar contra estas cosas!!!";
+			close;
+		}
+	}
+	else {
+		mes "[Shone]";
+		mes "necesitas algo de ayuda, pero yo no puedo proporcionartela.";
+		mes "Vuelve cuando seas mas fuerte y hayas conseguido mas habilidades.";
+		close;
+	}
+}

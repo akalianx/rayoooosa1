@@ -1,0 +1,62 @@
+
+
+moc_para01,43,19,3	script	Haziel	679,{
+	mes "[Haziel]","Saludos, con que elemento deseas encantar tu arma?";
+	if(@End_Ele) .@Last_Ele$ = "Last Element - "+.Element$[@End_Ele]+":"; else .@Last_Ele$ = ":";
+	select(.@Last_Ele$+.Element$[1]+":"+.Element$[2]+":"+.Element$[3]+":"+.Element$[4]);
+	//select(.@Last_Ele$+.Element$[1]+":"+.Element$[2]+":"+.Element$[3]+":"+.Element$[4]+":Converters");
+	if(@menu == 6) {callshop "conv_shop",1; end;}
+	if(@menu != 1) .@Choice = @menu-1; else .@Choice = @End_Ele;
+	if(.ReqType) .@Req_Item$ = " y un ^0055FF" + getitemname(.StoneReq[.@Choice]) + "^000000";
+	clear;
+	mes "[Haziel]","Deseas encantar tu arma con el elemento ^0055FF" + .Element$[.@Choice] + "^000000?. Para ello se requeire pagar ^0055FF" + .Price + "^000000 zeny" + .@Req_Item$ + ".","Deseas continuar?";
+	if(select("Si, por favor:No, en otro momento") == 1) {
+		if( .ReqType ) {
+			if(countitem(.StoneReq[.@Choice]) == 0 || Zeny < .Price) {
+				clear;
+				mes "[Haziel]","No tienes el zeny o items requeridos. Vuelve cuando los tengas.";
+				close;
+			}
+		}
+		else if( Zeny < .Price ) {
+			clear;
+			mes "[Haziel]","No tienes el zeny o items requeridos. Vuelve cuando los tengas.";
+			close;
+		}
+		clear;
+		mes "[Haziel]","Muy bien, aqui vamos!";
+		close2;
+		@End_Ele = .@Choice;
+		sc_start .EndowSC[@End_Ele],.Ticks,0;
+		Zeny = Zeny - .Price;
+		if (.ReqType) delitem .StoneReq[.@Choice],1;
+		end;
+	}
+	else {
+		clear;
+		mes "[Haziel]","Saludos, nos vemos en otra ocasion.";
+		close;
+	}
+
+OnInit:
+waitingroom "Endow Master",0;
+	.Price = 5000;			// Price for endowment.
+	.Ticks = 1800000;		// Time in ticks for duration of buff.
+	.ReqType = 1;			// Requirements. 0 = None | 1 = Elemental Stones | 2 = Greater Elemental Stones
+	.ConvPrice = 5000;		// Price for Elemental Converters
+	for (.@ConvID = 12114;.@ConvID <= 12117;.@ConvID++) {
+		npcshopadditem "conv_shop",.@ConvID,.ConvPrice;
+	}
+	npcshopdelitem "conv_shop",909;
+	setarray .Element$[1],"Water","Wind","Fire","Earth";
+	setarray .EndowSC[1],SC_WATERWEAPON,SC_WINDWEAPON,SC_FIREWEAPON,SC_EARTHWEAPON;
+	switch (.ReqType) {
+		case 1: setarray .StoneReq[1],991,992,990,993; end;
+		case 2: setarray .StoneReq[1],995,996,994,997; end;
+	}
+
+
+
+}
+
+-	shop	conv_shop	-1,909:-1.

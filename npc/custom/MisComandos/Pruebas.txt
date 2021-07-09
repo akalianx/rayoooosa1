@@ -1,0 +1,180 @@
+arena_5,159,104,3	script	Mikael	681 ,{
+//setarray .@CoinID[0],32000;
+set .nombreNPC$,"^0000FF[MIkael]^000000";
+
+//MENSAJE DE BIENVENIDA
+mes "Hola " + "^A20103" + strcharinfo(0) + "^000000" + " mi nombre es ^A20103" + "Mikael." + "^000000";
+mes " ";
+mes "Aqui podras intercambiar diferentes tipos items como piedras, medallas y mas...";
+mes" ";
+next;
+
+
+
+//MENU
+
+switch(select("Cambiar Valor Badge:Cambiar Bravery Badge:Salir")) {   
+	case 1:    
+	.@item = 7829;
+	.@rate = 1;
+	.@recompensa = 40052;
+
+		.@countitem = countitem( .@item );
+		if (countitem( .@item ) < .@rate){
+		mes .nombreNPC$;
+		mes " ";
+		mes "No tienes suficientes "+getitemname( .@item );
+		close;
+		}
+		if (countitem( .@item ) >= .@rate){
+		mes .nombreNPC$;
+		mes " ";
+		mes "Por " +.@rate+" " +getitemname( .@item )+ " Recibes 1 "+getitemname(.@recompensa);
+		mes " ";
+		mes "Puedes convertir "+.@countitem+" "+getitemname( .@item )+" en "+( .@countitem / .@rate )+" "+getitemname(.@recompensa);
+		next;
+		//if( .@countitem )
+		mes .nombreNPC$;
+		mes " ";
+		mes "Deseas convertir tus "+getitemname( .@item ) + " en " +getitemname(.@recompensa)+"?";
+			if( select( "Si","Cancelar" ) == 1 ){
+				next;
+				mes .nombreNPC$;
+				mes " ";
+				mes "Cuantas "+getitemname(.@recompensa)+" deseas obtener?";
+				mes "Cantidad : 1 ~ "+(( countitem( .@item ))/ .@rate);
+			input .@Amount,0, (countitem( .@item )  );
+			if( .@Amount ){
+				delitem .@item,.@Amount*.@rate;
+				getitem .@recompensa,.@Amount;
+				next;
+				mes .nombreNPC$;
+				mes " ";
+				mes "Listo, Hemos convertido tus "+getitemname( .@item );
+			}
+				
+				
+				
+				/*
+				delitem .@item,.@countitem;
+				#CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+				mes "Done";
+				*/
+			}
+		}
+	
+		break;
+
+
+
+
+case 2:     
+		.@item = 7828;
+		.@rate = 1;
+		.@recompensa = 40052;
+
+		.@countitem = countitem( .@item );
+		if (countitem( .@item ) < .@rate){
+		mes .nombreNPC$;
+		mes " ";
+		mes "No tienes suficientes "+getitemname( .@item );
+		close;
+		}
+		if (countitem( .@item ) >= .@rate){
+		mes .nombreNPC$;
+		mes " ";
+		mes "Por " +.@rate+" " +getitemname( .@item )+ " Recibes 1 "+getitemname(.@recompensa);
+		mes " ";
+		mes "Puedes convertir "+.@countitem+" "+getitemname( .@item )+" en "+( .@countitem / .@rate )+" "+getitemname(.@recompensa);
+		next;
+		//if( .@countitem )
+		mes .nombreNPC$;
+		mes " ";
+		mes "Deseas convertir tus "+getitemname( .@item ) + " en " +getitemname(.@recompensa)+"?";
+			if( select( "Si","Cancelar" ) == 1 ){
+				next;
+				mes .nombreNPC$;
+				mes " ";
+				mes "Cuantas "+getitemname(.@recompensa)+" deseas obtener?";
+			mes "Cantidad : 1 ~ "+(( countitem( .@item ))/ .@rate);
+			input .@Amount,0, (countitem( .@item )  );
+			if( .@Amount ){
+				delitem .@item,.@Amount*.@rate;
+				getitem 40052,.@Amount;
+				next;
+				mes .nombreNPC$;
+				mes " ";
+				mes "Listo, Hemos convertido tus "+getitemname( .@item );
+			}
+				
+				
+				
+				/*
+				delitem .@item,.@countitem;
+				#CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+				mes "Done";
+				*/
+			}
+		}
+	
+		break;
+
+case 3: close; break;
+
+
+
+
+} //FIN SWITCH
+
+
+
+end;
+
+
+OnInit:
+	waitingroom "Intercambiador",0;
+	end;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+arena_5,158,118,4	script	npc	90,{
+mes "hola";
+skill 17,5,3;
+end;
+}
+
+/*
+-	script	skillganada	-1,{
+
+OnPCLoginEvent:
+sleep 1000;
+if(skillfire==1){
+skill 17,3,0;
+end;
+}
+
+end;
+}
+
+*/

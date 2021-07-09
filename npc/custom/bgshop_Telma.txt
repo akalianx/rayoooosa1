@@ -1,0 +1,344 @@
+//===== eAthena Script =======================================
+//= BattleGround Supplier
+//===== By: ==================================================
+//= Brian
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= eAthena SVN (+ source edits)
+//===== Description: =========================================
+//= Sells consumables that can ONLY be used on 'bg_consume' maps.
+//===== Additional Comments: =================================
+//= http://www.eathena.ws/board/index.php?showtopic=268355
+//= 1. To use, create a char named "Battleground"
+//= 2. edit the #define BG_CHARID in battleground.h
+//= 3. edit the 'set .@BG_CHARID' in this file (line 43)
+//============================================================
+
+
+//league,160,148,3	script	Telma	701,{
+bat_room,160,146,3	script	Telma	701,{
+	mes "[Telma]";
+	mes "Welcome, mighty warrior.";
+	mes "Do you need supplies for your battles?";
+	mes "I can exchange supplies for your badges...";
+	next;
+	
+	switch(select("50 Condensed White Potion:50 Blue Potion:5 Poison Bottle:10 Fire Bottle:10 Acid Bottle:30 Plant Bottle:30 Marine Sphere Bottle:10 Glistening Coat:30 Yellow Gemstone:40 Red Gemstone:60 Blue Gemstone:3 Speed Potion:15 Cobweb:1 Steamed Tongue (STR+10):1 Dragon Breath Cocktail(INT+10):1 Hwergelmir's Tonic (DEX+10):1 Steamed Desert Scorpions (AGI+10):1 Immortal Stew (VIT+10):1 Cooked Nine Tail's Tails (LUK+10)")) {
+		case 1:		callsub S_BuyConsumableBG,547,50;	// Condensed White Potion
+		case 2:		callsub S_BuyConsumableBG,505,50;	// Blue Potion
+		case 3:		callsub S_BuyConsumableBG,678,5;	// Poison Bottle
+		case 4:		callsub S_BuyConsumableBG,7135,10;	// Fire Bottle
+		case 5:		callsub S_BuyConsumableBG,7136,10;	// Acid Bottle
+		case 6:		callsub S_BuyConsumableBG,7137,30;	// Plant Bottle
+		case 7:		callsub S_BuyConsumableBG,7138,30;	// Marine Sphere Bottle
+		case 8:		callsub S_BuyConsumableBG,7139,10;	// Glistening Coat
+		case 9:		callsub S_BuyConsumableBG,715,30;	// Yellow Gemstone
+		case 10:	callsub S_BuyConsumableBG,716,40;	// Red Gemstone
+		case 11:	callsub S_BuyConsumableBG,717,60;	// Blue Gemstone
+		case 12:	callsub S_BuyConsumableBG,12016,3;	// Speed Potion
+		case 13:	callsub S_BuyConsumableBG,1025,15;	// Cobweb
+		case 14:	callsub S_BuyConsumableBG,12075,1;	// Steamed Tongue (STR+10)
+		case 15:	callsub S_BuyConsumableBG,12080,1;	// Dragon Breath Cocktail(INT+10)
+		case 16:	callsub S_BuyConsumableBG,12095,1;	// Hwergelmir's Tonic (DEX+10)
+		case 17:	callsub S_BuyConsumableBG,12090,1;	// Steamed Desert Scorpions (AGI+10)
+		case 18:	callsub S_BuyConsumableBG,12085,1;	// Immortal Stew (VIT+10)
+		case 19:	callsub S_BuyConsumableBG,12100,1;	// Cooked Nine Tail's Tails (LUK+10)
+	}
+	end;
+
+S_BuyConsumableBG:
+	set .@item_id, getarg(0);
+	set .@amt, getarg(1);
+	
+	mes "[Telma]";
+	mes "Do you want it for?...";
+	next;
+	if (select("~ Battleground:~ War of Emperium") == 1) .@bg_item = 1;
+	
+	
+//CANTIDADES DE MEDALLAS
+if (.@bg_item==1) {
+		set .medallas,1;}
+	else{
+		set .medallas,3;}
+		
+if (  .@item_id == 12100 || .@item_id == 12085 || .@item_id == 12090 || .@item_id == 12095 || .@item_id == 12080 || .@item_id == 12075  ) {
+		set .cantCobrar,5;}
+	else{
+		set .cantCobrar,1;}
+
+
+
+
+
+	
+	
+	
+	
+	
+	mes "[Telma]";
+	mes "How many sets of ^0000FF"+ .@amt +" "+ getitemname(.@item_id) +"s^000000 do you want?";
+	mes "1 = "+ .@amt   +" supplies = " +(.medallas*.cantCobrar)+ " badge";
+	mes "2 = "+ .@amt*2 +" supplies = " +(.medallas*.cantCobrar*2)+ " badges";
+	mes "3 = "+ .@amt*3 +" supplies = " +(.medallas*.cantCobrar*3)+ " badges";
+	mes "etc..";
+	next;
+	input .@sets;
+	mes "[Telma]";
+	if (.@sets < 1) {
+		mes "Enter a positive amount, greater than zero.";
+		close;
+	}
+	mes "So you want ^0000FF"+ (.@amt*.@sets) +" "+ getitemname(.@item_id) +"s^000000...";
+	mes "Remember these can only be used in "+((.@item_id)?"BattleGround":"WoE Maps");
+	mes "It will cost you "+ .@sets*.medallas*.cantCobrar +" badge(s)...";
+	next;
+	//switch(select("Give her "+ .@sets +" Bravery Badge(s):Give her "+ .@sets +" Valor Badge(s):Give her "+ (3*.@sets) +" Heroism Badges")) {
+	switch(select("Give her "+ .@sets*.medallas*.cantCobrar +" Bravery Badge(s):Give her "+ .@sets*.medallas*.cantCobrar +" Valor Badge(s)")) {
+		case 1: set .@badge,7828; set .@cost,.medallas*.cantCobrar; break;
+		case 2: set .@badge,7829; set .@cost,.medallas*.cantCobrar; break;
+		//case 3: set .@badge,7773; set .@cost,3; break;
+	}
+	.@bgchar = getBattleFlag("bg_reserved_char_id");
+	.@woechar = getBattleFlag("woe_reserved_char_id");
+	mes "[Telma]";
+	if (countitem(.@badge) < (.@cost*.@sets)) {
+		mes "You do not have enough ^FF0000"+getitemname(.@badge)+"s^000000 to buy "+(.@amt*.@sets)+" "+getitemname(.@item_id)+"s.";
+	} else if (!checkweight(.@item_id, .@amt*.@sets)) {
+		mes "You are overweight or have too many items in your inventory.";
+	} else {
+		delitem .@badge, .@cost*.@sets;
+		if (.@bg_item) // Battleground's Consumables
+		
+		//getitembound2 "<item name>",<amount>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>{,<account ID>};	
+		
+			getitem2 .@item_id,(.@amt*.@sets),1,0,0, 254, 0, .@bgchar & 0xFFFF, .@bgchar >> 0x10;
+		else
+			getitem2 .@item_id,(.@amt*.@sets),1,0,0, 254, 0, .@woechar & 0xFFFF, .@woechar >> 0x10;
+		mes "Here are your: ^0000FF"+(.@amt*.@sets)+" "+getitemname(.@item_id)+"s^000000!";
+		mes "Remember they can only be used in "+((.@item_id)?"BattleGround":"WoE Maps");
+	}
+	close;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+league,148,167,3	script	Telma	701,{
+
+	mes "[Telma]";
+	mes "Welcome, mighty warrior.";
+	mes "Do you need supplies for your battles?";
+	mes "I can exchange supplies for your badges...";
+	next;
+	
+	switch(select("150 Condensed White Potion:90 Blue Potion:3 Poison Bottle:30 Fire Bottle:30 Acid Bottle:30 Plant Bottle:30 Marine Sphere Bottle:15 Glistening Coat:50 Yellow Gemstone:50 Red Gemstone:100 Blue Gemstone:5 Speed Potion:20 Cobweb")) {
+		case 1:		callsub S_BuyConsumableBG,547,1;	// Condensed White Potion
+		case 2:		callsub S_BuyConsumableBG,505,1;	// Blue Potion
+		case 3:		callsub S_BuyConsumableBG,678,3;	// Poison Bottle
+		case 4:		callsub S_BuyConsumableBG,7135,30;	// Fire Bottle
+		case 5:		callsub S_BuyConsumableBG,7136,30;	// Acid Bottle
+		case 6:		callsub S_BuyConsumableBG,7137,30;	// Plant Bottle
+		case 7:		callsub S_BuyConsumableBG,7138,30;	// Marine Sphere Bottle
+		case 8:		callsub S_BuyConsumableBG,7139,15;	// Glistening Coat
+		case 9:		callsub S_BuyConsumableBG,715,50;	// Yellow Gemstone
+		case 10:	callsub S_BuyConsumableBG,716,50;	// Red Gemstone
+		case 11:	callsub S_BuyConsumableBG,717,100;	// Blue Gemstone
+		case 12:	callsub S_BuyConsumableBG,12016,5;	// Speed Potion
+		case 13:	callsub S_BuyConsumableBG,1025,20;	// Cobweb
+	}
+	end;
+
+S_BuyConsumableBG:
+	set .@item_id, getarg(0);
+	set .@amt, getarg(1);
+	
+	mes "[Telma]";
+	mes "Do you want it for?...";
+	next;
+	if (select("~ Battleground:~ War of Emperium") == 1) .@bg_item = 1;
+	mes "[Telma]";
+	mes "How many sets of ^0000FF"+ .@amt +" "+ getitemname(.@item_id) +"s^000000 do you want?";
+	mes "1 = "+ .@amt   +" supplies = 1 badge";
+	mes "2 = "+ .@amt*2 +" supplies = 2 badges";
+	mes "3 = "+ .@amt*3 +" supplies = 3 badges";
+	mes "etc..";
+	next;
+	input .@sets;
+	mes "[Telma]";
+	if (.@sets < 1) {
+		mes "Enter a positive amount, greater than zero.";
+		close;
+	}
+	mes "So you want ^0000FF"+ (.@amt*.@sets) +" "+ getitemname(.@item_id) +"s^000000...";
+	mes "Remember these can only be used in "+((.@item_id)?"BattleGround":"WoE Maps");
+	mes "It will cost you "+ .@sets +" badge(s)...";
+	next;
+	switch(select("Give her "+ .@sets +" Bravery Badge(s):Give her "+ .@sets +" Valor Badge(s):Give her "+ (3*.@sets) +" Heroism Badges")) {
+		case 1: set .@badge,7828; set .@cost,1; break;
+		case 2: set .@badge,7829; set .@cost,1; break;
+		case 3: set .@badge,7773; set .@cost,3; break;
+	}
+	.@bgchar = getBattleFlag("bg_reserved_char_id");
+	.@woechar = getBattleFlag("woe_reserved_char_id");
+	mes "[Telma]";
+	if (countitem(.@badge) < (.@cost*.@sets)) {
+		mes "You do not have enough ^FF0000"+getitemname(.@badge)+"s^000000 to buy "+(.@amt*.@sets)+" "+getitemname(.@item_id)+"s.";
+	} else if (!checkweight(.@item_id, .@amt*.@sets)) {
+		mes "You are overweight or have too many items in your inventory.";
+	} else {
+		delitem .@badge, .@cost*.@sets;
+		if (.@bg_item) // Battleground's Consumables
+			getitem2 .@item_id,(.@amt*.@sets),1,0,0, 254, 0, .@bgchar & 0xFFFF, .@bgchar >> 0x10;
+		else
+			getitem2 .@item_id,(.@amt*.@sets),1,0,0, 254, 0, .@woechar & 0xFFFF, .@woechar >> 0x10;
+		mes "Here are your: ^0000FF"+(.@amt*.@sets)+" "+getitemname(.@item_id)+"s^000000!";
+		mes "Remember they can only be used in "+((.@item_id)?"BattleGround":"WoE Maps");
+	}
+	close;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+bat_room,160,147,3	script	Telma	701,{
+	mes "[Telma]";
+	mes "Welcome, mighty warrior.";
+	mes "Do you need supplies for your battles?";
+	mes "I can exchange supplies for your badges...";
+	next;
+	
+	switch(select("50 BG Condensed White Potion:30 BG Blue Potion:10 BG Speed Potion:10 BG Concentration Potion:10 BG Awakening Potion:10 BG Berserk Potion:10 Plant Bottle:10 Marine Sphere Bottle:10 Yellow Gemstone:10 Red Gemstone:40 Blue Gemstone:10 Cobweb:10 Witched Starsand:5 Blue Herb:20 Poison Spore:20 stem:5 Fabric:5 Immortal Heart:5 Zenorc's Fang:5 Heart of Mermaid:3 Karvodailnirol:5 Authoritative Badge:5 Aloe Leaflet")) {
+		case 1:		callsub S_BuyConsumableBG,40046,50;	// 50 BG Condensed White Potion
+		case 2:		callsub S_BuyConsumableBG,40048,30;	// 30 BG Blue Potion
+		case 3:		callsub S_BuyConsumableBG,40053,10;	// 10 BG Speed Potion
+		case 4:		callsub S_BuyConsumableBG,40057,10;	// 10 BG Concentration Potion
+		case 5:		callsub S_BuyConsumableBG,40055,10;	// 10 BG Awakening Potion
+		case 6:		callsub S_BuyConsumableBG,40056,10;	// 10 BG Berserk Potion
+		case 7:		callsub S_BuyConsumableBG,7137,10;	// 10 Plant Bottle
+		case 8:		callsub S_BuyConsumableBG,7138,10;	// 10 Marine Sphere Bottle
+		case 9:		callsub S_BuyConsumableBG,715,10;	// 10 Yellow Gemstone
+		case 10:	callsub S_BuyConsumableBG,716,10;	// 10 Red Gemstone
+		case 11:	callsub S_BuyConsumableBG,717,40;	// 40 Blue Gemstone
+		case 12:	callsub S_BuyConsumableBG,1025,10;	// 10 Cobweb
+		case 13:	callsub S_BuyConsumableBG,1061,10;	// 10 Witched Starsand 
+		case 14:	callsub S_BuyConsumableBG,510,5;	// 5 Blue Herb 
+		case 15:	callsub S_BuyConsumableBG,7033,20;	// 20 Poison Spore
+		case 16:	callsub S_BuyConsumableBG,905,20;	// 20 stem
+		case 17:	callsub S_BuyConsumableBG,1059,5;	// 5 fabric
+		case 18:	callsub S_BuyConsumableBG,929,5;	// 5 Immortal Heart 
+		case 19:	callsub S_BuyConsumableBG,1044,5;	// 5 Zenorc's Fang
+		case 20:	callsub S_BuyConsumableBG,950,5;	// 5 Heart of Mermaid
+		case 21:	callsub S_BuyConsumableBG,972,3;	// 3 Karvodailnirol    
+		case 22:	callsub S_BuyConsumableBG,662,3;	// 5 Authoritative Badge 
+		case 23:	callsub S_BuyConsumableBG,521,5;	// 5 Aloe Leaflet 
+		
+		
+		
+
+//		case 7:		callsub S_BuyConsumableBG,40058,5;	// 5 BG Box of Thunder
+//		case 8:		callsub S_BuyConsumableBG,40059,5;	// 5 BG Box of Resentment
+//		case 9:		callsub S_BuyConsumableBG,40060,5;	// 5 Box of Drowsiness
+//		case 3:		callsub S_BuyConsumableBG,678,3;	// Poison Bottle
+//		case 4:		callsub S_BuyConsumableBG,7135,30;	// Fire Bottle
+//		case 5:		callsub S_BuyConsumableBG,7136,30;	// Acid Bottle
+//		case 6:		callsub S_BuyConsumableBG,7137,30;	// Plant Bottle
+//		case 7:		callsub S_BuyConsumableBG,7138,30;	// Marine Sphere Bottle
+//		case 8:		callsub S_BuyConsumableBG,7139,15;	// Glistening Coat
+//		case 9:		callsub S_BuyConsumableBG,715,50;	// Yellow Gemstone
+//		case 10:	callsub S_BuyConsumableBG,716,50;	// Red Gemstone
+//		case 11:	callsub S_BuyConsumableBG,717,100;	// Blue Gemstone
+//		case 12:	callsub S_BuyConsumableBG,12016,5;	// Speed Potion
+//		case 13:	callsub S_BuyConsumableBG,1025,20;	// Cobweb
+	}
+	end;
+
+
+
+S_BuyConsumableBG:
+//	set .@BG_CHARID, 150666; // character named "Battleground"
+S_BuyConsumable:
+	set .@item_id, getarg(0);
+	set .@amt, getarg(1);
+	
+	mes "[Telma]";
+	mes "How many sets of ^0000FF"+ .@amt +" "+ getitemname(.@item_id) +"s^000000 do you want?";
+	mes "1 = "+ .@amt   +" supplies = 1 badge";
+	mes "2 = "+ .@amt*2 +" supplies = 2 badges";
+	mes "3 = "+ .@amt*3 +" supplies = 3 badges";
+	mes "etc..";
+	next;
+	input .@sets;
+	mes "[Telma]";
+	if (.@sets < 1) {
+		mes "Enter a positive amount, greater than zero.";
+		close;
+	}
+	mes "So you want ^0000FF"+ (.@amt*.@sets) +" "+ getitemname(.@item_id) +"s^000000...";
+	if (.@BG_CHARID) mes "Remember these can only be used in Battlegrounds.";
+	mes "It will cost you "+ .@sets +" badge(s)...";
+	next;
+	switch(select("Give her "+ .@sets +" Bravery Badge(s):Give her "+ .@sets +" Valor Badge(s)")) {
+		case 1: set .@badge,7828; set .@cost,1; break;
+		case 2: set .@badge,7829; set .@cost,1; break;
+		//case 3: set .@badge,7773; set .@cost,3; break;
+	}
+	
+	mes "[Telma]";
+	if (countitem(.@badge) < (.@cost*.@sets)) {
+		mes "You do not have enough ^FF0000"+getitemname(.@badge)+"s^000000 to buy "+(.@amt*.@sets)+" "+getitemname(.@item_id)+"s.";
+	} else if (!checkweight(.@item_id, .@amt*.@sets)) {
+		mes "You are overweight or have too many items in your inventory.";
+	} else {
+		delitem .@badge, .@cost*.@sets;
+		if (.@BG_CHARID) { // Battleground's Consumables
+			getitem2 .@item_id,(.@amt*.@sets),1,0,0, 254, 0, .@BG_CHARID & 0xFFFF, .@BG_CHARID >> 0x10;
+		} else {
+			getitem .@item_id,(.@amt*.@sets);
+		}
+		mes "Here are your: ^0000FF"+(.@amt*.@sets)+" "+getitemname(.@item_id)+"s^000000!";
+		if (.@BG_CHARID) mes "Remember, they can only be used in Battlegrounds.";
+	}
+	close;
+}
+ 
+*/
+
+
+
+bat_c01	mapflag	bg_consume﻿﻿
+bat_c02	mapflag	bg_consume﻿﻿
+bat_c03	mapflag	bg_consume﻿﻿
+bat_b01	mapflag	bg_consume﻿﻿
+bat_b02	mapflag	bg_consume﻿﻿
+bat_a01	mapflag	bg_consume﻿﻿
+bat_a02	mapflag	bg_consume﻿﻿

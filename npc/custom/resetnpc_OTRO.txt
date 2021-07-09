@@ -1,0 +1,809 @@
+first_cas01,71,106,3	script	Reset Girl	124,{
+set DelayReset,864000;
+
+if(limte_de_reset5==3){
+mes "[Reset Girl]";
+mes " ";
+mes "Ya has usado todos tus resets disponibles.";
+end;
+}
+
+
+//TIEMPO DE ESPERA
+if(ResetGirlR > gettimetick(2)){ // Checks timer, if active it will block you from doing the quest.
+set .@delayremaining,(((ResetGirlR-gettimetick(2))+1)%60);
+set .@delayremaining2,(((ResetGirlR-gettimetick(2))+1)% 3600 / 60);
+set .@delayremaining3,(((ResetGirlR-gettimetick(2))+1) % 86400 / 3600);
+set .@delayremaining4,(((ResetGirlR-gettimetick(2))+1)/86400);
+mes "[Reset Girl]";
+mes " ";
+mes "Debes esperar "+.@delayremaining4+" dias(s), "+.@delayremaining3+" horas(s), "+.@delayremaining2+" minuto(s) y "+.@delayremaining+" Segundo(s), para poder realizar el siguiente Reset.";
+end;
+}
+
+
+
+
+
+
+mes "[Reset Girl]";
+mes " ";
+mes "Solo puedes realizar 3 Resets por Personaje.";
+next;
+
+
+
+if (limte_de_reset5 <=1) {
+menu "Reset por Tenarius Coin",L_ResetTenarius,"Reset por Ticket",L_ResetTicket,"Salir",L_later;
+close;
+}
+if (limte_de_reset5 >1) {
+mes "[Reset Girl]";
+mes "Ya has usado todos tus reset por ^0000FFTenarius Coin^000000 con este personaje.";
+mes " ";
+mes "Ahora solo puedes usar reset por ^0000FFTicket^000000.";
+menu "Reset por Ticket",L_ResetTicket,"Salir",L_later;
+close;
+}
+
+
+
+L_later:
+close;
+
+
+
+
+
+
+
+
+	
+
+
+
+
+L_ResetTenarius:	
+.@ResetStat = 3000000;	// Zeny for stat reset
+.@ResetSkill = 3000000;	// Zeny for skill reset
+.@ResetBoth = 5000000;	// Zeny for resetting both together
+
+
+	mes "[Reset Girl]";
+	mes "Solo puedes usar 2 resets por personaje usando ^0000FFTenarius Coin^000000.";
+	next;
+	mes "[Reset Girl]";
+	mes "^0000FFReset Stats:^000000";
+	mes "" + callfunc("F_InsertComma", .@ResetStat)  + " z y 30 Tenarius Coin";
+	mes " ";
+	mes "^0000FFReset Skills:^000000";
+	mes "" + callfunc("F_InsertComma", .@ResetSkill) + " z y 30 Tenarius Coin";
+	mes " ";
+	mes "^0000FFReset Ambos:^000000";
+	mes "" + callfunc("F_InsertComma", .@ResetBoth)  + " z y 50 Tenarius Coin";
+	
+	//mes "Por favor, selecciona el servicio que deseas:";
+
+switch(select("^FF3355Reset Skills:Reset Stats:Reset Ambos^000000:Salir")) {
+
+if (limte_de_reset5 >1) {
+mes "[Reset Girl]";
+mes " ";
+mes "Ya haz usado todos tus resets.";
+end;
+}
+
+
+//Reset de skills
+	case 1:
+		next;
+		mes "[Reset Girl]";
+		if (Zeny < .@ResetSkill) {
+			mes "Disculpa, no tienes suficiente Zeny.";
+			close;
+		}
+		if (countitem(1) < 30) {
+			mes "Disculpa no tienes suficientes Tenarius Coins";
+			mes "^0000FF"+countitem(1)+" / 30 Tenarius Coins.^000000";
+			close;
+		}
+		Zeny -= .@ResetSkill;
+		delitem 1,30;
+		set limte_de_reset5, limte_de_reset5 + 1;
+		sc_end SC_ALL;
+		resetskill;
+		
+		mes "Aqui vamos!";
+		set ResetGirlR,gettimetick(2)+DelayReset; // Sets Timer.
+		close;
+	
+//Reset de stats
+	case 2:
+		next;
+		mes "[Reset Girl]";
+		if (Zeny < .@ResetSkill) {
+			mes "Disculpa, no tienes suficiente Zeny.";
+			close;
+		}
+		if (countitem(1) < 30) {
+			mes "Disculpa no tienes suficientes Tenarius Coins";
+			mes "^0000FF"+countitem(1)+" / 30 Tenarius Coins.^000000";
+			close;
+		}
+		Zeny -= .@ResetStat;
+		delitem 1,30;
+		set limte_de_reset5, limte_de_reset5 + 1;
+		sc_end SC_ALL;
+		resetstatus;
+		
+		mes "Aqui vamos!";
+		set ResetGirlR,gettimetick(2)+DelayReset; // Sets Timer.
+		close;
+
+//Reset ambos
+	case 3:
+		next;
+		mes "[Reset Girl]";
+		if (Zeny < .@ResetSkill) {
+			mes "Disculpa, no tienes suficiente Zeny.";
+			close;
+		}
+		if (countitem(1) < 50) {
+			mes "Disculpa no tienes suficientes Tenarius Coins";
+			mes "^0000FF"+countitem(1)+" / 50 Tenarius Coins.^000000";
+			close;
+		}
+		Zeny -= .@ResetBoth;
+		delitem 1,50;
+		set limte_de_reset5, limte_de_reset5 + 1;
+		sc_end SC_ALL;
+		resetskill;
+		resetstatus;
+		
+		mes "Aqui vamos!";
+		set ResetGirlR,gettimetick(2)+DelayReset; // Sets Timer.
+		close;
+	case 4:
+		close;
+	}
+
+
+
+close; //reset tenarius
+
+
+
+
+
+
+
+
+
+
+
+
+L_ResetTicket:
+
+
+next;
+.@ResetStat = 0;	// Zeny for stat reset
+.@ResetSkill = 0;	// Zeny for skill reset
+.@ResetBoth = 0;	// Zeny for resetting both together
+.@itemstat = 40071;
+.@itemskill = 40070;
+.@itemambos = 40072:
+
+	mes "[Reset Girl]";
+	mes "^0000FFReset Stats:^000000";
+	mes " 1 ^FF0000" + getitemname(.@itemstat) + "^000000";
+	mes "^0000FFReset Skills:^000000";
+	mes " 1 ^FF0000" + getitemname(.@itemskill) + "^000000";
+	mes "^0000FFReset Ambos:^000000";
+	mes " 1 ^FF0000" + getitemname(.@itemambos) + "^000000";
+
+
+
+switch(select("^FF3355Reset Skills:Reset Stats:Reset Ambos^000000:Salir")) {
+//Reset de skills
+next;
+	case 1:
+		
+		mes "[Reset Girl]";
+		if (Zeny < .@ResetSkill) {
+			mes "Disculpa, no tienes suficiente Zeny.";
+			close;
+		}
+		if (countitem(.@itemskill) < 1) {
+			mes "No tienes un ^FF0000" + getitemname(.@itemskill) + "^000000 en tu inventario.";
+			
+			close;
+		}
+		Zeny -= .@ResetSkill;
+		delitem .@itemskill,1;
+		
+		sc_end SC_ALL;
+		resetskill;
+		
+		mes "Aqui vamos!";
+		set limte_de_reset5, limte_de_reset5 + 1;
+		set ResetGirlR,gettimetick(2)+DelayReset; // Sets Timer.
+		close;
+	
+//Reset de stats
+	case 2:
+		
+		mes "[Reset Girl]";
+		if (Zeny < .@ResetSkill) {
+			mes "Disculpa, no tienes suficiente Zeny.";
+			close;
+		}
+		if (countitem(.@itemstat) < 1) {
+			mes "No tienes un ^FF0000" + getitemname(.@itemstat) + "^000000 en tu inventario.";
+			close;
+		}
+		Zeny -= .@ResetStat;
+		delitem .@itemstat,1;
+		
+		sc_end SC_ALL;
+		resetstatus;
+		
+		mes "Aqui vamos!";
+		set limte_de_reset5, limte_de_reset5 + 1;
+		set ResetGirlR,gettimetick(2)+DelayReset; // Sets Timer.
+		close;
+
+//Reset ambos
+	case 3:
+		
+		mes "[Reset Girl]";
+		if (Zeny < .@ResetSkill) {
+			mes "Disculpa, no tienes suficiente Zeny.";
+			close;
+		}
+		if (countitem(.@itemambos ) < 1) {
+			mes "No tienes un ^FF0000" + getitemname(.@itemambos) + "^000000 en tu inventario.";
+			close;
+		}
+		Zeny -= .@ResetBoth;
+		delitem .@itemambos,1;
+		
+		sc_end SC_ALL;
+		resetskill;
+		resetstatus;
+		
+		mes "Aqui vamos!";
+		set limte_de_reset5, limte_de_reset5 + 1;
+		set ResetGirlR,gettimetick(2)+DelayReset; // Sets Timer.
+		close;
+	case 4:
+		close;
+	}
+
+
+close; //reset tenarius
+
+
+
+
+
+OnInit:
+	waitingroom "Reset Status & Skills",0;
+	end;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+//league,139,162,5	script	Reseter	407,{
+prontera,184,195,3	script	Reseter	407,{
+
+
+
+	mes "[Reseter Mauricio]";
+	mes "Hola, soy el reseteador Mauricio.";
+	mes " ";
+	mes "Por favor selecciona el servicio que quieres:";
+	next;
+	switch(select("^FF3355Resetear Skills:Resetear Stats:Resetear Ambos^000000:Cancel")) {
+	
+	
+	case 1:
+		if (BaseLevel <= 20) {
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es 20 o menor el servicio tiene un costo de 50,000 z";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 50000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+		Zeny -= 50000;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		}
+
+		else if (BaseLevel > 20 && BaseLevel <= 60) {
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 20 y menor igual a 60 el servicio tiene un costo de 500,000 z";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 500000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+		Zeny -= 500000;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		}
+
+		else if (BaseLevel > 60 && BaseLevel <= 80) {
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 60 y menor igual a 80 el servicio tiene un costo de 5,000,000 z";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 5000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+		Zeny -= 5000000;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		}
+
+		else if (BaseLevel > 80) {
+		mes "Si tu nivel es mayor a 80, puedes realizar un Reset de Skill usando zeny, solo una vez.";
+		mes "Despues de ello necesitaras usar un ^0000FFTicket Reset Skill^000000.";
+		next;
+		
+		
+		if (#skill < 1){
+		
+	switch(select("Reset por zeny:Reset por tiket")) {   		
+	case 1:
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 80 el servicio tiene un costo de 15,000,000 z.";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 15000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+
+		Zeny -= 15000000;
+		set #skill, 1;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		close;
+		
+		
+	case 2:
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 80 el servicio tiene un costo de 3,000,000 z y necesitas un ^0000FFTicket Reset Skill^000000";
+		next;
+		
+		if (select("Yes:No") == 2) close;
+			if (Zeny < 3000000 && countitem(40070) < 1) {
+			mes "Lo siento, no tienes suficiente Zeny y te hace falta un ^0000FFTicket Reset Skill^000000.";
+			close;
+		}
+		if (countitem(40070) < 1) goto NoStone1;
+		if (Zeny < 3000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+
+		Zeny -= 3000000;
+		delitem 40070,1;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		close;
+		}
+		}
+		
+		
+		
+		
+		else if (#skill == 1){
+		mes "[Reseter Mauricio]";
+		mes "Ya usaste tu Reset por zeny.";
+		mes " ";
+		mes "Si tu nivel es mayor a 80 el servicio tiene un costo de 3,000,000 z y necesitas un ^0000FFTicket Reset Skill^000000";
+		next;
+		
+		if (select("Yes:No") == 2) close;
+			if (Zeny < 3000000 && countitem(40070) < 1) {
+			mes "Lo siento, no tienes suficiente Zeny y te hace falta un ^0000FFTicket Reset Skill^000000.";
+			close;
+		}
+		if (countitem(40070) < 1) goto NoStone1;
+		if (Zeny < 3000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+
+		Zeny -= 3000000;
+		delitem 40070,1;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		}
+	}
+		
+	break;
+
+
+
+
+
+	case 2:
+	
+		if (BaseLevel <= 20) {
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es 20 o menor el servicio tiene un costo de 50,000 z";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 50000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+		Zeny -= 50000;
+		resetstatus;
+		mes "Aqui vamos!";
+		close;
+		}
+
+		else if (BaseLevel > 20 && BaseLevel <= 60) {
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 20 y menor igual a 60 el servicio tiene un costo de 500,000 z";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 500000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+		Zeny -= 500000;
+		resetstatus;
+		mes "Aqui vamos!";
+		close;
+		}
+
+		else if (BaseLevel > 60 && BaseLevel <= 80) {
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 60 y menor igual a 80 el servicio tiene un costo de 5,000,000 z";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 5000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+		Zeny -= 5000000;
+		resetstatus;
+		mes "Aqui vamos!";
+		close;
+		}
+
+		else if (BaseLevel > 80) {
+		mes "Si tu nivel es mayor a 80, puedes realizar un Reset de Status usando zeny, solo una vez.";
+		mes "Despues de ello necesitaras usar un ^0000FFTicket Reset Status^000000.";
+		next;
+		
+		
+		if (#status < 1){
+		
+	switch(select("Reset por zeny:Reset por tiket")) {   		
+	
+	case 1:
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 80 el servicio tiene un costo de 15,000,000 z.";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 15000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+
+		Zeny -= 15000000;
+		set #status, 1;
+		resetstatus;
+		mes "Aqui vamos!";
+		close;
+		close;
+	
+	case 2:
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 80 el servicio tiene un costo de 3,000,000 z y necesitas un ^0000FFTicket Reset Status^000000.";
+		next;
+		
+		if (select("Yes:No") == 2) close;
+			if (Zeny < 3000000 && countitem(40071) < 1) {
+			mes "Lo siento, no tienes suficiente Zeny y te hace falta un ^0000FFTicket Reset Status^000000.";
+			close;
+		}
+		if (countitem(40071) < 1) goto NoStone;
+		if (Zeny < 3000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+
+		Zeny -= 3000000;
+		delitem 40071,1;
+		resetstatus;
+		mes "Aqui vamos!";
+		close;
+		close;
+				
+		
+		}
+	}	
+		
+		
+		
+		
+		
+		
+		
+		
+		else if (#status == 1){
+		mes "[Reseter Mauricio]";
+		mes "Ya usaste tu Reset por zeny.";
+		mes " ";
+		mes "Si tu nivel es mayor a 80 el servicio tiene un costo de 3,000,000 z y necesitas un ^0000FFTicket Reset Status^000000";
+		next;
+		
+		if (select("Yes:No") == 2) close;
+			if (Zeny < 3000000 && countitem(40071) < 1) {
+			mes "Lo siento, no tienes suficiente Zeny y te hace falta un ^0000FFTicket Reset Status^000000.";
+			close;
+		}
+		if (countitem(40071) < 1) goto NoStone;
+		if (Zeny < 3000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+
+		Zeny -= 3000000;
+		delitem 40071,1;
+		resetstatus;
+		mes "Aqui vamos!";
+		close;
+		}
+	}
+		
+	break;
+
+
+
+
+
+
+
+
+case 3:
+		if (BaseLevel <= 20) {
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es 20 o menor el servicio tiene un costo de 100,000 z";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 100000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+		Zeny -= 100000;
+		resetstatus;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		}
+
+		else if (BaseLevel > 20 && BaseLevel <= 60) {
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 20 y menor igual a 60 el servicio tiene un costo de 1,000,000 z";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 1000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+		Zeny -= 1000000;
+		resetstatus;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		}
+
+		else if (BaseLevel > 60 && BaseLevel <= 80) {
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 60 y menor igual a 80 el servicio tiene un costo de 10,000,000 z";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 10000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+		Zeny -= 10000000;
+		resetstatus;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		}
+
+		
+		
+		
+		
+		
+		else if (BaseLevel > 80) {
+		
+		mes "Si tu nivel es mayor a 80, puedes realizar un Reset de Status usando zeny, solo una vez.";
+		mes "Despues de ello necesitaras usar un ^0000FFTicket Reset Status^000000.";
+		next;
+		
+		
+		if (#ambos < 1){
+		
+		switch(select("Reset por zeny:Reset por tiket")) {   		
+	
+	case 1:
+		
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 80 el servicio tiene un costo de 25,000,000 z.";
+		next;
+		if (select("Yes:No") == 2) close;
+		if (Zeny < 25000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		}
+
+		Zeny -= 25000000;
+		set #ambos, 1;
+		resetstatus;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		close;
+		
+	case 2:	
+		mes "[Reseter Mauricio]";
+		mes "Si tu nivel es mayor a 80 el servicio tiene un costo de 5,000,000 z y necesitas un ^0000FFTicket Reset Status & Skill^000000";
+		next;
+		
+		if (select("Yes:No") == 2) close;
+			if (Zeny < 5000000 && countitem(40072) < 1) {
+			mes "Lo siento, no tienes suficiente Zeny y te hace falta un ^0000FFTicket Reset Status & Skill^000000.";
+			close;
+		}
+		if (countitem(40072) < 1) goto NoStone2;
+		if (Zeny < 5000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		} 
+
+		Zeny -= 5000000;
+		delitem 40072,1;
+		resetstatus;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		close;
+		
+		
+		}
+		
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+		else if (#ambos == 1){
+		mes "[Reseter Mauricio]";
+		mes "Ya usaste tu Reset por zeny.";
+		mes " ";
+		mes "Si tu nivel es mayor a 80 el servicio tiene un costo de 5,000,000 z y necesitas un ^0000FFTicket Reset Status & Skill^000000";
+		next;
+		
+		if (select("Yes:No") == 2) close;
+			if (Zeny < 5000000 && countitem(40072) < 1) {
+			mes "Lo siento, no tienes suficiente Zeny y te hace falta un ^0000FFTicket Reset Status & Skill^000000.";
+			close;
+		}
+		if (countitem(40072) < 1) goto NoStone2;
+		if (Zeny < 5000000) {
+			mes "Lo siento, no tienes suficiente Zeny.";
+			close;
+		} 
+
+		Zeny -= 5000000;
+		delitem 40072,1;
+		resetstatus;
+		resetskill;
+		mes "Aqui vamos!";
+		close;
+		}
+	}
+		
+	break;
+	
+	
+	
+	
+	
+	case 4:
+		close;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	}
+	
+	NoStone:
+	mes "[Reseter Mauricio]";
+	mes "Debes tener un ^0000FFTicket Reset Status^000000 en tu inventario para continuar.";
+	close;
+	
+	
+	NoStone1:
+	mes "[Reseter Mauricio]";
+	mes "Debes tener un ^0000FFTicket Reset Skill^000000 en tu inventario para continuar.";
+	close;
+	
+	NoStone2:
+	mes "[Reseter Mauricio]";
+	mes "Debes tener un ^0000FFTicket Reset Sataus & Skill^000000 en tu inventario para continuar.";
+	close;
+
+
+
+
+OnInit:
+	waitingroom "Reset Status & Skills",0;
+	end;
+}
+
+
+
+
+
+
+*/

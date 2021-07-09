@@ -1,0 +1,115 @@
+//===== Hourly Points Script =========================================
+//===== By: ==========================================================
+//= GorthexTiger modified by Nibi
+//===== Current Version: =============================================
+//= 1.0
+//===== Compatible With: =============================================
+//= Any eAthena Version
+//===== Description: =================================================
+//= Get Points every successful hours of gameplay, you cannot get
+//= the points even if you miss a second or a minute. A player will
+//= get a very big bonus if they played 12 hours consecutively
+//= or without logging out of the game. If the player is vending
+//= the script will then stop.
+//===== Additional Comments: =========================================
+//= You can modify the script to your liking.
+//= The default points is Kafrapoints change it anyway if you like.
+//= 1.1 = Check Chatting too
+//= 1.2 = 5 Minute Idle Check & @at/@autotrade check.
+//= 1.3 = Corrected the current balance line on 12 Hours Consecutive
+//====================================================================
+ 
+-	script	vendingcoins	-1,{
+
+ 
+//--Start of the Script
+OnPCLoginEvent:
+addtimer .s_time, strnpcinfo(3)+"::OnHourlyRewards";
+end;
+ 
+
+OnHourlyRewards:
+
+		//Check if Vending (normal or @at)
+		if((checkvending() >= 1 || checkchatting() == 1) && strcharinfo(3) == "vend_zone") {
+			
+			if (((Weight*100)/MaxWeight) < 89) {
+			
+						dispbottom "Gracias por ser parte de nuestro mercado, aqui tienes una recompensa.";
+						dispbottom "10,000z.";
+						Zeny += 10000;
+						
+										  //ID , % , CANTIDAD
+						setarray .@reward,	644, 40, 1, 	//Gift Box
+											1, 20, 1, 		//Tenarius Coin
+											603, 10, 1, 	//Old Blue Box
+											40263, 10, 1, 	//Ore Discovery
+											12105, 5, 1, 	//Taming Gift Set
+											617, 5, 1, 		//Old Purple Box
+											616, 2, 1; 		//Old Card Album
+
+						set .@size, getarraysize( .@reward );
+						for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+							.@percent[.@i] = .@total + .@reward[.@i];
+							.@total += .@reward[.@i];
+						}
+						.@r = rand( .@total +1 );
+						for( set .@i, 1; .@i < .@size; .@i += 3 )
+							if( .@percent[.@i] > .@r )
+								break;
+						getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+						
+						addtimer .s_time, strnpcinfo(3)+"::OnHourlyRewards";
+						end;
+			}
+		
+		else{
+				mes"Woow!";
+				mes"Ya no puedes recibir mas items";
+				mes"Debes tener menos de 90% de peso, para recibir tu recompensa;";
+				end;
+			} 
+		
+		
+		
+		
+		
+		}
+		
+		
+		
+
+end;
+
+
+
+OnInit:
+	.s_time = 43200000; //	1000 = 1 secend | 60000 = 1 min | 3600000 = 1 houre  , DEFAULT = 3600000 (1 hr)
+	//.s_time = 15000; //	1000 = 1 secend | 60000 = 1 min | 3600000 = 1 houre  , DEFAULT = 3600000 (1 hr)
+end;
+
+
+
+
+ 
+}
+//--End of the Script
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

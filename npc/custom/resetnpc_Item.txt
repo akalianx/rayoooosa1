@@ -1,0 +1,58 @@
+league,140,166,5	script	Reseter	407,{
+set .name$, "[Reseter]";
+if (BaseLevel <= 20) {
+	mes .name$;
+	mes "Reset Stat & Skills will cost you 5,000z, want it to reset?";
+	next;
+	if (select("Yes:No") == 2) close;
+	if (Zeny >= 5000) {
+		set Zeny, Zeny - 5000;
+		callfunc "Reset1";
+	} // End if
+} else if (BaseLevel > 20 && BaseLevel <= 40) {
+	mes .name$;
+	mes "Reset Stat & Skills will cost you 2x Premium Reset Stone and 10,000z, want it to reset?";
+	next;
+	if (select("Yes:No") == 2) close;
+	if (countitem(6320) < 2) goto noitem;
+	if (Zeny >= 10000) {
+		set Zeny, Zeny - 10000;
+		callfunc "Reset1";
+	} // End if
+} else if (BaseLevel > 40 && BaseLevel <= 80) {
+	mes .name$;
+	mes "Reset Stat & Skills will cost you 3x Premium Reset Stone and 100,000z, want it to reset?";
+	next;
+	if (select("Yes:No") == 2) close;
+	if (countitem(6320) < 3) goto noitem;
+	if (Zeny >= 100000) {
+		set Zeny, Zeny - 100000;
+		callfunc "Reset1";
+	} // End if
+} else if (BaseLevel > 80) {
+	mes .name$;
+	mes "Reset Stat & Skills will cost you 5x Premium Reset Stone and 10,000,000z want it to reset?";
+	next;
+	if (select("Yes:No") == 2) close;
+	if (countitem(6320) < 5) goto noitem;
+	if (Zeny >= 10000000) {
+		set Zeny, Zeny - 10000000;
+		callfunc "Reset1";
+	} // End if
+	} // End if
+close;
+
+
+noitem:
+
+	mes "[Reseter Manager]";
+	mes "You dont have enough [Premium Reset Stone]..";
+	close;
+
+} // End script
+
+function script Reset1 {
+ResetStatus;
+ResetSkill;
+return;
+} // End function

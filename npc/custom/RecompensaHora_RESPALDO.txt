@@ -1,0 +1,369 @@
+//===== Hourly Points Script =========================================
+//===== By: ==========================================================
+//= GorthexTiger modified by Nibi
+//===== Current Version: =============================================
+//= 1.0
+//===== Compatible With: =============================================
+//= Any eAthena Version
+//===== Description: =================================================
+//= Get Points every successful hours of gameplay, you cannot get
+//= the points even if you miss a second or a MinA3. A player will
+//= get a very big bonus if they played 12 hours consecutively
+//= or without logging out of the game. If the player is vending
+//= the script will then stop.
+//===== Additional Comments: =========================================
+//= You can modify the script to your liking.
+//= The default points is Kafrapoints change it anyway if you like.
+//= 1.1 = Check Chatting too
+//= 1.2 = 5 MinA3 Idle Check & @at/@autotrade check.
+//= 1.3 = Corrected the current balance line on 12 Hours Consecutive
+//====================================================================
+
+
+
+
+moc_para01,38,95,4	script	Mary Alice	861,{
+mes "Buenos dias aventurero/a, si tienes algun problema con tus recompensas por hora o por venta, yo puedo ayudarte";
+next;
+mes "Para ello puedo reiniciar el tiempo para reclamar la recompensa a cero.";
+mes "Deseas hacerlo?";
+
+switch(select("No estoy seguro/a:Si claro, hazlo")) {
+
+case 1: next;
+		mes "Nos vemos, ten un bonito dia.";
+		break;
+
+case 2: next;
+		set #cons_horx3,0;
+		set #MinA3,0;
+		mes "Listo se ha reiniciado el tiempo de espera a cero.";
+		stopnpctimer;
+		attachnpctimer ""+strcharinfo(0)+"";
+		initnpctimer;
+		break;		
+
+}
+
+
+	OnInit:
+	initnpctimer;
+	waitingroom "Premios x Hora",0;
+	end;
+
+end;
+
+
+
+//--Start of the Script
+OnPCLoginEvent:
+attachnpctimer ""+strcharinfo(0)+"";
+initnpctimer;
+end;
+
+
+
+
+
+ 
+OnTimer60000:
+set #MinA3, #MinA3 + 1;
+stopnpctimer;
+initnpctimer;
+//Check for 1 MinA3
+if(#MinA3 == 60){
+				if(checkvending() >= 1 || checkchatting() == 1) {
+				dispbottom "Haz recibido 3,000 Zeny por permanecer vendiendo 1 hora.",0xFEFE15;
+				Zeny += 3000;
+				set #MinA3,0;
+				stopnpctimer;
+				initnpctimer;
+				end;
+				}
+			
+
+			
+    set #MinA3,0;
+    set #cons_horx3,1;
+	
+//Recompensa 1
+	if(#cons_horx3 == 1 && #rec_opte3 == 0) {
+    getitem 521,15;
+	set #rec_opte3,1;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 1] Haz recibido 15 "+ getitemname(521) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+	
+	
+//Recompensa 2	
+	if(#cons_horx3 == 1 && #rec_opte3 == 1) {
+    getitem 533,15;
+	set #rec_opte3,2;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 2] Haz recibido 15 "+ getitemname(533) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+	
+//Recompensa 3	
+	if(#cons_horx3 == 1 && #rec_opte3 == 2) {
+    Zeny += 10000;
+	set #rec_opte3,3;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 3] Haz recibido 10,000 Zeny por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 4	
+	if(#cons_horx3 == 1 && #rec_opte3 == 3) {
+    getitem 504,10;
+	set #rec_opte3,4;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 4] Haz recibido 10 "+ getitemname(504) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 5	
+	if(#cons_horx3 == 1 && #rec_opte3 == 4) {
+    getitem 505,10;
+	set #rec_opte3,5;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 5] Haz recibido 10 "+ getitemname(505) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 6	
+	if(#cons_horx3 == 1 && #rec_opte3 == 5) {
+    getitem 662,2;
+	set #rec_opte3,6;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 6] Haz recibido 2 "+ getitemname(662) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 7	
+	if(#cons_horx3 == 1 && #rec_opte3 == 6) {
+    getitem 40052,3;
+	set #rec_opte3,7;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 7] Haz recibido 3 "+ getitemname(40052) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 8	
+	if(#cons_horx3 == 1 && #rec_opte3 == 7) {
+    getitem 985,3;
+	set #rec_opte3,8;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 8] Haz recibido 3 "+ getitemname(985) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+
+//Recompensa 9	
+	if(#cons_horx3 == 1 && #rec_opte3 == 8) {
+    getitem 984,3;
+	set #rec_opte3,9;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 9] Haz recibido 3 "+ getitemname(984) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 10	
+	if(#cons_horx3 == 1 && #rec_opte3 == 9) {
+    getitem 610,3;
+	set #rec_opte3,10;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 10] Haz recibido 3 "+ getitemname(610) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 11	
+	if(#cons_horx3 == 1 && #rec_opte3 == 10) {
+    getitem 970,5;
+	set #rec_opte3,11;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 11] Haz recibido 5 "+ getitemname(970) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+
+//Recompensa 12
+	if(#cons_horx3 == 1 && #rec_opte3 == 11) {
+    getitem 717,10;
+	set #rec_opte3,12;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 12] Haz recibido 10 "+ getitemname(717) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+	
+
+
+//Recompensa 13
+	if(#cons_horx3 == 1 && #rec_opte3 == 12) {
+    getitem 12065,1;
+	set #rec_opte3,13;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 13] Haz recibido 1 "+ getitemname(12065) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 14
+	if(#cons_horx3 == 1 && #rec_opte3 == 13) {
+    getitem 12070,1;
+	set #rec_opte3,14;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 14] Haz recibido 1 "+ getitemname(12070) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 15
+	if(#cons_horx3 == 1 && #rec_opte3 == 14) {
+    getitem 521,25;
+	set #rec_opte3,15;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 15] Haz recibido 25 "+ getitemname(521) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 16
+	if(#cons_horx3 == 1 && #rec_opte3 == 15) {
+    getitem 12211,1;
+	set #rec_opte3,16;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 16] Haz recibido 1 "+ getitemname(12211) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 17
+	if(#cons_horx3 == 1 && #rec_opte3 == 16) {
+    getitem 12050,1;
+	set #rec_opte3,17;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 17] Haz recibido 1 "+ getitemname(12050) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}	
+
+
+//Recompensa 18
+	if(#cons_horx3 == 1 && #rec_opte3 == 17) {
+    getitem 12045,1;
+	set #rec_opte3,18;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 18] Haz recibido 1 "+ getitemname(12045) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 19
+	if(#cons_horx3 == 1 && #rec_opte3 == 18) {
+    Zeny += 25000;
+	set #rec_opte3,19;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 19] Haz recibido 25,000 Zeny por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 20
+	if(#cons_horx3 == 1 && #rec_opte3 == 19) {
+    getitem 12060,1;
+	set #rec_opte3,20;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 20] Haz recibido 1 "+ getitemname(12060) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+//Recompensa 21
+	if(#cons_horx3 == 1 && #rec_opte3 == 20) {
+    getitem 12055,1;
+	set #rec_opte3,21;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 21] Haz recibido 1 "+ getitemname(12055) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+
+//Recompensa 22
+	if(#cons_horx3 == 1 && #rec_opte3 == 21) {
+    getitem 662,2;
+	set #rec_opte3,22;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 22] Haz recibido 2 "+ getitemname(662) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+
+
+//Recompensa 23
+	if(#cons_horx3 == 1 && #rec_opte3 == 22) {
+    getitem 40118,2;
+	set #rec_opte3,23;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 23] Haz recibido 2 "+ getitemname(40118) +" por permanecer 1 hora en linea.";
+	stopnpctimer;
+	initnpctimer;
+    end;}
+
+	
+//Recompensa 24	
+	if(#cons_horx3 == 1 && #rec_opte3 == 23) {
+   	getitem 40065,1;
+	set #rec_opte3,0;
+	set #cons_horx3,0;
+    dispbottom "[Recompensa 24] Haz recibido 1 "+ getitemname(40065) +" por permanecer 1 hora en linea.";
+	dispbottom "Felicidades, haz reclamado las 24 recompensas, ahora volveremos al principio.";
+    stopnpctimer;
+	initnpctimer;
+	end;}
+	
+	
+	
+	
+	
+    }
+
+
+	
+
+end;
+ 
+}
+//--End of the Script

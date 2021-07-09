@@ -1,0 +1,12 @@
+// Specific items for Vending System
+// Format: ItemID
+// Max items is equal MAX_INVENTORY ( 100 by default )
+
+
+
+//Donation Coin
+//40085
+
+
+//Tenarius Coin
+//1

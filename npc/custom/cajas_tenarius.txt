@@ -1,0 +1,209 @@
+
+//=====================CAJA TENARIUS BOX=====================//
+function	script	TenariusBox	{
+	
+					  //ID , % , CANTIDAD
+	setarray .@reward,	5315, 5, 1, //Observer [0]
+						5288, 10, 1, //Red Glasses [0]
+						5387, 20, 1, //	Neko Mimi Kafra [1]
+						2285, 27, 1, //Apple of Archer [0]
+						5531, 10, 1, //Baby Dragon Hat [1]
+						5416, 7, 1, //Beer Hat [0]
+						5827, 30, 1, //Book File Hat [0] 
+						5477, 10, 1, //Brazilian Flag Hat [1]
+						5358, 5, 1, //Peco Ears [0]
+						5370, 8, 1, //Orchid Hairband
+						31579, 5, 1, //Costume I Love Games
+						5091, 25, 1, //Decorative Golden Bell [0]
+						5298, 8, 1, //Dokebi's Wig [1]
+						5295, 7, 1, //Golden Bandana [0] 
+						5667, 10, 1, //Skull Hood [1]
+						2214, 7, 1,	//Bunny Band [0] 
+						5024, 15, 1, //Cake Hat [0] 
+						5184, 7, 1, //Captain's Hat [0]
+						2232, 25, 1, //Circlet [0] 
+						5200, 30, 1, //coppola				
+						5075, 15, 1, //Cowboy Hat [0]
+						5048, 35, 1, //Cresent Hairpin [0]
+						2235, 10, 1, //Crown [0]
+						5080, 27, 1, //Crown of Ancient Queen [0]
+						5038, 10, 1, //Deviruchi Hat [0] 
+						5292, 5, 1, //Dragon Skull [0]
+						5459, 5, 1, //Drooping Bunny [0]
+						5583, 8, 1, //Eden Team Hat [0] 
+						5146, 10, 1, //Elephant Hat [0]
+						5658, 3, 1, //Imp Hat [0]
+						5010, 15, 1, //Indian Fillet [0]
+						5071, 15, 1, //Indian Headband [0]
+						5020, 10, 1, //Kafra Band [0] 
+						5426, 8, 1, //Karada Meguricha Hat [1]
+						5069, 8, 1, //	Kitsune Mask [0] 
+						5311, 15, 1, //Large Hisbiscus [1]
+						5773, 9, 1, //Navy Beret [0] 
+						5030, 15, 1, //Panda Hat [0]
+						5464, 3, 1, //Zaha Doll Hat [0]
+						5057, 10, 1; //Black Cat Ears [0]
+	set .@size, getarraysize( .@reward );
+	for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+		.@percent[.@i] = .@total + .@reward[.@i];
+		.@total += .@reward[.@i];
+	}
+	.@r = rand( .@total +1 );
+	for( set .@i, 1; .@i < .@size; .@i += 3 )
+		if( .@percent[.@i] > .@r )
+			break;
+	getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+	end;
+	
+}
+
+
+ 
+
+
+//=====================CAJA PORING BOX=====================//
+function	script	PoringBox	{
+	
+					  //ID , % , CANTIDAD
+	setarray .@reward,	5335, 10, 1, 	//Jumping Poring [0]
+						5352, 45, 1, 	//Poporing Cap [0]
+						5381, 10, 1, 	//Santa Poring Hat [1]
+						18635, 25, 1, 	//Blue Poring Hairpin [1] 
+						31586, 10, 1, 	//Costume Poporing Muffler[0]
+						20447, 5, 1, 	//Costume Small Porings Headband [0]
+						31420, 3, 1, 	//Costume Shining Santa Poring [0]
+						31050, 3, 1, 	//Costume Golden Poring Hat [0] 
+						19587, 5, 1, 	//Costume King Poring Hat [0]
+						20129, 30, 1, 	//Costume Poporing Cap [0] 
+						19665, 15, 1, 	//Costume Poring Cake Hat
+						19631, 12, 1, 	//Costume Poring Fedora Hat [0]
+						20133, 20, 1, 	//Costume Poring Mascot [0] 
+						20295, 25, 1, 	//Costume Poring Sunglasses [0]
+						19676, 3, 1, 	//Costume Rainbow Poring Hat [0]
+						19152, 2, 1, 	//Angelring Balloon
+						19154, 2, 1, 	//Arch Angelring Balloon [0]
+						19095, 7, 1, 	//Happy Balloon
+						5319, 5, 1; 	//Hello Mother Hat [0]
+						
+						
+						
+						
+						
+	set .@size, getarraysize( .@reward );
+	for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+		.@percent[.@i] = .@total + .@reward[.@i];
+		.@total += .@reward[.@i];
+	}
+	.@r = rand( .@total +1 );
+	for( set .@i, 1; .@i < .@size; .@i += 3 )
+		if( .@percent[.@i] > .@r )
+			break;
+	getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+	end;
+	
+}
+ 
+
+//=====================CAJA CONSUMIBLES BOX=====================//
+function	script	ConsumiblesBox	{
+	
+					  //ID , % , CANTIDAD
+	setarray .@reward,	501, 35, 20, 		//20 red potion
+						502, 30, 20, 		//20 orange potion
+						503, 30, 20, 		//20 yellow potion
+						504, 25, 20, 		//20 white potion
+						505, 20, 20, 		//20 blue potion
+						506, 25, 20, 		//20 green potion
+						972, 10, 20, 		//20 Karvodailnirol
+						547, 10, 20, 		//20 Condensed White Potion
+						7135, 7, 20, 		//20 Bottle Grenade
+						7136, 7, 20, 		//20 Acid Bottle
+						7139, 7, 20, 		//20 Glistening Coat
+						678, 7, 20, 		//20 Poison Bottle
+						510, 20, 20, 		//20 Blue Herb
+						511, 25, 20, 		//20 Green Herb
+						507, 25, 20, 		//20 Red Herb
+						509, 15, 20, 		//20 White Herb
+						508, 30, 20, 		//20 Yellow Herb
+						514, 20, 20, 		//20 Grape
+						533, 20, 20, 		//20 Grape Juice
+						12065, 7, 20, 		//20 Green Salad
+						12043, 7, 20, 		//20 Bomber Steak
+						970, 10, 20, 		//20 Alcohol
+						7137, 10, 20, 		//20 Plant Bottle
+						546, 20, 20, 		//20 Condensed Yellow Potion
+						952, 20, 20, 		//20 Cactus Needle
+						905, 20, 20, 		//20 Stem
+						7033, 20, 20, 		//20 Poison Spore
+						1059, 15, 20, 		//20 Fabric
+						929, 15, 20, 		//20 Immortal Heart
+						950, 15, 20, 		//20 Heart of Mermaid
+						1044, 15, 20, 		//20 Zenorc's Fang
+						1061, 7, 20; 		//20 Witched Starsand
+						
+						
+						
+	set .@size, getarraysize( .@reward );
+	for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+		.@percent[.@i] = .@total + .@reward[.@i];
+		.@total += .@reward[.@i];
+	}
+	.@r = rand( .@total +1 );
+	for( set .@i, 1; .@i < .@size; .@i += 3 )
+		if( .@percent[.@i] > .@r )
+			break;
+	getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+	end;
+	
+}
+
+
+
+//=====================CAJA ORE DISCOVERY=====================//
+function	script	OreDiscovery	{
+	setarray .@RandItem[0],993,992,991,990,985,984,969,757,756,714,1011,1010,1003,1002,999,998,997,996,995,994; 
+		set .@RandItemCount,getarraysize(.@RandItem);
+	
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+end;
+}
+
+
+
+
+//=====================CAJA KAWAII BOX=====================//
+function	script	KawaiiBox	{
+	setarray .@RandItem[0],20496,20499,19924,19744,20171,31302; 
+    set .@RandItemCount,getarraysize(.@RandItem);
+    getitem(.@Randitem[rand(.@RandItemCount)],1);
+end;
+}
+
+
+
+//=====================CAJA BIENVENIDA=====================//
+function	script	CajaBienvenida	{
+	setarray .@RandItem[0],40003,40004,40005,40002; 
+    set .@RandItemCount,getarraysize(.@RandItem);
+    getitem(.@Randitem[rand(.@RandItemCount)],1);
+
+	setarray .@RandItem2[0],31466,31467; 
+    set .@RandItemCount2,getarraysize(.@RandItem2);
+    getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	getitem 2765,1;
+end;
+}
+
+
+
+
+//=====================CAJA MASCOTAS=====================//
+function	script	MascotasCuteBox	{
+	setarray .@RandItem[0],31186,31452,31299,20147,31512,31600,31437,19291; 
+    set .@RandItemCount,getarraysize(.@RandItem);
+    getitem(.@Randitem[rand(.@RandItemCount)],1);
+end;
+}
+
+

@@ -1,0 +1,234 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Added Monster Killing quests.
+//= Repeatable EXP Quest (Dokebi Horns)
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+pay_fild10,108,357,5	script	Li#Dokebi_Hunt	90,{
+	if (checkquest(60128) != -1) {
+		if (checkquest(60128,HUNTING) != 2 ) {
+			mes "[Li]";
+			mes "Has terminado de cazar los 50 Dokebis?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Li]";
+				mes "Hmm, no creo que hayas cazado a 50 todavia...";
+				close;
+			case 2:
+				mes "[Li]";
+				mes "Recuerda, necesito ayuda para cazar Dokebis asi que ve y caza 50 de ellos.";
+				close;
+			case 3:
+				mes "[Li]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Li]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60128;
+					close;
+				case 2:
+					mes "[Li]";
+					mes "Por favor mata 50 Dokebis.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Li]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 42000,36000;
+			erasequest 60128;
+			close;
+		}
+	}
+	if (checkquest(60129) != -1) {
+		if (checkquest(60129,HUNTING) != 2 ) {
+			mes "[Li]";
+			mes "Has terminado de cazar los 100 Dokebis?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Li]";
+				mes "Hmm, no creo que hayas cazado a 100 todavia...";
+				close;
+			case 2:
+				mes "[Li]";
+				mes "Recuerda, necesito ayuda para cazar Dokebis asi que ve y caza a 100 de ellos.";
+				close;
+			case 3:
+				mes "[Li]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Li]";
+					mes "Ok, entonces vuelve aqui si cambias de parecer.";
+					erasequest 60129;
+					close;
+				case 2:
+					mes "[Li]";
+					mes "Por favor mata 100 Dokebis.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Li]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 42000,36000;
+			getexp 42000,36000;
+			erasequest 60129;
+			close;
+		}
+	}
+	if (checkquest(60130) != -1) {
+		if (checkquest(60130,HUNTING) != 2 ) {
+			mes "[Li]";
+			mes "Has terminado de cazar los 150 Dokebis?";
+			next;
+			switch(select("Si:No:Quiero renunciar")) {
+			case 1:
+				mes "[Li]";
+				mes "Hmm, no creo que hayas cazado a 150 todavia...";
+				close;
+			case 2:
+				mes "[Li]";
+				mes "Recuerda, necesito ayuda para cazar Dokebis asi que ve y caza 150 de ellos..";
+				close;
+			case 3:
+				mes "[Li]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Li]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60130;
+					close;
+				case 2:
+					mes "[Li]";
+					mes "Por favor mata 150 Dokebis.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Li]";
+			mes "Increible!!!, lo hiciste con rapidez.";
+			getexp 42000,36000;
+			getexp 42000,36000;
+			getexp 42000,36000;
+			erasequest 60130;
+			close;
+		}
+	}
+	//for minimum level
+	if (BaseLevel > 34) {
+		//for maximum level
+		if (BaseLevel < 71) {
+			mes "[Li]";
+			mes "Hola!!! Crees que me podrias ayudar?";
+			next;
+			switch(select("Seguro:No")) {
+			case 1:
+				mes "[Li]";
+				mes "Hay muchos Dokebis aqui...y es que no me siento seguro.";
+				next;
+				switch(select("Reunir Items:Cazar Dokebis:Cancel")) {
+				case 1:
+					// Item turn in
+					mes "[Li]";
+					mes "Mi negocio de prediccion requiere un buen suministro de ^FF0000Dokebi Horns^000000 para dar mucha suerte a mis consumidores..";
+					next;
+					switch(select("Tengo algunos Dokebi Horns:Que necesitas?")) {
+					case 1:
+						if (countitem(1021) > 49) {
+							mes "[Li]";
+							mes "Ooh, que bien!!!";
+							mes "Gracias por los horns.";
+							delitem 1021,50; //Dokkaebi_Horn
+							getexp 52500,45000;
+							close;
+						}
+						else {
+							mes "[Li]";
+							mes "No me parece que tengas suficientes.";
+							next;
+							mes "[Li]";
+							mes "Necesito ^FF000050 Dokebi Horns^000000 para mi prediccion de la suerte.";
+							close;
+						}
+					case 2:
+						mes "[Li]";
+						mes "Si me traes";
+						mes "^FF000050 Dokebi Horns^000000, te puedo dar un poco de suerte.";
+						close;
+					}
+				case 2:
+					// Kill Count Quest
+					mes "[Li]";
+					mes "Ahh, creo que puedes ayudarme cazando algunos Dokebis.";
+					mes "Cuantos quieres cazar?";
+					next;
+					switch(select("50 Dokebis:100 Dokebis:150 Dokebis")) {
+					case 1:
+						mes "[Li]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60128;
+						close;
+					case 2:
+						mes "[Li]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60129;
+						close;
+					case 3:
+						mes "[Li]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60130;
+						close;
+					}
+				case 3:
+					mes "[Li]";
+					mes "Si cambias de parecer, por favor, regresa.";
+					close;
+				}
+			case 2:
+				mes "[Li]";
+				mes "Si cambias de parecer, por favor, regresa.";
+				close;
+			}
+		}
+		else {
+			mes "[Li]";
+			mes "Hola!!!";
+			mes "Puedo leer la fortuna en Payon.";
+			close;
+		}
+	}
+	else {
+		mes "[Li]";
+		mes "Este lugar es peligroso!!!";
+		next;
+		mes "[Li]";
+		mes "Debes marcharte de inmediato!!!";
+		close;
+	}
+}
+
+

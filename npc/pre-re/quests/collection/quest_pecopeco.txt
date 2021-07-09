@@ -1,0 +1,251 @@
+//===== rAthena Script =======================================
+//= iRO Repeatable EXP Quests.
+//===== By: ==================================================
+//= L0ne_W0lf
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= [Official Conversion]
+//= Added Monster Killing quests.
+//= Repeatable EXP Quest (Bill of Birds)
+//===== Additional Comments: =================================
+//= 1.0 First version.
+//============================================================
+
+moc_fild02,74,329,3	script	Gregor#PecoPeco_Hunt	97,{
+	if (checkquest(60101) != -1) {
+		if (checkquest(60101,HUNTING) != 2 ) {
+			mes "[Gregor]";
+			mes "Has terminado de cazar los 50 Peco Pecos?";
+			next;
+			switch(select("Si:No:Renuncio")) {
+			case 1:
+				mes "[Gregor]";
+				mes "Hmm, no creo que hayas cazado a 50 todavia...";
+				close;
+			case 2:
+				mes "[Gregor]";
+				mes "Por favor, date prisa y mata 50 de esos sabrosos y molestos Peco Pecos.";
+				close;
+			case 3:
+				mes "[Gregor]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Gregor]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60101;
+					close;
+				case 2:
+					mes "[Gregor]";
+					mes "Por favor, date prisa y mata 50 de esos sabrosos y molestos Peco Pecos.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Gregor]";
+			mes "Ooh, muchas gracias!!!";
+			mes "Creo que ahora puedo descansar tranquilamente.";
+			getexp 8000,4000;
+			erasequest 60101;
+			close;
+		}
+	}
+	if (checkquest(60102) != -1) {
+		if (checkquest(60102,HUNTING) != 2 ) {
+			mes "[Gregor]";
+			mes "Has terminado de cazar los 100 Peco Pecos?";
+			next;
+			switch(select("Si:No:Renuncio")) {
+			case 1:
+				mes "[Gregor]";
+				mes "Hmm, no creo que hayas cazado a 100 todavia...";
+				close;
+			case 2:
+				mes "[Gregor]";
+				mes "Por favor, date prisa y mata 100 de esos sabrosos y molestos Peco Pecos.";
+				close;
+			case 3:
+				mes "[Gregor]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Gregor]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60102;
+					close;
+				case 2:
+					mes "[Gregor]";
+					mes "Por favor, date prisa y mata 100 de esos sabrosos y molestos Peco Pecos.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Gregor]";
+			mes "Ooh, muchas gracias!!!";
+			mes "Creo que ahora puedo descansar tranquilamente.";
+			getexp 8000,4000;
+			getexp 8000,4000;
+			erasequest 60102;
+			close;
+		}
+	}
+	if (checkquest(60103) != -1) {
+		if (checkquest(60103,HUNTING) != 2 ) {
+			mes "[Gregor]";
+			mes "Has terminado de cazar los 150 Peco Pecos?";
+			next;
+			switch(select("Si:No:Renuncio")) {
+			case 1:
+				mes "[Gregor]";
+				mes "Hmm, no creo que hayas cazado a 150 todavia...";
+				close;
+			case 2:
+				mes "[Gregor]";
+				mes "Por favor, date prisa y mata 150 de esos sabrosos y molestos Peco Pecos.";
+				close;
+			case 3:
+				mes "[Gregor]";
+				mes "Estas seguro de que quieres dejar de cazar?";
+				mes "Cualquier progreso que hayas hecho se perdera";
+				next;
+				switch(select("Si:No")) {
+				case 1:
+					mes "[Gregor]";
+					mes "Ok entonces, vuelve aqui si cambias de parecer.";
+					erasequest 60103;
+					close;
+				case 2:
+					mes "[Gregor]";
+					mes "Por favor, date prisa y mata 150 de esos sabrosos y molestos Peco Pecos.";
+					close;
+				}
+			}
+		}
+		else {
+			mes "[Gregor]";
+			mes "Ooh, muchas gracias!!!";
+			mes "Creo que ahora puedo descansar tranquilamente.";
+			getexp 8000,4000;
+			getexp 8000,4000;
+			getexp 8000,4000;
+			erasequest 60103;
+			close;
+		}
+	}
+	//for minimum level
+	if (BaseLevel > 9) {
+		//for maximum level
+		if (BaseLevel < 31) {
+			mes "[Gregor]";
+			mes "Los Peco Pecos son fascinantes.";
+			mes "Todavia estoy haciendo mi investigacion...";
+			mes "Pero ahora es de una naturaleza diferente.";
+			next;
+			mes "[Gregor]";
+			mes "Veras, he estado ''investigando''";
+			mes "...estos animales recolectando sus...";
+			mes "Bill of Birds pero ultimamente parecen";
+			mes "que se han vuelto hostiles contra mi.";
+			next;
+			mes "[Gregor]";
+			mes "Puedes hacerme un gran favor, por favor?";
+			next;
+			switch(select("Que clase de favor?:No")) {
+			case 1:
+				mes "[Gregor]";
+				mes "Tengo tanto miedo de que estos Peco Pecos me perjudiquen por mis, actividades de investigacion.";
+				next;
+				mes "[Gregor]";
+				mes "Me puedes proteger matandolos?";
+				mes "Asi me voy a sentir mas seguro...";
+				mes "Por Favor...";
+				next;
+				switch(select("Conseguir Items:Cazar Peco Pecos:Cancel")) {
+				case 1:
+					// Item turn in
+					mes "[Gregor]";
+					mes "Necesito algunos ^FF0000Bill of Birds^000000 para mi investigacion...";
+					next;
+					switch(select("Tengo Bill of Birds:Que necesitas?")) {
+					case 1:
+						if (countitem(925) > 24) {
+							mes "[Gregor]";
+							mes "Muchas gracias.";
+							delitem 925,25; //Bill_Of_Birds
+							getexp 4000,2000;
+							next;
+							mes "[Gregor]";
+							mes "Esto va a estar delicioso!!!";
+							close;
+						}
+						else {
+							mes "[Gregor]";
+							mes "No parece que tengas lo suficiente.";
+							next;
+							mes "[Gregor]";
+							mes "Me puedes ayudar a traerme ^FF000025 Bill of Birds^000000?";
+							close;
+						}
+					case 2:
+						mes "[Gregor]";
+						mes "Can you help me out and bring me ^FF000025 Bill of Birds^000000?";
+						close;
+					}
+				case 2:
+					// Kill Count Quest
+					mes "[Gregor]";
+					mes "ooh, veo que puedes ayudarme cazando algunos Peco Pecos.";
+					mes "Cuantos quieres cazar?";
+					next;
+					switch(select("50 Peco Pecos:100 Peco Pecos:150 Peco Pecos")) {
+					case 1:
+						mes "[Gregor]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60101;
+						close;
+					case 2:
+						mes "[Gregor]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60102;
+						close;
+					case 3:
+						mes "[Gregor]";
+						mes "Vuelve cuando hayas terminado tu tarea y te dare una gratificacion.";
+						setquest 60103;
+						close;
+					}
+				case 3:
+					mes "[Gregor]";
+					mes "Si cambias de parecer, por favor, regresa.";
+					close;
+				}
+			case 2:
+				mes "[Gregor]";
+				mes "Si cambias de parecer, por favor, regresa.";
+				close;
+			}
+		}
+		else {
+			mes "[Gregor]";
+			mes "Hmmm... parece que eres demasiado fuerte para estar peleando por aqui.";
+			close;
+		}
+	}
+	else {
+		mes "[Gregor]";
+		mes "Hey, hola!!!.";
+		next;
+		mes "[Gregor]";
+		mes "Esos picky's por alli parecen ser mas aptos para tu velocidad.";
+		close;
+	}
+}

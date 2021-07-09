@@ -1,0 +1,7 @@
+//no chats en mapas
+
+
+arena_5	mapflag	nochat
+mosk_dun01	mapas	nochat
+mosk_dun02	mapas	nochat
+mosk_dun03	mapas	nochat

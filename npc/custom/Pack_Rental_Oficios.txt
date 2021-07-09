@@ -1,0 +1,181 @@
+
+/*
+1:	Acolyte
+2:	Archer
+3:	Mage
+4:	Merchant
+5:	Swordman
+6:	Thief
+
+*/
+
+
+
+
+FirstTown,207,224,3	script	Rental Pack	623 ,{
+
+if(  Class <=6 || (Class >= 4001 && Class <= 4007) || (Class >= 23 && Class <= 25) || (Class >= 4046 && Class <= 4049) ){
+mes "[Rental Pack]";
+mes " ";
+mes "No puedes reclamar el Rental Pack, con este Job.";
+mes "Debes ser Second Job, de alguna de las 6 clases principales.";
+
+
+end;}
+
+			if( #OfiPack == 1) {
+			mes "[Rental Pack]";
+			mes "Ya reclamaste tu Rental Pack, en esta cuenta.";
+			emotion e_bzz;
+			close;}
+
+
+	
+	mes "[Rental Pack]";
+	mes "Hola aventurero, te damos la bienvenida a Tenarius Ro";
+	next;
+	mes "[Rental Pack]";
+	mes "Te invitamos a probar algunos de los Sets de Equipo, que puedes crear con los Oficios.";
+	mes " ";
+	mes "Elije sabiamente el paquete que mas te interese.";
+	next;
+	mes "^3355FF[IMPORTANTE]^000000";
+	mes " ";
+	mes "^3355FFEste Rental Pack solo puedes reclamarlo una vez por Cuenta y tiene una duracion de 7 dias.^000000";
+	next;
+	switch(select("Monk / Priest:Hunter / Bard / Dancer:Sage / Wizard:Alchemist / Blacksmith:Knight / Crusader:Assassin / Rogue:Battle Priest / Battle Sage:Grand Cross Crusader / Exorcist Priest:Cancel")) {
+		
+	
+
+	
+//**********************ACOLYTE**********************//	
+	
+		case 1:
+			//rentitem2 <item id>,<time>,<identify>,<refine>,<attribute>,<card1>,<card2>,<card3>,<card4>{,<account_id>};
+			rentitem2 40392,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;
+			rentitem2 40393,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40394,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			set #OfiPack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+//**********************ARCHER**********************//	
+	
+		case 2:
+			rentitem2 40273,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40274,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40275,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+				
+			set #OfiPack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************MAGE**********************//	
+	
+		case 3:
+			rentitem2 40431,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40432,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40433,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+
+				
+			set #OfiPack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************MERCHANT**********************//	
+	
+		case 4:
+			rentitem2 40401,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40402,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40403,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			
+				
+			set #OfiPack, 1;
+			//warp "prontera",156,172;
+			close;
+
+		
+
+
+
+//**********************SWORDMAN**********************//	
+	
+		case 5:
+			rentitem2 40434,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40435,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40436,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			
+				
+			set #OfiPack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************THIEF**********************//	
+	
+		case 6:
+			rentitem2 40398,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40399,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40400,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+				
+			set #OfiPack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************BATALLA**********************//	
+	
+		case 7:
+			rentitem2 40311,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40312,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40313,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			set #OfiPack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************EXORCISMO**********************//	
+	
+		case 8:
+			rentitem2 40437,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40438,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			rentitem2 40439,604800,1,0,0,254,0,getcharid(0)&0xffff,(getcharid(0)>>16)&0xffff;	
+			set #OfiPack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+
+		case 9:
+			mes "^616D7ENo te preocupes, puedes volver mas tarde.";
+			close;
+	}
+	end;
+
+OnInit:
+	waitingroom "Rental Pack",0;
+	end;
+}
+

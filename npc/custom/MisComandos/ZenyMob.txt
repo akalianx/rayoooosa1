@@ -1,0 +1,109 @@
+
+
+-	script	ZenyMob	-1,{
+OnInit:
+set .party_level_range,15;
+end;
+
+
+OnNPCKillEvent:
+if (  getmonsterinfo( killedrid,MOB_MAXHP ) < 30 ) end;
+
+else if (killedrid == 1002 || killedrid == 1007 || killedrid == 1011 || killedrid == 1063){
+		set .@zenymonster,30;
+		}
+
+
+else if ( ( getmonsterinfo( killedrid,MOB_MAXHP ) > 30 ) &&  (strcharinfo(3) == "gefenia01" || strcharinfo(3) == "gefenia02" || strcharinfo(3) == "gefenia03" || strcharinfo(3) == "gefenia04")  ){
+set .@zenymonster,(getmonsterinfo(killedrid,MOB_MAXHP)/getmonsterinfo(killedrid,MOB_LV))/15*10;
+}
+
+else if (  getmonsterinfo( killedrid,MOB_MAXHP ) > 30 )	{
+		set .@zenymonster,getmonsterinfo(killedrid,MOB_MAXHP)/getmonsterinfo(killedrid,MOB_LV);
+		}
+	
+	
+	set .@partyid,getcharid(1);
+
+	
+	if ( .@partyid ) {
+		set .@aid,getcharid(3);
+		set .@baselevel,BaseLevel;
+		set .@map$,strcharinfo(3);
+		getpartymember .@partyid,1;
+		getpartymember .@partyid,2;
+		while( .@i < $@partymembercount ) {
+			if ( isloggedin( $@partymemberaid[.@i],$@partymembercid[.@i] ) )
+				if ( attachrid( $@partymemberaid[.@i] ) )
+					if ( strcharinfo(3) == .@map$ && ( BaseLevel - .@baselevel ) <= .party_level_range && ( BaseLevel - .@baselevel ) >= ~.party_level_range && Hp >= 1 ) {	
+						
+						if (#mensajezeny == 0){
+						dispbottom "[Zeny Party]      "+(.@zenymonster/$@partymembercount)+"z.",0xFCF506;}
+						zeny+= (.@zenymonster/$@partymembercount);
+						//dispbottom ""+(.@zenymonster/$@partymembercount)+"z.";
+						
+						
+					}
+			set .@i,.@i + 1;
+		}
+		attachrid( .@aid );
+	}
+	else {
+		if (#mensajezeny == 0){
+		dispbottom "[Zeny Inidivudal]      "+(.@zenymonster)+"z.",0xFCF506;}
+		zeny+= .@zenymonster;
+		//dispbottom ""+(.@zenymonster)+"z.";
+		
+		
+	}
+	if ( rand( 100 ) < .rotd_item_rate && .rotd_zeny ) 
+		set Zeny,Zeny + rand( .rotd_zeny );
+	if ( rand( 100 ) < .rotd_item_rate && .rotd_item_amount ) 
+		getitem .rotd_item_id,rand( .rotd_item_amount ),.@aid;
+
+end;
+}
+
+
+
+
+
+//=====================@SHOWZENY=====================//
+
+-	script	showzeny	-1,{
+OnInit:
+	bindatcmd "showzeny",strnpcinfo(0)+"::OnAtcommand";
+	end;
+OnAtcommand:
+mes "Zeny Message";
+mes " ";
+mes "Que deseas hacer con el mensaje de zeny optenido?";
+switch(select("Ocultar Mensaje:Mostrar Mensaje")){
+
+case 1:
+		set #mensajezeny,1;
+		break;
+
+case 2:
+		set #mensajezeny,0;
+		break;	
+
+}
+
+
+
+	end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

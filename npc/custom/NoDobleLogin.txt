@@ -1,0 +1,32 @@
+
+
+-	script	nodoblelog	-1,{
+OnInit:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if (.@qmap$ == .@amap$){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		mes "Lo siento, no esta permitido el Double Login en este mapa.";
+		
+		warp "prontera",156,183;
+	}
+
+end;
+}
+
+//------Enable map OnPCLoadMapEvent-------------------
+league	mapflag	loadevent
+removemapflag	arena_4

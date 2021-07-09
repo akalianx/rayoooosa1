@@ -1,0 +1,347 @@
+/*
+
+prontera,142,228,5	script	Battlr	-1,{
+OnPCDieEvent:
+if(strcharinfo(3) == "evt_swar_b" || strcharinfo(3) == "evt_swar_r"){
+nude;
+atcommand "@dropall";
+}
+end;
+}
+
+-	script	Battlekillm	-1,{
+OnInit:
+killmonster "evt_swar_b","All";
+killmonster "evt_swar_r","All";
+}
+
+
+
+//league,141,165,5	script	Battle Royal	90,{
+prontera,155,177,5	script	Battle Royal	90,{
+//MENSAJE
+mes "[Battle Royal]";
+mes "Bienvenido, al participar seras enviando a un mapa de pvp, y tu equipo se guardara antes de entrar.";
+next;
+mes "En que Clasificatoria te gustaria entrar?";
+
+switch(select("Super Novice:Gunslinger:Salir")){
+	
+case 1:
+mes "Evento Inactivo";
+close;
+
+/*
+	if(Class != 23) {
+			mes "Solo pueden entrar Super Novice nivel 60 o menor";
+			close;
+		} //fin if
+	if(BaseLevel > 60) {
+			mes "Solo pueden entrar Super Novice nivel 60 o menor";
+			close;
+		} //fin if
+	else  {
+		mes "deseas participar?";
+		switch(select("Si:No")){
+			
+			case 1: warp "evt_swar_b",0,0;
+					atcommand "@storeall";
+					break;
+			
+			
+			case 2: close;
+
+		}
+
+	} //fin else
+
+*/	
+	
+break;
+
+mes "Evento Inactivo";
+close;
+/*
+case 2:
+
+	if(Class != 24) {
+			mes "Solo pueden entrar Gunslinger nivel 60 o menor";
+			close;
+		} //fin if
+	if(BaseLevel > 60) {
+			mes "Solo pueden entrar Gunslinger nivel 60 o menor";
+			close;
+		} //fin if
+	else  {
+		mes "deseas participar?";
+		switch(select("Si:No")){
+			
+			case 1: 
+			
+					warp "evt_swar_r",0,0;
+					atcommand "@storeall";
+					
+					break;
+			
+			
+			case 2: close;
+	
+	
+	
+		}
+
+	} //fin else
+
+*/
+break;
+
+
+
+
+case 3:
+close;
+
+}
+
+
+
+
+
+
+
+//----------------------------------------------------------------------------
+//--------------------------- CONDICIONES DE INICIO --------------------------
+//----------------------------------------------------------------------------
+OnInit:
+//monster "evt_swar_b",0,0,"Weapon Box",3000,20,strnpcinfo(0)+"::OnKill";
+//monster "evt_swar_r",0,0,"Weapon Box",3000,20,strnpcinfo(0)+"::OnKill2";
+//monster "evt_swar_b",0,0,"Consuring",3001,15,strnpcinfo(0)+"::OnKill3";
+//monster "evt_swar_r",0,0,"Consuring",3001,15,strnpcinfo(0)+"::OnKill4";
+end;
+
+OnKill:
+monster "evt_swar_b",0,0,"Weapon Box",3000,1,strnpcinfo(0)+"::OnKill";
+callfunc("SuperNoviceBR");
+end;
+
+OnKill2:
+monster "evt_swar_r",0,0,"Weapon Box",3000,1,strnpcinfo(0)+"::OnKill2";
+callfunc("GunslingerBR");
+end;
+
+OnKill3:
+monster "evt_swar_b",0,0,"Consuring",3001,1,strnpcinfo(0)+"::OnKill3";
+callfunc("ConsumiblesBRoyal");
+end;
+
+OnKill4:
+monster "evt_swar_r",0,0,"Consuring",3001,1,strnpcinfo(0)+"::OnKill4";
+callfunc("ConsumiblesBRoyalGuns");
+end;
+
+//----------------------------------------------------------------------------
+//------------------------------ SI MUERE ALGUIEN ----------------------------
+//----------------------------------------------------------------------------
+
+OnPCKillEvent:
+/*
+	if ( killedrid == getcharid(3) && (strcharinfo(3)!= "evt_swar_b" || strcharinfo(3)!= "evt_swar_r") ) end;
+	.@killpoints = 4;
+	.@deadpoints = 1;
+	query_sql "insert into `pvpladder` value ( "+ getcharid(0) +", '"+ escape_sql( strcharinfo(0) ) +"', "+ .@killpoints +" ) on duplicate key update `points` = `points` + "+ .@killpoints;
+		query_sql "select points from pvpladder where char_id = "+ getcharid(0), .@points;
+	dispbottom "You have earned "+ .@killpoints +" Points. Total "+ .@points +".";
+	attachrid killedrid;
+	query_sql "insert into `pvpladder` value ( "+ getcharid(0) +", '"+ escape_sql( strcharinfo(0) ) +"', 0 ) on duplicate key update `points` =  IF( points - "+ .@deadpoints +" < 0, 0, points - "+ .@deadpoints  +")";
+	query_sql "select points from pvpladder where char_id = "+ getcharid(0), .@points;
+	dispbottom "You have lose "+ .@deadpoints +" Points. Total "+ .@points +".";
+	end;
+
+
+if ( killedrid != getcharid(3) && strcharinfo(3)== "prontera" ){
+	.@killpoints = 5;
+	.@deadpoints = 1;
+	query_sql "insert into `pvpladder` value ( "+ getcharid(0) +", '"+ escape_sql( strcharinfo(0) ) +"', "+ .@killpoints +" ) on duplicate key update `points` = `points` + "+ .@killpoints;
+		query_sql "select points from pvpladder where char_id = "+ getcharid(0), .@points;
+	dispbottom "You have earned "+ .@killpoints +" Points. Total "+ .@points +".";
+	attachrid killedrid;
+	query_sql "insert into `pvpladder` value ( "+ getcharid(0) +", '"+ escape_sql( strcharinfo(0) ) +"', 0 ) on duplicate key update `points` =  IF( points - "+ .@deadpoints +" < 0, 0, points - "+ .@deadpoints  +")";
+	query_sql "select points from pvpladder where char_id = "+ getcharid(0), .@points;
+	dispbottom "You have lose "+ .@deadpoints +" Points. Total "+ .@points +".";
+	}
+*/
+
+
+
+if ( killedrid != getcharid(3) && strcharinfo(3)== "evt_swar_b" || strcharinfo(3)== "evt_swar_r" ){
+	getitem 32000,2;
+	dispbottom "Haz obtenido 2 War Badge";
+	attachrid killedrid;
+	delitem 32000,1;
+	dispbottom "Haz Perdido 1 War Badge";
+	}
+
+end;
+
+
+
+
+
+}
+// FIN SCRIPT 
+
+evt_swar_b	mapflag	pvp
+evt_swar_b	mapflag	nowarp
+evt_swar_b	mapflag	nowarpto
+evt_swar_b	mapflag	noteleport
+evt_swar_b	mapflag	nomemo
+evt_swar_b	mapflag	nosave
+evt_swar_b	mapflag	noicewall
+evt_swar_b	mapflag	nobranch
+evt_swar_b	mapflag	noguild
+evt_swar_b	mapflag	noparty
+evt_swar_b	mapflag	noreturn
+evt_swar_b	mapflag	nocommand
+evt_swar_b	mapflag	nightmaredrop	all,all,10000
+evt_swar_r	mapflag	pvp
+evt_swar_r	mapflag	nowarp
+evt_swar_r	mapflag	nowarpto
+evt_swar_r	mapflag	noteleport
+evt_swar_r	mapflag	nomemo
+evt_swar_r	mapflag	nosave
+evt_swar_r	mapflag	noicewall
+evt_swar_r	mapflag	nobranch
+evt_swar_r	mapflag	noguild
+evt_swar_r	mapflag	noparty
+evt_swar_r	mapflag	noreturn
+evt_swar_r	mapflag	nocommand
+evt_swar_r	mapflag	nightmaredrop	all,all,10000
+evt_swar_b	mapflag	nopenalty
+evt_swar_r	mapflag	nopenalty
+
+
+
+
+//------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+function	script	SuperNoviceBR	{
+	
+	setarray .@RandItem[0],5112,2113,1639,2416,2512,1622,1146; 
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+	
+}
+
+
+function	script	GunslingerBR	{
+	
+	setarray .@RandItem[0],13102,13104,13100,2305,2501,2405; 
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+	
+}
+
+
+function	script	ConsumiblesBRoyal	{
+	
+					  //ID , % , CANTIDAD
+	setarray .@reward,	501, 40, 20, 		//20 red potion
+						502, 35, 10, 		//10 orange potion
+						503, 35, 10, 		//10 yellow potion
+						505, 20, 5; 		//5 blue potion
+					
+						
+						
+						
+	set .@size, getarraysize( .@reward );
+	for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+		.@percent[.@i] = .@total + .@reward[.@i];
+		.@total += .@reward[.@i];
+	}
+	.@r = rand( .@total +1 );
+	for( set .@i, 1; .@i < .@size; .@i += 3 )
+		if( .@percent[.@i] > .@r )
+			break;
+	getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+	end;
+	
+}
+
+
+function	script	ConsumiblesBRoyalGuns	{
+	
+					  //ID , % , CANTIDAD
+	setarray .@reward,	501, 40, 20, 		//20 red potion
+						502, 35, 10, 		//10 orange potion
+						503, 35, 10, 		//10 yellow potion
+						13200, 70, 50, 		//50 Bullets
+						505, 20, 5; 		//5 blue potion
+					
+						
+						
+						
+	set .@size, getarraysize( .@reward );
+	for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+		.@percent[.@i] = .@total + .@reward[.@i];
+		.@total += .@reward[.@i];
+	}
+	.@r = rand( .@total +1 );
+	for( set .@i, 1; .@i < .@size; .@i += 3 )
+		if( .@percent[.@i] > .@r )
+			break;
+	getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+	end;
+	
+}
+
+
+//------------------------------------------------------------------------------------------------------
+//--------------------------------------- SALIDA DEL MAPA ----------------------------------------------
+//------------------------------------------------------------------------------------------------------
+
+
+
+evt_swar_b,66,164,4	script	Soldado	417,{
+	mes "[Soldado]";
+	mes "Si deseas salir de la sala, por favor usa mis servicios";
+	next;
+	if( select("Salir:No salir") == 2 )
+	{
+		mes "[Soldado]";
+		mes "Estare aqui por si necesitas mis servicios";
+		close;
+	}
+	set .@spoint$, getsavepoint(0);
+	set .@x, getsavepoint(1);
+	set .@y, getsavepoint(2);
+	mes "[Teleporter]";
+	mes "Seras enviado a " + .@spoint$ + ".";
+	close2;
+	nude;
+	atcommand "@dropall";
+	warp .@spoint$, .@x, .@y;
+	end;
+
+
+
+}
+
+
+
+evt_swar_b,168,149,6	duplicate(Soldado)	Soldado	417
+evt_swar_b,166,75,8	duplicate(Soldado)	Soldado	417
+evt_swar_b,86,49,2	duplicate(Soldado)	Soldado	417
+evt_swar_b,132,171,2	duplicate(Soldado)	Soldado	417
+evt_swar_b,108,117,2	duplicate(Soldado)	Soldado	417
+
+evt_swar_r,66,164,2	duplicate(Soldado)	Soldado	
+evt_swar_r,168,149,6	duplicate(Soldado)	Soldado	417
+evt_swar_r,166,75,8	duplicate(Soldado)	Soldado	417
+evt_swar_r,86,49,2	duplicate(Soldado)	Soldado	417
+evt_swar_r,132,171,2	duplicate(Soldado)	Soldado	417
+evt_swar_r,108,117,2	duplicate(Soldado)	Soldado	417
+
+*/

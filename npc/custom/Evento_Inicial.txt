@@ -1,0 +1,38 @@
+FirstTown,216,206,4	script	Mision#1	90,{
+set .nombreNPC$,"Mision#1";
+set .item,909;
+set .cantidadjello,100;
+
+
+
+if ($contador_4tt>=.cantidadjello) {
+	mes "Felicidades, hasta la proxima"; 
+	atcommand ("@hidenpc " + .nombreNPC$);
+	atcommand ("@reloadnpc npc/custom/warper.txt");
+	atcommand ("@reloadnpc npc/kafras/kafras.txt");
+	end;}
+
+mes "Para desbloquear kafra y warper deberan juntar 100 Jellopys";
+mes " ";
+//mes "Tienes "  + countitem(.item) + " " + getitemname(.item);
+//mes " ";
+mes "Han recolectado " + $contador_4tt + " " + getitemname(.item);
+set $contador_4tt,$contador_4tt+countitem(.item);
+delitem .item,countitem(.item);
+
+
+end;
+OnInit:
+
+set .nombreNPC$,"Mision#1";
+sleep 1000;
+if ($contador_4tt>.cantidadjello){
+atcommand ("@hidenpc " + .nombreNPC$);}
+end;
+
+
+
+
+end;}
+
+FirstTown,215,29,0	warp	moc_pro	2,3,nature,103,190

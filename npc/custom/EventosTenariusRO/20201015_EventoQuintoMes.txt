@@ -1,0 +1,2763 @@
+/*
+
+prontera,1,1,5	script	ecoo	-1,{
+
+OnInit:
+killmonster "prontera","All";
+atcommand ("@reloadbattleconf");
+
+monster "prontera",0,0,"Jakk",1130,5,strnpcinfo(0)+"::OnKill";
+monster "prontera",0,0,"Familiar",1005,10,strnpcinfo(0)+"::OnKill2";
+monster "prontera",0,0,"Skeleton",1076,20,strnpcinfo(0)+"::OnKill3";
+end;
+
+
+OnKill:
+monster "prontera",0,0,"Jakk",1130,1,strnpcinfo(0)+"::OnKill";
+end;
+
+OnKill2:
+monster "prontera",0,0,"Familiar",1005,1,strnpcinfo(0)+"::OnKill2";
+end;
+
+
+OnKill3:
+monster "prontera",0,0,"Skeleton",1076,1,strnpcinfo(0)+"::OnKill3";
+end;
+
+
+}
+
+//========================================================================
+//========================================================================
+//========================================================================
+
+prontera,206,172,2	script	Espiritu Maligno	111,{
+
+set .nombreNPC$,"^0000FFEspiritu Maligno^000000";
+
+if (cursedMiss == 1){
+
+	if( countitem(523) < 5 ){
+		mes .nombreNPC$;
+		mes "^0000FF" + strcharinfo(0) + "^000000 No traes al menos ^0000FF1 " + getitemname( 523 ) + "^000000.";
+		mes " ";
+		mes "Vuelve cuando las tengas.";
+		end;}
+	else{
+		set .@Amount,( countitem(523) );
+		delitem 523,( .@Amount );
+		getitem 12020,.@Amount;
+		mes .nombreNPC$;
+		mes "Porfin puedo corromper este mundo, toma tu(s) ^0000FF" + .@Amount + " " + getitemname(12020) + "^000000.";
+		mes " ";
+		mes "^0000FF" + strcharinfo(0) +"^000000 si continuas sirviendome seguiras siendo recompensado.";
+		end;
+		}
+
+
+
+}
+
+
+
+mes .nombreNPC$;
+mes "Por fin puedo vagar por el mundo de los vivos, el verlos tan felices me da asco.";
+mes "Odio todo aquello que representa lo bueno.";
+next;
+
+mes .nombreNPC$;
+
+mes "^0000FF" + strcharinfo(0) + "^000000, te propongo un trato.";
+mes "Ayudame a corromper aquello que consideran sagrado y a cambio te entregare unos objetos.";
+mes "Aceptas el trato?";
+
+if(select("^FF0000No acepto el trato^000000:^0000FFClaro, en que te ayudo?^000000") == 1) {
+next;
+mes "^0000FF" + strcharinfo(0) + "^000000";
+mes "Disculpa pero no puedo traicionar mis principios ni a aquellos que confian en mi.";
+end;
+}
+next;
+mes .nombreNPC$;
+mes "Por cada ^0000FF5 Holy Water^000000, que me traigas para destruirlas, a cambio te entregare ^0000FF1 Cursed Water^000000";
+set cursedMiss,1;
+end;
+}
+
+
+
+//========================================================================
+//========================================================================
+//========================================================================
+
+prontera,100,162,5	script	Merlin	597,{
+set .nombreNPC$,"^0000FFMerlin^000000";
+//set #questH_questHelay,gettimetick(2)+10; // Sets Timer.
+
+
+//==================== ITEMS PARA QUEST 1 ====================//
+			set .@questH_1_item1,507;	//Red Herb
+			set .@questH_1_cantidad1,20;
+			set .@questH_1_item2,511;	//Green Herb    
+			set .@questH_1_cantidad2,20;
+			set .@questH_1_item3,508;	//Yellow Herb 
+			set .@questH_1_cantidad3,20;
+
+
+
+//==================== ITEMS PARA QUEST 2 ====================//
+			set .@questH_2_item1,580; 	//Bread    
+			set .@questH_2_cantidad1,20;
+			set .@questH_2_item2,518;	//Honey
+			set .@questH_2_cantidad2,20;
+			set .@questH_2_item3,582;	//Orange      
+			set .@questH_2_cantidad3,20;
+			set .@questH_2_item4,7066;	//Ice Cubic
+			set .@questH_2_cantidad4,20;
+
+
+
+//==================== ITEMS PARA QUEST 3 ====================//
+			set .@questH_3_item1,518;	//Honey
+			set .@questH_3_cantidad1,30;
+			set .@questH_3_item2,582;	//Orange    
+			set .@questH_3_cantidad2,30;
+			set .@questH_3_item3,568;	//Lemon    
+			set .@questH_3_cantidad3,30;
+			set .@questH_3_item4,7286;	//Red Chile 
+			set .@questH_3_cantidad4,50;
+			set .@questH_3_item5,509;	//White Herb
+			set .@questH_3_cantidad5,50;
+			
+			
+
+
+//==================== ITEMS PARA QUEST 4 ====================//
+			set .@questH_4_item1,526; 	//Royal Jelly
+			set .@questH_4_cantidad1,30;
+			set .@questH_4_item2,509;	//White Herb	
+			set .@questH_4_cantidad2,30;
+			set .@questH_4_item3,514; 	//Grape    
+			set .@questH_4_cantidad3,30;
+			set .@questH_4_item4,522;	//Mastela Fruit
+			set .@questH_4_cantidad4,30;
+			set .@questH_4_item5,7168;	//Giant Butterfly Wing
+			set .@questH_4_cantidad5,30;
+			set .@questH_4_item6,7099; 	//Worn-out Magic Scroll
+			set .@questH_4_cantidad6,30;
+
+
+
+
+//==================== DELAY DE QUEST ====================//
+if(#questH_questHelay > gettimetick(2)){ // Checks timer, if active it will block you from doing the quest.
+set .@delayremaining,(((#questH_questHelay-gettimetick(2))+1)/60);
+mes .nombreNPC$;
+mes " ";
+mes "Debes esperar "+.@delayremaining+" minuto(s) mas.";
+end;
+}
+
+
+//==================== REVISION DE QUEST 1 ====================//
+if (questH_1 == 1) {
+		next;
+		if (countitem(.@questH_1_item1) < .@questH_1_cantidad1 || countitem(.@questH_1_item2) < .@questH_1_cantidad2 || countitem(.@questH_1_item3) < .@questH_1_cantidad3   ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questH_1_item1) + "/"  + .@questH_1_cantidad1 + " " + getitemname(.@questH_1_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_1_item2) + "/"  + .@questH_1_cantidad2 + " " + getitemname(.@questH_1_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_1_item3) + "/"  + .@questH_1_cantidad3 + " " + getitemname(.@questH_1_item3) + ".^000000";
+		
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questH_1_item1,.@questH_1_cantidad1;
+	delitem .@questH_1_item2,.@questH_1_cantidad2;
+	delitem .@questH_1_item3,.@questH_1_cantidad3;
+	
+	
+		
+	getitem 7828,5;		//bravery badge
+	getitem 40118,1;	//potion Box
+	getitem 40095,10;	//Hunting Badge
+	set #questH_questHelay,gettimetick(2)+1800; // Sets Timer.
+	set questH_1,0;
+	set questH_2,0;
+	set questH_3,0;
+	set questH_4,0;
+	end;
+}
+
+
+//==================== REVISION DE QUEST 2 ====================//
+if (questH_2 == 1) {
+		next;
+		if (countitem(.@questH_2_item1) < .@questH_2_cantidad1 || countitem(.@questH_2_item2) < .@questH_2_cantidad2 || countitem(.@questH_2_item3) < .@questH_2_cantidad3 || countitem(.@questH_2_item4) < .@questH_2_cantidad4  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questH_2_item1) + "/"  + .@questH_2_cantidad1 + " " + getitemname(.@questH_2_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_2_item2) + "/"  + .@questH_2_cantidad2 + " " + getitemname(.@questH_2_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_2_item3) + "/"  + .@questH_2_cantidad3 + " " + getitemname(.@questH_2_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_2_item4) + "/"  + .@questH_2_cantidad4 + " " + getitemname(.@questH_2_item4) + ".^000000";
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questH_2_item1,.@questH_2_cantidad1;
+	delitem .@questH_2_item2,.@questH_2_cantidad2;
+	delitem .@questH_2_item3,.@questH_2_cantidad3;
+	delitem .@questH_2_item4,.@questH_2_cantidad4;
+	
+	
+	 
+	//comidas +3
+	setarray .@RandItem[0],12063,12048,12043,12053,12058,12068; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+
+
+	getitem 7828,5;		//bravery badge	
+	getitem 40118,2;	//potion Box
+	getitem 40095,10;	//Hunting Badge
+	set #questH_questHelay,gettimetick(2)+1800; // Sets Timer.
+	set questH_1,0;
+	set questH_2,0;
+	set questH_3,0;
+	set questH_4,0;
+	end;
+}
+
+
+
+
+//==================== REVISION DE QUEST 3 ====================//
+if (questH_3 == 1) {
+		next;
+		if (countitem(.@questH_3_item1) < .@questH_3_cantidad1 || countitem(.@questH_3_item2) < .@questH_3_cantidad2 || countitem(.@questH_3_item3) < .@questH_3_cantidad3 || countitem(.@questH_3_item4) < .@questH_3_cantidad4 || countitem(.@questH_3_item5) < .@questH_3_cantidad5  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questH_3_item1) + "/"  + .@questH_3_cantidad1 + " " + getitemname(.@questH_3_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_3_item2) + "/"  + .@questH_3_cantidad2 + " " + getitemname(.@questH_3_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_3_item3) + "/"  + .@questH_3_cantidad3 + " " + getitemname(.@questH_3_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_3_item4) + "/"  + .@questH_3_cantidad4 + " " + getitemname(.@questH_3_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_3_item5) + "/"  + .@questH_3_cantidad5 + " " + getitemname(.@questH_3_item5) + ".^000000";
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questH_3_item1,.@questH_3_cantidad1;
+	delitem .@questH_3_item2,.@questH_3_cantidad2;
+	delitem .@questH_3_item3,.@questH_3_cantidad3;
+	delitem .@questH_3_item4,.@questH_3_cantidad4;
+	delitem .@questH_3_item5,.@questH_3_cantidad5;
+	
+	
+	//comidas +5
+	setarray .@RandItem[0],12050,12045,12065,12060,12055,12070; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+
+	getitem 7828,7;		//bravery badge	
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questH_questHelay,gettimetick(2)+1800; // Sets Timer.
+	set questH_1,0;
+	set questH_2,0;
+	set questH_3,0;
+	set questH_4,0;
+	end;
+}
+
+
+
+//==================== REVISION DE QUEST 4 ====================//
+if (questH_4 == 1) {
+		next;
+		if (countitem(.@questH_4_item1) < .@questH_4_cantidad1 || countitem(.@questH_4_item2) < .@questH_4_cantidad2 || countitem(.@questH_4_item3) < .@questH_4_cantidad3 || countitem(.@questH_4_item4) < .@questH_4_cantidad4 || countitem(.@questH_4_item5) < .@questH_4_cantidad5 || countitem(.@questH_4_item6) < .@questH_4_cantidad6 ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questH_4_item1) + "/"  + .@questH_4_cantidad1 + " " + getitemname(.@questH_4_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_4_item2) + "/"  + .@questH_4_cantidad2 + " " + getitemname(.@questH_4_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_4_item3) + "/"  + .@questH_4_cantidad3 + " " + getitemname(.@questH_4_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_4_item4) + "/"  + .@questH_4_cantidad4 + " " + getitemname(.@questH_4_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_4_item5) + "/"  + .@questH_4_cantidad5 + " " + getitemname(.@questH_4_item5) + ".^000000";
+		mes "^0000FF" + countitem(.@questH_4_item6) + "/"  + .@questH_4_cantidad6 + " " + getitemname(.@questH_4_item6) + ".^000000";
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questH_4_item1,.@questH_4_cantidad1;
+	delitem .@questH_4_item2,.@questH_4_cantidad2;
+	delitem .@questH_4_item3,.@questH_4_cantidad3;
+	delitem .@questH_4_item4,.@questH_4_cantidad4;
+	delitem .@questH_4_item5,.@questH_4_cantidad5;
+	delitem .@questH_4_item6,.@questH_4_cantidad6;
+	
+		
+	//comidas +7
+	setarray .@RandItem2[0],12072,12077,12092,12087,12082,12097; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	getitem 7828,7;		//bravery badge
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questH_questHelay,gettimetick(2)+1800; // Sets Timer.
+	set questH_1,0;
+	set questH_2,0;
+	set questH_3,0;
+	set questH_4,0;
+	end;
+}
+
+
+mes .nombreNPC$;
+mes "Buen dia ^0000FF" + strcharinfo(0) + "^000000";
+mes "Mi nombre es " + .nombreNPC$ + ".";
+mes "Fui conocida como la maga mas poderosa, aunque la historia me menciana como un hombre.";
+next;
+mes .nombreNPC$;
+mes "Apoye a ^0000FFArthur^000000 en muchas de sus batallas.";
+mes "Echo de menos el poder conjurar poderosos hechizos y las aventuras.";
+next;
+mes .nombreNPC$;
+mes "Podrias traerme algunas cosas para que pueda descansar en paz?";
+if(select("^FF0000Ahora no puedo^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+next;
+mes "^0000FF" + strcharinfo(0) + "^000000";
+mes "Disculpa pero tengo otra mision que hacer.";
+mes "Te ayudare en otro momento.";
+next;
+mes .nombreNPC$;
+mes "Muchas gracias por tu tiempo^0000FF" + strcharinfo(0) + "^000000, que te vaya bien en tu viaje.";
+end; } //FIN MENU
+
+
+next;
+
+
+switch( rand(1,4) ){
+        case 1: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questH_1_cantidad1 + " " + getitemname(.@questH_1_item1) + "  ID: (" + .@questH_1_item1 + ").";
+				mes "^0000FF" + .@questH_1_cantidad2 + " " + getitemname(.@questH_1_item2) + "  ID: (" + .@questH_1_item2 + ").";
+				mes "^0000FF" + .@questH_1_cantidad3 + " " + getitemname(.@questH_1_item3) + "  ID: (" + .@questH_1_item3 + ").";
+				set questH_1,1;
+				end;
+				
+				end;
+        
+		case 2: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questH_2_cantidad1 + " " + getitemname(.@questH_2_item1) + "  ID: (" + .@questH_2_item1 + ").";
+				mes "^0000FF" + .@questH_2_cantidad2 + " " + getitemname(.@questH_2_item2) + "  ID: (" + .@questH_2_item2 + ").";
+				mes "^0000FF" + .@questH_2_cantidad3 + " " + getitemname(.@questH_2_item3) + "  ID: (" + .@questH_2_item3 + ").";
+				mes "^0000FF" + .@questH_2_cantidad4 + " " + getitemname(.@questH_2_item4) + "  ID: (" + .@questH_2_item4 + ").";
+				set questH_2,1;
+				end;
+		
+		case 3:  
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questH_3_cantidad1 + " " + getitemname(.@questH_3_item1) + "  ID: (" + .@questH_3_item1 + ").";
+				mes "^0000FF" + .@questH_3_cantidad2 + " " + getitemname(.@questH_3_item2) + "  ID: (" + .@questH_3_item2 + ").";
+				mes "^0000FF" + .@questH_3_cantidad3 + " " + getitemname(.@questH_3_item3) + "  ID: (" + .@questH_3_item3 + ").";
+				mes "^0000FF" + .@questH_3_cantidad4 + " " + getitemname(.@questH_3_item4) + "  ID: (" + .@questH_3_item4 + ").";
+				mes "^0000FF" + .@questH_3_cantidad5 + " " + getitemname(.@questH_3_item5) + "  ID: (" + .@questH_3_item5 + ").";
+				set questH_3,1;
+				end;
+	
+		case 4: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questH_4_cantidad1 + " " + getitemname(.@questH_4_item1) + "  ID: (" + .@questH_4_item1 + ").";
+				mes "^0000FF" + .@questH_4_cantidad2 + " " + getitemname(.@questH_4_item2) + "  ID: (" + .@questH_4_item2 + ").";
+				mes "^0000FF" + .@questH_4_cantidad3 + " " + getitemname(.@questH_4_item3) + "  ID: (" + .@questH_4_item3 + ").";
+				mes "^0000FF" + .@questH_4_cantidad4 + " " + getitemname(.@questH_4_item4) + "  ID: (" + .@questH_4_item4 + ").";
+				mes "^0000FF" + .@questH_4_cantidad5 + " " + getitemname(.@questH_4_item5) + "  ID: (" + .@questH_4_item5 + ").";
+				mes "^0000FF" + .@questH_4_cantidad6 + " " + getitemname(.@questH_4_item6) + "  ID: (" + .@questH_4_item6 + ").";
+				set questH_4,1;
+				end;
+
+		}
+
+
+
+end;
+
+OnInit:
+	waitingroom "Merlin",0;
+	end;
+
+} //FIN SCRIPT
+
+
+//========================================================================
+//========================================================================
+//========================================================================
+
+
+prontera,102,244,5	script	Arthur	599,{
+set .nombreNPC$,"^0000FFArthur^000000";
+//set #questG_questGelay,gettimetick(2)+10; // Sets Timer.
+
+
+//==================== ITEMS PARA QUEST 1 ====================//
+			set .@questG_1_item1,1050;	//Tendon    
+			set .@questG_1_cantidad1,20;
+			set .@questG_1_item2,962;	//Tentacle    
+			set .@questG_1_cantidad2,20;
+			set .@questG_1_item3,1023;	//Fish Tail
+			set .@questG_1_cantidad3,20;
+
+
+
+//==================== ITEMS PARA QUEST 2 ====================//
+			set .@questG_2_item1,580; 	//Bread    
+			set .@questG_2_cantidad1,20;
+			set .@questG_2_item2,518;	//Honey
+			set .@questG_2_cantidad2,20;
+			set .@questG_2_item3,582;	//Orange      
+			set .@questG_2_cantidad3,20;
+			set .@questG_2_item4,520;	//Hinalle Leaflet  
+			set .@questG_2_cantidad4,20;
+
+
+
+//==================== ITEMS PARA QUEST 3 ====================//
+			set .@questG_3_item1,518;	//Honey
+			set .@questG_3_cantidad1,30;
+			set .@questG_3_item2,582;	//Orange    
+			set .@questG_3_cantidad2,30;
+			set .@questG_3_item3,521;	//Aloe Leaflet  
+			set .@questG_3_cantidad3,30;
+			set .@questG_3_item4,7066;	//Ice Cubic
+			set .@questG_3_cantidad4,50;
+			set .@questG_3_item5,507;	//Red Herb
+			set .@questG_3_cantidad5,50;
+			
+			
+
+
+//==================== ITEMS PARA QUEST 4 ====================//
+			set .@questG_4_item1,526; 	//Royal Jelly
+			set .@questG_4_cantidad1,30;
+			set .@questG_4_item2,518;	//Honey
+			set .@questG_4_cantidad2,30;
+			set .@questG_4_item3,7100; 	//Sharp Leaf
+			set .@questG_4_cantidad3,30;
+			set .@questG_4_item4,522;	//Mastela Fruit
+			set .@questG_4_cantidad4,30;
+			set .@questG_4_item5,7066;	//Ice Cubic
+			set .@questG_4_cantidad5,30;
+			set .@questG_4_item6,582;	//Orange     
+			set .@questG_4_cantidad6,30;
+
+
+
+
+//==================== DELAY DE QUEST ====================//
+if(#questG_questGelay > gettimetick(2)){ // Checks timer, if active it will block you from doing the quest.
+set .@delayremaining,(((#questG_questGelay-gettimetick(2))+1)/60);
+mes .nombreNPC$;
+mes " ";
+mes "Debes esperar "+.@delayremaining+" minuto(s) mas.";
+end;
+}
+
+
+//==================== REVISION DE QUEST 1 ====================//
+if (questG_1 == 1) {
+		next;
+		if (countitem(.@questG_1_item1) < .@questG_1_cantidad1 || countitem(.@questG_1_item2) < .@questG_1_cantidad2 || countitem(.@questG_1_item3) < .@questG_1_cantidad3   ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questG_1_item1) + "/"  + .@questG_1_cantidad1 + " " + getitemname(.@questG_1_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_1_item2) + "/"  + .@questG_1_cantidad2 + " " + getitemname(.@questG_1_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_1_item3) + "/"  + .@questG_1_cantidad3 + " " + getitemname(.@questG_1_item3) + ".^000000";
+		
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questG_1_item1,.@questG_1_cantidad1;
+	delitem .@questG_1_item2,.@questG_1_cantidad2;
+	delitem .@questG_1_item3,.@questG_1_cantidad3;
+	
+	
+		
+	getitem 7829,5;		//valor badge
+	getitem 40118,1;	//potion Box
+	getitem 40095,10;	//Hunting Badge
+	set #questG_questGelay,gettimetick(2)+1800; // Sets Timer.
+	set questG_1,0;
+	set questG_2,0;
+	set questG_3,0;
+	set questG_4,0;
+	end;
+}
+
+
+//==================== REVISION DE QUEST 2 ====================//
+if (questG_2 == 1) {
+		next;
+		if (countitem(.@questG_2_item1) < .@questG_2_cantidad1 || countitem(.@questG_2_item2) < .@questG_2_cantidad2 || countitem(.@questG_2_item3) < .@questG_2_cantidad3 || countitem(.@questG_2_item4) < .@questG_2_cantidad4  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questG_2_item1) + "/"  + .@questG_2_cantidad1 + " " + getitemname(.@questG_2_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_2_item2) + "/"  + .@questG_2_cantidad2 + " " + getitemname(.@questG_2_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_2_item3) + "/"  + .@questG_2_cantidad3 + " " + getitemname(.@questG_2_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_2_item4) + "/"  + .@questG_2_cantidad4 + " " + getitemname(.@questG_2_item4) + ".^000000";
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questG_2_item1,.@questG_2_cantidad1;
+	delitem .@questG_2_item2,.@questG_2_cantidad2;
+	delitem .@questG_2_item3,.@questG_2_cantidad3;
+	delitem .@questG_2_item4,.@questG_2_cantidad4;
+	
+	
+	 
+	//comidas +3
+	setarray .@RandItem[0],12063,12048,12043,12053,12058,12068; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+
+
+	getitem 7829,5;		//valor badge	
+	getitem 40118,2;	//potion Box
+	getitem 40095,10;	//Hunting Badge
+	set #questG_questGelay,gettimetick(2)+1800; // Sets Timer.
+	set questG_1,0;
+	set questG_2,0;
+	set questG_3,0;
+	set questG_4,0;
+	end;
+}
+
+
+
+
+//==================== REVISION DE QUEST 3 ====================//
+if (questG_3 == 1) {
+		next;
+		if (countitem(.@questG_3_item1) < .@questG_3_cantidad1 || countitem(.@questG_3_item2) < .@questG_3_cantidad2 || countitem(.@questG_3_item3) < .@questG_3_cantidad3 || countitem(.@questG_3_item4) < .@questG_3_cantidad4 || countitem(.@questG_3_item5) < .@questG_3_cantidad5  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questG_3_item1) + "/"  + .@questG_3_cantidad1 + " " + getitemname(.@questG_3_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_3_item2) + "/"  + .@questG_3_cantidad2 + " " + getitemname(.@questG_3_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_3_item3) + "/"  + .@questG_3_cantidad3 + " " + getitemname(.@questG_3_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_3_item4) + "/"  + .@questG_3_cantidad4 + " " + getitemname(.@questG_3_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_3_item5) + "/"  + .@questG_3_cantidad5 + " " + getitemname(.@questG_3_item5) + ".^000000";
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questG_3_item1,.@questG_3_cantidad1;
+	delitem .@questG_3_item2,.@questG_3_cantidad2;
+	delitem .@questG_3_item3,.@questG_3_cantidad3;
+	delitem .@questG_3_item4,.@questG_3_cantidad4;
+	delitem .@questG_3_item5,.@questG_3_cantidad5;
+	
+	
+	//comidas +5
+	setarray .@RandItem[0],12050,12045,12065,12060,12055,12070; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+
+	getitem 7829,7;		//valor badge	
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questG_questGelay,gettimetick(2)+1800; // Sets Timer.
+	set questG_1,0;
+	set questG_2,0;
+	set questG_3,0;
+	set questG_4,0;
+	end;
+}
+
+
+
+//==================== REVISION DE QUEST 4 ====================//
+if (questG_4 == 1) {
+		next;
+		if (countitem(.@questG_4_item1) < .@questG_4_cantidad1 || countitem(.@questG_4_item2) < .@questG_4_cantidad2 || countitem(.@questG_4_item3) < .@questG_4_cantidad3 || countitem(.@questG_4_item4) < .@questG_4_cantidad4 || countitem(.@questG_4_item5) < .@questG_4_cantidad5 || countitem(.@questG_4_item6) < .@questG_4_cantidad6 ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questG_4_item1) + "/"  + .@questG_4_cantidad1 + " " + getitemname(.@questG_4_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_4_item2) + "/"  + .@questG_4_cantidad2 + " " + getitemname(.@questG_4_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_4_item3) + "/"  + .@questG_4_cantidad3 + " " + getitemname(.@questG_4_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_4_item4) + "/"  + .@questG_4_cantidad4 + " " + getitemname(.@questG_4_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_4_item5) + "/"  + .@questG_4_cantidad5 + " " + getitemname(.@questG_4_item5) + ".^000000";
+		mes "^0000FF" + countitem(.@questG_4_item6) + "/"  + .@questG_4_cantidad6 + " " + getitemname(.@questG_4_item6) + ".^000000";
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questG_4_item1,.@questG_4_cantidad1;
+	delitem .@questG_4_item2,.@questG_4_cantidad2;
+	delitem .@questG_4_item3,.@questG_4_cantidad3;
+	delitem .@questG_4_item4,.@questG_4_cantidad4;
+	delitem .@questG_4_item5,.@questG_4_cantidad5;
+	delitem .@questG_4_item6,.@questG_4_cantidad6;
+	
+		
+	//comidas +7
+	setarray .@RandItem2[0],12072,12077,12092,12087,12082,12097; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	getitem 7829,7;		//valor badge
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questG_questGelay,gettimetick(2)+1800; // Sets Timer.
+	set questG_1,0;
+	set questG_2,0;
+	set questG_3,0;
+	set questG_4,0;
+	end;
+}
+
+
+mes .nombreNPC$;
+mes "Buen dia ^0000FF" + strcharinfo(0) + "^000000";
+mes "Mi nombre es " + .nombreNPC$ + ".";
+mes "Fui uno de los guerreros mas aclamados en la historia, incluso cree mi propio reino.";
+next;
+mes .nombreNPC$;
+mes "Pero toda buena historia algun dia debe terminar.";
+mes "Me arrepiento de no poder seguir protegiendo mi reino.";
+next;
+mes .nombreNPC$;
+mes "Podrias traerme algunas cosas para que pueda descansar en paz?";
+if(select("^FF0000Ahora no puedo^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+next;
+mes "^0000FF" + strcharinfo(0) + "^000000";
+mes "Disculpa pero tengo otra mision que hacer.";
+mes "Te ayudare en otro momento.";
+next;
+mes .nombreNPC$;
+mes "Muchas gracias por tu tiempo^0000FF" + strcharinfo(0) + "^000000, que te vaya bien en tu viaje.";
+end; } //FIN MENU
+
+
+next;
+
+
+switch( rand(1,4) ){
+        case 1: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questG_1_cantidad1 + " " + getitemname(.@questG_1_item1) + "  ID: (" + .@questG_1_item1 + ").";
+				mes "^0000FF" + .@questG_1_cantidad2 + " " + getitemname(.@questG_1_item2) + "  ID: (" + .@questG_1_item2 + ").";
+				mes "^0000FF" + .@questG_1_cantidad3 + " " + getitemname(.@questG_1_item3) + "  ID: (" + .@questG_1_item3 + ").";
+				set questG_1,1;
+				end;
+				
+				end;
+        
+		case 2: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questG_2_cantidad1 + " " + getitemname(.@questG_2_item1) + "  ID: (" + .@questG_2_item1 + ").";
+				mes "^0000FF" + .@questG_2_cantidad2 + " " + getitemname(.@questG_2_item2) + "  ID: (" + .@questG_2_item2 + ").";
+				mes "^0000FF" + .@questG_2_cantidad3 + " " + getitemname(.@questG_2_item3) + "  ID: (" + .@questG_2_item3 + ").";
+				mes "^0000FF" + .@questG_2_cantidad4 + " " + getitemname(.@questG_2_item4) + "  ID: (" + .@questG_2_item4 + ").";
+				set questG_2,1;
+				end;
+		
+		case 3:  
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questG_3_cantidad1 + " " + getitemname(.@questG_3_item1) + "  ID: (" + .@questG_3_item1 + ").";
+				mes "^0000FF" + .@questG_3_cantidad2 + " " + getitemname(.@questG_3_item2) + "  ID: (" + .@questG_3_item2 + ").";
+				mes "^0000FF" + .@questG_3_cantidad3 + " " + getitemname(.@questG_3_item3) + "  ID: (" + .@questG_3_item3 + ").";
+				mes "^0000FF" + .@questG_3_cantidad4 + " " + getitemname(.@questG_3_item4) + "  ID: (" + .@questG_3_item4 + ").";
+				mes "^0000FF" + .@questG_3_cantidad5 + " " + getitemname(.@questG_3_item5) + "  ID: (" + .@questG_3_item5 + ").";
+				set questG_3,1;
+				end;
+	
+		case 4: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questG_4_cantidad1 + " " + getitemname(.@questG_4_item1) + "  ID: (" + .@questG_4_item1 + ").";
+				mes "^0000FF" + .@questG_4_cantidad2 + " " + getitemname(.@questG_4_item2) + "  ID: (" + .@questG_4_item2 + ").";
+				mes "^0000FF" + .@questG_4_cantidad3 + " " + getitemname(.@questG_4_item3) + "  ID: (" + .@questG_4_item3 + ").";
+				mes "^0000FF" + .@questG_4_cantidad4 + " " + getitemname(.@questG_4_item4) + "  ID: (" + .@questG_4_item4 + ").";
+				mes "^0000FF" + .@questG_4_cantidad5 + " " + getitemname(.@questG_4_item5) + "  ID: (" + .@questG_4_item5 + ").";
+				mes "^0000FF" + .@questG_4_cantidad6 + " " + getitemname(.@questG_4_item6) + "  ID: (" + .@questG_4_item6 + ").";
+				set questG_4,1;
+				end;
+
+		}
+
+
+
+end;
+
+OnInit:
+	waitingroom "Arthur",0;
+	end;
+
+} //FIN SCRIPT
+
+
+
+//========================================================================
+//========================================================================
+//========================================================================
+
+
+prontera,204,258,3	script	Jiraiya	411,{
+set .nombreNPC$,"^0000FFJiraiya^000000";
+//set #questF_questFelay,gettimetick(2)+10; // Sets Timer.
+
+
+//==================== ITEMS PARA QUEST 1 ====================//
+			set .@questF_1_item1,580; 	//Bread  
+			set .@questF_1_cantidad1,20;
+			set .@questF_1_item2,7003;	//Anolian Skin
+			set .@questF_1_cantidad2,20;
+			set .@questF_1_item3,1023;	//Fish Tail
+			set .@questF_1_cantidad3,20;
+
+
+
+//==================== ITEMS PARA QUEST 2 ====================//
+			set .@questF_2_item1,580; 	//Bread    
+			set .@questF_2_cantidad1,20;
+			set .@questF_2_item2,1028;	//Mane     
+			set .@questF_2_cantidad2,20;
+			set .@questF_2_item3,956;	//Gill        
+			set .@questF_2_cantidad3,20;
+			set .@questF_2_item4,962;	//Tentacle    
+			set .@questF_2_cantidad4,20;
+
+
+
+//==================== ITEMS PARA QUEST 3 ====================//
+			set .@questF_3_item1,518;	//Honey
+			set .@questF_3_cantidad1,30;
+			set .@questF_3_item2,7066;	//Ice Cubic
+			set .@questF_3_cantidad2,30;
+			set .@questF_3_item3,1050;	//Tendon    
+			set .@questF_3_cantidad3,30;
+			set .@questF_3_item4,1054;	//Ancient Lips
+			set .@questF_3_cantidad4,50;
+			set .@questF_3_item5,1062;	//Jack o' Pumpkin
+			set .@questF_3_cantidad5,50;
+			
+			
+
+
+//==================== ITEMS PARA QUEST 4 ====================//
+			set .@questF_4_item1,526; 	//Royal Jelly
+			set .@questF_4_cantidad1,30;
+			set .@questF_4_item2,518;	//Honey
+			set .@questF_4_cantidad2,30;
+			set .@questF_4_item3,7100; 	//Sharp Leaf
+			set .@questF_4_cantidad3,30;
+			set .@questF_4_item4,904;	//Scorpion Tail
+			set .@questF_4_cantidad4,30;
+			set .@questF_4_item5,1042;	//Bug Leg 
+			set .@questF_4_cantidad5,30;
+			set .@questF_4_item6,962;	//Tentacle    
+			set .@questF_4_cantidad6,30;
+
+
+
+
+//==================== DELAY DE QUEST ====================//
+if(#questF_questFelay > gettimetick(2)){ // Checks timer, if active it will block you from doing the quest.
+set .@delayremaining,(((#questF_questFelay-gettimetick(2))+1)/60);
+mes .nombreNPC$;
+mes " ";
+mes "Debes esperar "+.@delayremaining+" minuto(s) mas.";
+end;
+}
+
+
+//==================== REVISION DE QUEST 1 ====================//
+if (questF_1 == 1) {
+		next;
+		if (countitem(.@questF_1_item1) < .@questF_1_cantidad1 || countitem(.@questF_1_item2) < .@questF_1_cantidad2 || countitem(.@questF_1_item3) < .@questF_1_cantidad3   ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questF_1_item1) + "/"  + .@questF_1_cantidad1 + " " + getitemname(.@questF_1_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_1_item2) + "/"  + .@questF_1_cantidad2 + " " + getitemname(.@questF_1_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_1_item3) + "/"  + .@questF_1_cantidad3 + " " + getitemname(.@questF_1_item3) + ".^000000";
+		
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questF_1_item1,.@questF_1_cantidad1;
+	delitem .@questF_1_item2,.@questF_1_cantidad2;
+	delitem .@questF_1_item3,.@questF_1_cantidad3;
+	
+	//comidas +3
+	setarray .@RandItem[0],12063,12048,12043,12053,12058,12068; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+	
+	getitem 40118,1;	//potion Box
+	getitem 40095,10;	//Hunting Badge
+	set #questF_questFelay,gettimetick(2)+1800; // Sets Timer.
+	set questF_1,0;
+	set questF_2,0;
+	set questF_3,0;
+	set questF_4,0;
+	end;
+}
+
+
+//==================== REVISION DE QUEST 2 ====================//
+if (questF_2 == 1) {
+		next;
+		if (countitem(.@questF_2_item1) < .@questF_2_cantidad1 || countitem(.@questF_2_item2) < .@questF_2_cantidad2 || countitem(.@questF_2_item3) < .@questF_2_cantidad3 || countitem(.@questF_2_item4) < .@questF_2_cantidad4  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questF_2_item1) + "/"  + .@questF_2_cantidad1 + " " + getitemname(.@questF_2_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_2_item2) + "/"  + .@questF_2_cantidad2 + " " + getitemname(.@questF_2_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_2_item3) + "/"  + .@questF_2_cantidad3 + " " + getitemname(.@questF_2_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_2_item4) + "/"  + .@questF_2_cantidad4 + " " + getitemname(.@questF_2_item4) + ".^000000";
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questF_2_item1,.@questF_2_cantidad1;
+	delitem .@questF_2_item2,.@questF_2_cantidad2;
+	delitem .@questF_2_item3,.@questF_2_cantidad3;
+	delitem .@questF_2_item4,.@questF_2_cantidad4;
+	
+	
+	 
+	//comidas +3
+	setarray .@RandItem[0],12063,12048,12043,12053,12058,12068; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+
+
+	//comidas +3
+	setarray .@RandItem2[0],12063,12048,12043,12053,12058,12068; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+
+	
+	getitem 40118,2;	//potion Box
+	getitem 40095,10;	//Hunting Badge
+	set #questF_questFelay,gettimetick(2)+1800; // Sets Timer.
+	set questF_1,0;
+	set questF_2,0;
+	set questF_3,0;
+	set questF_4,0;
+	end;
+}
+
+
+
+
+//==================== REVISION DE QUEST 3 ====================//
+if (questF_3 == 1) {
+		next;
+		if (countitem(.@questF_3_item1) < .@questF_3_cantidad1 || countitem(.@questF_3_item2) < .@questF_3_cantidad2 || countitem(.@questF_3_item3) < .@questF_3_cantidad3 || countitem(.@questF_3_item4) < .@questF_3_cantidad4 || countitem(.@questF_3_item5) < .@questF_3_cantidad5  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questF_3_item1) + "/"  + .@questF_3_cantidad1 + " " + getitemname(.@questF_3_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_3_item2) + "/"  + .@questF_3_cantidad2 + " " + getitemname(.@questF_3_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_3_item3) + "/"  + .@questF_3_cantidad3 + " " + getitemname(.@questF_3_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_3_item4) + "/"  + .@questF_3_cantidad4 + " " + getitemname(.@questF_3_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_3_item5) + "/"  + .@questF_3_cantidad5 + " " + getitemname(.@questF_3_item5) + ".^000000";
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questF_3_item1,.@questF_3_cantidad1;
+	delitem .@questF_3_item2,.@questF_3_cantidad2;
+	delitem .@questF_3_item3,.@questF_3_cantidad3;
+	delitem .@questF_3_item4,.@questF_3_cantidad4;
+	delitem .@questF_3_item5,.@questF_3_cantidad5;
+	
+	
+	//comidas +5
+	setarray .@RandItem[0],12050,12045,12065,12060,12055,12070; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+
+
+	//comidas +5
+	setarray .@RandItem2[0],12050,12045,12065,12060,12055,12070; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questF_questFelay,gettimetick(2)+1800; // Sets Timer.
+	set questF_1,0;
+	set questF_2,0;
+	set questF_3,0;
+	set questF_4,0;
+	end;
+}
+
+
+
+//==================== REVISION DE QUEST 4 ====================//
+if (questF_4 == 1) {
+		next;
+		if (countitem(.@questF_4_item1) < .@questF_4_cantidad1 || countitem(.@questF_4_item2) < .@questF_4_cantidad2 || countitem(.@questF_4_item3) < .@questF_4_cantidad3 || countitem(.@questF_4_item4) < .@questF_4_cantidad4 || countitem(.@questF_4_item5) < .@questF_4_cantidad5 || countitem(.@questF_4_item6) < .@questF_4_cantidad6 ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questF_4_item1) + "/"  + .@questF_4_cantidad1 + " " + getitemname(.@questF_4_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_4_item2) + "/"  + .@questF_4_cantidad2 + " " + getitemname(.@questF_4_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_4_item3) + "/"  + .@questF_4_cantidad3 + " " + getitemname(.@questF_4_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_4_item4) + "/"  + .@questF_4_cantidad4 + " " + getitemname(.@questF_4_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_4_item5) + "/"  + .@questF_4_cantidad5 + " " + getitemname(.@questF_4_item5) + ".^000000";
+		mes "^0000FF" + countitem(.@questF_4_item6) + "/"  + .@questF_4_cantidad6 + " " + getitemname(.@questF_4_item6) + ".^000000";
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questF_4_item1,.@questF_4_cantidad1;
+	delitem .@questF_4_item2,.@questF_4_cantidad2;
+	delitem .@questF_4_item3,.@questF_4_cantidad3;
+	delitem .@questF_4_item4,.@questF_4_cantidad4;
+	delitem .@questF_4_item5,.@questF_4_cantidad5;
+	delitem .@questF_4_item6,.@questF_4_cantidad6;
+	
+		
+	//comidas +5
+	setarray .@RandItem[0],12050,12045,12065,12060,12055,12070; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+
+
+	//comidas +7
+	setarray .@RandItem2[0],12072,12077,12092,12087,12082,12097; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questF_questFelay,gettimetick(2)+1800; // Sets Timer.
+	set questF_1,0;
+	set questF_2,0;
+	set questF_3,0;
+	set questF_4,0;
+	end;
+}
+
+
+mes .nombreNPC$;
+mes "Buen dia ^0000FF" + strcharinfo(0) + "^000000";
+mes "Mi nombre es " + .nombreNPC$ + ".";
+mes "Fui una persona que solo pensaba en si mismo, en disfrutar de todos los placeres, hasta que le conoci a el.";
+next;
+mes .nombreNPC$;
+mes "Un dia fui emboscado, pero mori protegiendo a quienes queria.";
+mes "Voy a echar de menos comer con esa persona y verle sonreir.";
+next;
+mes .nombreNPC$;
+mes "Podrias traerme algunas cosas para que pueda descansar en paz?";
+if(select("^FF0000Ahora no puedo^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+next;
+mes "^0000FF" + strcharinfo(0) + "^000000";
+mes "Disculpa pero tengo otra mision que hacer.";
+mes "Te ayudare en otro momento.";
+next;
+mes .nombreNPC$;
+mes "Muchas gracias por tu tiempo^0000FF" + strcharinfo(0) + "^000000, que te vaya bien en tu viaje.";
+end; } //FIN MENU
+
+
+next;
+
+
+switch( rand(1,4) ){
+        case 1: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questF_1_cantidad1 + " " + getitemname(.@questF_1_item1) + "  ID: (" + .@questF_1_item1 + ").";
+				mes "^0000FF" + .@questF_1_cantidad2 + " " + getitemname(.@questF_1_item2) + "  ID: (" + .@questF_1_item2 + ").";
+				mes "^0000FF" + .@questF_1_cantidad3 + " " + getitemname(.@questF_1_item3) + "  ID: (" + .@questF_1_item3 + ").";
+				set questF_1,1;
+				end;
+				
+				end;
+        
+		case 2: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questF_2_cantidad1 + " " + getitemname(.@questF_2_item1) + "  ID: (" + .@questF_2_item1 + ").";
+				mes "^0000FF" + .@questF_2_cantidad2 + " " + getitemname(.@questF_2_item2) + "  ID: (" + .@questF_2_item2 + ").";
+				mes "^0000FF" + .@questF_2_cantidad3 + " " + getitemname(.@questF_2_item3) + "  ID: (" + .@questF_2_item3 + ").";
+				mes "^0000FF" + .@questF_2_cantidad4 + " " + getitemname(.@questF_2_item4) + "  ID: (" + .@questF_2_item4 + ").";
+				set questF_2,1;
+				end;
+		
+		case 3:  
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questF_3_cantidad1 + " " + getitemname(.@questF_3_item1) + "  ID: (" + .@questF_3_item1 + ").";
+				mes "^0000FF" + .@questF_3_cantidad2 + " " + getitemname(.@questF_3_item2) + "  ID: (" + .@questF_3_item2 + ").";
+				mes "^0000FF" + .@questF_3_cantidad3 + " " + getitemname(.@questF_3_item3) + "  ID: (" + .@questF_3_item3 + ").";
+				mes "^0000FF" + .@questF_3_cantidad4 + " " + getitemname(.@questF_3_item4) + "  ID: (" + .@questF_3_item4 + ").";
+				mes "^0000FF" + .@questF_3_cantidad5 + " " + getitemname(.@questF_3_item5) + "  ID: (" + .@questF_3_item5 + ").";
+				set questF_3,1;
+				end;
+	
+		case 4: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questF_4_cantidad1 + " " + getitemname(.@questF_4_item1) + "  ID: (" + .@questF_4_item1 + ").";
+				mes "^0000FF" + .@questF_4_cantidad2 + " " + getitemname(.@questF_4_item2) + "  ID: (" + .@questF_4_item2 + ").";
+				mes "^0000FF" + .@questF_4_cantidad3 + " " + getitemname(.@questF_4_item3) + "  ID: (" + .@questF_4_item3 + ").";
+				mes "^0000FF" + .@questF_4_cantidad4 + " " + getitemname(.@questF_4_item4) + "  ID: (" + .@questF_4_item4 + ").";
+				mes "^0000FF" + .@questF_4_cantidad5 + " " + getitemname(.@questF_4_item5) + "  ID: (" + .@questF_4_item5 + ").";
+				mes "^0000FF" + .@questF_4_cantidad6 + " " + getitemname(.@questF_4_item6) + "  ID: (" + .@questF_4_item6 + ").";
+				set questF_4,1;
+				end;
+
+		}
+
+
+
+end;
+
+OnInit:
+	waitingroom "Jiraiya",0;
+	end;
+
+} //FIN SCRIPT
+
+
+//========================================================================
+//========================================================================
+//========================================================================
+
+
+prontera,52,119,3	script	Mufasa	600,{
+set .nombreNPC$,"^0000FFMufasa^000000";
+//set #questE_questEelay,gettimetick(2)+10; // Sets Timer.
+
+
+//==================== ITEMS PARA QUEST 1 ====================//
+			set .@questE_1_item1,722; 	//Pearl
+			set .@questE_1_cantidad1,20;
+			set .@questE_1_item2,724;	//Cursed Ruby
+			set .@questE_1_cantidad2,20;
+			set .@questE_1_item3,7153;	//Worn-out Kimono
+			set .@questE_1_cantidad3,20;
+
+
+
+//==================== ITEMS PARA QUEST 2 ====================//
+			set .@questE_2_item1,580; 	//Bread    
+			set .@questE_2_cantidad1,20;
+			set .@questE_2_item2,535;	//Pumpkin    
+			set .@questE_2_cantidad2,20;
+			set .@questE_2_item3,520;	//Hinalle Leaflet
+			set .@questE_2_cantidad3,20;
+			set .@questE_2_item4,509;	//White Herb
+			set .@questE_2_cantidad4,20;
+
+
+
+//==================== ITEMS PARA QUEST 3 ====================//
+			set .@questE_3_item1,518;	//Honey
+			set .@questE_3_cantidad1,30;
+			set .@questE_3_item2,520;	//Hinalle Leaflet
+			set .@questE_3_cantidad2,30;
+			set .@questE_3_item3,522;	//Mastela Fruit
+			set .@questE_3_cantidad3,30;
+			set .@questE_3_item4,511;	//Green Herb
+			set .@questE_3_cantidad4,50;
+			set .@questE_3_item5,507;	//Red Herb
+			set .@questE_3_cantidad5,50;
+			
+			
+
+
+//==================== ITEMS PARA QUEST 4 ====================//
+			set .@questE_4_item1,526; 	//Royal Jelly
+			set .@questE_4_cantidad1,30;
+			set .@questE_4_item2,518;	//Honey
+			set .@questE_4_cantidad2,30;
+			set .@questE_4_item3,580; 	//Bread
+			set .@questE_4_cantidad3,30;
+			set .@questE_4_item4,521;	//Aloe Leaflet
+			set .@questE_4_cantidad4,30;
+			set .@questE_4_item5,520;	//Hinalle Leaflet 
+			set .@questE_4_cantidad5,30;
+			set .@questE_4_item6,582;	//Orange    
+			set .@questE_4_cantidad6,30;
+
+
+
+
+//==================== DELAY DE QUEST ====================//
+if(#questE_questEelay > gettimetick(2)){ // Checks timer, if active it will block you from doing the quest.
+set .@delayremaining,(((#questE_questEelay-gettimetick(2))+1)/60);
+mes .nombreNPC$;
+mes " ";
+mes "Debes esperar "+.@delayremaining+" minuto(s) mas.";
+end;
+}
+
+
+//==================== REVISION DE QUEST 1 ====================//
+if (questE_1 == 1) {
+		next;
+		if (countitem(.@questE_1_item1) < .@questE_1_cantidad1 || countitem(.@questE_1_item2) < .@questE_1_cantidad2 || countitem(.@questE_1_item3) < .@questE_1_cantidad3   ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questE_1_item1) + "/"  + .@questE_1_cantidad1 + " " + getitemname(.@questE_1_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_1_item2) + "/"  + .@questE_1_cantidad2 + " " + getitemname(.@questE_1_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_1_item3) + "/"  + .@questE_1_cantidad3 + " " + getitemname(.@questE_1_item3) + ".^000000";
+		
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questE_1_item1,.@questE_1_cantidad1;
+	delitem .@questE_1_item2,.@questE_1_cantidad2;
+	delitem .@questE_1_item3,.@questE_1_cantidad3;
+	
+	
+	setarray .@RandItem[0],13890,13889,40097,40118,40118,40118; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+	
+	getitem 40118,1;	//potion Box
+	getitem 40095,10;	//Hunting Badge
+	set #questE_questEelay,gettimetick(2)+1800; // Sets Timer.
+	set questE_1,0;
+	set questE_2,0;
+	set questE_3,0;
+	set questE_4,0;
+	end;
+}
+
+
+//==================== REVISION DE QUEST 2 ====================//
+if (questE_2 == 1) {
+		next;
+		if (countitem(.@questE_2_item1) < .@questE_2_cantidad1 || countitem(.@questE_2_item2) < .@questE_2_cantidad2 || countitem(.@questE_2_item3) < .@questE_2_cantidad3 || countitem(.@questE_2_item4) < .@questE_2_cantidad4  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questE_2_item1) + "/"  + .@questE_2_cantidad1 + " " + getitemname(.@questE_2_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_2_item2) + "/"  + .@questE_2_cantidad2 + " " + getitemname(.@questE_2_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_2_item3) + "/"  + .@questE_2_cantidad3 + " " + getitemname(.@questE_2_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_2_item4) + "/"  + .@questE_2_cantidad4 + " " + getitemname(.@questE_2_item4) + ".^000000";
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questE_2_item1,.@questE_2_cantidad1;
+	delitem .@questE_2_item2,.@questE_2_cantidad2;
+	delitem .@questE_2_item3,.@questE_2_cantidad3;
+	delitem .@questE_2_item4,.@questE_2_cantidad4;
+	
+	
+	 
+	getitem 13890,1; 	//oridecom box	
+	getitem 13889,1; 	//elunium box	
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questE_questEelay,gettimetick(2)+1800; // Sets Timer.
+	set questE_1,0;
+	set questE_2,0;
+	set questE_3,0;
+	set questE_4,0;
+	end;
+}
+
+
+
+
+//==================== REVISION DE QUEST 3 ====================//
+if (questE_3 == 1) {
+		next;
+		if (countitem(.@questE_3_item1) < .@questE_3_cantidad1 || countitem(.@questE_3_item2) < .@questE_3_cantidad2 || countitem(.@questE_3_item3) < .@questE_3_cantidad3 || countitem(.@questE_3_item4) < .@questE_3_cantidad4 || countitem(.@questE_3_item5) < .@questE_3_cantidad5  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questE_3_item1) + "/"  + .@questE_3_cantidad1 + " " + getitemname(.@questE_3_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_3_item2) + "/"  + .@questE_3_cantidad2 + " " + getitemname(.@questE_3_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_3_item3) + "/"  + .@questE_3_cantidad3 + " " + getitemname(.@questE_3_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_3_item4) + "/"  + .@questE_3_cantidad4 + " " + getitemname(.@questE_3_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_3_item5) + "/"  + .@questE_3_cantidad5 + " " + getitemname(.@questE_3_item5) + ".^000000";
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questE_3_item1,.@questE_3_cantidad1;
+	delitem .@questE_3_item2,.@questE_3_cantidad2;
+	delitem .@questE_3_item3,.@questE_3_cantidad3;
+	delitem .@questE_3_item4,.@questE_3_cantidad4;
+	delitem .@questE_3_item5,.@questE_3_cantidad5;
+	
+	
+	//accesorios
+	setarray .@RandItem[0],2605,2625,2617,2607,2602,2622,2614,2604,2624,2518,2603,2623,2601,2621,2620,2608,2626,2677,2744; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	
+	//accesorios
+	setarray .@RandItem2[0],2605,2625,2617,2607,2602,2622,2703,2614,2604,2624,2518,2603,2623,2601,2621,2620,2608,2626,2677,2744; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+
+	getitem 40095,10;	//Hunting Badge
+	set #questE_questEelay,gettimetick(2)+1800; // Sets Timer.
+	set questE_1,0;
+	set questE_2,0;
+	set questE_3,0;
+	set questE_4,0;
+	end;
+}
+
+
+
+//==================== REVISION DE QUEST 4 ====================//
+if (questE_4 == 1) {
+		next;
+		if (countitem(.@questE_4_item1) < .@questE_4_cantidad1 || countitem(.@questE_4_item2) < .@questE_4_cantidad2 || countitem(.@questE_4_item3) < .@questE_4_cantidad3 || countitem(.@questE_4_item4) < .@questE_4_cantidad4 || countitem(.@questE_4_item5) < .@questE_4_cantidad5 || countitem(.@questE_4_item6) < .@questE_4_cantidad6 ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questE_4_item1) + "/"  + .@questE_4_cantidad1 + " " + getitemname(.@questE_4_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_4_item2) + "/"  + .@questE_4_cantidad2 + " " + getitemname(.@questE_4_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_4_item3) + "/"  + .@questE_4_cantidad3 + " " + getitemname(.@questE_4_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_4_item4) + "/"  + .@questE_4_cantidad4 + " " + getitemname(.@questE_4_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_4_item5) + "/"  + .@questE_4_cantidad5 + " " + getitemname(.@questE_4_item5) + ".^000000";
+		mes "^0000FF" + countitem(.@questE_4_item6) + "/"  + .@questE_4_cantidad6 + " " + getitemname(.@questE_4_item6) + ".^000000";
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questE_4_item1,.@questE_4_cantidad1;
+	delitem .@questE_4_item2,.@questE_4_cantidad2;
+	delitem .@questE_4_item3,.@questE_4_cantidad3;
+	delitem .@questE_4_item4,.@questE_4_cantidad4;
+	delitem .@questE_4_item5,.@questE_4_cantidad5;
+	delitem .@questE_4_item6,.@questE_4_cantidad6;
+	
+		
+	//accesorios
+	setarray .@RandItem[0],2605,2625,2617,2607,2602,2622,2703,2614,2604,2624,2518,2603,2623,2601,2621,2620,2608,2626,2677,2744; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	
+	//magni cap,odin bles,Divine Cloth,full plate, full plate slot, goibne armor,meteo plate,lotd cloths,thief cloth,sniping suit, orlean cloth
+	setarray .@RandItem2[0],5122,2353,2366,2316,2317,2354,2364,2318,2336,2367,2365; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	
+	//consumibles box,tenarius box,poring box,potion box,potion box,potion box,potion box,potion box
+	setarray .@RandItem3[0],40097,40094,40096,40118,40118,40118,40118,40118; 
+	set .@RandItemCount3,getarraysize(.@RandItem3);
+	getitem(.@Randitem3[rand(.@RandItemCount3)],1);
+	
+	
+	getitem 40095,10;	//Hunting Badge
+	set #questE_questEelay,gettimetick(2)+1800; // Sets Timer.
+	set questE_1,0;
+	set questE_2,0;
+	set questE_3,0;
+	set questE_4,0;
+	end;
+}
+
+
+mes .nombreNPC$;
+mes "Buen dia ^0000FF" + strcharinfo(0) + "^000000";
+mes "Mi nombre es " + .nombreNPC$ + ".";
+mes "Trabajaba en una forja creando armaduras y accesorios encantados, junto a mi querido hermano.";
+next;
+mes .nombreNPC$;
+mes "Jamas me di cuenta de las intensiones de mi hermano, hasta que fui traicionado por el.";
+mes "Ahora jamas podre ver crecer a mi hijo.";
+next;
+mes .nombreNPC$;
+mes "Podrias traerme algunas cosas para que pueda descansar en paz?";
+if(select("^FF0000Ahora no puedo^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+next;
+mes "^0000FF" + strcharinfo(0) + "^000000";
+mes "Disculpa pero tengo otra mision que hacer.";
+mes "Te ayudare en otro momento.";
+next;
+mes .nombreNPC$;
+mes "Muchas gracias por tu tiempo^0000FF" + strcharinfo(0) + "^000000, que te vaya bien en tu viaje.";
+end; } //FIN MENU
+
+
+next;
+
+
+switch( rand(1,4) ){
+        case 1: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questE_1_cantidad1 + " " + getitemname(.@questE_1_item1) + "  ID: (" + .@questE_1_item1 + ").";
+				mes "^0000FF" + .@questE_1_cantidad2 + " " + getitemname(.@questE_1_item2) + "  ID: (" + .@questE_1_item2 + ").";
+				mes "^0000FF" + .@questE_1_cantidad3 + " " + getitemname(.@questE_1_item3) + "  ID: (" + .@questE_1_item3 + ").";
+				set questE_1,1;
+				end;
+				
+				end;
+        
+		case 2: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questE_2_cantidad1 + " " + getitemname(.@questE_2_item1) + "  ID: (" + .@questE_2_item1 + ").";
+				mes "^0000FF" + .@questE_2_cantidad2 + " " + getitemname(.@questE_2_item2) + "  ID: (" + .@questE_2_item2 + ").";
+				mes "^0000FF" + .@questE_2_cantidad3 + " " + getitemname(.@questE_2_item3) + "  ID: (" + .@questE_2_item3 + ").";
+				mes "^0000FF" + .@questE_2_cantidad4 + " " + getitemname(.@questE_2_item4) + "  ID: (" + .@questE_2_item4 + ").";
+				set questE_2,1;
+				end;
+		
+		case 3:  
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questE_3_cantidad1 + " " + getitemname(.@questE_3_item1) + "  ID: (" + .@questE_3_item1 + ").";
+				mes "^0000FF" + .@questE_3_cantidad2 + " " + getitemname(.@questE_3_item2) + "  ID: (" + .@questE_3_item2 + ").";
+				mes "^0000FF" + .@questE_3_cantidad3 + " " + getitemname(.@questE_3_item3) + "  ID: (" + .@questE_3_item3 + ").";
+				mes "^0000FF" + .@questE_3_cantidad4 + " " + getitemname(.@questE_3_item4) + "  ID: (" + .@questE_3_item4 + ").";
+				mes "^0000FF" + .@questE_3_cantidad5 + " " + getitemname(.@questE_3_item5) + "  ID: (" + .@questE_3_item5 + ").";
+				set questE_3,1;
+				end;
+	
+		case 4: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questE_4_cantidad1 + " " + getitemname(.@questE_4_item1) + "  ID: (" + .@questE_4_item1 + ").";
+				mes "^0000FF" + .@questE_4_cantidad2 + " " + getitemname(.@questE_4_item2) + "  ID: (" + .@questE_4_item2 + ").";
+				mes "^0000FF" + .@questE_4_cantidad3 + " " + getitemname(.@questE_4_item3) + "  ID: (" + .@questE_4_item3 + ").";
+				mes "^0000FF" + .@questE_4_cantidad4 + " " + getitemname(.@questE_4_item4) + "  ID: (" + .@questE_4_item4 + ").";
+				mes "^0000FF" + .@questE_4_cantidad5 + " " + getitemname(.@questE_4_item5) + "  ID: (" + .@questE_4_item5 + ").";
+				mes "^0000FF" + .@questE_4_cantidad6 + " " + getitemname(.@questE_4_item6) + "  ID: (" + .@questE_4_item6 + ").";
+				set questE_4,1;
+				end;
+
+		}
+
+
+
+end;
+
+OnInit:
+	waitingroom "Mufasa",0;
+	end;
+
+} //FIN SCRIPT
+
+
+
+
+
+
+//========================================================================
+//========================================================================
+//========================================================================
+
+
+
+prontera,271,312,4	script	Emilio	590,{
+set .nombreNPC$,"^0000FFEmilio^000000";
+//set #questD_Questdelay,gettimetick(2)+10; // Sets Timer.
+
+
+//==================== ITEMS PARA QUEST 1 ====================//
+			set .@questD_1_item1,717; 	//Blue Gemstone
+			set .@questD_1_cantidad1,50;
+			set .@questD_1_item2,530;	//Candy Cane 
+			set .@questD_1_cantidad2,20;
+			set .@questD_1_item3,529;	//Candy    
+			set .@questD_1_cantidad3,20;
+
+
+
+//==================== ITEMS PARA QUEST 2 ====================//
+			set .@questD_2_item1,717; 	//Blue Gemstone
+			set .@questD_2_cantidad1,70;
+			set .@questD_2_item2,530;	//Candy Cane 
+			set .@questD_2_cantidad2,20;
+			set .@questD_2_item3,578;	//Strawberry    
+			set .@questD_2_cantidad3,20;
+			set .@questD_2_item4,582;	//Orange    
+			set .@questD_2_cantidad4,30;
+
+
+
+//==================== ITEMS PARA QUEST 3 ====================//
+			set .@questD_3_item1,717; 	//Blue Gemstone
+			set .@questD_3_cantidad1,50;
+			set .@questD_3_item2,539;	//Piece of Cake 
+			set .@questD_3_cantidad2,30;
+			set .@questD_3_item3,548;	//Cheese
+			set .@questD_3_cantidad3,30;
+			set .@questD_3_item4,529;	//Candy   
+			set .@questD_3_cantidad4,30;
+			set .@questD_3_item5,514;	//Grape    
+			set .@questD_3_cantidad5,50;
+			
+			
+
+
+//==================== ITEMS PARA QUEST 4 ====================//
+			set .@questD_4_item1,717; 	//Blue Gemstone
+			set .@questD_4_cantidad1,50;
+			set .@questD_4_item2,530;	//Candy Cane 
+			set .@questD_4_cantidad2,30;
+			set .@questD_4_item3,529;	//Candy   
+			set .@questD_4_cantidad3,20;
+			set .@questD_4_item4,539;	//Piece of Cake 
+			set .@questD_4_cantidad4,30;
+			set .@questD_4_item5,7286;	//Red Chile
+			set .@questD_4_cantidad5,30;
+			set .@questD_4_item6,521;	//Aloe Leaflet
+			set .@questD_4_cantidad6,50;
+
+
+
+
+//==================== DELAY DE QUEST ====================//
+if(#questD_Questdelay > gettimetick(2)){ // Checks timer, if active it will block you from doing the quest.
+set .@delayremaining,(((#questD_Questdelay-gettimetick(2))+1)/60);
+mes .nombreNPC$;
+mes " ";
+mes "Debes esperar "+.@delayremaining+" minuto(s) mas.";
+end;
+}
+
+
+//==================== REVISION DE QUEST 1 ====================//
+if (questD_1 == 1) {
+		next;
+		if (countitem(.@questD_1_item1) < .@questD_1_cantidad1 || countitem(.@questD_1_item2) < .@questD_1_cantidad2 || countitem(.@questD_1_item3) < .@questD_1_cantidad3   ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questD_1_item1) + "/"  + .@questD_1_cantidad1 + " " + getitemname(.@questD_1_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_1_item2) + "/"  + .@questD_1_cantidad2 + " " + getitemname(.@questD_1_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_1_item3) + "/"  + .@questD_1_cantidad3 + " " + getitemname(.@questD_1_item3) + ".^000000";
+		
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questD_1_item1,.@questD_1_cantidad1;
+	delitem .@questD_1_item2,.@questD_1_cantidad2;
+	delitem .@questD_1_item3,.@questD_1_cantidad3;
+	
+	
+	setarray .@RandItem[0],12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+	getitem 523,30; 	//holy water
+	getitem 40118,1;	//potion Box
+	getitem 40095,10;	//Hunting Badge
+	set #questD_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questD_1,0;
+	set questD_2,0;
+	set questD_3,0;
+	set questD_4,0;
+	end;
+}
+
+
+//==================== REVISION DE QUEST 2 ====================//
+if (questD_2 == 1) {
+		next;
+		if (countitem(.@questD_2_item1) < .@questD_2_cantidad1 || countitem(.@questD_2_item2) < .@questD_2_cantidad2 || countitem(.@questD_2_item3) < .@questD_2_cantidad3 || countitem(.@questD_2_item4) < .@questD_2_cantidad4  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questD_2_item1) + "/"  + .@questD_2_cantidad1 + " " + getitemname(.@questD_2_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_2_item2) + "/"  + .@questD_2_cantidad2 + " " + getitemname(.@questD_2_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_2_item3) + "/"  + .@questD_2_cantidad3 + " " + getitemname(.@questD_2_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_2_item4) + "/"  + .@questD_2_cantidad4 + " " + getitemname(.@questD_2_item4) + ".^000000";
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questD_2_item1,.@questD_2_cantidad1;
+	delitem .@questD_2_item2,.@questD_2_cantidad2;
+	delitem .@questD_2_item3,.@questD_2_cantidad3;
+	delitem .@questD_2_item4,.@questD_2_cantidad4;
+	
+	setarray .@RandItem[0],12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	setarray .@RandItem2[0],12114,12115,12116,12117; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	getitem 523,40; 	//holy water
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questD_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questD_1,0;
+	set questD_2,0;
+	set questD_3,0;
+	set questD_4,0;
+	end;
+}
+
+
+
+
+//==================== REVISION DE QUEST 3 ====================//
+if (questD_3 == 1) {
+		next;
+		if (countitem(.@questD_3_item1) < .@questD_3_cantidad1 || countitem(.@questD_3_item2) < .@questD_3_cantidad2 || countitem(.@questD_3_item3) < .@questD_3_cantidad3 || countitem(.@questD_3_item4) < .@questD_3_cantidad4 || countitem(.@questD_3_item5) < .@questD_3_cantidad5  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questD_3_item1) + "/"  + .@questD_3_cantidad1 + " " + getitemname(.@questD_3_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_3_item2) + "/"  + .@questD_3_cantidad2 + " " + getitemname(.@questD_3_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_3_item3) + "/"  + .@questD_3_cantidad3 + " " + getitemname(.@questD_3_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_3_item4) + "/"  + .@questD_3_cantidad4 + " " + getitemname(.@questD_3_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_3_item5) + "/"  + .@questD_3_cantidad5 + " " + getitemname(.@questD_3_item5) + ".^000000";
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questD_3_item1,.@questD_3_cantidad1;
+	delitem .@questD_3_item2,.@questD_3_cantidad2;
+	delitem .@questD_3_item3,.@questD_3_cantidad3;
+	delitem .@questD_3_item4,.@questD_3_cantidad4;
+	delitem .@questD_3_item5,.@questD_3_cantidad5;
+	
+	
+	
+	setarray .@RandItem[0],12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	setarray .@RandItem2[0],12114,12115,12116,12117; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	getitem 523,50; 	//holy water
+	getitem 40118,1;	//potion Box
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questD_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questD_1,0;
+	set questD_2,0;
+	set questD_3,0;
+	set questD_4,0;
+	end;
+}
+
+
+
+//==================== REVISION DE QUEST 4 ====================//
+if (questD_4 == 1) {
+		next;
+		if (countitem(.@questD_4_item1) < .@questD_4_cantidad1 || countitem(.@questD_4_item2) < .@questD_4_cantidad2 || countitem(.@questD_4_item3) < .@questD_4_cantidad3 || countitem(.@questD_4_item4) < .@questD_4_cantidad4 || countitem(.@questD_4_item5) < .@questD_4_cantidad5 || countitem(.@questD_4_item6) < .@questD_4_cantidad6 ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questD_4_item1) + "/"  + .@questD_4_cantidad1 + " " + getitemname(.@questD_4_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_4_item2) + "/"  + .@questD_4_cantidad2 + " " + getitemname(.@questD_4_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_4_item3) + "/"  + .@questD_4_cantidad3 + " " + getitemname(.@questD_4_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_4_item4) + "/"  + .@questD_4_cantidad4 + " " + getitemname(.@questD_4_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_4_item5) + "/"  + .@questD_4_cantidad5 + " " + getitemname(.@questD_4_item5) + ".^000000";
+		mes "^0000FF" + countitem(.@questD_4_item6) + "/"  + .@questD_4_cantidad6 + " " + getitemname(.@questD_4_item6) + ".^000000";
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questD_4_item1,.@questD_4_cantidad1;
+	delitem .@questD_4_item2,.@questD_4_cantidad2;
+	delitem .@questD_4_item3,.@questD_4_cantidad3;
+	delitem .@questD_4_item4,.@questD_4_cantidad4;
+	delitem .@questD_4_item5,.@questD_4_cantidad5;
+	delitem .@questD_4_item6,.@questD_4_cantidad6;
+	
+	setarray .@RandItem[0],12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	setarray .@RandItem2[0],12114,12115,12116,12117; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	
+	getitem 523,50; 	//holy water
+	getitem 40118,2;	//potion Box
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questD_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questD_1,0;
+	set questD_2,0;
+	set questD_3,0;
+	set questD_4,0;
+	end;
+}
+
+
+mes .nombreNPC$;
+mes "Buen dia ^0000FF" + strcharinfo(0) + "^000000";
+mes "Mi nombre es " + .nombreNPC$ + ".";
+mes "Siempre quise dedicar mi vida al bien, y por eso elegi ser acolito.";
+next;
+mes .nombreNPC$;
+mes "Pero en mi tiempo aqui, vi cosas que no debia y me mandaron a silenciar.";
+mes "Por favor ayudame a cruzar al mas alla.";
+next;
+mes .nombreNPC$;
+mes "Podrias traerme algunas cosas para que pueda descansar en paz?";
+if(select("^FF0000Ahora no puedo^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+next;
+mes "^0000FF" + strcharinfo(0) + "^000000";
+mes "Disculpa pero tengo otra mision que hacer.";
+mes "Te ayudare en otro momento.";
+next;
+mes .nombreNPC$;
+mes "Muchas gracias por tu tiempo^0000FF" + strcharinfo(0) + "^000000, que te vaya bien en tu viaje.";
+end; } //FIN MENU
+
+
+next;
+
+
+switch( rand(1,4) ){
+        case 1: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questD_1_cantidad1 + " " + getitemname(.@questD_1_item1) + "  ID: (" + .@questD_1_item1 + ").";
+				mes "^0000FF" + .@questD_1_cantidad2 + " " + getitemname(.@questD_1_item2) + "  ID: (" + .@questD_1_item2 + ").";
+				mes "^0000FF" + .@questD_1_cantidad3 + " " + getitemname(.@questD_1_item3) + "  ID: (" + .@questD_1_item3 + ").";
+				set questD_1,1;
+				end;
+				
+				end;
+        
+		case 2: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questD_2_cantidad1 + " " + getitemname(.@questD_2_item1) + "  ID: (" + .@questD_2_item1 + ").";
+				mes "^0000FF" + .@questD_2_cantidad2 + " " + getitemname(.@questD_2_item2) + "  ID: (" + .@questD_2_item2 + ").";
+				mes "^0000FF" + .@questD_2_cantidad3 + " " + getitemname(.@questD_2_item3) + "  ID: (" + .@questD_2_item3 + ").";
+				mes "^0000FF" + .@questD_2_cantidad4 + " " + getitemname(.@questD_2_item4) + "  ID: (" + .@questD_2_item4 + ").";
+				set questD_2,1;
+				end;
+		
+		case 3:  
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questD_3_cantidad1 + " " + getitemname(.@questD_3_item1) + "  ID: (" + .@questD_3_item1 + ").";
+				mes "^0000FF" + .@questD_3_cantidad2 + " " + getitemname(.@questD_3_item2) + "  ID: (" + .@questD_3_item2 + ").";
+				mes "^0000FF" + .@questD_3_cantidad3 + " " + getitemname(.@questD_3_item3) + "  ID: (" + .@questD_3_item3 + ").";
+				mes "^0000FF" + .@questD_3_cantidad4 + " " + getitemname(.@questD_3_item4) + "  ID: (" + .@questD_3_item4 + ").";
+				mes "^0000FF" + .@questD_3_cantidad5 + " " + getitemname(.@questD_3_item5) + "  ID: (" + .@questD_3_item5 + ").";
+				set questD_3,1;
+				end;
+	
+		case 4: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questD_4_cantidad1 + " " + getitemname(.@questD_4_item1) + "  ID: (" + .@questD_4_item1 + ").";
+				mes "^0000FF" + .@questD_4_cantidad2 + " " + getitemname(.@questD_4_item2) + "  ID: (" + .@questD_4_item2 + ").";
+				mes "^0000FF" + .@questD_4_cantidad3 + " " + getitemname(.@questD_4_item3) + "  ID: (" + .@questD_4_item3 + ").";
+				mes "^0000FF" + .@questD_4_cantidad4 + " " + getitemname(.@questD_4_item4) + "  ID: (" + .@questD_4_item4 + ").";
+				mes "^0000FF" + .@questD_4_cantidad5 + " " + getitemname(.@questD_4_item5) + "  ID: (" + .@questD_4_item5 + ").";
+				mes "^0000FF" + .@questD_4_cantidad6 + " " + getitemname(.@questD_4_item6) + "  ID: (" + .@questD_4_item6 + ").";
+				set questD_4,1;
+				end;
+
+		}
+
+
+
+end;
+
+OnInit:
+	waitingroom "Emilio",0;
+	end;
+
+
+} //FIN SCRIPT
+
+
+
+//========================================================================
+//========================================================================
+//========================================================================
+
+
+
+
+prontera,125,331,3	script	Tony Stark	600,{
+set .nombreNPC$,"^0000FFTony Stark^000000";
+//set #questC_Questdelay,gettimetick(2)+10; // Sets Timer.
+
+
+//==================== ITEMS PARA QUEST 1 ====================//
+			set .@questC_1_item1,999; 	//Steel
+			set .@questC_1_cantidad1,20;
+			set .@questC_1_item2,990;	//Red Blood
+			set .@questC_1_cantidad2,20;
+			set .@questC_1_item3,1002;	//Iron Ore 
+			set .@questC_1_cantidad3,20;
+
+
+
+//==================== ITEMS PARA QUEST 2 ====================//
+			set .@questC_2_item1,999; 	//Steel
+			set .@questC_2_cantidad1,20;
+			set .@questC_2_item2,7094;	//Fragment
+			set .@questC_2_cantidad2,20;
+			set .@questC_2_item3,7317;	//Rusty Screw
+			set .@questC_2_cantidad3,20;
+			set .@questC_2_item4,992;	//Wind of Verdure
+			set .@questC_2_cantidad4,20;
+
+
+
+//==================== ITEMS PARA QUEST 3 ====================//
+			set .@questC_3_item1,999; 	//Steel
+			set .@questC_3_cantidad1,30;
+			set .@questC_3_item2,7317;	//Rusty Screw
+			set .@questC_3_cantidad2,30;
+			set .@questC_3_item3,993;	//Green Live
+			set .@questC_3_cantidad3,30;
+			set .@questC_3_item4,1000;	//Star Crumb
+			set .@questC_3_cantidad4,30;
+			set .@questC_3_item5,717;	//Blue Gemstone
+			set .@questC_3_cantidad5,50;
+			
+			
+
+
+//==================== ITEMS PARA QUEST 4 ====================//
+			set .@questC_4_item1,999; 	//Steel
+			set .@questC_4_cantidad1,30;
+			set .@questC_4_item2,7317;	//Rusty Screw
+			set .@questC_4_cantidad2,30;
+			set .@questC_4_item3,757;	//Rough Elunium 
+			set .@questC_4_cantidad3,20;
+			set .@questC_4_item4,7094;	//Fragment
+			set .@questC_4_cantidad4,30;
+			set .@questC_4_item5,716;	//Red Gemstone 
+			set .@questC_4_cantidad5,30;
+			set .@questC_4_item6,1000;	//Star Crumb
+			set .@questC_4_cantidad6,30;
+
+
+
+
+//==================== DELAY DE QUEST ====================//
+if(#questC_Questdelay > gettimetick(2)){ // Checks timer, if active it will block you from doing the quest.
+set .@delayremaining,(((#questC_Questdelay-gettimetick(2))+1)/60);
+mes .nombreNPC$;
+mes " ";
+mes "Debes esperar "+.@delayremaining+" minuto(s) mas.";
+end;
+}
+
+
+//==================== REVISION DE QUEST 1 ====================//
+if (questC_1 == 1) {
+		next;
+		if (countitem(.@questC_1_item1) < .@questC_1_cantidad1 || countitem(.@questC_1_item2) < .@questC_1_cantidad2 || countitem(.@questC_1_item3) < .@questC_1_cantidad3   ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questC_1_item1) + "/"  + .@questC_1_cantidad1 + " " + getitemname(.@questC_1_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_1_item2) + "/"  + .@questC_1_cantidad2 + " " + getitemname(.@questC_1_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_1_item3) + "/"  + .@questC_1_cantidad3 + " " + getitemname(.@questC_1_item3) + ".^000000";
+		
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	mes "Si ves a mi hija, dile que ^0000FFla amo 3000^000000";
+	next;
+	delitem .@questC_1_item1,.@questC_1_cantidad1;
+	delitem .@questC_1_item2,.@questC_1_cantidad2;
+	delitem .@questC_1_item3,.@questC_1_cantidad3;
+	
+	
+	setarray .@RandItem[0],13890,13889,40097,40118,40118,40118; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+	
+	getitem 40118,1;	//potion Box
+	getitem 40095,10;	//Hunting Badge
+	set #questC_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questC_1,0;
+	set questC_2,0;
+	set questC_3,0;
+	set questC_4,0;
+	end;
+}
+
+
+//==================== REVISION DE QUEST 2 ====================//
+if (questC_2 == 1) {
+		next;
+		if (countitem(.@questC_2_item1) < .@questC_2_cantidad1 || countitem(.@questC_2_item2) < .@questC_2_cantidad2 || countitem(.@questC_2_item3) < .@questC_2_cantidad3 || countitem(.@questC_2_item4) < .@questC_2_cantidad4  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questC_2_item1) + "/"  + .@questC_2_cantidad1 + " " + getitemname(.@questC_2_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_2_item2) + "/"  + .@questC_2_cantidad2 + " " + getitemname(.@questC_2_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_2_item3) + "/"  + .@questC_2_cantidad3 + " " + getitemname(.@questC_2_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_2_item4) + "/"  + .@questC_2_cantidad4 + " " + getitemname(.@questC_2_item4) + ".^000000";
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	mes "Si ves a mi hija, dile que ^0000FFla amo 3000^000000";
+	next;
+	delitem .@questC_2_item1,.@questC_2_cantidad1;
+	delitem .@questC_2_item2,.@questC_2_cantidad2;
+	delitem .@questC_2_item3,.@questC_2_cantidad3;
+	delitem .@questC_2_item4,.@questC_2_cantidad4;
+	
+	
+	 
+	getitem 13890,2; 	//oridecom box	
+	getitem 13889,2; 	//elunium box	
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questC_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questC_1,0;
+	set questC_2,0;
+	set questC_3,0;
+	set questC_4,0;
+	end;
+}
+
+
+
+
+//==================== REVISION DE QUEST 3 ====================//
+if (questC_3 == 1) {
+		next;
+		if (countitem(.@questC_3_item1) < .@questC_3_cantidad1 || countitem(.@questC_3_item2) < .@questC_3_cantidad2 || countitem(.@questC_3_item3) < .@questC_3_cantidad3 || countitem(.@questC_3_item4) < .@questC_3_cantidad4 || countitem(.@questC_3_item5) < .@questC_3_cantidad5  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questC_3_item1) + "/"  + .@questC_3_cantidad1 + " " + getitemname(.@questC_3_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_3_item2) + "/"  + .@questC_3_cantidad2 + " " + getitemname(.@questC_3_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_3_item3) + "/"  + .@questC_3_cantidad3 + " " + getitemname(.@questC_3_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_3_item4) + "/"  + .@questC_3_cantidad4 + " " + getitemname(.@questC_3_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_3_item5) + "/"  + .@questC_3_cantidad5 + " " + getitemname(.@questC_3_item5) + ".^000000";
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	mes "Si ves a mi hija, dile que ^0000FFla amo 3000^000000";
+	next;
+	delitem .@questC_3_item1,.@questC_3_cantidad1;
+	delitem .@questC_3_item2,.@questC_3_cantidad2;
+	delitem .@questC_3_item3,.@questC_3_cantidad3;
+	delitem .@questC_3_item4,.@questC_3_cantidad4;
+	delitem .@questC_3_item5,.@questC_3_cantidad5;
+	
+	
+	//fireblend,ice flachion,burning bow,earth bow,frozen, bow,gust bow,survivor rod,katar agua,katar viento,katar tierra,katar fuego,gentleman staff,divine cross,holy dager,Pole Axe
+	setarray .@RandItem[0],1133,1131,1730,1732,1731,1733,1620,1256,1259,1257,1258,1629,2001,1244,1417; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questC_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questC_1,0;
+	set questC_2,0;
+	set questC_3,0;
+	set questC_4,0;
+	end;
+}
+
+
+
+//==================== REVISION DE QUEST 4 ====================//
+if (questC_4 == 1) {
+		next;
+		if (countitem(.@questC_4_item1) < .@questC_4_cantidad1 || countitem(.@questC_4_item2) < .@questC_4_cantidad2 || countitem(.@questC_4_item3) < .@questC_4_cantidad3 || countitem(.@questC_4_item4) < .@questC_4_cantidad4 || countitem(.@questC_4_item5) < .@questC_4_cantidad5 || countitem(.@questC_4_item6) < .@questC_4_cantidad6 ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questC_4_item1) + "/"  + .@questC_4_cantidad1 + " " + getitemname(.@questC_4_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_4_item2) + "/"  + .@questC_4_cantidad2 + " " + getitemname(.@questC_4_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_4_item3) + "/"  + .@questC_4_cantidad3 + " " + getitemname(.@questC_4_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_4_item4) + "/"  + .@questC_4_cantidad4 + " " + getitemname(.@questC_4_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_4_item5) + "/"  + .@questC_4_cantidad5 + " " + getitemname(.@questC_4_item5) + ".^000000";
+		mes "^0000FF" + countitem(.@questC_4_item6) + "/"  + .@questC_4_cantidad6 + " " + getitemname(.@questC_4_item6) + ".^000000";
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes "Te entregare unos items como agradecimiento.";
+	mes "Si ves a mi hija, dile que ^0000FFla amo 3000^000000";
+	next;
+	delitem .@questC_4_item1,.@questC_4_cantidad1;
+	delitem .@questC_4_item2,.@questC_4_cantidad2;
+	delitem .@questC_4_item3,.@questC_4_cantidad3;
+	delitem .@questC_4_item4,.@questC_4_cantidad4;
+	delitem .@questC_4_item5,.@questC_4_cantidad5;
+	delitem .@questC_4_item6,.@questC_4_cantidad6;
+	
+	//fireblend,ice flachion,burning bow,earth bow,frozen, bow,gust bow,survivor rod,katar agua,katar viento,katar tierra,katar fuego,gentleman staff,divine cross,holy dager,Pole Axe
+	setarray .@RandItem[0],1133,1131,1730,1732,1731,1733,1620,1256,1259,1257,1258,1629,2001,1244,1417; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	
+	//consumibles box,tenarius box,poring box,potion box,potion box,potion box,potion box,potion box
+	setarray .@RandItem3[0],40097,40094,40096,40118,40118,40118,40118,40118; 
+	set .@RandItemCount3,getarraysize(.@RandItem3);
+	getitem(.@Randitem3[rand(.@RandItemCount3)],1);
+	
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questC_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questC_1,0;
+	set questC_2,0;
+	set questC_3,0;
+	set questC_4,0;
+	end;
+}
+
+
+mes .nombreNPC$;
+mes "Buen dia ^0000FF" + strcharinfo(0) + "^000000";
+mes "Mi nombre es " + .nombreNPC$ + ".";
+mes "En vida fui muy habil forjando todo tipo de armas.";
+next;
+mes .nombreNPC$;
+mes "Fui alguien muy vanidoso debido a mis habilidades, pero siempre procure cuidar a los mios.";
+mes "Aunque no pude conocer a mi hija.";
+next;
+mes .nombreNPC$;
+mes "Podrias traerme algunas cosas para que pueda descansar en paz?";
+if(select("^FF0000Ahora no puedo^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+next;
+mes "^0000FF" + strcharinfo(0) + "^000000";
+mes "Disculpa pero tengo otra mision que hacer.";
+mes "Te ayudare en otro momento.";
+next;
+mes .nombreNPC$;
+mes "Muchas gracias por tu tiempo^0000FF" + strcharinfo(0) + "^000000, que te vaya bien en tu viaje.";
+end; } //FIN MENU
+
+
+next;
+
+
+switch( rand(1,4) ){
+        case 1: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questC_1_cantidad1 + " " + getitemname(.@questC_1_item1) + "  ID: (" + .@questC_1_item1 + ").";
+				mes "^0000FF" + .@questC_1_cantidad2 + " " + getitemname(.@questC_1_item2) + "  ID: (" + .@questC_1_item2 + ").";
+				mes "^0000FF" + .@questC_1_cantidad3 + " " + getitemname(.@questC_1_item3) + "  ID: (" + .@questC_1_item3 + ").";
+				set questC_1,1;
+				end;
+				
+				end;
+        
+		case 2: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questC_2_cantidad1 + " " + getitemname(.@questC_2_item1) + "  ID: (" + .@questC_2_item1 + ").";
+				mes "^0000FF" + .@questC_2_cantidad2 + " " + getitemname(.@questC_2_item2) + "  ID: (" + .@questC_2_item2 + ").";
+				mes "^0000FF" + .@questC_2_cantidad3 + " " + getitemname(.@questC_2_item3) + "  ID: (" + .@questC_2_item3 + ").";
+				mes "^0000FF" + .@questC_2_cantidad4 + " " + getitemname(.@questC_2_item4) + "  ID: (" + .@questC_2_item4 + ").";
+				set questC_2,1;
+				end;
+		
+		case 3:  
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questC_3_cantidad1 + " " + getitemname(.@questC_3_item1) + "  ID: (" + .@questC_3_item1 + ").";
+				mes "^0000FF" + .@questC_3_cantidad2 + " " + getitemname(.@questC_3_item2) + "  ID: (" + .@questC_3_item2 + ").";
+				mes "^0000FF" + .@questC_3_cantidad3 + " " + getitemname(.@questC_3_item3) + "  ID: (" + .@questC_3_item3 + ").";
+				mes "^0000FF" + .@questC_3_cantidad4 + " " + getitemname(.@questC_3_item4) + "  ID: (" + .@questC_3_item4 + ").";
+				mes "^0000FF" + .@questC_3_cantidad5 + " " + getitemname(.@questC_3_item5) + "  ID: (" + .@questC_3_item5 + ").";
+				set questC_3,1;
+				end;
+	
+		case 4: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questC_4_cantidad1 + " " + getitemname(.@questC_4_item1) + "  ID: (" + .@questC_4_item1 + ").";
+				mes "^0000FF" + .@questC_4_cantidad2 + " " + getitemname(.@questC_4_item2) + "  ID: (" + .@questC_4_item2 + ").";
+				mes "^0000FF" + .@questC_4_cantidad3 + " " + getitemname(.@questC_4_item3) + "  ID: (" + .@questC_4_item3 + ").";
+				mes "^0000FF" + .@questC_4_cantidad4 + " " + getitemname(.@questC_4_item4) + "  ID: (" + .@questC_4_item4 + ").";
+				mes "^0000FF" + .@questC_4_cantidad5 + " " + getitemname(.@questC_4_item5) + "  ID: (" + .@questC_4_item5 + ").";
+				mes "^0000FF" + .@questC_4_cantidad6 + " " + getitemname(.@questC_4_item6) + "  ID: (" + .@questC_4_item6 + ").";
+				set questC_4,1;
+				end;
+
+		}
+
+
+
+end;
+
+OnInit:
+	waitingroom "Tony Stark",0;
+	end;
+
+} //FIN SCRIPT
+
+
+
+
+
+//========================================================================
+//========================================================================
+//========================================================================
+
+
+prontera,57,214,3	script	Kurone	591,{
+set .nombreNPC$,"^0000FFKurone^000000";
+//set #questB_Questdelay,gettimetick(2)+10; // Sets Timer.
+
+
+//==================== ITEMS PARA QUEST 1 ====================//
+			set .@questB_1_item1,7099; 	//Worn-out Magic Scroll
+			set .@questB_1_cantidad1,20;
+			set .@questB_1_item2,7168;	//Giant Butterfly Wing
+			set .@questB_1_cantidad2,20;
+			set .@questB_1_item3,514;	//Grape    
+			set .@questB_1_cantidad3,20;
+
+
+
+//==================== ITEMS PARA QUEST 2 ====================//
+			set .@questB_2_item1,7099; 	//Worn-out Magic Scroll
+			set .@questB_2_cantidad1,20;
+			set .@questB_2_item2,717;	//Blue Gemstone 
+			set .@questB_2_cantidad2,20;
+			set .@questB_2_item3,993;	//Green Live
+			set .@questB_2_cantidad3,20;
+			set .@questB_2_item4,992;	//Wind of Verdure
+			set .@questB_2_cantidad4,20;
+
+
+
+//==================== ITEMS PARA QUEST 3 ====================//
+			set .@questB_3_item1,990; 	//Red Blood
+			set .@questB_3_cantidad1,30;
+			set .@questB_3_item2,991;	//Crystal Blue 
+			set .@questB_3_cantidad2,30;
+			set .@questB_3_item3,993;	//Green Live
+			set .@questB_3_cantidad3,30;
+			set .@questB_3_item4,992;	//Wind of Verdure
+			set .@questB_3_cantidad4,30;
+			set .@questB_3_item5,7099;	////Worn-out Magic Scroll
+			set .@questB_3_cantidad5,30;
+			
+			
+
+
+//==================== ITEMS PARA QUEST 4 ====================//
+			set .@questB_4_item1,990; 	//Red Blood
+			set .@questB_4_cantidad1,30;
+			set .@questB_4_item2,991;	//Crystal Blue 
+			set .@questB_4_cantidad2,30;
+			set .@questB_4_item3,993;	//Green Live
+			set .@questB_4_cantidad3,30;
+			set .@questB_4_item4,992;	//Wind of Verdure
+			set .@questB_4_cantidad4,30;
+			set .@questB_4_item5,716;	//Red Gemstone 
+			set .@questB_4_cantidad5,30;
+			set .@questB_4_item6,715;	//Yellow Gemstone
+			set .@questB_4_cantidad6,20;
+
+
+
+
+//==================== DELAY DE QUEST ====================//
+if(#questB_Questdelay > gettimetick(2)){ // Checks timer, if active it will block you from doing the quest.
+set .@delayremaining,(((#questB_Questdelay-gettimetick(2))+1)/60);
+mes .nombreNPC$;
+mes " ";
+mes "Debes esperar "+.@delayremaining+" minuto(s) mas.";
+end;
+}
+
+
+//==================== REVISION DE QUEST 1 ====================//
+if (questB_1 == 1) {
+		next;
+		if (countitem(.@questB_1_item1) < .@questB_1_cantidad1 || countitem(.@questB_1_item2) < .@questB_1_cantidad2 || countitem(.@questB_1_item3) < .@questB_1_cantidad3   ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questB_1_item1) + "/"  + .@questB_1_cantidad1 + " " + getitemname(.@questB_1_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_1_item2) + "/"  + .@questB_1_cantidad2 + " " + getitemname(.@questB_1_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_1_item3) + "/"  + .@questB_1_cantidad3 + " " + getitemname(.@questB_1_item3) + ".^000000";
+		
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questB_1_item1,.@questB_1_cantidad1;
+	delitem .@questB_1_item2,.@questB_1_cantidad2;
+	delitem .@questB_1_item3,.@questB_1_cantidad3;
+	
+	
+	
+	setarray .@RandItem[0],12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	setarray .@RandItem[0],12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questB_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questB_1,0;
+	set questB_2,0;
+	set questB_3,0;
+	set questB_4,0;
+	end;
+}
+
+
+//==================== REVISION DE QUEST 2 ====================//
+if (questB_2 == 1) {
+		next;
+		if (countitem(.@questB_2_item1) < .@questB_2_cantidad1 || countitem(.@questB_2_item2) < .@questB_2_cantidad2 || countitem(.@questB_2_item3) < .@questB_2_cantidad3 || countitem(.@questB_2_item4) < .@questB_2_cantidad4  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questB_2_item1) + "/"  + .@questB_2_cantidad1 + " " + getitemname(.@questB_2_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_2_item2) + "/"  + .@questB_2_cantidad2 + " " + getitemname(.@questB_2_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_2_item3) + "/"  + .@questB_2_cantidad3 + " " + getitemname(.@questB_2_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_2_item4) + "/"  + .@questB_2_cantidad4 + " " + getitemname(.@questB_2_item4) + ".^000000";
+		
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questB_2_item1,.@questB_2_cantidad1;
+	delitem .@questB_2_item2,.@questB_2_cantidad2;
+	delitem .@questB_2_item3,.@questB_2_cantidad3;
+	delitem .@questB_2_item4,.@questB_2_cantidad4;
+	
+	
+	setarray .@RandItem[0],12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	setarray .@RandItem[0],12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	setarray .@RandItem[0],12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);	
+		
+	getitem 40097,1;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questB_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questB_1,0;
+	set questB_2,0;
+	set questB_3,0;
+	set questB_4,0;
+	end;
+}
+
+
+
+
+//==================== REVISION DE QUEST 3 ====================//
+if (questB_3 == 1) {
+		next;
+		if (countitem(.@questB_3_item1) < .@questB_3_cantidad1 || countitem(.@questB_3_item2) < .@questB_3_cantidad2 || countitem(.@questB_3_item3) < .@questB_3_cantidad3 || countitem(.@questB_3_item4) < .@questB_3_cantidad4 || countitem(.@questB_3_item5) < .@questB_3_cantidad5  ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questB_3_item1) + "/"  + .@questB_3_cantidad1 + " " + getitemname(.@questB_3_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_3_item2) + "/"  + .@questB_3_cantidad2 + " " + getitemname(.@questB_3_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_3_item3) + "/"  + .@questB_3_cantidad3 + " " + getitemname(.@questB_3_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_3_item4) + "/"  + .@questB_3_cantidad4 + " " + getitemname(.@questB_3_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_3_item5) + "/"  + .@questB_3_cantidad5 + " " + getitemname(.@questB_3_item5) + ".^000000";
+		
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questB_3_item1,.@questB_3_cantidad1;
+	delitem .@questB_3_item2,.@questB_3_cantidad2;
+	delitem .@questB_3_item3,.@questB_3_cantidad3;
+	delitem .@questB_3_item4,.@questB_3_cantidad4;
+	delitem .@questB_3_item5,.@questB_3_cantidad5;
+	
+	
+	setarray .@RandItem[0],14515,12219,14516,14589,14594,12114,12115,12116,12117; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	setarray .@RandItem2[0],12114,12115,12116,12117,12002,12031,12030,12033,12028; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	getitem 40097,2;	//Consumibles Box
+	getitem 40095,10;	//Hunting Badge
+	set #questB_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questB_1,0;
+	set questB_2,0;
+	set questB_3,0;
+	set questB_4,0;
+	end;
+}
+
+
+
+//==================== REVISION DE QUEST 4 ====================//
+if (questB_4 == 1) {
+		next;
+		if (countitem(.@questB_4_item1) < .@questB_4_cantidad1 || countitem(.@questB_4_item2) < .@questB_4_cantidad2 || countitem(.@questB_4_item3) < .@questB_4_cantidad3 || countitem(.@questB_4_item4) < .@questB_4_cantidad4 || countitem(.@questB_4_item5) < .@questB_4_cantidad5 || countitem(.@questB_4_item6) < .@questB_4_cantidad6 ) {
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem(.@questB_4_item1) + "/"  + .@questB_4_cantidad1 + " " + getitemname(.@questB_4_item1) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_4_item2) + "/"  + .@questB_4_cantidad2 + " " + getitemname(.@questB_4_item2) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_4_item3) + "/"  + .@questB_4_cantidad3 + " " + getitemname(.@questB_4_item3) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_4_item4) + "/"  + .@questB_4_cantidad4 + " " + getitemname(.@questB_4_item4) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_4_item5) + "/"  + .@questB_4_cantidad5 + " " + getitemname(.@questB_4_item5) + ".^000000";
+		mes "^0000FF" + countitem(.@questB_4_item6) + "/"  + .@questB_4_cantidad6 + " " + getitemname(.@questB_4_item6) + ".^000000";
+		end;
+		} //fin countitem
+	
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem .@questB_4_item1,.@questB_4_cantidad1;
+	delitem .@questB_4_item2,.@questB_4_cantidad2;
+	delitem .@questB_4_item3,.@questB_4_cantidad3;
+	delitem .@questB_4_item4,.@questB_4_cantidad4;
+	delitem .@questB_4_item5,.@questB_4_cantidad5;
+	delitem .@questB_4_item6,.@questB_4_cantidad6;
+	
+	setarray .@RandItem[0],14515,12219,14516,14589,14594,12114,12115,12116,12117,12002,12031,12030,12033,12028; 
+	set .@RandItemCount,getarraysize(.@RandItem);
+	getitem(.@Randitem[rand(.@RandItemCount)],1);
+	
+	setarray .@RandItem2[0],14515,12219,14516,14589,14594,12114,12115,12116,12117,12002,12031,12030,12033,12028,40125; 
+	set .@RandItemCount2,getarraysize(.@RandItem2);
+	getitem(.@Randitem2[rand(.@RandItemCount2)],1);
+	
+	setarray .@RandItem3[0],14515,12219,14516,14589,14594,12114,12115,12116,12117,12002,12031,12030,12033,12028,40125; 
+	set .@RandItemCount3,getarraysize(.@RandItem3);
+	getitem(.@Randitem3[rand(.@RandItemCount3)],1);
+	
+	
+	getitem 40095,10;	//Hunting Badge
+	set #questB_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set questB_1,0;
+	set questB_2,0;
+	set questB_3,0;
+	set questB_4,0;
+	end;
+}
+
+
+mes .nombreNPC$;
+mes "Buen dia ^0000FF" + strcharinfo(0) + "^000000";
+mes "Mi nombre es " + .nombreNPC$ + ".";
+mes "Desde chico siempre quise ser un gran hechicero como mi padre.";
+next;
+mes .nombreNPC$;
+mes "Un dia tome uno de sus libros e intente realizar un hechizo de fuego, queria que mi padre estuviera orgulloso de mi... pero todo salio mal.";
+next;
+mes .nombreNPC$;
+mes "Podrias traerme algunas cosas para que pueda descansar en paz?";
+if(select("^FF0000Ahora no puedo^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+next;
+mes "^0000FF" + strcharinfo(0) + "^000000";
+mes "Disculpa pero tengo otra mision que hacer.";
+mes "Te ayudare en otro momento.";
+next;
+mes .nombreNPC$;
+mes "Muchas gracias por tu tiempo^0000FF" + strcharinfo(0) + "^000000, que te vaya bien en tu viaje.";
+end; } //FIN MENU
+
+
+next;
+
+
+switch( rand(1,4) ){
+        case 1: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questB_1_cantidad1 + " " + getitemname(.@questB_1_item1) + "  ID: (" + .@questB_1_item1 + ").";
+				mes "^0000FF" + .@questB_1_cantidad2 + " " + getitemname(.@questB_1_item2) + "  ID: (" + .@questB_1_item2 + ").";
+				mes "^0000FF" + .@questB_1_cantidad3 + " " + getitemname(.@questB_1_item3) + "  ID: (" + .@questB_1_item3 + ").";
+				set questB_1,1;
+				end;
+				
+				end;
+        
+		case 2: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questB_2_cantidad1 + " " + getitemname(.@questB_2_item1) + "  ID: (" + .@questB_2_item1 + ").";
+				mes "^0000FF" + .@questB_2_cantidad2 + " " + getitemname(.@questB_2_item2) + "  ID: (" + .@questB_2_item2 + ").";
+				mes "^0000FF" + .@questB_2_cantidad3 + " " + getitemname(.@questB_2_item3) + "  ID: (" + .@questB_2_item3 + ").";
+				mes "^0000FF" + .@questB_2_cantidad4 + " " + getitemname(.@questB_2_item4) + "  ID: (" + .@questB_2_item4 + ").";
+				set questB_2,1;
+				end;
+		
+		case 3:  
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questB_3_cantidad1 + " " + getitemname(.@questB_3_item1) + "  ID: (" + .@questB_3_item1 + ").";
+				mes "^0000FF" + .@questB_3_cantidad2 + " " + getitemname(.@questB_3_item2) + "  ID: (" + .@questB_3_item2 + ").";
+				mes "^0000FF" + .@questB_3_cantidad3 + " " + getitemname(.@questB_3_item3) + "  ID: (" + .@questB_3_item3 + ").";
+				mes "^0000FF" + .@questB_3_cantidad4 + " " + getitemname(.@questB_3_item4) + "  ID: (" + .@questB_3_item4 + ").";
+				mes "^0000FF" + .@questB_3_cantidad5 + " " + getitemname(.@questB_3_item5) + "  ID: (" + .@questB_3_item5 + ").";
+				set questB_3,1;
+				end;
+	
+		case 4: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF" + .@questB_4_cantidad1 + " " + getitemname(.@questB_4_item1) + "  ID: (" + .@questB_4_item1 + ").";
+				mes "^0000FF" + .@questB_4_cantidad2 + " " + getitemname(.@questB_4_item2) + "  ID: (" + .@questB_4_item2 + ").";
+				mes "^0000FF" + .@questB_4_cantidad3 + " " + getitemname(.@questB_4_item3) + "  ID: (" + .@questB_4_item3 + ").";
+				mes "^0000FF" + .@questB_4_cantidad4 + " " + getitemname(.@questB_4_item4) + "  ID: (" + .@questB_4_item4 + ").";
+				mes "^0000FF" + .@questB_4_cantidad5 + " " + getitemname(.@questB_4_item5) + "  ID: (" + .@questB_4_item5 + ").";
+				mes "^0000FF" + .@questB_4_cantidad6 + " " + getitemname(.@questB_4_item6) + "  ID: (" + .@questB_4_item6 + ").";
+				set questB_4,1;
+				end;
+
+		}
+
+
+
+end;
+
+OnInit:
+	waitingroom "Kurone",0;
+	end;
+
+} //FIN SCRIPT
+
+
+//========================================================================
+//========================================================================
+//========================================================================
+
+
+prontera,239,103,3	script	Nina Tucker	10316,{
+set .nombreNPC$,"^0000FFNina Tucker^000000";
+
+
+//==================== DELAY DE QUEST ====================//
+if(#A_Questdelay > gettimetick(2)){ // Checks timer, if active it will block you from doing the quest.
+set .@delayremaining,(((#A_Questdelay-gettimetick(2))+1)/60);
+mes .nombreNPC$;
+mes " ";
+mes "Debes esperar "+.@delayremaining+" minuto(s) mas.";
+end;
+}
+
+
+//==================== REVISION DE QUEST 1 ====================//
+if (quest_A1 == 1) {
+		if (countitem (514) < 10 || countitem (510) < 10 || countitem (548) < 10){
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem (510) + " / 10 Blue Herb^000000";
+		mes "^0000FF" + countitem (548) + " / 10 Cheese^000000";
+		mes "^0000FF" + countitem (514) + " / 10 Grapes^000000";
+		end;
+		} //fin countitem
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem 514,10; 	//grape
+	delitem 510,10;		//blue herb
+	delitem 548,10;		//cheese
+	getitem 533,35;		//grape juice	
+	getitem 40095,10;	//Hunting Badge
+	set #A_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set quest_A1,0;
+	set quest_A2,0;
+	set quest_A3,0;
+	set quest_A4,0;
+	end;
+}
+
+//==================== REVISION DE QUEST 2 ====================//
+if (quest_A2 == 1) {
+		if (countitem (712) < 15 || countitem (710) < 15 || countitem (7298) < 15 || countitem (520) < 15){
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem (712) + " / 15 Flower^000000";
+		mes "^0000FF" + countitem (710) + " / 15 Illusion Flower^000000";
+		mes "^0000FF" + countitem (7298) + " / 15 Fig Leaf ^000000";
+		mes "^0000FF" + countitem (520) + " / 15 Hinalle Leaflet^000000";
+		end;
+		} //fin countitem
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem 712,15; 	//Flower
+	delitem 710,15; 	//Illusion Flower
+	delitem 7298,15; 	//Fig Leaf
+	delitem 520,15; 	//Hinalle Leaflet
+	getitem 505,35;		//Blue Potion	
+	getitem 40095,10;	//Hunting Badge
+	set #A_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set quest_A1,0;
+	set quest_A2,0;
+	set quest_A3,0;
+	set quest_A4,0;
+	end;
+}
+
+
+
+//==================== REVISION DE QUEST 3 ====================//
+if (quest_A3 == 1) {
+		if (countitem (621) < 20 || countitem (1032) < 20 || countitem (7100) < 20 || countitem (7197) < 20 || countitem (993) < 20){
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem (621) + " / 20 Bitter Herb^000000";
+		mes "^0000FF" + countitem (1032) + " / 20 Maneater Blossom^000000";
+		mes "^0000FF" + countitem (7100) + " / 20 Sharp Leaf ^000000";
+		mes "^0000FF" + countitem (7197) + " / 20 Tough Vines^000000";
+		mes "^0000FF" + countitem (993) + " / 20 Green Live^000000";
+		end;
+		} //fin countitem
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem 621,20; 	//Bitter Herb
+	delitem 1032,20; 	//Maneater Blossom
+	delitem 7100,20; 	//Sharp Leaf
+	delitem 7197,20; 	//Tough Vines
+	delitem 993,20; 	//Green Live
+	getitem 505,20;		//Blue Potion	
+	getitem 547,35;		//White Slim Potion
+	getitem 40095,10;	//Hunting Badge
+	set #A_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set quest_A1,0;
+	set quest_A2,0;
+	set quest_A3,0;
+	set quest_A4,0;
+	end;
+}
+
+
+
+//==================== REVISION DE QUEST 4 ====================//
+if (quest_A4 == 1) {
+		if (countitem (510) < 20 || countitem (526) < 20 || countitem (568) < 20 || countitem (521) < 20 || countitem (518) < 20 || countitem (7100) < 20){
+		mes .nombreNPC$;
+		mes "No traes todos los items, aqui esta la lista.";
+		mes "^0000FF" + countitem (510) + " / 20 Blue Herb^000000";
+		mes "^0000FF" + countitem (526) + " / 20 Royal Jelly^000000";
+		mes "^0000FF" + countitem (568) + " / 20 Lemon^000000";
+		mes "^0000FF" + countitem (521) + " / 20 Aloe Leaflet^000000";
+		mes "^0000FF" + countitem (518) + " / 20 Honey^000000";
+		mes "^0000FF" + countitem (7100) + " / 20 Sharp Leaf^000000";		
+		end;
+		} //fin countitem
+	
+	mes .nombreNPC$;
+	mes "muchas gracias por traerlos, ahora podre descansar.";
+	mes " ";
+	mes "Te entregare unos items como agradecimiento.";
+	next;
+	delitem 510,20; 	//Blue Herb 
+	delitem 526,20; 	//Royal Jelly
+	delitem 568,20; 	//Lemon
+	delitem 521,20; 	//Aloe Leaflet
+	delitem 518,20; 	//Honey
+	delitem 7100,20; 	//Sharp Leaf
+	getitem 40097,2;	//Consumibles Box
+	getitem 12428,5;	//Concentrated White Potion Z 
+	getitem 40095,10;	//Hunting Badge
+	set #A_Questdelay,gettimetick(2)+1800; // Sets Timer.
+	set quest_A1,0;
+	set quest_A2,0;
+	set quest_A3,0;
+	set quest_A4,0;
+	end;
+}
+
+
+mes .nombreNPC$;
+mes "Buen dia ^0000FF" + strcharinfo(0) + "^000000";
+mes "Mi nombre es " + .nombreNPC$ + ".";
+mes "Mi padre realizo experimentos conmigo y mi muerte fue dolorosa, pero no lo odio.";
+next;
+mes .nombreNPC$;
+mes "Podrias traerme algunas cosas para que pueda descansar en paz?";
+if(select("^FF0000Ahora no puedo^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+next;
+mes "^0000FF" + strcharinfo(0) + "^000000";
+mes "Disculpa pero tengo otra mision que hacer.";
+mes "Te ayudare en otro momento.";
+next;
+mes .nombreNPC$;
+mes "Muchas gracias por tu tiempo^0000FF" + strcharinfo(0) + "^000000, que te vaya bien en tu viaje.";
+end; } //FIN MENU
+
+
+next;
+
+
+
+switch( rand(1,4) ){
+        case 1: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF10 Blue Herb^000000";
+				mes "^0000FF10 Cheese^000000";
+				mes "^0000FF10 Grapes^000000";
+				set quest_A1,1;
+				end;
+        
+		case 2: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF15 Flower^000000";
+				mes "^0000FF15 Illusion Flower^000000";
+				mes "^0000FF15 Fig Leaf^000000";
+				mes "^0000FF15 Hinalle Leaflet^000000";
+				set quest_A2,1;
+							
+				end;
+		
+		case 3:  
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF20 Bitter Herb^000000";
+				mes "^0000FF20 Maneater Blossom^000000";
+				mes "^0000FF20 Sharp Leaf^000000";
+				mes "^0000FF20 Tough Vines^000000";
+				mes "^0000FF20 Green Live^000000";
+				set quest_A3,1;
+				end;
+				
+		
+		case 4: 
+				mes .nombreNPC$;
+				mes "Por favor traeme los siguientes items:";
+				mes " ";
+				mes "^0000FF20 Blue Herb^000000";
+				mes "^0000FF20 Royal Jelly^000000";
+				mes "^0000FF20 Lemon^000000";
+				mes "^0000FF20 Aloe Leaflet^000000";
+				mes "^0000FF20 Honey^000000";
+				mes "^0000FF20 Sharp Leaf^000000";
+				set quest_A4,1;
+				end;
+				
+		}
+
+end;
+
+OnInit:
+	waitingroom "Nina Tucker",0;
+	end;
+} //FIN SCRIPT
+
+*/

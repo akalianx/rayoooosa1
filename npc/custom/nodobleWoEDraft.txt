@@ -1,0 +1,196 @@
+
+
+
+-	script	Castigo_DRAFT	-1,{
+
+
+OnPCLoadMapEvent:
+draft$ = get_unique_id();
+if ( strcharinfo(3) == "league" &&  (draft$ == "00000")){
+		dispbottom "Lo siento, no tienes permitido entrar a este mapa por penalizacion.";
+		warp "prontera",156,183;
+}
+
+
+end;
+}
+
+league	mapflag	loadevent
+
+
+
+
+
+
+
+-	script	NO_DOBLE_IP_ESPECIFICA_WOE_ANCIENT	-1,{
+
+
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .sender2$, "gefg_cas03";
+set .Limit2,10;
+end;
+
+OnSun0200:
+
+set .Limit2,1;
+end;
+
+OnSun0300:
+set .Limit2,10;
+end;
+
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getipmapunits(.sender2$) > .Limit2){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1 && (.@LastIP$ == "181.63.225.104" || .@LastIP$ == "190.84.116.28" || .@LastIP$ == "45.171.158.22")) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa durante WOE.";
+		warp "prontera",156,183;
+	}
+
+end;
+
+
+
+
+}
+
+
+
+
+
+
+-	script	NO_DOBLE_IP_ESPECIFICA_WOE_NORMAL	-1,{
+
+
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .sender$, "payg_cas04";
+set .Limit,10;
+end;
+
+OnMon0200:
+
+set .Limit,1;
+end;
+
+OnMon0300:
+set .Limit,10;
+end;
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getipmapunits(.sender$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1 && (.@LastIP$ == "181.63.225.104" || .@LastIP$ == "190.84.116.28" || .@LastIP$ == "45.171.158.22")) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa durante WOE.";
+		warp "prontera",156,183;
+	}
+
+end;
+
+
+
+
+}
+
+
+
+
+
+
+league	mapflag	loadevent
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+-	script	map multiclient checker	-1,{
+
+OnPCLoadMapEvent:
+	if(getgmlevel() >= 90){
+		end;
+	}
+	query_sql("SELECT `last_unique_id` FROM `login` WHERE `account_id` = "+getcharid(3)+"",@lud);
+	getmapxy @map$,@x,@y,0;
+	for (set .@i,0; .@i < getarraysize(.prohibitedmaps$); set .@i,.@i+1){
+		if ( @map$ == .prohibitedmaps$[.@i] ){
+			set @hmc, query_sql "SELECT * FROM `no_multi_map` WHERE `u_id` = `"+ @lud +" AND `hasClient` = 1 AND `mapname` = `"+ @map$+"";
+			if(@hmc > 0){
+				warp "prontera",0,0;	// warp back
+				dispbottom "MultiClient not allowed on "+@map$,0;
+				end;
+			}else if(@hmc == 0){
+				query_sql "UPDATE TABLE `no_multi_map` SET `hasClient` = 1, `mapname` = `"+ @map$ +"` WHERE `u_id` = `"+ @lud +";";
+				end;
+			}else{
+				dispbottom "Unknown Error Occured, Please Report this to Administrator!",0xFF0000;
+				end;
+			}
+		}
+	}
+	query_sql "UPDATE TABLE `no_multi_map` SET `hasClient` = 0 WHERE `u_id` = `"+ @lud +" AND `mapname` = `"+ @map$+"";
+end;
+
+OnPCLogOutEvent:
+	query_sql("SELECT `last_unique_id` FROM `login` WHERE `account_id` = "+getcharid(3)+"",@lud);
+	set @hmc, query_sql( "SELECT * FROM `no_multi_map` WHERE `u_id` = `"+ @lud +" AND `hasClient` = 1 AND `mapname` = `"+ @map$ );
+	query_sql "UPDATE TABLE `no_multi_map` SET `hasClient` = 0 WHERE `u_id` = `"+ @lud +" AND `mapname` = `"+ @map$+"";
+end;
+
+OnInit:
+	setarray .prohibitedmaps$[0],"league";
+	query_sql "CREATE TABLE IF NOT EXIST `no_multi_map` (`mapname` TEXT NOT NULL, `u_id` TEXT NOT NULL, `hasClient` UNSIGNED INT NOT NULL) ENGINE=MyISAM";
+end;
+
+}
+
+
+
+*/

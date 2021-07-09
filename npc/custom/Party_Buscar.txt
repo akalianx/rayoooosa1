@@ -1,0 +1,56 @@
+
+FirstTown,250,182,3	script	Daniel Corner	542,{
+set .nombreNPC$,"^0000FF[Daniel Corner]^000000";
+set .PagoParty, 30000;
+if (BaseLevel > 69 && zeny<.PagoParty){ 
+mes .nombreNPC$;
+mes " "; 
+mes "No tienes suficiente zeny para enviar el mensaje."; 
+end;
+}
+
+
+
+
+if(#Party_Delay > gettimetick(2)) {
+set .@delayremaining,(((#Party_Delay-gettimetick(2))+1)/60);
+set .@delayremaining2,(((#Party_Delay-gettimetick(2))+1)%60);
+mes .nombreNPC$;
+mes " ";
+mes "Debes esperar "+.@delayremaining+" minuto(s) y "+.@delayremaining2+" Segundo(s), para poder enviar otro mensaje.";
+end;
+
+
+
+
+
+	mes "^FF0000[Daniel Corner]^000000";
+	mes " ";
+    mes "Debes esperar ^0000FF5 minutos^000000, para volver a enviar el mensaje";
+    end;
+    }
+	
+	
+else if(#Party_Delay < gettimetick(2)) {
+mes "^FF0000[Daniel Corner]^000000";
+mes " ";
+mes "Por favor elige una opcion";
+mes " ";
+mes "^0000FFNota:^000000";
+mes "A partir de ^0000FFNivel 70^000000 el servico tendra un costo de ^0000FF" + callfunc("F_InsertComma",.PagoParty) + "^000000 Zenys.";
+	.@i = select(implode(.map$, ":")) - 1;
+	announce strcharinfo(0)+"   (Job " +jobname(Class)+") (Nivel " +BaseLevel+") Busca Party para  "+.map$[.@i]+".",bc_blue|bc_all;
+	set #Party_Delay,gettimetick(2) + 300;
+	if(BaseLevel > 69){	
+	set zeny, zeny-.PagoParty;}
+	close;
+	
+	OnInit:
+		setarray .map$, "Leveo", "MVP", "Abyss Lake", "Endless Tower", "Ice Dungeon", "Juperos", "Magma Dungeon", "Morroc", "Nameless Island", "Odin Temple", "Sphinix", "Thor Volcano";
+		waitingroom "Buscar Party",0;
+	end;
+	}
+
+
+
+}

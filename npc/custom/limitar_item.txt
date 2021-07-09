@@ -1,0 +1,111 @@
+
+/*
+	Script that limit the amount of items a player can bring into a map.
+	* Be aware that the amount of items you add into the restriction list could slow down your server performance.
+	Use at your own risk.
+*/
+
+-	script	limit_map_item_main	-1,{
+	function func_Add;
+	
+	OnInit:
+		.check_interval_second = 5;
+		
+		freeloop(1);
+		// func_Add( <gm_level_to_bypass>, <map_name>, <item1>,<max_amount1>,....,<itemX>,<max_amountX> );
+		//func_Add( 100,"prontera", 501,1,502,2,503,3,504,5 );
+		//func_Add( 100,"payon", 501,1,502,2,503,3,504,5 );
+		//func_Add( 100,"izlude", 501,0,502,0,503,0,504,0,521,0,547,0,11501,0,505,0,11502,0,578,0,607,0,608,0,599,0,620,0,579,0 );
+		//func_Add( 100,"prt_fild08", 4001,1,4002,3,4003,0,504,5 );
+		freeloop(0);
+		.npc_name$ = strnpcinfo(3);
+		
+		bindatcmd("limiteditem", .npc_name$+"::OnAtCommand");
+		end;
+		
+		
+	function	func_Add	{
+		.@gm_level_bypass = getarg( 0,99 );
+		.@map$ = getarg( 1,"" );
+		.@getargcount = getargcount() - 1;
+		
+		if ( .@map$ != "" ) {
+			setd( ".li_gmlv_" + .@map$, .@gm_level_bypass );
+			
+			.@i = 2;
+			while ( .@i <= .@getargcount ) {
+				.@itemid = getarg( .@i );
+				.@amount = getarg( .@i + 1 );
+				if ( getitemname(.@itemid) != "null" && .@amount >= 0 ) {
+					setarray .@array[.@size], .@itemid, .@amount;
+					.@size += 2;
+				}
+				.@i += 2;
+			}
+			setd( ".li_item_size_" + .@map$, .@size );
+			copyarray getd( ".li_item_"+.@map$ ), .@array, .@size;
+	
+			if ( !getmapflag( .@map$, mf_loadevent ) )
+				setmapflag .@map$, mf_loadevent;
+				
+		}
+		return;
+	}
+
+	OnAtCommand:
+		if ( !.@atcmd_numparameters ) {
+			dispbottom "Usage: "+.@atcmd_command$+" <mapname>";
+		}
+		else if ( getmapusers( .@atcmd_parameters$[0] ) < 0 ) {
+			dispbottom "Invalid map: '"+.@atcmd_parameters$[0]+"'";
+		}
+		else {
+			.@map$ = .@atcmd_parameters$[0];
+			.@size = getd( ".li_item_size_" + .@map$ );
+			dispbottom "==== Map Restriction - "+.@map$+" ("+.@size+" item(s)) ====";
+			if ( .@size <= 0 ) {
+				dispbottom " > no restriction";
+			}
+			else {
+				copyarray .@array, getd( ".li_item_"+.@map$ ), .@size;
+				while ( .@i < .@size ) {
+					dispbottom " > "+ ( ( .@array[.@i+1] > 0 ) ? .@array[.@i+1] + "x" : "" ) +" "+getitemname( .@array[.@i] );
+					.@i += 2;
+				}
+			}
+		}
+		end;
+		
+	OnPCLoadMapEvent:
+		if ( getgmlevel() >= getd( ".li_gmlv_" + strcharinfo(3) ) ) 
+			end;
+			
+		deltimer .npc_name$+"::OnCheck";
+		addtimer ( .check_interval_second * 1000 ), .npc_name$+"::OnCheck";
+		
+	OnCheck:
+		.@map$ = strcharinfo(3);
+		.@size = getd( ".li_item_size_" + .@map$ );
+		if ( .@size > 0 ) {
+			copyarray .@array, getd( ".li_item_"+.@map$ ), .@size;
+			while ( .@i < .@size ) {
+				.@countitem = countitem( .@array[.@i] );
+				.@isequippedcnt = isequippedcnt( .@array[.@i] );
+				if ( ( .@countitem + .@isequippedcnt ) > .@array[.@i + 1] ) {
+					mes "[Max: "+.@array[.@i + 1]+"] "+getitemname( .@array[.@i] );
+					.@fail++;
+				}
+				.@i += 2;
+			}
+			if ( .@fail > 0 ) {
+				mes " ";
+				mes "Please ensure all the items above didnt exceed the max limit when you enter this map.";
+				close2;
+				warp "SavePoint",0,0;
+			}
+			else {
+				addtimer ( .check_interval_second * 1000 ), .npc_name$+"::OnCheck";
+			}
+		}
+		end;
+}

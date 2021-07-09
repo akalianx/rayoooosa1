@@ -1,0 +1,389 @@
+//===================================================================
+//======================BUFF EN PVP PRONTERA=========================
+//===================================================================
+
+prontera_pv.gat,160,192,4	script	Buff	811,{
+
+	
+	set .@Price,5000;	// Zeny required for heal
+	set .@Buffs,0;	// Also buff players? (1: yes / 0: no)
+	set .@Delay,300;	// Heal delay, in seconds
+
+	if (@HD > gettimetick(2))
+	mes "Aun no termina el Delay del ultimo Heal";
+	close;
+	end;
+	if (.@Price) {
+		mes "Hola ^0000FF"+strcharinfo(0)+"^000000";
+		mes " ";
+		mes "Para personajes de nivel mayor a 80";
+		mes " ";
+		mes "El servicio de Heal Tiene un costo de ^FF0000"+callfunc("F_InsertComma",.@Price)+" Zeny^000000 y un Delay de 5 Minutos";
+		if (Zeny < .@Price) end;
+		if(select("^0055FFHeal^000000:^777777Cancel^000000") == 2) end;
+		set Zeny, Zeny-.@Price;
+	}
+	specialeffect2 EF_HEAL2; percentheal 100,100;
+	if (.@Buffs) {
+		specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,240000,10;
+		specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+	}
+	if (.@Delay) set @HD, gettimetick(2)+.@Delay;
+	
+	end;
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+//===================================================================
+//===========================WARPER SALIDA===========================
+//===================================================================
+
+prontera_pv,151,192,5	script	Soldado	417,{
+mes "[Soldado]";
+	mes "Si deseas salir de la sala de PVP, por favor usa mis servicios";
+	next;
+	if( select("Salir:No salir") == 2 )
+	{
+		mes "[Soldado]";
+		mes "Estare aqui por si necesitas mis servicios";
+		close;
+	}
+
+	set .@spoint$, getsavepoint(0);
+	set .@x, getsavepoint(1);
+	set .@y, getsavepoint(2);
+	mes "[Teleporter]";
+	mes "Seras enviado a " + .@spoint$ + ".";
+	close2;
+	warp .@spoint$, .@x, .@y;
+	end;
+
+OnInit:
+atcommand ("@clearweather");
+//atcommand ("@fog");
+atcommand ("@pvpon");
+//atcommand ("@gvgoff");
+end;
+
+
+OnPCKillEvent:
+if ( killedrid != getcharid(3) && strcharinfo(3)== "prontera_pv" ){
+	
+	.@killpoints = 1;
+	.@deadpoints = 1;
+		
+	dispbottom "Haz Ganado 2 War Badge";
+	getitem 32000,2;
+	
+	attachrid killedrid;
+	dispbottom "Haz Perdido 1 War Badge";
+	delitem 32000,1;
+	}
+end;
+
+
+} //FIN SCRIPT
+
+
+
+
+
+
+
+//===================================================================
+//===================================================================
+//===================================================================
+
+
+prontera.gat,146,171,5	script	PvP Warper	843,{
+
+
+mes "[ ^ff0000PVP Warper^000000 ]";
+mes "Quieres entrar a la arena y pelear con tus enemigos?";
+menu "Seguro, Enviame alli!",L_Yes,"No, Aun no estos listo.",L_No;
+
+L_Yes:
+next;
+mes "[ ^ff0000PVP Warper^000000 ]";
+mes "A cual Arena de Prontera quieres entrar?";
+menu	"PVP Arena [ Prontera ] [" + getmapusers("prt_pvp.gat") + " / 20]",L1,
+	"PvP Arena [ Ancient ] [" + getmapusers("guild_vs3.gat") + " / 20]",L2,
+	"PvP Arena [ Battle Camp ] [" + getmapusers("arena_4.gat") + " / 20]",L3;
+	//"PvP Arena [ Dark Prontera ] [" + getmapusers("prontera_pv.gat") + " / 30]",L4;
+
+L1:
+if (getmapusers("prt_pvp.gat") >= 20) goto Lsorry;
+//warp "prt_pvp",45,54;
+switch( rand(1,6) ){
+        case 1: warp "prt_pvp", 46, 82; end;
+        case 2: warp "prt_pvp", 67, 59; end;
+		case 3: warp "prt_pvp", 74, 31; end;
+		case 4: warp "prt_pvp", 48, 26; end;
+		case 5: warp "prt_pvp", 33, 35; end;
+		case 6: warp "prt_pvp", 59, 46; end;
+		}
+close;
+
+L2:
+if (getmapusers("guild_vs3.gat") >= 20) goto Lsorry;
+warp "guild_vs3",0,0;
+close;
+
+L3:
+if (getmapusers("arena_4.gat") >= 20) goto Lsorry;
+if(countitem(607)) goto Lsorry2;
+warp "arena_4",0,0;
+close;
+
+L4:
+if (getmapusers("guild_vs3.gat") >= 30) goto Lsorry;
+//warp "prontera_pv",0,0;
+ switch( rand(1,10) ){
+        
+		case 1: warp "prontera_pv", 157, 328; end;
+        case 2: warp "prontera_pv", 105, 317; end;
+		case 3: warp "prontera_pv", 119, 247; end;
+		case 4: warp "prontera_pv", 156, 241; end;
+		case 5: warp "prontera_pv", 151, 121; end;
+		case 6: warp "prontera_pv", 89, 99; end;
+		case 7: warp "prontera_pv", 221, 298; end;
+		case 8: warp "prontera_pv", 51, 190; end;
+		case 9: warp "prontera_pv", 261, 173; end;
+		case 19: warp "prontera_pv", 207, 233; end;
+        }
+
+
+close;
+
+Lsorry:
+next;
+mes "[ ^ff0000PVP Warper^000000 ]";
+mes "Disculpa, pero esta arena esta llena.";
+close;
+
+Lsorry2:
+next;
+mes "[ ^ff0000PVP Warper^000000 ]";
+mes "I'm sorry but you can't have any "+getitemname(607)+" when entering the pvp room, please storage them and try again.";
+close;
+
+L_No:
+close;
+
+OnInit:	
+	waitingroom "Arena PvP",0;
+end;	
+
+	
+}
+
+
+alberta.gat,40,250,4	duplicate(PvP Warper)	PvP Warper#alb	843
+aldebaran.gat,145,113,4	duplicate(PvP Warper)	PvP Warper#ald	843
+amatsu.gat,208,102,4	duplicate(PvP Warper)	PvP Warper#ama	843
+ayothaya.gat,221,181,4	duplicate(PvP Warper)	PvP Warper#ayo	843
+comodo.gat,176,150,4	duplicate(PvP Warper)	PvP Warper#com	843
+geffen.gat,104,56,4	duplicate(PvP Warper)	PvP Warper#gef	843
+gonryun.gat,151,115,4	duplicate(PvP Warper)	PvP Warper#gon	843
+hugel.gat,89,149,4	duplicate(PvP Warper)	PvP Warper#hug	843
+izlude.gat,121,93,4	duplicate(PvP Warper)	PvP Warper#izl	843
+lighthalzen.gat,154,113,4	duplicate(PvP Warper)	PvP Warper#lhz	843
+louyang.gat,227,104,4	duplicate(PvP Warper)	PvP Warper#lou	843
+morocc.gat,150,104,4	duplicate(PvP Warper)	PvP Warper#mor	843
+moscovia.gat,217,198,4	duplicate(PvP Warper)	PvP Warper#mosc	843
+payon.gat,165,111,4	duplicate(PvP Warper)	PvP Warper#pay	843
+rachel.gat,134,96,4	duplicate(PvP Warper)	PvP Warper#rac	843
+umbala.gat,98,161,4	duplicate(PvP Warper)	PvP Warper#umb	843
+veins.gat,211,134,4	duplicate(PvP Warper)	PvP Warper#vein	843
+yuno.gat,142,177,4	duplicate(PvP Warper)	PvP Warper#yun	843
+
+
+
+
+
+-	script	Healer	-1,{
+end;
+OnPCKillEvent:
+if(strcharinfo(3)=="arena_4"){
+	percentheal 100,100;
+	specialeffect 312;
+	skilleffect 28,32767;
+	sc_end SC_STONE;
+	sc_end SC_FREEZE;
+	sc_end SC_STUN;
+	sc_end SC_SLEEP;
+	sc_end SC_POISON;
+	sc_end SC_CURSE;
+	sc_end SC_SILENCE;
+	sc_end SC_CONFUSION;
+	sc_end SC_BLIND;
+	sc_end SC_BLEEDING;
+	sc_end SC_DPOISON;
+	dispbottom "HP/SP fully restored.";
+}
+end;
+
+
+}
+
+
+
+// Mapflags
+
+izlude	mapflag	pvp	off
+ 
+prt_pvp	mapflag	pvp
+prt_pvp	mapflag	pvp_noguild
+prt_pvp	mapflag	pvp_noparty
+prt_pvp	mapflag	nocommand	99
+prt_pvp	mapflag	nosave	SavePoint
+prt_pvp	mapflag	noteleport
+prt_pvp	mapflag	nowarp
+prt_pvp	mapflag	nowarpto
+prt_pvp	mapflag	nomemo
+prt_pvp	mapflag	notrade
+prt_pvp	mapflag	noreturn
+prt_pvp	mapflag	nobranch
+prt_pvp	mapflag noitem 1
+prt_pvp	mapflag nopenalty
+
+
+
+guild_vs3	mapflag	pvp
+guild_vs3	mapflag	pvp_noguild
+guild_vs3	mapflag	pvp_noparty
+guild_vs3	mapflag	nocommand	99
+guild_vs3	mapflag	nosave	SavePoint
+guild_vs3	mapflag	noteleport
+guild_vs3	mapflag	nowarp
+guild_vs3	mapflag	nowarpto
+guild_vs3	mapflag	nomemo
+guild_vs3	mapflag	notrade
+guild_vs3	mapflag	noreturn
+guild_vs3	mapflag	nobranch
+guild_vs3	mapflag noitem 1
+guild_vs3	mapflag nopenalty
+
+
+
+arena_4	mapflag	pvp
+arena_4	mapflagpvp_noguild
+arena_4	mapflag	pvp_noparty
+arena_4	mapflag	nocommand	99
+arena_4	mapflag	nosave	SavePoint
+arena_4	mapflag	noteleport
+arena_4	mapflag	nowarp
+arena_4	mapflag	nowarpto
+arena_4	mapflag	nomemo
+arena_4	mapflag	notrade
+arena_4	mapflag	noreturn
+arena_4	mapflag	nobranch
+arena_4	mapflag noitem 1
+arena_4	mapflag nopenalty
+
+
+
+prontera_pv	mapflag	pvp
+prontera_pv	mapflag	pvp_noguild
+prontera_pv	mapflag	pvp_noparty
+prontera_pv	mapflag	nocommand	99
+prontera_pv	mapflag	nosave	SavePoint
+prontera_pv	mapflag	noteleport
+prontera_pv	mapflag	nowarp
+prontera_pv	mapflag	nowarpto
+prontera_pv	mapflag	nomemo
+prontera_pv	mapflag	notrade
+prontera_pv	mapflag	noreturn
+prontera_pv	mapflag	nobranch
+prontera_pv	mapflag noitem 1
+prontera_pv	mapflag nopenalty
+
+
+
+
+
+
+
+
+
+
+
+
+
+// SALIDA DE PvP
+
+// BattleGround Warper - Exit
+// *********************************************************************
+
+prt_pvp,49,86,4	script	Soldado	417,{
+	mes "[Soldado]";
+	mes "Si deseas salir de la sala de PVP, por favor usa mis servicios";
+	next;
+	if( select("Salir:No salir") == 2 )
+	{
+		mes "[Soldado]";
+		mes "Estare aqui por si necesitas mis servicios";
+		close;
+	}
+
+	set .@spoint$, getsavepoint(0);
+	set .@x, getsavepoint(1);
+	set .@y, getsavepoint(2);
+	mes "[Teleporter]";
+	mes "Seras enviado a " + .@spoint$ + ".";
+	close2;
+	warp .@spoint$, .@x, .@y;
+	end;
+}
+
+
+
+prt_pvp,13,49,6	duplicate(Soldado)	Soldado#A01	417
+prt_pvp,50,13,8	duplicate(Soldado)	Soldado#A02	417
+prt_pvp,86,49,2	duplicate(Soldado)	Soldado#A03	417
+
+
+
+arena_4,132,131,6	duplicate(Soldado)	Soldado#A04	417
+arena_4,165,131,4	duplicate(Soldado)	Soldado#A05	417
+arena_4,165,92,2	duplicate(Soldado)	Soldado#A06	417
+arena_4,132,92,8	duplicate(Soldado)	Soldado#A07	417
+
+
+
+guild_vs3,49,87,6	duplicate(Soldado)	Soldado#A08	417
+guild_vs3,12,50,4	duplicate(Soldado)	Soldado#A09	417
+guild_vs3,87,50,2	duplicate(Soldado)	Soldado#A10	417
+guild_vs3,49,12,8	duplicate(Soldado)	Soldado#A11	417
+
+
+
+06guild_01,50,6,8	duplicate(Soldado)	Soldado#A12	417
+06guild_01,93,49,2	duplicate(Soldado)	Soldado#A13	417
+06guild_01,6,49,6	duplicate(Soldado)	Soldado#A14	417
+06guild_01,50,93,4	duplicate(Soldado)	Soldado#A15	417
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,242 @@
+arena_5,143,122,3	script	Donation Shop	10118,{
+
+	mes "Hello player!";
+	mes "Would you like to buy with Cash or Items?";
+	switch(select("Hats","Consumibles","Costumes")) {
+	case 1:     callshop "hats#donacion", 0;
+end;
+	case 2:     callshop "consu#donacion", 0;
+end;
+	case 3:     callshop "costumes#donacion", 0;
+end;
+
+	}
+	
+	
+OnInit:
+waitingroom "Donation Shop",0;
+end;
+
+
+}
+
+
+
+-	cashshop	hats#donacion	-1,5374:2200,5518:2200,18561:2000,18859:2000,18858:2000,5269:2000,5376:2000,5423:2000,5420:2000,5564:2000,5377:2000,5471:2000,5595:2000,5344:1800,5340:1800,5341:1800,5342:1800,18522:1800,5654:1800,5343:1800,5345:1800,5277:1800,18539:1800,5359:1800,5396:1800,18804:1800,5527:1600,19101:1600,18801:1500,5430:1500,5464:1500,5314:1500,5389:1500,5171:1500,5653:1500,5375:1500,5768:1500,5293:1500,5502:1500,5305:1500,5388:1500,5325:1500,18797:1300,18798:1300,5505:1300,5404:1300,5140:1300,18774:1200,5390:1200,5256:1200,5519:1200,5410:1200,5364:1200,5657:1200,5361:1000,18662:1000,5360:1000,2202:1000,5555:1000,5557:1000,5490:1000,5308:1000,5436:1000,5362:1000,5068:1000,5074:1000,5358:1000,40101:1000,5401:1000,5574:1000,5184:1000,5130:800,5773:800,18505:800,5288:700,5287:700,5257:500,18601:500,5135:500,5181:500,5286:500,5315:500,5206:500,5400:500,5387:500,5020:500,5475:500,5775:500,5775:500,5597:500
+-	cashshop	consu#donacion	-1,40072:800,40070:500,40071:500,13914:400,13912:400,13913:400,12912:250,12913:200,12914:200,14172:200,12927:200,7776:100,12263:100,12922:100,13600:50
+-	cashshop	costumes#donacion	-1,20763:1000,20507:1000,18740:500,31160:500,20316:500,20302:500,20449:500,31178:500,19823:500,31202:500,20239:500,20269:500,31466:500,31467:500,31438:500,31249:500,31201:500,31125:500,19970:500,40008:500,40010:500,40011:500,31396:500,19746:500,20197:300,31720:300,31300:300,31531:300,19613:300,40134:300,31057:200,20405:200,19761:200,19677:200,31180:200,31389:200,31440:200,31166:200,40007:200,31093:200,40006:200
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+// Settings :
+//	-	Only required to edit the ShopSetting() Function
+//			Notes : You may also add / remove Menu ( If any ) 
+//	-	Shop Currency can be either ItemID or Variable Name, but must write within Quotation Marks ( "" )
+//			Ex. of Variable.	->	Zeny , #CASHPOINTS , #KAFRAPOINTS , CustomVariable , #CustomVariable
+//	-	ERROR Message are used to show Invalid Settings in your NPC.
+
+
+// Leave this alone...
+-	cashshop	Emistry_Shop	-1,512:100
+
+
+vend_zone,105,101,3	cashshop	Donation Shop	10118,{
+function ShopSettings;
+function ValidateCost;
+function CurrencyInfo;
+function ClearData;
+function ValueConvert;
+function ErrorNotice;
+
+mes "Bienvenido a la ^FF0000Donation Shop^000000.";
+mes "^00FF00____________________________^000000";
+mes "Aqui podras encontrar una gran variedad de items";
+next;
+// Menu Selection
+select("Hats","Consumibles");
+
+ClearData();
+ShopSettings( @menu );
+npcshopitem "Emistry_Shop",512,100;
+npcshopdelitem "Emistry_Shop",512;
+for(set .@i,0; .@i < getarraysize( @ItemLists ); set .@i,.@i+1)
+	npcshopadditem "Emistry_Shop",@ItemLists[.@i],@ItemCost[.@i];
+mes "Okay...wait awhile";
+mes "^00FF00____________________________^000000";
+CurrencyInfo( @Currency$ );
+mes "^00FF00____________________________^000000";
+callshop "Emistry_Shop",1;
+npcshopattach "Emistry_Shop";
+end;
+
+
+function	ShopSettings	{
+	switch( getarg(0) ){
+		Case 1:
+			// Currency [ Item ID / CASHPOINTS] HATS
+			set @Currency$,"#CASHPOINTS";
+			// Item ID Lists
+			setarray @ItemLists[0],5374,5518,31160,5376,5420,5564,5657,5471,5595,5396,5389,5171,5653,5375,5768,5574,5293,5388,5325,5423,5505,5519,18522,5654,5364,5360,2202,5555,5557,5490,5308,5436,5362,5257,18601,5135,5181,5286,5315,5206,20239;
+			// Item Price
+			setarray @ItemCost[0],2200,2200,2000,2000,2000,2000,2000,2000,2000,1800,1500,1500,1500,1500,1500,1500,1500,1500,1500,1400,1300,1300,1200,1200,1200,1200,1000,1000,1000,1000,1000,800,700,500,500,500,500,500,500,500,500;
+			break;
+		
+
+
+
+		Case 2:
+			// Currency [ Item ID / CASHPOINTS] CONSUMIBLES
+			set @Currency$,"#CASHPOINTS";
+			// Item ID Lists
+			setarray @ItemLists[0],12912,7776,12263,12922,13600,7619,7620;
+			
+			// Item Price
+			setarray @ItemCost[0],250,100,100,100,50,50,50;
+			break;
+		
+
+
+/*
+		// ARMADURAS
+		Case 3:
+			// Currency [ Item ID / CASHPOINTS] ARMADURAS
+			set @Currency$,"#CASHPOINTS";
+			// Item ID Lists
+			setarray @ItemLists[0],2573,2589,20727,20761,20514,2511,20507,20763;
+			
+			// Item Price
+			setarray @ItemCost[0],2000,2000,2000,2000,2000,1500,1500,1500;
+			break;
+*/
+
+
+
+
+		
+
+// Case 4,5,6.....etc...
+		default:
+			ErrorNotice( "Invalid Menu Selection for Menu "+@menu+"." );
+			close;
+	}
+	
+	
+if( @Currency$ == "" )
+	ErrorNotice( "Invalid Currency Setting in Menu "+@menu+" ." );
+if( getarraysize( @ItemCost ) != getarraysize( @ItemLists ) || getarraysize( @ItemLists ) != getarraysize( @ItemCost ) )
+	ErrorNotice( "Missing or Extra Value of Item or Cost Settings in Menu "+@menu+" ." );
+return;
+}
+
+function	ErrorNotice	{
+	mes "^FF0000ERROR^000000 - "+getarg(0);
+	mes "^00FF00____________________________^000000";
+	mes "Inform this Message to ^0000FFGame Staffs^000000 immediately !";
+	close;
+}
+
+function	CurrencyInfo	{
+	if( getitemname( atoi( getarg(0) ) ) != "null" ){
+		mes "Item Currency : ^FF0000"+getitemname( atoi( getarg(0) ) )+"^000000";
+		mes "Available Amount : ^0000FF"+ValueConvert( countitem( atoi( getarg(0) ) ) )+"^000000";
+	}else if( getitemname( atoi( getarg(0) ) ) == "null" ){
+		mes "Variable Currency : ^FF0000"+getarg(0)+"^000000";
+		mes "Available Amount : ^0000FF"+ValueConvert( getd( getarg(0) ) )+"^000000";
+	}
+return;
+}
+
+function	ValidateCost	{
+	if( getitemname( atoi( getarg(0) ) ) != "null" ){
+		if( countitem( atoi( getarg(0) ) ) < getarg(1) ) return 1;
+	}else{
+		if( getd( getarg(0) ) < getarg(1) ) return 1;
+	}
+return 0;
+}
+
+function ClearData	{
+	set @Currency$,"";
+	set @TotalCost,0;
+	deletearray @bought_nameid[0],getarraysize( @bought_nameid );
+	deletearray @bought_quantity[0],getarraysize( @bought_quantity );
+	deletearray @ItemLists[0],getarraysize( @ItemLists );
+	deletearray @ItemCost[0],getarraysize( @ItemCost );
+return;
+}
+
+function	ValueConvert	{
+	set .@num, atoi(""+getarg(0));
+	if ( .@num == 0 || .@num >= 2147483647 ) return getarg(0);
+	set .@l, getstrlen(""+.@num);
+	for ( set .@i,0; .@i < .@l; set .@i, .@i + 1 ) {
+		set .@num$, .@num % pow(10,.@i+1) / pow(10,.@i) + .@num$;
+			if ( (.@i+1) % 3 == 0 && .@i+1 != .@l ) set .@num$, ","+ .@num$;
+	}
+	return .@num$;
+}
+
+OnBuyItem:
+	ShopSettings( @menu );
+	for(set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1)
+		for(set @j,0; @j < getarraysize( @ItemLists ); set @j,@j+1)
+			if( @ItemLists[@j] == @bought_nameid[@i] )
+			set @TotalCost,@TotalCost + ( @ItemCost[@j] * @bought_quantity[@i] );
+	mes "^FF0000       BILLING LIST^000000";
+	mes "^00FF00____________________________^000000";
+	for( set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1 )
+			mes "^FF0000"+@bought_quantity[@i]+" x ^0000FF"+getitemname( @bought_nameid[@i] )+"^000000";
+	mes "^00FF00____________________________^000000";
+
+	if( getitemname( atoi( @Currency$ ) ) != "null" )
+		mes "Total Cost : ^0000FF"+ValueConvert( @TotalCost )+" x "+getitemname( atoi( @Currency$ ) )+"^000000";
+	else if( getitemname( atoi( @Currency$ ) ) == "null" ){
+		mes "Total Cost : ^0000FF"+ValueConvert( @TotalCost )+" "+@Currency$+"^000000";
+	}
+	
+	mes "^00FF00____________________________^000000";
+	if( ValidateCost( @Currency$,@TotalCost ) ){
+		if( getitemname( atoi( @Currency$ ) ) != "null" )
+			mes "[ ^FF0000X^000000 ] Insufficient ^0000FF"+getitemname( atoi( @Currency$ ) )+"^000000";
+		else{
+			mes "[ ^FF0000X^000000 ] Insufficient ^0000FF"+@Currency$+"^000000";
+		}
+	}else{
+		if( select( "^0000FFPurchase^000000:Cancel" ) == 1 ){
+			if( getitemname( atoi( @Currency$ ) ) != "null" )
+				delitem atoi( @Currency$ ),@TotalCost;
+			else{
+				set getd( @Currency$ ),getd( @Currency$ ) - @TotalCost;
+			}
+			for(set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1)
+				getitem @bought_nameid[@i],@bought_quantity[@i];
+			message strcharinfo(0),"Purchased "+getarraysize( @bought_nameid )+" Items.";
+			mes "Thank you for shopping.";
+		}
+	}
+ClearData();
+close;
+
+}
+
+
+
+vend_zone	mapflag	nodiscount	
+
+
+
+*/

@@ -1,0 +1,50 @@
+// BattleGround Warper - Exit
+// *********************************************************************
+
+prt_pvp,49,86,4	script	Soldado	417,{
+	mes "[Soldado]";
+	mes "Si deseas salir de la sala de PVP, por favor usa mis servicios";
+	next;
+	if( select("Salir:No salir") == 2 )
+	{
+		mes "[Soldado]";
+		mes "Estare aqui por si necesitas mis servicios";
+		close;
+	}
+
+	set .@spoint$, getsavepoint(0);
+	set .@x, getsavepoint(1);
+	set .@y, getsavepoint(2);
+	mes "[Teleporter]";
+	mes "Seras enviado a " + .@spoint$ + ".";
+	close2;
+	warp .@spoint$, .@x, .@y;
+	end;
+}
+
+
+
+prt_pvp,13,49,6	duplicate(Soldado)	Soldado#01	417
+prt_pvp,50,13,8	duplicate(Soldado)	Soldado#02	417
+prt_pvp,86,49,2	duplicate(Soldado)	Soldado#03	417
+
+
+
+arena_4,132,131,6	duplicate(Soldado)	Soldado#04	417
+arena_4,165,131,4	duplicate(Soldado)	Soldado#05	417
+arena_4,165,92,2	duplicate(Soldado)	Soldado#06	417
+arena_4,132,92,8	duplicate(Soldado)	Soldado#07	417
+
+
+
+guild_vs3,49,87,6	duplicate(Soldado)	Soldado#08	417
+guild_vs3,12,50,4	duplicate(Soldado)	Soldado#09	417
+guild_vs3,87,50,2	duplicate(Soldado)	Soldado#10	417
+guild_vs3,49,12,8	duplicate(Soldado)	Soldado#11	417
+
+
+
+06guild_01,50,6,8	duplicate(Soldado)	Soldado#12	417
+06guild_01,93,49,2	duplicate(Soldado)	Soldado#13	417
+06guild_01,6,49,6	duplicate(Soldado)	Soldado#14	417
+06guild_01,50,93,4	duplicate(Soldado)	Soldado#15	417

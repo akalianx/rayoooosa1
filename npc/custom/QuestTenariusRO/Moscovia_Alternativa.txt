@@ -1,0 +1,131 @@
+
+FirstTown,158,252,3	script	Vincent	868,{
+set .nombreNPC$,"^0000FF[Vincent]^000000";
+
+if (BaseLevel <65){
+			mes .nombreNPC$;
+			mes " ";
+			mes "Que haces aqui?";
+			mes "Vuelve cuando tengas al menos nivel 65.";
+end;
+}
+
+
+//Viaje
+		if (Alternativa_Moscovia_Quest == 4) {
+
+			mes .nombreNPC$;
+			mes " ";
+			mes "Hola, bienvenido de vuelta.";
+			mes "Quieres que te envie a moscovia";
+					if(select("^FF0000En otro momento^000000:^0000FFSi, Enviame^000000") == 1) {
+					next;
+					mes .nombreNPC$;
+					mes " ";
+					mes "Ok, vuelve cuando gustes.";
+					end; } //FIN MENU
+		next;
+		mes .nombreNPC$;
+		mes " ";
+		mes "Que tengas un excelente viaje.";
+		close2;
+		warp "mosk_fild02",204,57;
+		end;
+		}
+
+
+
+//Lemon Juice
+		if (Alternativa_Moscovia_Quest == 3) {
+				if (countitem(40292)<100){
+				mes .nombreNPC$;
+				mes " ";
+				mes "Veo que aun no tienes los ^0000FF100 Lemon Juice^000000, vuelve cuando los tengas.";
+				end;
+				}
+			delitem 40292,100;
+			mes .nombreNPC$;
+			mes " ";
+			mes "Fueron muy refrescastes, te lo agradeco, he podido saciar mi sed, ahora cada vez que vengas, podre enviarte a Moscovia.";
+			set Alternativa_Moscovia_Quest,4;
+		end;
+		}
+
+
+
+
+//Mix Orange Juice
+		if (Alternativa_Moscovia_Quest == 2) {
+				if (countitem(40291)<200){
+				mes .nombreNPC$;
+				mes " ";
+				mes "Veo que aun no tienes los ^0000FF200 Mix Orange Juice^000000, vuelve cuando los tengas.";
+				end;
+				}
+			delitem 40291,200;
+			mes .nombreNPC$;
+			mes " ";
+			mes "Pero que delicia, fue tan relajante beberlos, un ultimo favor, traeme  ^0000FF100 Lemon Juice^000000";
+			set Alternativa_Moscovia_Quest,3;
+		end;
+		}
+
+
+
+
+//Strawberry Juice
+		if (Alternativa_Moscovia_Quest == 1) {
+				if (countitem(40294)<300){
+				mes .nombreNPC$;
+				mes " ";
+				mes "Veo que aun no tienes los ^0000FF300 Strawberry Juice^000000, vuelve cuando los tengas.";
+				end;
+				}
+			delitem 40294,300;
+			mes .nombreNPC$;
+			mes " ";
+			mes "Muchas gracias por traerlos, estaban deliciosos, pero aun tengo algo de sed, por favor trae ahora ^0000FF200 Mix Orange Juice^000000";
+			set Alternativa_Moscovia_Quest,2;
+		end;
+		}
+
+
+
+//Inicio de la Quest
+		if (Alternativa_Moscovia_Quest == 0) {
+		mes .nombreNPC$;
+		mes " ";
+		mes "Buenos dias aventurero, mi nombre es ^0000FFVincent^000000.";
+		mes "He viajado desde muy lejos, hasta el pueblo de los inicios, y descubri un maravilloso lugar en mi viaje hacia aca.";
+		next;
+		mes .nombreNPC$;
+		mes " ";
+		mes "Puedo ayudarte a ir a este lugar.";
+		mes "Pero ahora estoy muy sediento por el viaje, que te parece si me traes unos jugos y al saciar mi sed, te puedo enviar alla.";
+		mes "Te interesa?";
+		if(select("^FF0000En otro momento^000000:^0000FFSi, Claro^000000") == 1) {
+		next;
+		mes .nombreNPC$;
+		mes " ";
+		mes "Ok, vuelve si cambias de opinion.";
+		end; } //FIN MENU
+		next;
+		mes .nombreNPC$;
+		mes " ";
+		set Alternativa_Moscovia_Quest,1;
+			mes "Haz tomado una excelente decision, para empezar traeme ^0000FF300 Strawberry Juice^000000.";
+		end;
+		}
+
+end;
+}
+
+
+
+
+FirstTown,159,250,3	script	Mishi	554,{
+mes "[Mishi]";
+mes " ";
+mes "Miau Miau Miaaaau";
+end;
+}

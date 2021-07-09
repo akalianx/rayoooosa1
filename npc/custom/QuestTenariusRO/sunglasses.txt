@@ -1,0 +1,115 @@
+
+//======================================================================================//
+//===================================== QUEST SUNGLASSES ===============================//
+//======================================================================================//
+
+
+
+moc_para01,25,35,4	script	Roke Feller	429,{
+//arena_5,157,104,2	script	Roke Feller	429,{
+//======================CONFIGURACIONES======================
+setarray .item_sunglasses[0],6256,7938,6257,7939,7095,2203,969;
+setarray .cantidad_sunglasses[0],40,40,40,40,30,1,1;
+set .@recompemsa1,2202;
+set .@zenysunglasses,5000000;
+set .nombreNPC$,"^0000FF[Roke Feller]^000000";
+
+
+
+
+//MENSAJE DE BIENVENIDA
+if (Sunglasses_Quest == 1) {
+	for (set .@i, 0; .@i < getarraysize( .item_sunglasses ); set .@i, .@i + 1){		
+		if (countitem(.item_sunglasses[.@i]) < .cantidad_sunglasses[.@i] ) {
+		next;
+		mes .nombreNPC$;
+		mes "No tienes suficientes items para completar la quest.";
+		mes " ";
+		
+			for (set .@i, 0; .@i < getarraysize( .item_sunglasses ); set .@i, .@i + 1){
+						mes "";
+						if (countitem(.item_sunglasses[.@i]) < .cantidad_sunglasses[.@i])
+						mes "^C02908" + countitem(.item_sunglasses[.@i]) + "/"  + .cantidad_sunglasses[.@i] + " " + getitemname(.item_sunglasses[.@i]) + "  ID: (" + .item_sunglasses[.@i] + ").^000000";
+						if (countitem(.item_sunglasses[.@i]) >= .cantidad_sunglasses[.@i])
+						mes "^0000FF" + countitem(.item_sunglasses[.@i]) + "/"  + .cantidad_sunglasses[.@i] + " " + getitemname(.item_sunglasses[.@i]) + "  ID: (" + .item_sunglasses[.@i] + ").^000000";
+					}
+		
+		
+		end;
+		}
+	
+	}
+
+
+if (zeny < .@zenysunglasses && Sunglasses_Quest==1) {
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficiente zeny para realizar los Sunglasses.";
+	mes "Requieres la cantidad de " + callfunc("F_InsertComma",.@zenysunglasses) + "z.";
+	end;
+	}
+
+
+
+mes .nombreNPC$;
+mes " ";
+mes "Veo que haz traido todo. Aqui tienes tu recompensa ^0000FF" + getitemname(.@recompemsa1) + " ^000000.";
+next;
+
+for (set .@i, 0; .@i < getarraysize( .item_sunglasses ); set .@i, .@i + 1){
+delitem .item_sunglasses[.@i],.cantidad_sunglasses[.@i];
+		}
+
+set Zeny, Zeny-.@zenysunglasses;
+getitem .@recompemsa1,1;
+set Sunglasses_Quest,0;
+
+close;
+} //FIN == if (Sunglasses_Quest == 1)
+
+
+
+
+
+//SI ACEPTAS LA QUEST
+if (Sunglasses_Quest == 0) {
+mes .nombreNPC$;
+mes " ";
+mes "Buenos dias aventurero, te gustaria crear unos fabulosos Sunglases[1]?";
+mes "Con los cuales podras estar a la moda.";
+if(select("^FF0000En otro momento^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes " ";
+mes "Ok, vuelve si cambias de opinion.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+mes " ";
+set Sunglasses_Quest,1;
+	mes "Excelente, para poder fabricarlos, deberas pagar la cantidad de " + callfunc("F_InsertComma",.@zenysunglasses) + "z y traer los siguientes items:";
+next;
+
+
+mes "^0000FF[Lista de Materiales]^000000";
+					for (set .@i, 0; .@i < getarraysize( .item_sunglasses ); set .@i, .@i + 1){
+						mes "";
+						mes "^0000FF" + countitem(.item_sunglasses[.@i]) + "/"  + .cantidad_sunglasses[.@i] + " " + getitemname(.item_sunglasses[.@i]) + "  ID: (" + .item_sunglasses[.@i] + ").^000000";
+					}
+}   // === FIN  if (Sunglasses_Quest == 0)
+
+
+close;
+	
+end;
+
+
+
+//CARTEL
+OnInit:
+	waitingroom "Sunglasses",0;
+end;
+
+
+
+}

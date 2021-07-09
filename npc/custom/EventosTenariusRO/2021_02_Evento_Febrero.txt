@@ -1,0 +1,128 @@
+/*
+-	script	14deFebrero2021	-1,{
+
+
+
+OnInit:
+announce "La barrera que protegia a Geffen ha sido destruida.",bc_all;
+sleep 2000;
+announce "Al Oeste, han aparecido monstruos de un lugar llamado Geffenia.",bc_all;
+sleep 2000;
+announce "Al Este, han aparecido hadas y plantas muy agresivas.",bc_all;
+sleep 2000;
+announce "En Prontera han aparecido Nekorings, una subespecie de Poring.",bc_all;
+
+
+
+killmonster "gef_fild07","All";
+killmonster "gef_fild00","All";
+killmonster "prontera","All";
+atcommand ("@reloadbattleconf");
+
+monster "gef_fild07",0,0,"Incubus",1374,15,strnpcinfo(0)+"::OnKill";
+monster "gef_fild07",0,0,"Succubus",1370,15,strnpcinfo(0)+"::OnKill";
+monster "gef_fild07",0,0,"Violy",1390,15,strnpcinfo(0)+"::OnKill";
+monster "gef_fild07",0,0,"False Angel",1371,20,strnpcinfo(0)+"::OnKill";
+
+monster "gef_fild00",0,0,"Mavka",1884,30,strnpcinfo(0)+"::OnKill2";
+
+
+
+monster "gef_fild00",0,0,"Dryad",1493,50,strnpcinfo(0)+"::OnKill3";
+monster "gef_fild00",0,0,"Pinguicula",1995,40,strnpcinfo(0)+"::OnKill3";
+
+
+
+monster "prontera",0,0,"Nekoring",20900,50,strnpcinfo(0)+"::OnKill4";
+monster "prontera",0,0,"Pink Nekoring",20903,50,strnpcinfo(0)+"::OnKill4";
+monster "prontera",0,0,"Black Nekoring",20887,50,strnpcinfo(0)+"::OnKill4";
+monster "prontera",0,0,"Green Nekoring",20896,50,strnpcinfo(0)+"::OnKill4";
+monster "prontera",0,0,"Grey Nekoring",20897,50,strnpcinfo(0)+"::OnKill4";
+monster "prontera",0,0,"Blue Nekoring",20889,50,strnpcinfo(0)+"::OnKill4";
+
+end;
+
+
+OnKill:
+monster strcharinfo(3),0,0,getmonsterinfo(killedrid,MOB_NAME),killedrid,1,strnpcinfo(0)+"::OnKill";
+dispbottom "Bono de evento.";
+getitem 40190,1;
+end;
+
+
+
+
+OnKill2:
+monster strcharinfo(3),0,0,getmonsterinfo(killedrid,MOB_NAME),killedrid,1,strnpcinfo(0)+"::OnKill2";
+set .@Base,15000;
+set .@Job,15000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+end;
+
+
+OnKill3:
+monster strcharinfo(3),0,0,getmonsterinfo(killedrid,MOB_NAME),killedrid,1,strnpcinfo(0)+"::OnKill3";
+set .@Base,10000;
+set .@Job,10000;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+end;
+
+
+OnKill4:
+monster strcharinfo(3),0,0,getmonsterinfo(killedrid,MOB_NAME),killedrid,1,strnpcinfo(0)+"::OnKill4";
+set .@Base,500;
+set .@Job,500;
+dispbottom "Bono de Experiencia - Evento.",0xFCF506;
+getexp (.@Base*$@brate)/700,(.@Job*$@jrate)/700;
+callfunc("NekoringEvent");
+end;
+
+
+
+end;
+
+}
+
+
+
+
+
+
+
+function	script	NekoringEvent	{
+	
+					  //ID , % , CANTIDAD
+	setarray .@reward,	501, 40, 1, 		//50 red potion
+						502, 20, 1, 		//50 orange potion
+						503, 20, 1, 		//50 yellow potion
+						510, 5, 1, 			//50 Blue Herb
+						511, 40, 1, 		//50 Green Herb
+						507, 40, 1, 		//50 Red Herb
+						509, 10, 1, 		//50 White Herb
+						508, 30, 1, 		//50 Yellow Herb
+						514, 10, 1, 		//50 Grape
+						533, 5, 1; 			//50 Grape Juice
+						
+						
+						
+						
+						
+	set .@size, getarraysize( .@reward );
+	for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+		.@percent[.@i] = .@total + .@reward[.@i];
+		.@total += .@reward[.@i];
+	}
+	.@r = rand( .@total +1 );
+	for( set .@i, 1; .@i < .@size; .@i += 3 )
+		if( .@percent[.@i] > .@r )
+			break;
+	getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+	end;
+	
+}
+
+
+
+*/

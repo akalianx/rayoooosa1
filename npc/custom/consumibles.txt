@@ -1,0 +1,393 @@
+//vend_zone,113,113,3	shop	Mariel	640,501:50,502:200,503:550,504:1200,506:40,645:800,656:1500,657:3000,601:60,602:300,643:3000.1750:1,1770:2,1752:3,1751:3,717:600
+
+//vend_zone,86,113,3	shop	Trading Merchant#alb	900,13200:-1,13201:-1,13202:-1,13150:-1,13102:-1,13151:-1,13154:-1,13155:-1,13163:-1,13165:-1,13168:-1
+
+
+
+
+//**************************************** KAFRA ZONA DE VENTAS ****************************************
+
+vend_zone,100,103,4	script	Kafra Staff::kaf_vend_zone	861,{
+	cutin "kafra_09",2;
+	callfunc "F_Kafra",0,2,1,150,0;
+}
+
+
+
+
+
+
+
+
+
+//**************************************** TIENDA MASCOTAS ****************************************
+
+//Tienda mascotas
+-	shop	mascotas#2	-1,537:-1,912:-1,910:-1,911:-1,643:-1,10013:-1,10014:-1,7766:-1,7822:-1,7823:-1,554:-1
+
+//REVISAR			,6115:-1,554:-1,6114:-1,6113:-1,6110:-1,6115:-1,6100:-1,6098:-1,6112:-1,6104:-1,6108:-1,6111:-1,6095:-1,6099:-1,6097:-1
+
+
+
+vend_zone,86,95,5	script	Isabel	73,{
+callshop "mascotas#2", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Pet Shop",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//**************************************** TIENDA ARMADURAS ****************************************
+
+//Tienda armaduras
+-	shop	armaduras#2	-1,2101:-1,2103:-1,2105:-1,2117:-1,2401:-1,2403:-1,2405:-1,2501:-1,2503:-1,2505:-1,2224:-1,2218:-1,2212:-1,2203:-1,2201:-1,2205:-1,2228:-1,2232:-1,2208:-1,2211:-1,2220:-1,2226:-1,2301:-1,2303:-1,2305:-1,2321:-1,2328:-1,2332:-1,2307:-1,2309:-1,2312:-1,2314:-1,2316:-1,2335:-1,2330:-1,2628:-1,2627:-1
+
+
+
+
+vend_zone,86,86,5	script	Sebastian	405,{
+callshop "armaduras#2", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Armaduras",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//**************************************** TIENDA ARCOS ****************************************
+
+//Tienda archer
+-	shop	archer#2	-1,1701:-1,1704:-1,1707:-1,1710:-1,1713:-1,1714:-1,1718:-1,1901:-1,1903:-1,1905:-1,1909:-1,1911:-1,1907:-1,1950:-1,1952:-1,1954:-1,1958:-1,1960:-1,1956:-1
+
+
+
+
+vend_zone,113,95,5	script	Eduardo	86,{
+callshop "archer#2", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Archer Shop",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//**************************************** TIENDA ARMAS DE UNA MANO ****************************************
+
+//Tienda armas de dos manos
+-	shop	armasDosMano#2	-1,1116:-1,1151:-1,1154:-1,1157:-1,1160:-1,1351:-1,1354:-1,1357:-1,1360:-1,1410:-1,1451:-1,1454:-1,1457:-1,1460:-1,1463:-1,1250:-1,1252:-1,1254:-1
+
+
+
+
+vend_zone,113,104,5	script	Iris	666,{
+callshop "armasDosMano#2", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Armas de Dos Manos",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+//**************************************** TIENDA ARMAS DE UNA MANO ****************************************
+
+//Tienda armas de una mano
+-	shop	armasUnaMano#2	-1,1101:-1,1104:-1,1107:-1,1110:-1,1113:-1,1119:-1,1122:-1,1123:-1,1126:-1,1129:-1,1201:-1,1204:-1,1207:-1,1210:-1,1213:-1,1216:-1,1219:-1,1222:-1,1301:-1,1401:-1,1404:-1,1407:-1,1501:-1,1504:-1,1507:-1,1510:-1,1513:-1,1516:-1,1519:-1,1522:-1,1801:-1,1803:-1,1805:-1,1807:-1,1809:-1,1811:-1
+
+
+
+
+vend_zone,113,113,5	script	Lucile	667,{
+callshop "armasUnaMano#2", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Armas de Una Mano",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+//**************************************** TIENDA MAGE ****************************************
+
+//Tienda municiones
+-	shop	magicitems#2	-1,717:-1,1601:-1,1604:-1,1607:-1,1610:-1,1617:-1,1619:-1
+
+
+
+
+vend_zone,104,113,5	script	Kraus	64,{
+callshop "magicitems#2", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Magic Shop",0;
+end;
+}
+
+
+
+
+
+
+//**************************************** TIENDA ALQUIMIA ****************************************
+
+//Tienda de alquimia
+-	shop	alquimia#cons	-1,7129:-1,7127:-1,7128:-1,7434:-1,7132:-1,7131:-1,7130:-1,7144:-1,7133:-1,1092:-1,1093:-1,7134:-1,7143:-1,7141:-1,7140:-1
+
+
+
+
+vend_zone,95,86,5	script	Alanis	643,{
+callshop "alquimia#cons", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Alquimia",0;
+end;
+}
+
+
+
+
+
+
+
+//**************************************** TIENDA MUNICIONES ****************************************
+
+//Tienda municiones
+-	shop	municiones#2	-1,1771:-1,1770:2,1752:3,1751:3,13250:-1,13251:-1,13252:-1,13253:-1,13254:-1,7521:-1,7522:-1,7523:-1,7524:-1
+
+
+
+
+vend_zone,86,104,5	script	Braulio	880,{
+callshop "municiones#2", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Municiones",0;
+end;
+}
+
+
+
+
+
+
+
+//**************************************** TIENDA MATERIALES VARIOS ****************************************
+
+//Tienda materiales varios
+-	shop	Materiales#cons	-1,7433:-1,613:-1,614:-1,615:-1,612:-1,986:-1,987:-1,988:-1,721:-1,723:-1,726:-1,728:-1,729:-1,730:-1
+
+
+
+
+vend_zone,95,113,5	script	Esteban	869,{
+callshop "Materiales#cons", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Materiales",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+//**************************************** CONSUMIBLES ****************************************
+
+-	shop	Mariel#cons	-1,611:-1,501:50,502:200,503:550,504:1200,506:40,645:800,656:1500,657:3000,601:60,602:300,610:-1,1065:-1
+
+
+
+
+vend_zone,86,113,5	script	Mariel	640,{
+callshop "Mariel#cons", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Consumibles",0;
+end;
+}
+FirstTown,223,231,6	duplicate(Mariel)	Jean#ciuIni	895 
+FirstTown,105,348,4	duplicate(Mariel)	Jean#ciuIni2	895 
+FirstTown,62,236,4	duplicate(Mariel)	Jean#ciuIni3	895 
+FirstTown,245,69,4	duplicate(Mariel)	Jean#ciuIni4	895 
+alberta,23,244,6	duplicate(Mariel)	Jean#alberta	895
+aldebaran,148,120,6	duplicate(Mariel)	Jean#aldebaran	895
+amatsu,121,148,6	duplicate(Mariel)	Jean#amatsu	895
+ayothaya,223,170,6	duplicate(Mariel)	Jean#ayothaya	895
+brasilis,203,218,4	duplicate(Mariel)	Jean#brasilis	895
+comodo,191,162,4	duplicate(Mariel)	Jean#comodo	895
+einbech,49,47,4	duplicate(Mariel)	Jean#einbech	895
+einbroch,71,192,4	duplicate(Mariel)	Jean#einbroch	895
+geffen,125,71,4	duplicate(Mariel)	Jean#geffen	895
+gonryun,169,106,4	duplicate(Mariel)	Jean#gonryun	895
+hugel,90,158,4	duplicate(Mariel)	Jean#hugel	895
+izlude,134,118,4	duplicate(Mariel)	Jean#izlude	895
+lighthalzen,164,85,4	duplicate(Mariel)	Jean#lighthalzen	895
+louyang,225,94,4	duplicate(Mariel)	Jean#louyang	895
+xmas,155,126,4	duplicate(Mariel)	Jean#xmas	895
+morocc,170,90,4	duplicate(Mariel)	Jean#morocc	895
+moscovia,230,187,4	duplicate(Mariel)	Jean#moscovia	895
+payon,183,97,4	duplicate(Mariel)	Jean#payon	895
+rachel,137,103,4	duplicate(Mariel)	Jean#rachel	895
+umbala,82,166,4	duplicate(Mariel)	Jean#umbala	895
+veins,216,129,4	duplicate(Mariel)	Jean#veins	895
+yuno,168,187,4	duplicate(Mariel)	Jean#yuno	895
+prontera,164,175,4	duplicate(Mariel)	Jean#prontera	895 
+manuk,274,151,4	duplicate(Mariel)	Jean#manuk	895
+splendide,192,153,4	duplicate(Mariel)	Jean#splendide	895
+mid_camp,195,287,4	duplicate(Mariel)	Jean#MidCamp	895
+
+
+
+
+
+
+
+
+
+//**************************************** TIENDA GUNLINGER ****************************************
+
+//Tienda Gunslinger
+-	shop	Leonard2#h	-1,13200:-1,13201:-1,13202:-1,13150:-1,13102:-1,13151:-1,13154:-1,13155:-1,13163:-1,13165:-1,13168:-1
+
+
+
+
+vend_zone,113,86,5	script	Leonard	900,{
+callshop "Leonard2#h", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Guns Shop",0;
+end;
+}
+
+
+
+
+
+//==========================LIBROS DE ALQUIMIA FIRST TOWN======================================//
+
+//**************************************** TIENDA ALQUIMIA ****************************************
+
+//Tienda de alquimia
+-	shop	alquimia#cons	-1,7129:-1,7127:-1,7128:-1,7434:-1,7132:-1,7131:-1,7130:-1,7144:-1,7133:-1,1092:-1,1093:-1,7134:-1,7143:-1,7141:-1,7140:-1
+
+
+
+
+FirstTown,72,95,5	script	Libros	111,{
+callshop "alquimia#cons", 0;
+end;
+OnSellItem:
+.@size = getarraysize( @sold_nameid );
+for ( .@i = 0; .@i < .@size; .@i++ )
+	dispbottom callfunc( "getitemname2", @sold_nameid[.@i], @sold_identify[.@i], @sold_refine[.@i], @sold_attribute[.@i], @sold_card1[.@i], @sold_card2[.@i], @sold_card3[.@i], @sold_card4[.@i]);
+
+OnInit:
+waitingroom "Alquimia",0;
+end;
+}

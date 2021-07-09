@@ -1,0 +1,35 @@
+// BattleGround Warper - Exit
+// *********************************************************************
+
+vend_zone,100,90,4	script	Teleporter#vend	124,{
+	mes "[Teleporter]";
+	mes "Deseas salir del mercado?.";
+	next;
+	if( select("Salir:No Salir") == 2 )
+	{
+		mes "[Teleporter]";
+		mes "Estare aqui, por si necesitas mis servicios.";
+		close;
+	}
+
+	//set .@spoint$, getsavepoint(0);
+	//set .@x, getsavepoint(1);
+	//set .@y, getsavepoint(2);
+	mes "[Teleporter]";
+	mes "Nos vemos, vuelve pronto.";
+	close2;
+	warp "FirstTown",214,198;
+	end;
+}
+
+
+FirstTown,226,130,2	script	Boletin#mercado	837,{
+end;
+
+OnInit:
+waitingroom "Mercado",0;
+end;
+}
+
+
+FirstTown,227,127,0	warp	moc_pro#salidafirst	2,3,vend_zone,90,99

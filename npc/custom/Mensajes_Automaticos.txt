@@ -1,0 +1,176 @@
+
+
+
+//===== Hercules Script ===========================================
+//= King of Emperium Hill
+//===== By: =======================================================
+//= AnnieRuru
+//===== Current Version: ==========================================
+//= 1.2
+//===== Compatible With: ==========================================
+//= hercules & rathena 2018-04-08
+//===== Description: ==============================================
+//= defends the emperium in the middle of the map until times up
+//===== Topic =====================================================
+//= http://hercules.ws/board/topic/4495-gvg-king-of-emperium-hill/
+//===== Additional Comments: ======================================
+//= Finally there is a topic for this !
+//=================================================================
+ 
+-	script	Mensajes	FAKE_NPC,{
+
+
+
+// MENSAJE SOBRE VOTACIONES
+OnClock0000: // 17:10 horas
+        announce "<<----------Votaciones---------->>", bc_all;
+		announce "Buen dia mis estimados usuarios, ya estan abiertas las votaciones por el servidor.", bc_all;
+		announce "Pueden hacerlo entrando a nuestra pagina web tenarius-ro.com y dando clic en el boton votanos.", bc_all;
+		announce "Al hacerlo obtienen puntos de votacion que pueden canjear en la tenda por Hats y Pets.", bc_all;
+		announce "Tus votos nos ayudan a crecer como comunidad.", bc_all;
+		announce "Gracias por ser parte de Tenarius RO.", bc_all;
+        end;
+
+OnClock0110: // 18:10 horas
+        announce "<<----------Votaciones---------->>", bc_all;
+		announce "Buen dia mis estimados usuarios, ya estan abiertas las votaciones por el servidor.", bc_all;
+		announce "Pueden hacerlo entrando a nuestra pagina web tenarius-ro.com y dando clic en el boton votanos.", bc_all;
+		announce "Al hacerlo obtienen puntos de votacion que pueden canjear en la tenda por Hats y Pets.", bc_all;
+		announce "Tus votos nos ayudan a crecer como comunidad.", bc_all;
+		announce "Gracias por ser parte de Tenarius RO.", bc_all;
+        end;
+		
+OnClock0210: // 19:10 horas
+        announce "<<----------Votaciones---------->>", bc_all;
+		announce "Buen dia mis estimados usuarios, ya estan abiertas las votaciones por el servidor.", bc_all;
+		announce "Pueden hacerlo entrando a nuestra pagina web tenarius-ro.com y dando clic en el boton votanos.", bc_all;
+		announce "Al hacerlo obtienen puntos de votacion que pueden canjear en la tenda por Hats y Pets.", bc_all;
+		announce "Tus votos nos ayudan a crecer como comunidad.", bc_all;
+		announce "Gracias por ser parte de Tenarius RO.", bc_all;
+        end;
+		
+		
+OnClock0310: // 20:10 horas
+        announce "<<----------Votaciones---------->>", bc_all;
+		announce "Buen dia mis estimados usuarios, ya estan abiertas las votaciones por el servidor.", bc_all;
+		announce "Pueden hacerlo entrando a nuestra pagina web tenarius-ro.com y dando clic en el boton votanos.", bc_all;
+		announce "Al hacerlo obtienen puntos de votacion que pueden canjear en la tenda por Hats y Pets.", bc_all;
+		announce "Tus votos nos ayudan a crecer como comunidad.", bc_all;
+		announce "Gracias por ser parte de Tenarius RO.", bc_all;
+        end;
+		
+OnClock0410: // 21:10 horas
+        announce "<<----------Votaciones---------->>", bc_all;
+		announce "Buen dia mis estimados usuarios, ya estan abiertas las votaciones por el servidor.", bc_all;
+		announce "Pueden hacerlo entrando a nuestra pagina web tenarius-ro.com y dando clic en el boton votanos.", bc_all;
+		announce "Al hacerlo obtienen puntos de votacion que pueden canjear en la tenda por Hats y Pets.", bc_all;
+		announce "Tus votos nos ayudan a crecer como comunidad.", bc_all;
+		announce "Gracias por ser parte de Tenarius RO.", bc_all;
+        end;
+		
+OnClock0510: // 22:10 horas
+        announce "<<----------Votaciones---------->>", bc_all;
+		announce "Buen dia mis estimados usuarios, ya estan abiertas las votaciones por el servidor.", bc_all;
+		announce "Pueden hacerlo entrando a nuestra pagina web tenarius-ro.com y dando clic en el boton votanos.", bc_all;
+		announce "Al hacerlo obtienen puntos de votacion que pueden canjear en la tenda por Hats y Pets.", bc_all;
+		announce "Tus votos nos ayudan a crecer como comunidad.", bc_all;
+		announce "Gracias por ser parte de Tenarius RO.", bc_all;
+        end;
+		
+OnClock0610: // 23:10 horas
+        announce "<<----------Votaciones---------->>", bc_all;
+		announce "Buen dia mis estimados usuarios, ya estan abiertas las votaciones por el servidor.", bc_all;
+		announce "Pueden hacerlo entrando a nuestra pagina web tenarius-ro.com y dando clic en el boton votanos.", bc_all;
+		announce "Al hacerlo obtienen puntos de votacion que pueden canjear en la tenda por Hats y Pets.", bc_all;
+		announce "Tus votos nos ayudan a crecer como comunidad.", bc_all;
+		announce "Gracias por ser parte de Tenarius RO.", bc_all;
+        end;
+		
+OnClock0710: // 24:10 horas
+
+        announce "<<----------Votaciones---------->>", bc_all;
+		announce "Buen dia mis estimados usuarios, ya estan abiertas las votaciones por el servidor.", bc_all;
+		announce "Pueden hacerlo entrando a nuestra pagina web tenarius-ro.com y dando clic en el boton votanos.", bc_all;
+		announce "Al hacerlo obtienen puntos de votacion que pueden canjear en la tenda por Hats y Pets.", bc_all;
+		announce "Tus votos nos ayudan a crecer como comunidad.", bc_all;
+		announce "Gracias por ser parte de Tenarius RO.", bc_all;
+        end;
+
+
+
+
+// MENSAJE SOBRE KOE
+
+
+OnTue0250: // 19:50 horas KOE
+        announce "<<----------King Of Emperium [KOE]---------->>", bc_all;
+		announce " ", bc_all;
+		announce "Buen dia mis estimados usuarios.", bc_all;
+		announce "En 10 minutos inicia KOE y aqui les tenemos algunas reglas.", bc_all;
+		announce " ", bc_all;
+		announce "REGLAS:", bc_all;
+		announce "1.- Estar en una Guild que tenga activa la skill Approval.", bc_all;
+		announce "2.- Al entrar a KOE deben golpear el Emperium al menos una vez, para poder reclamar sus KOE Coins.", bc_all;
+		announce "3.- Si reloguean, no podran reclamar sus monedas, asi que deberan repetir el paso 2.", bc_all;
+		announce " ", bc_all;
+		announce "Espero esto sea de su ayuda, Saludos.", bc_all;
+        end;
+
+OnTue0255: // 19:55 horas KOE
+        announce "<<----------King Of Emperium [KOE]---------->>", bc_all;
+		announce " ", bc_all;
+		announce "Buen dia mis estimados usuarios.", bc_all;
+		announce "En 5 minutos inicia KOE y aqui les tenemos algunas reglas.", bc_all;
+		announce " ", bc_all;
+		announce "REGLAS:", bc_all;
+		announce "1.- Estar en una Guild que tenga activa la skill Approval.", bc_all;
+		announce "2.- Al entrar a KOE deben golpear el Emperium al menos una vez, para poder reclamar sus KOE Coins.", bc_all;
+		announce "3.- Si reloguean, no podran reclamar sus monedas, asi que deberan repetir el paso 2.", bc_all;
+		announce " ", bc_all;
+		announce "Espero esto sea de su ayuda, Saludos.", bc_all;
+        end;
+
+
+
+
+
+OnSat0250: // 19:50 horas KOE
+        announce "<<----------King Of Emperium [KOE]---------->>", bc_all;
+		announce " ", bc_all;
+		announce "Buen dia mis estimados usuarios.", bc_all;
+		announce "En 10 minutos inicia KOE y aqui les tenemos algunas reglas.", bc_all;
+		announce " ", bc_all;
+		announce "REGLAS:", bc_all;
+		announce "1.- Estar en una Guild que tenga activa la skill Approval.", bc_all;
+		announce "2.- Al entrar a KOE deben golpear el Emperium al menos una vez, para poder reclamar sus KOE Coins.", bc_all;
+		announce "3.- Si reloguean, no podran reclamar sus monedas, asi que deberan repetir el paso 2.", bc_all;
+		announce " ", bc_all;
+		announce "Espero esto sea de su ayuda, Saludos.", bc_all;
+        end;
+
+OnSat0255: // 19:55 horas KOE
+        announce "<<----------King Of Emperium [KOE]---------->>", bc_all;
+		announce " ", bc_all;
+		announce "Buen dia mis estimados usuarios.", bc_all;
+		announce "En 5 minutos inicia KOE y aqui les tenemos algunas reglas.", bc_all;
+		announce " ", bc_all;
+		announce "REGLAS:", bc_all;
+		announce "1.- Estar en una Guild que tenga activa la skill Approval.", bc_all;
+		announce "2.- Al entrar a KOE deben golpear el Emperium al menos una vez, para poder reclamar sus KOE Coins.", bc_all;
+		announce "3.- Si reloguean, no podran reclamar sus monedas, asi que deberan repetir el paso 2.", bc_all;
+		announce " ", bc_all;
+		announce "Espero esto sea de su ayuda, Saludos.", bc_all;
+        end;
+
+
+
+		
+}
+
+
+
+
+
+
+
+

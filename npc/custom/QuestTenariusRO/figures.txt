@@ -1,0 +1,760 @@
+//ACOLYTE FIGURE
+prontera,238,312,3	script	Mary	4_F_ACOLYTE,{
+
+//======================CONFIGURACIONES======================
+set .@item1,2216; 	//Biretta [0]
+set .@cantidad1,1;
+set .@item2,717;	//blue gemstone
+set .@cantidad2,30;
+set .@item3,916;	//Feather of Birds 
+set .@cantidad3,50;
+set .@item4,949;	//Feather    
+set .@cantidad4,50;
+set .@recompemsa,2767;
+set .nombrerecompensa$,"^0000FFAcolyte Figure^000000";
+set .nombreNPC$,"^0000FF[Mary]^000000";
+
+//MENSAJE DE BIENVENIDA
+if (aco_fig == 1) {
+if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4) {
+mes .nombreNPC$;
+mes "Hola, veo que aun te faltan algunos items."; 
+mes " ";
+mes "Por favor revisa la Lista de Materiales";
+next;
+goto Lista_aco_verif;
+	}
+	
+mes .nombreNPC$;
+mes "Muchas gracias por tu ayuda, aqui tienes tu " + .nombrerecompensa$ + ".";
+next;
+set aco_fig,0;
+delitem .@item1,.@cantidad1;
+delitem .@item2,.@cantidad2;
+delitem .@item3,.@cantidad3;
+delitem .@item4,.@cantidad4;
+getitem .@recompemsa,1;
+
+close;
+} //FIN == if (aco_fig == 1)
+
+
+//SI ACEPTAS LA QUEST
+if (aco_fig == 0) {
+mes .nombreNPC$;
+mes "Buenos dias ^0000FF" + strcharinfo(0) + "^000000";
+mes "Necestio ayuda para recolectar unos items, a cambio te recompensare con una " + .nombrerecompensa$ +" que he realizado artesanalmente.";
+next;
+mes .nombreNPC$;
+mes "Podras Ayudarme?";
+if(select("^FF0000No, Ahora no tengo tiempo^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes "Muchas gracias, disculpa la molestia, que tengas un excelente dia.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+set aco_fig,1;
+mes "Muchas gracias.";
+mes "Esta es la lista de items que necesito.";
+next;
+goto Lista_aco;
+}   // === FIN  if (aco_fig == 0)
+
+
+close;
+
+
+
+//LISTA DE ITEMS
+Lista_aco:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+//LISTA DE VERIFICACION
+Lista_aco_verif:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+
+
+	
+end;
+
+//CARTEL
+OnInit:
+	waitingroom "Acolyte Figure",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//THIEF FIGURE
+moc_ruins,70,167,3	script	Hizoka	638,{
+
+//======================CONFIGURACIONES======================
+set .@item1,2218; 	//Flu Mask [0] 
+set .@cantidad1,1;
+set .@item2,919;	//Animal Skin
+set .@cantidad2,50;
+set .@item3,948;	//Bear's Footskin 
+set .@cantidad3,50;
+set .@item4,7161;	//Black Bear Skin    
+set .@cantidad4,20;
+set .@recompemsa,2770;
+set .nombrerecompensa$,"^0000FFThief Figure^000000";
+set .nombreNPC$,"^0000FF[Hizoka]^000000";
+
+
+
+//MENSAJE DE BIENVENIDA
+if (thief_fig == 1) {
+if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4) {
+mes .nombreNPC$;
+mes "Hola, veo que aun te faltan algunos items."; 
+mes " ";
+mes "Por favor revisa la Lista de Materiales";
+next;
+goto Lista_thief_verif;
+	}
+	
+mes .nombreNPC$;
+mes "Muchas gracias por tu ayuda, aqui tienes tu " + .nombrerecompensa$ + ".";
+next;
+set thief_fig,0;
+delitem .@item1,.@cantidad1;
+delitem .@item2,.@cantidad2;
+delitem .@item3,.@cantidad3;
+delitem .@item4,.@cantidad4;
+getitem .@recompemsa,1;
+
+close;
+} //FIN == if (thief_fig == 1)
+
+
+//SI ACEPTAS LA QUEST
+if (thief_fig == 0) {
+mes .nombreNPC$;
+mes "Buenos dias ^0000FF" + strcharinfo(0) + "^000000";
+mes "Necestio ayuda para recolectar unos items, a cambio te recompensare con una " + .nombrerecompensa$ +" que he encontrado en las ruinas.";
+next;
+mes .nombreNPC$;
+mes "Podras Ayudarme?";
+if(select("^FF0000No, Ahora no tengo tiempo^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes "Muchas gracias, disculpa la molestia, que tengas un excelente dia.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+set thief_fig,1;
+mes "Muchas gracias.";
+mes "Estos son los items que necesito.";
+next;
+goto Lista_thief;
+}   // === FIN  if (thief_fig == 0)
+
+
+close;
+
+
+
+//LISTA DE ITEMS
+Lista_thief:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+//LISTA DE VERIFICACION
+Lista_thief_verif:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+
+
+	
+end;
+
+//CARTEL
+OnInit:
+	waitingroom "Thief Figure",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//ARCHER FIGURE
+payon,165,99,6	script	Shisui	634,{
+
+//======================CONFIGURACIONES======================
+set .@item1,1701; 	//Bow [3]
+set .@cantidad1,1;
+set .@item2,7298;	//Fig Leaf
+set .@cantidad2,50;
+set .@item3,945;	//Raccoon Leaf
+set .@cantidad3,50;
+set .@item4,921;	//Black Bear Skin    
+set .@cantidad4,30;
+set .@recompemsa,2769;
+set .nombrerecompensa$,"^0000FFArcher Figure^000000";
+set .nombreNPC$,"^0000FF[Shisui]^000000";
+
+
+
+//MENSAJE DE BIENVENIDA
+if (Archer_fig == 1) {
+if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4) {
+mes .nombreNPC$;
+mes "Hola, veo que aun te faltan algunos items."; 
+mes " ";
+mes "Por favor revisa la Lista de Materiales";
+next;
+goto Lista_Archer_verif;
+	}
+	
+mes .nombreNPC$;
+mes "Muchas gracias por tu ayuda, aqui tienes tu " + .nombrerecompensa$ + ".";
+next;
+set Archer_fig,0;
+delitem .@item1,.@cantidad1;
+delitem .@item2,.@cantidad2;
+delitem .@item3,.@cantidad3;
+delitem .@item4,.@cantidad4;
+getitem .@recompemsa,1;
+
+close;
+} //FIN == if (Archer_fig == 1)
+
+
+//SI ACEPTAS LA QUEST
+if (Archer_fig == 0) {
+mes .nombreNPC$;
+mes "Buenos dias ^0000FF" + strcharinfo(0) + "^000000";
+mes "Necestio ayuda para recolectar unos items, a cambio te entregare una " + .nombrerecompensa$ +" que consegui en un viajero.";
+next;
+mes .nombreNPC$;
+mes "Podras Ayudarme?";
+if(select("^FF0000No, Ahora no tengo tiempo^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes "Muchas gracias, disculpa la molestia, que tengas un excelente dia.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+set Archer_fig,1;
+mes "Muchas gracias.";
+mes "Esta es la lista de items que necesito.";
+next;
+goto Lista_Archer;
+}   // === FIN  if (Archer_fig == 0)
+
+
+close;
+
+
+
+//LISTA DE ITEMS
+Lista_Archer:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+//LISTA DE VERIFICACION
+Lista_Archer_verif:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+
+
+	
+end;
+
+//CARTEL
+OnInit:
+	waitingroom "Archer Figure",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//MAGE FIGURE
+geffen,115,72,6	script	Takius	123,{
+
+//======================CONFIGURACIONES======================
+set .@item1,1601; 	//Rod [3]
+set .@cantidad1,1;
+set .@item2,990;	//Red Blood 
+set .@cantidad2,30;
+set .@item3,507;	//Red Herb
+set .@cantidad3,50;
+set .@item4,717;	//Blue Gemstone    
+set .@cantidad4,70;
+set .@recompemsa,2768;
+set .nombrerecompensa$,"^0000FFMage Figure^000000";
+set .nombreNPC$,"^0000FF[Takius]^000000";
+
+
+
+//MENSAJE DE BIENVENIDA
+if (Mage_fig == 1) {
+if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4) {
+mes .nombreNPC$;
+mes "Hola, veo que aun te faltan algunos items."; 
+mes " ";
+mes "Por favor revisa la Lista de Materiales";
+next;
+goto Lista_Mage_verif;
+	}
+	
+mes .nombreNPC$;
+mes "Muchas gracias por tu ayuda, aqui tienes tu " + .nombrerecompensa$ + ".";
+next;
+set Mage_fig,0;
+delitem .@item1,.@cantidad1;
+delitem .@item2,.@cantidad2;
+delitem .@item3,.@cantidad3;
+delitem .@item4,.@cantidad4;
+getitem .@recompemsa,1;
+
+close;
+} //FIN == if (Mage_fig == 1)
+
+
+//SI ACEPTAS LA QUEST
+if (Mage_fig == 0) {
+mes .nombreNPC$;
+mes "Buenos dias ^0000FF" + strcharinfo(0) + "^000000";
+mes "Necestio ayuda para recolectar unos items, a cambio te entregare una " + .nombrerecompensa$ +" que he creado con un hechizo.";
+next;
+mes .nombreNPC$;
+mes "Podras Ayudarme?";
+if(select("^FF0000No, Ahora no tengo tiempo^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes "Muchas gracias, disculpa la molestia, que tengas un excelente dia.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+set Mage_fig,1;
+mes "Muchas gracias.";
+mes "Esta es la lista de items que necesito.";
+next;
+goto Lista_Mage;
+}   // === FIN  if (Mage_fig == 0)
+
+
+close;
+
+
+
+//LISTA DE ITEMS
+Lista_Mage:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+//LISTA DE VERIFICACION
+Lista_Mage_verif:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+
+
+	
+end;
+
+//CARTEL
+OnInit:
+	waitingroom "Mage Figure",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//MERCHANT FIGURE
+alberta,39,240,4	script	Maya	73 ,{
+
+//======================CONFIGURACIONES======================
+set .@item1,1301; 	//Axe [3] 
+set .@cantidad1,1;
+set .@item2,938;	//Sticky Mucus  
+set .@cantidad2,50;
+set .@item3,920;	//Wolf Claw
+set .@cantidad3,50;
+set .@item4,907;	//Resin      
+set .@cantidad4,30;
+set .@recompemsa,2771;
+set .nombrerecompensa$,"^0000FFMerchant Figure^000000";
+set .nombreNPC$,"^0000FF[Maya]^000000";
+
+
+
+//MENSAJE DE BIENVENIDA
+if (Merchant_fig == 1) {
+if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4) {
+mes .nombreNPC$;
+mes "Hola, veo que aun te faltan algunos items."; 
+mes " ";
+mes "Por favor revisa la Lista de Materiales";
+next;
+goto Lista_Merchant_verif;
+	}
+	
+mes .nombreNPC$;
+mes "Muchas gracias por tu ayuda, aqui tienes tu " + .nombrerecompensa$ + ".";
+next;
+set Merchant_fig,0;
+delitem .@item1,.@cantidad1;
+delitem .@item2,.@cantidad2;
+delitem .@item3,.@cantidad3;
+delitem .@item4,.@cantidad4;
+getitem .@recompemsa,1;
+
+close;
+} //FIN == if (Merchant_fig == 1)
+
+
+//SI ACEPTAS LA QUEST
+if (Merchant_fig == 0) {
+mes .nombreNPC$;
+mes "Buenos dias ^0000FF" + strcharinfo(0) + "^000000";
+mes "Necestio ayuda para recolectar unos items, a cambio te entregare una " + .nombrerecompensa$ +" que he adquirido en uno de mis viajes.";
+next;
+mes .nombreNPC$;
+mes "Podras Ayudarme?";
+if(select("^FF0000No, Ahora no tengo tiempo^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes "Muchas gracias, disculpa la molestia, que tengas un excelente dia.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+set Merchant_fig,1;
+mes "Muchas gracias.";
+mes "Esta es la lista de items que necesito.";
+next;
+goto Lista_Merchant;
+}   // === FIN  if (Merchant_fig == 0)
+
+
+close;
+
+
+
+//LISTA DE ITEMS
+Lista_Merchant:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+//LISTA DE VERIFICACION
+Lista_Merchant_verif:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+
+
+	
+end;
+
+//CARTEL
+OnInit:
+	waitingroom "Merchant Figure",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//NOVICE FIGURE
+aldebaran,133,114,6	script	Spencer	567,{
+
+//======================CONFIGURACIONES======================
+set .@item1,938; 	//Sticky Mucus
+set .@cantidad1,30;
+set .@item2,949;	//Feather  
+set .@cantidad2,30;
+set .@item3,914;	//Fluff    
+set .@cantidad3,30;
+set .@item4,705;	//Clover          
+set .@cantidad4,30;
+set .@recompemsa,2765;
+set .nombrerecompensa$,"^0000FFNovice Figure^000000";
+set .nombreNPC$,"^0000FF[Spencer]^000000";
+
+
+
+//MENSAJE DE BIENVENIDA
+if (Novice_fig == 1) {
+if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4) {
+mes .nombreNPC$;
+mes "Hola, veo que aun te faltan algunos items."; 
+mes " ";
+mes "Por favor revisa la Lista de Materiales";
+next;
+goto Lista_Novice_verif;
+	}
+	
+mes .nombreNPC$;
+mes "Muchas gracias por tu ayuda, aqui tienes tu " + .nombrerecompensa$ + ".";
+next;
+set Novice_fig,0;
+delitem .@item1,.@cantidad1;
+delitem .@item2,.@cantidad2;
+delitem .@item3,.@cantidad3;
+delitem .@item4,.@cantidad4;
+getitem .@recompemsa,1;
+
+close;
+} //FIN == if (Novice_fig == 1)
+
+
+//SI ACEPTAS LA QUEST
+if (Novice_fig == 0) {
+mes .nombreNPC$;
+mes "Buenos dias ^0000FF" + strcharinfo(0) + "^000000";
+mes "Necestio ayuda para recolectar unos items, a cambio te puedo dar una " + .nombrerecompensa$ +" como agradecimiento.";
+next;
+mes .nombreNPC$;
+mes "Podras Ayudarme?";
+if(select("^FF0000No, Ahora no tengo tiempo^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes "Muchas gracias, disculpa la molestia, que tengas un excelente dia.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+set Novice_fig,1;
+mes "Muchas gracias.";
+mes "Esta es la lista de items que necesito.";
+next;
+goto Lista_Novice;
+}   // === FIN  if (Novice_fig == 0)
+
+
+close;
+
+
+
+//LISTA DE ITEMS
+Lista_Novice:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+//LISTA DE VERIFICACION
+Lista_Novice_verif:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+
+
+	
+end;
+
+//CARTEL
+OnInit:
+	waitingroom "Novice Figure",0;
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//SWORDMAN FIGURE
+izlude,136,121,5	script	Arthur	635,{
+
+//======================CONFIGURACIONES======================
+set .@item1,1101; 	//Sword [3] 
+set .@cantidad1,1;
+set .@item2,1031;	//Mantis Scythe  
+set .@cantidad2,30;
+set .@item3,932;	//Skel-Bone    
+set .@cantidad3,50;
+set .@item4,1057;	//Moth Dust          
+set .@cantidad4,50;
+set .@recompemsa,2766;
+set .nombrerecompensa$,"^0000FFSwordman Figure^000000";
+set .nombreNPC$,"^0000FF[Arthur]^000000";
+
+
+
+//MENSAJE DE BIENVENIDA
+if (Swordman_fig == 1) {
+if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4) {
+mes .nombreNPC$;
+mes "Hola, veo que aun te faltan algunos items."; 
+mes " ";
+mes "Por favor revisa la Lista de Materiales";
+next;
+goto Lista_Swordman_verif;
+	}
+	
+mes .nombreNPC$;
+mes "Muchas gracias por tu ayuda, aqui tienes tu " + .nombrerecompensa$ + ".";
+next;
+set Swordman_fig,0;
+delitem .@item1,.@cantidad1;
+delitem .@item2,.@cantidad2;
+delitem .@item3,.@cantidad3;
+delitem .@item4,.@cantidad4;
+getitem .@recompemsa,1;
+
+close;
+} //FIN == if (Swordman_fig == 1)
+
+
+//SI ACEPTAS LA QUEST
+if (Swordman_fig == 0) {
+mes .nombreNPC$;
+mes "Buenos dias ^0000FF" + strcharinfo(0) + "^000000";
+mes "Necestio ayuda para recolectar unos items, a cambio te puedo dar una " + .nombrerecompensa$ +" com muestra de agradecimiento.";
+next;
+mes .nombreNPC$;
+mes "Podras Ayudarme?";
+if(select("^FF0000No, Ahora no tengo tiempo^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes "Muchas gracias, disculpa la molestia, que tengas un excelente dia.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+set Swordman_fig,1;
+mes "Muchas gracias.";
+mes "Esta es la lista de items que necesito.";
+next;
+goto Lista_Swordman;
+}   // === FIN  if (Swordman_fig == 0)
+
+
+close;
+
+
+
+//LISTA DE ITEMS
+Lista_Swordman:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+//LISTA DE VERIFICACION
+Lista_Swordman_verif:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+
+
+	
+end;
+
+//CARTEL
+OnInit:
+	waitingroom "Swordman Figure",0;
+end;
+}

@@ -1,0 +1,32 @@
+
+/*
+//************ MONSTRUOS TAMAÑO NORMAL ************//
+
+
+
+//mapa3.gat,0,0	monster	Shining Plant	1083,3,5000
+//mapa3.gat,0,0	monster	Red Plant	1078,10,5000
+//mapa3,0,0	monster	Poring	1002,3,0,0,"",2,0
+//mapa3,0,0	monster	Lunatic	1063,0,0,0,"",2,0
+//mapa3,0,0	monster	Spore	1014,5,0,0,"",2,0
+
+
+
+
+//************ MONSTRUOS TAMAÑO GRANDE ************//
+
+//mapa3.gat,0,0	monster	Anubis	1098,1,5000000,0,"",2,0
+//mapa3.gat,0,0	monster	Poring	1002,3,500,0,"",2,0
+mapa3.gat,0,0	monster	Lunatic	1063,0,500,0,"",2,0
+
+
+//mapa5.gat,0,0	monster	Poring	1002,20,500,0,"",2,0
+//mapa5.gat,0,0	monster	Lunatic	1063,35,500,0,"",2,0
+//mapa5.gat,0,0	monster	Eclipse	1093,1,180000,0,"",2,0
+
+
+*/
+
+  
+  
+ 

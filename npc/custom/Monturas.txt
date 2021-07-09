@@ -1,0 +1,157 @@
+/*
+moc_para01,25,35,4	script	Malakai Braith	628,{
+
+//======================CONFIGURACIONES======================
+set .@item1,7197; 	//Tough Vines
+set .@cantidad1,100;
+set .@item2,40124;	//Light Steel
+set .@cantidad2,12;
+set .@item3,7023;	//Blade Lost in Darkness
+set .@cantidad3,3;
+set .@item4,969;	//Gold    
+set .@cantidad4,5;
+set .@recompemsa,12622;
+set .nombrerecompensa$,"^0000FFBoarding Halter^000000";
+set .nombreNPC$,"^0000FF[Malakai Braith]^000000";
+
+
+
+if (Monturas_Quest == 2) {
+mes .nombreNPC$;
+mes " ";
+mes "Tu ya eres parte de nuestro Gremio.";
+end;}
+
+
+
+
+//MENSAJE DE BIENVENIDA
+if (Monturas_Quest == 1) {
+if (countitem(.@item1) < .@cantidad1 || countitem(.@item2) < .@cantidad2 || countitem(.@item3) < .@cantidad3 || countitem(.@item4) < .@cantidad4) {
+mes .nombreNPC$;
+mes " ";
+mes "Hola, veo que aun te faltan algunos items. Por favor revisa la Lista de Materiales"; 
+next;
+goto Monturas_verif;
+	}
+	
+mes .nombreNPC$;
+mes " ";
+mes "Haz demostrado ser digno de unirte a nuestro Gremio, aqui tienes tu " + .nombrerecompensa$ + ".";
+next;
+set Monturas_Quest,2;
+delitem .@item1,.@cantidad1;
+delitem .@item2,.@cantidad2;
+delitem .@item3,.@cantidad3;
+delitem .@item4,.@cantidad4;
+getitem .@recompemsa,1;
+
+close;
+} //FIN == if (Monturas_Quest == 1)
+
+
+
+
+
+//SI ACEPTAS LA QUEST
+if (Monturas_Quest == 0) {
+mes .nombreNPC$;
+mes " ";
+mes "Buenos dias aventurero, estamos reclutando guerreros como tu, para ser parte de nuestro gremio ^0000FFRider Masters^000000";
+next;
+mes "^0000FF[Rider Master]^000000";
+mes " ";
+mes "Si pasas nuestra prueba podras obtener una montura, que demostrara que eres parte del Gremio.";
+mes "Te interesa unirte?";
+if(select("^FF0000En otro momento^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes " ";
+mes "Ok, vuelve si cambias de opinion.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+mes " ";
+set Monturas_Quest,1;
+	mes "Haz tomado una excelente decision, ahora para aceptarte, deberas traer los siguientes items,";
+next;
+goto Monturas;
+}   // === FIN  if (Monturas_Quest == 0)
+
+
+close;
+
+
+
+//LISTA DE ITEMS
+Monturas:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes " ";
+	mes "^C02908" + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+//LISTA DE VERIFICACION
+Monturas_verif:
+	mes "^0000FF[Lista de Materiales]^000000";
+	mes " ";
+	mes "^C02908" + countitem(.@item1) + "/"  + .@cantidad1 + " " + getitemname(.@item1) + "  ID: (" + .@item1 + ").";
+	mes "^C02908" + countitem(.@item2) + "/"  + .@cantidad2 + " " + getitemname(.@item2) + "  ID: (" + .@item2 + ").";
+	mes "^C02908" + countitem(.@item3) + "/"  + .@cantidad3 + " " + getitemname(.@item3) + "  ID: (" + .@item3 + ").";
+	mes "^C02908" + countitem(.@item4) + "/"  + .@cantidad4 + " " + getitemname(.@item4) + "  ID: (" + .@item4 + ").";
+close;
+
+
+
+	
+end;
+
+//CARTEL
+OnInit:
+	waitingroom "Raider Master",0;
+end;
+}
+
+*/
+
+
+
+/*
+league,110,110,4	script	Rider Master	98,{
+
+mes "^0000FF[Rider Master]^000000";
+mes " ";
+mes "Buenos dias aventurero, estamos reclutando guerreros como tu, para ser parte de nuestro gremio ^0000FFRider Masters^000000";
+next;
+mes "^0000FF[Rider Master]^000000";
+mes " ";
+mes "Si pasas nuestra prueba podras obtener una montura, que demostrara que eres parte del Gremio.";
+mes "Te interesa unirte?";
+
+
+		switch(select("En otro momento:Si claro")){
+					
+					
+				case 1:
+					mes "^0000FF[Rider Master]^000000";
+					mes " ";
+					mes "Ok, vuelve si cambias de opinion.";
+					break;
+
+				
+				
+				case 2:
+					mes "^0000FF[Rider Master]^000000";
+					mes " ";
+					mes "Haz tomado una excelente decision, ahora para aceptarte, traeme los s";
+			}
+
+
+
+
+end:
+}
+
+*/

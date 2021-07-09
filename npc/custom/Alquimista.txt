@@ -1,0 +1,746 @@
+prontera,188,209,3	script	Alice Flamel	665,{
+set .nombreNPC$,"^0000FFAlice Flamel^000000";
+
+
+
+if(Class == 18) {
+
+mes .nombreNPC$;
+mes "Buen dia, que tipo de item quieres que te ayude a crear hoy?";
+switch(select("100 Acid Bottle:100 Alcohol:100 Bottle Grenade:100 Blue Potion:100 Glistening Coat:100 Marine Sphere Bottle:100 Plant Bottle:Salir")) {   
+
+
+//Acid Bottle
+case 1:
+
+	if ( countitem(713) < 100 || countitem(929) < 100 || countitem(7134) < 100 || countitem(7129) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7129) +"/1 " + getitemname(7129) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(929) +"/100 " + getitemname(929) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,5);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;
+	delitem 929,100;
+	delitem 7134,100;
+	getitem 7136,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7136) + "^000000.";
+	close;
+
+
+//Alcohol
+case 2:
+
+	if ( countitem(7134) < 100 || countitem(1092) < 100 || countitem(713) < 100 || countitem(7127) < 1 || countitem(905) < 500 || countitem(7033) < 500) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7127) +"/1 " + getitemname(7127) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(1092) +"/100 " + getitemname(1092) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	mes "^0000FF" + countitem(905) +"/500 " + getitemname(905) + "^000000.";
+	mes "^0000FF" + countitem(7033) +"/500 " + getitemname(7033) + "^000000.";
+	end;}
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,10);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 1092,100; 	//Empty Test Tube
+	delitem 7134,100;	//Medicine Bowl
+	delitem 7033,500;	//Poison Spore
+	delitem 905,500;	//Stem
+	getitem 970,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(970) + "^000000.";
+	close;
+
+
+
+
+
+
+//Bottle Grenade
+case 3:
+	if ( countitem(713) < 100 || countitem(1059) < 100 || countitem(970) < 100 || countitem(7134) < 100 || countitem(7128) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7128) +"/1 " + getitemname(7128) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(1059) +"/100 " + getitemname(1059) + "^000000.";
+	mes "^0000FF" + countitem(970) +"/100 " + getitemname(970) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,5);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 1059,100;	//Fabric
+	delitem 7134,100;	//Medicine Bowl
+	delitem 970,100;	//Alcohol
+	getitem 7135,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7135) + "^000000.";
+	close;
+
+
+
+
+
+
+//Blue Potion
+case 4:
+if ( countitem(1093) < 100 || countitem(510) < 100 || countitem(911) < 100 || countitem(7134) < 100 || countitem(7144) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7144) +"/1 " + getitemname(7144) + "^000000.";
+	mes "^0000FF" + countitem(1093) +"/100 " + getitemname(1093) + "^000000.";
+	mes "^0000FF" + countitem(510) +"/100 " + getitemname(510) + "^000000.";
+	mes "^0000FF" + countitem(911) +"/100 " + getitemname(911) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,1);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 1093,100;	//Empty Potion Bottle
+	delitem 510,100;	//Blue Herb
+	delitem 7134,100;	//Medicine Bowl
+	delitem 911,100;	//Scell
+	for( set .@i, 0; .@i < .@cantidad; set .@i, .@i + 1 ){
+		getnameditem 505,strcharinfo(0);
+		}
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(505) + "^000000.";
+	close;
+
+
+
+
+//Glistening Coat
+case 5:
+if ( countitem(713) < 100 || countitem(950) < 100 || countitem(1044) < 100 || countitem(970) < 100 || countitem(7134) < 100 || countitem(7132) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7132) +"/1 " + getitemname(7132) + "^000000.";
+	mes "^0000FF" + countitem(970) +"/100 " + getitemname(970) + "^000000.";
+	mes "^0000FF" + countitem(1044) +"/100 " + getitemname(1044) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(950) +"/100 " + getitemname(950) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-10,-5);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 950,100;	//Heart of Mermaid
+	delitem 7134,100;	//Medicine Bowl
+	delitem 1044,100;	//Zenorc's Fang
+	delitem 970,100;	//Alcohol
+	getitem 7139,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7139) + "^000000.";
+
+	close;
+
+
+
+
+//Marine Sphere Bottle
+case 6:
+if ( countitem(713) < 100 || countitem(1050) < 100 || countitem(1051) < 100 || countitem(7134) < 100 || countitem(7131) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7131) +"/1 " + getitemname(7131) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(1050) +"/100 " + getitemname(1050) + "^000000.";
+	mes "^0000FF" + countitem(1051) +"/100 " + getitemname(1051) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,1);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 1050,100;	//Tendon
+	delitem 7134,100;	//Medicine Bowl
+	delitem 1051,100;	//Detonator
+	getitem 7138,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7138) + "^000000.";
+	close;
+
+
+
+//Plant Bottle	
+case 7:
+if ( countitem(713) < 100 || countitem(1032) < 200 || countitem(7134) < 100 || countitem(7130) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7130) +"/1 " + getitemname(7130) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	mes "^0000FF" + countitem(1032) +"/200 " + getitemname(1032) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,1);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 7134,100;	//Medicine Bowl
+	delitem 1032,200;	//Maneater Blossom
+	getitem 7137,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7137) + "^000000.";
+	close;
+	
+case 8:
+	close;
+
+} 	//FIN SWITCH
+
+
+}
+
+
+
+
+// ========================= si creator
+if(Class == 4019) {
+
+mes .nombreNPC$;
+mes "Buen dia, que tipo de item quieres que te ayude a crear hoy?";
+switch(select("100 Acid Bottle:100 Alcohol:100 Bottle Grenade:100 Blue Potion:100 Glistening Coat:100 Marine Sphere Bottle:100 Plant Bottle:Salir")) {   
+
+
+//Acid Bottle
+case 1:
+
+	if ( countitem(713) < 100 || countitem(929) < 100 || countitem(7134) < 100 || countitem(7129) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7129) +"/1 " + getitemname(7129) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(929) +"/100 " + getitemname(929) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,5);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;
+	delitem 929,100;
+	delitem 7134,100;
+	getitem 7136,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7136) + "^000000.";
+	close;
+
+
+//Alcohol
+case 2:
+
+	if ( countitem(7134) < 100 || countitem(1092) < 100 || countitem(713) < 100 || countitem(7127) < 1 || countitem(905) < 500 || countitem(7033) < 500) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7127) +"/1 " + getitemname(7127) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(1092) +"/100 " + getitemname(1092) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	mes "^0000FF" + countitem(905) +"/500 " + getitemname(905) + "^000000.";
+	mes "^0000FF" + countitem(7033) +"/500 " + getitemname(7033) + "^000000.";
+	end;}
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,10);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 1092,100; 	//Empty Test Tube
+	delitem 7134,100;	//Medicine Bowl
+	delitem 7033,500;	//Poison Spore
+	delitem 905,500;	//Stem
+	getitem 970,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(970) + "^000000.";
+	close;
+
+
+
+
+
+
+//Bottle Grenade
+case 3:
+	if ( countitem(713) < 100 || countitem(1059) < 100 || countitem(970) < 100 || countitem(7134) < 100 || countitem(7128) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7128) +"/1 " + getitemname(7128) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(1059) +"/100 " + getitemname(1059) + "^000000.";
+	mes "^0000FF" + countitem(970) +"/100 " + getitemname(970) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,5);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 1059,100;	//Fabric
+	delitem 7134,100;	//Medicine Bowl
+	delitem 970,100;	//Alcohol
+	getitem 7135,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7135) + "^000000.";
+	close;
+
+
+
+
+
+
+//Blue Potion
+case 4:
+if ( countitem(1093) < 100 || countitem(510) < 100 || countitem(911) < 100 || countitem(7134) < 100 || countitem(7144) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7144) +"/1 " + getitemname(7144) + "^000000.";
+	mes "^0000FF" + countitem(1093) +"/100 " + getitemname(1093) + "^000000.";
+	mes "^0000FF" + countitem(510) +"/100 " + getitemname(510) + "^000000.";
+	mes "^0000FF" + countitem(911) +"/100 " + getitemname(911) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,1);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 1093,100;	//Empty Potion Bottle
+	delitem 510,100;	//Blue Herb
+	delitem 7134,100;	//Medicine Bowl
+	delitem 911,100;	//Scell
+	for( set .@i, 0; .@i < .@cantidad; set .@i, .@i + 1 ){
+		getnameditem 505,strcharinfo(0);
+		}
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(505) + "^000000.";
+	close;
+
+
+
+
+//Glistening Coat
+case 5:
+if ( countitem(713) < 100 || countitem(950) < 100 || countitem(1044) < 100 || countitem(970) < 100 || countitem(7134) < 100 || countitem(7132) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7132) +"/1 " + getitemname(7132) + "^000000.";
+	mes "^0000FF" + countitem(970) +"/100 " + getitemname(970) + "^000000.";
+	mes "^0000FF" + countitem(1044) +"/100 " + getitemname(1044) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(950) +"/100 " + getitemname(950) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-10,-5);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 950,100;	//Heart of Mermaid
+	delitem 7134,100;	//Medicine Bowl
+	delitem 1044,100;	//Zenorc's Fang
+	delitem 970,100;	//Alcohol
+	getitem 7139,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7139) + "^000000.";
+
+	close;
+
+
+
+
+//Marine Sphere Bottle
+case 6:
+if ( countitem(713) < 100 || countitem(1050) < 100 || countitem(1051) < 100 || countitem(7134) < 100 || countitem(7131) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7131) +"/1 " + getitemname(7131) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(1050) +"/100 " + getitemname(1050) + "^000000.";
+	mes "^0000FF" + countitem(1051) +"/100 " + getitemname(1051) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,1);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 1050,100;	//Tendon
+	delitem 7134,100;	//Medicine Bowl
+	delitem 1051,100;	//Detonator
+	getitem 7138,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7138) + "^000000.";
+	close;
+
+
+
+//Plant Bottle	
+case 7:
+if ( countitem(713) < 100 || countitem(1032) < 200 || countitem(7134) < 100 || countitem(7130) < 1) {
+	next;
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crearlos, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(7130) +"/1 " + getitemname(7130) + "^000000.";
+	mes "^0000FF" + countitem(713) +"/100 " + getitemname(713) + "^000000.";
+	mes "^0000FF" + countitem(7134) +"/100 " + getitemname(7134) + "^000000.";
+	mes "^0000FF" + countitem(1032) +"/200 " + getitemname(1032) + "^000000.";
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearlos?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+	
+	next;
+	set alchom,0;
+	if (gethominfo(1) == 6004 || gethominfo(1) == 6012 || gethominfo(1) == 6008 || gethominfo(1) == 6016){
+	set alchom,5;}
+	
+	set .@cantidad,(getskilllv(228)*3)+getskilllv(227)+getskilllv(8015)+((JobLevel*3)/10)+((readparam(bDex)*13)/100)+((readparam(bLuk)*13)/100)+((readparam(bInt)*10)/100)+alchom+rand(-5,1);   //
+	
+	specialeffect2 60; //837;
+	progressbar "0xRRGGBB",3;
+	specialeffect2 305;
+	specialeffect2 573;
+	delitem 713,100;	//Empty Bottle
+	delitem 7134,100;	//Medicine Bowl
+	delitem 1032,200;	//Maneater Blossom
+	getitem 7137,.@cantidad;
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "Felicidades, haz logrado crear"; 
+	mes "^0000FF" + .@cantidad + " " + getitemname(7137) + "^000000.";
+	close;
+	
+case 8:
+	close;
+
+} 	//FIN SWITCH
+
+
+}
+
+
+if(Class != 18 || Class != 4019) {
+mes .nombreNPC$;
+	mes " ";
+	mes "No puedo ayudarte, ya que no perteneces al ^0000FFGremio de Alquimistas^000000."; 
+end;}
+
+
+OnInit:
+	waitingroom "Create Potion",0;
+	end;
+end;
+}	//FIN SCRIPT
+
+
+

@@ -1,0 +1,201 @@
+-	script	Espiritu#Killboss	-1,{
+
+ OnKillBoss:
+			if( getgmlevel() < 99) 
+			end; 
+
+		
+			mes "vamos a matar todos los MVP?";
+next;
+
+			 // Loop through all maps
+                for (.@i = 0; .@i < getarraysize(.map$); .@i++) {
+                        // Kill all monsters on current map
+                        //killmonsterall .map$[.@i];
+						atcommand ("@warp " + .map$[.@i]);
+						sleep2 4000;
+						atcommand ("@killmonster2 " + .map$[.@i]);
+						//atcommand ("@killmonster2 " + .map$[.@i]);
+					     dispbottom "MVP eliminado del mapa "+ .map$[.@i];
+                        // Slow down script execution (reduces load)
+                       // sleep .delay;
+					   sleep2 3000;
+                }
+				atcommand ("@reloadbattleconf");
+                message strcharinfo(0), .@i +" boss maps have been cleared.";
+                end;
+		
+				
+
+
+
+
+
+
+
+OnInit:
+                // Desired maps to clear
+      
+ setarray .map$,      "abbey02",
+                                                        "abbey03",
+                                                        "abyss_03",
+                                                        "ama_dun03",
+                                                        "anthell02",
+                                                        "ayo_dun02",
+                                                        "beach_dun",
+                                                        "ein_dun02",
+                                                        "gef_dun01",
+                                                        "gef_dun02",
+                                                        "gef_fild02",
+                                                        "gef_fild10",
+                                                        "gef_fild14",
+                                                        "gl_chyard",
+                                                        "gld_dun01",
+                                                        "gld_dun02",
+                                                        "gld_dun03",
+                                                        "gld_dun04",
+                                                        "gon_dun03",
+                                                        "in_sphinx5",
+                                                        "jupe_core",
+                                                        "kh_dun02",
+                                                        "lhz_dun02",
+                                                        "lhz_dun03",
+                                                        "lou_dun03",
+                                                        "mjolnir_04",
+                                                        "moc_fild17",
+                                                        "moc_pryd04",
+                                                        "moc_pryd06",
+                                                        "mosk_dun03",
+                                                        "niflheim",
+                                                        "odin_tem03",
+                                                        "pay_dun04",
+                                                        "pay_fild11",
+                                                        "prt_maze03",
+                                                        "prt_sewb4",
+                                                        "ra_fild02",
+                                                        "ra_fild03",
+                                                        "ra_fild04",
+                                                        "ra_san05",
+                                                        "thor_v03",
+                                                        "treasure02",
+                                                        "tur_dun04",
+                                                        "ve_fild01",
+                                                        "ve_fild02",
+                                                        "xmas_dun02",
+														"xmas_fild01";  
+	  
+	  
+	 /*
+				setarray .map$,      "abbey02",              // Fallen Bishop Hibram
+                                                        "abbey03",              // Beelzebub
+                                                        "abyss_03",             // Detale
+                                                        "ama_dun03",    // Samurai Specter
+                                                        "anthell02",    // Maya
+                                                        "ayo_dun02",    // Lady Tanee
+                                                        "beach_dun",    // Tao Gunka
+                                                        "ein_dun02",    // RSX-0806
+                                                        "gef_dun01",    // Dracula
+                                                        "gef_dun02",    // Doppelganger
+                                                        "gef_fild02",   // Orc Hero
+                                                        "gef_fild10",   // Orc Lord
+                                                        "gef_fild14",   // Orc Hero
+                                                        "gl_chyard",    // Dark Lord
+                                                        "gld_dun01",    // Eddga
+                                                        "gld_dun02",    // Doppelganger
+                                                        "gld_dun03",    // Maya
+                                                        "gld_dun04",    // Dark Lord
+                                                        "gon_dun03",    // Evil Snake Lord
+                                                        // "ice_dun03",         // Ktullanux
+                                                        "in_sphinx5",   // Pharaoh
+                                                        "jupe_core",    // Vesper
+                                                        "kh_dun02",             // Kiel D-01
+                                                        "lhz_dun02",    // Egnigem Cenia
+                                                        "lhz_dun03",         // Assassin Cross Eremes, High Priest Margaretha, High Wizard Kathryne, Lord Knight Seyren, Sniper Cecil, Whitesmith Howard
+                                                        "lou_dun03",    // White Lady
+                                                        "mjolnir_04",   // Mistress
+                                                        "moc_fild17",   // Phreeoni
+                                                        "moc_pryd04",   // Osiris
+                                                        "moc_pryd06",   // Amon Ra
+                                                        "mosk_dun03",   // Zmey Gorynych
+                                                        "niflheim",          // Lord of Death
+                                                        "odin_tem03",   // Valkyrie Randgris
+                                                        "pay_dun04",    // Moonlight Flower
+                                                        "pay_fild11",   // Eddga
+                                                        "prt_maze03",   // Baphomet
+                                                        "prt_sewb4",    // Golden Thief Bug
+                                                        "ra_fild02",    // Atroce
+                                                        "ra_fild03",    // Atroce
+                                                        "ra_fild04",    // Atroce
+                                                        "ra_san05",             // Gloom Under Night
+                                                        "thor_v03",             // Ifrit
+                                                        "treasure02",   // Drake
+                                                        "tur_dun04",    // Turtle General
+                                                        "ve_fild01",    // Atroce
+                                                        "ve_fild02",    // Atroce
+                                                        "xmas_dun02",   // Stormy Knight
+														"prontera",
+                                                        "xmas_fild01";  // Garm
+           */
+									
+                // Execution offset (in ms) to reduce server load
+               // .delay = 2;
+                
+                // Create atcommand @killboss
+                bindatcmd "killboss", strnpcinfo(0) +"::OnKillBoss", 99, 99;
+                end;
+ 
+
+        
+}
+
+
+/*
+abbey02,5,145,4	duplicate(Espiritu#Killboss)	Espiritu#Killboss	111
+abbey03,225,12,4	duplicate(Espiritu#Killboss)	Espiritu#Killboss	111
+abyss_03,179,42,4	duplicate(Espiritu#Killboss)	Espiritu#Killboss	111
+ama_dun03,8,91,4	duplicate(Espiritu#Killboss)	Espiritu#Killboss	111
+anthell02,269,271,4	duplicate(Espiritu#Killboss)	Espiritu#Killboss	111
+ayo_dun02,50,80,4	duplicate(Espiritu#Killboss)	Espiritu#Killboss	111
+beach_dun,27,104,4	duplicate(Espiritu#Killboss)	Espiritu#Killboss	111
+ein_dun02,12,49,4	duplicate(Espiritu#Killboss)	Espiritu#Killboss	111
+gef_dun01,36,270,4	duplicate(Espiritu#Killboss)	Espiritu#gef_dun01	111
+gef_dun02,219,37,4	duplicate(Espiritu#Killboss)	Espiritu#gef_dun02	111
+gef_fild02,284,355,4	duplicate(Espiritu#Killboss)	Espiritu#gef_fild02	111
+gef_fild10,302,303,4	duplicate(Espiritu#Killboss)	Espiritu#gef_fild10	111
+gef_fild14,247,32,4	duplicate(Espiritu#Killboss)	Espiritu#gef_fild14	111
+gl_chyard,12,237,4	duplicate(Espiritu#Killboss)	Espiritu#gl_chyard	111
+gld_dun01,224,200,4	duplicate(Espiritu#Killboss)	Espiritu#gld_dun01	111
+gld_dun02,163,147,4	duplicate(Espiritu#Killboss)	Espiritu#gld_dun02	111
+gld_dun03,268,203,4	duplicate(Espiritu#Killboss)	Espiritu#gld_dun03	111
+gld_dun04,57,121,4	duplicate(Espiritu#Killboss)	Espiritu#gld_dun04	111
+gon_dun03,15,199,4	duplicate(Espiritu#Killboss)	Espiritu#gon_dun03	111
+in_sphinx5,80,165,4	duplicate(Espiritu#Killboss)	Espiritu#in_sphinx5	111
+jupe_core,146,131,4	duplicate(Espiritu#Killboss)	Espiritu#jupe_core	111
+kh_dun02,108,221,4	duplicate(Espiritu#Killboss)	Espiritu#kh_dun02	111
+lhz_dun02,12,245,4	duplicate(Espiritu#Killboss)	Espiritu#lhz_dun02	111
+lhz_dun03,221,169,4	duplicate(Espiritu#Killboss)	Espiritu#lhz_dun03	111
+lou_dun03,29,199,4	duplicate(Espiritu#Killboss)	Espiritu#lou_dun03	111
+mjolnir_04,236,144,4	duplicate(Espiritu#Killboss)	Espiritu#mjolnir_04	111
+moc_fild17,46,206,4	duplicate(Espiritu#Killboss)	Espiritu#moc_fild17	111
+moc_pryd04,195,4,4	duplicate(Espiritu#Killboss)	Espiritu#moc_pryd04	111
+moc_pryd06,114,185,4	duplicate(Espiritu#Killboss)	Espiritu#moc_pryd06	111
+mosk_dun03,159,238,4	duplicate(Espiritu#Killboss)	Espiritu#mosk_dun03	111
+niflheim,341,279,4	duplicate(Espiritu#Killboss)	Espiritu#niflheim	111
+odin_tem03,79,336,4	duplicate(Espiritu#Killboss)	Espiritu#odin_tem03	111
+pay_dun04,185,29,4	duplicate(Espiritu#Killboss)	Espiritu#pay_dun04	111
+pay_fild11,34,279,4	duplicate(Espiritu#Killboss)	Espiritu#pay_fild11	111
+prt_maze03,183,106,4	duplicate(Espiritu#Killboss)	Espiritu#prt_maze03	111
+prt_sewb4,129,70,4	duplicate(Espiritu#Killboss)	Espiritu#prt_sewb4	111
+ra_fild02,121,42,4	duplicate(Espiritu#Killboss)	Espiritu#ra_fild02	111
+ra_fild03,127,357,4	duplicate(Espiritu#Killboss)	Espiritu#ra_fild03	111
+ra_fild04,189,74,4	duplicate(Espiritu#Killboss)	Espiritu#ra_fild04	111
+ra_san05,160,62,4	duplicate(Espiritu#Killboss)	Espiritu#ra_san05	111
+thor_v03,226,20,4	duplicate(Espiritu#Killboss)	Espiritu#thor_v03	111
+treasure02,18,141,4	duplicate(Espiritu#Killboss)	Espiritu#treasure02	111
+tur_dun04,120,152,4	duplicate(Espiritu#Killboss)	Espiritu#tur_dun04	111
+ve_fild01,171,345,4	duplicate(Espiritu#Killboss)	Espiritu#ve_fild01	111
+ve_fild02,50,205,4	duplicate(Espiritu#Killboss)	Espiritu#ve_fild02	111
+xmas_dun02,6,14,4	duplicate(Espiritu#Killboss)	Espiritu#xmas_dun02	111
+xmas_fild01,216,243,4	duplicate(Espiritu#Killboss)	Espiritu#xmas_fild01	111
+
+*/

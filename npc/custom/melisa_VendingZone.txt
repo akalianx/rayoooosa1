@@ -1,0 +1,8 @@
+prontera.gat,164,163,3	script	Melisa	10078,{
+	end;
+	
+	OnInit:
+	waitingroom "Vending Zone",0;
+	end;
+
+}

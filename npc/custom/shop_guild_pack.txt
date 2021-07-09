@@ -1,0 +1,346 @@
+// Settings :
+//	-	Only required to edit the ShopSetting() Function
+//			Notes : You may also add / remove Menu ( If any ) 
+//	-	Shop Currency can be either ItemID or Variable Name, but must write within Quotation Marks ( "" )
+//			Ex. of Variable.	->	Zeny , #CASHPOINTS , #KAFRAPOINTS , CustomVariable , #CustomVariable
+//	-	ERROR Message are used to show Invalid Settings in your NPC.
+
+
+// Leave this alone...
+-	shop	Emistry_Shop	-1,512:100
+
+prontera,146,167,5	script	Minerva	10192,{
+//league,143,166,5	script	Minerva	10192,{
+function ShopSettings;
+function ValidateCost;
+function CurrencyInfo;
+function ClearData;
+function ValueConvert;
+function ErrorNotice;
+
+mes "Hola " + "^0000FF" + strcharinfo(0) + "^000000" + " mi nombre es ^0000FF" + "Minerva." + "^000000, aqui puedes canjear tus ^0000FFGuild Coins^000000 por diferentes sets de equipos, Arma el tuyo a tu gusto.";
+mes "^00FF00____________________________^000000";
+mes "Que tienda quieres ver?";
+next;
+// Menu Selection
+select("Reclamar Emperium:Guild Coin 1:Guild Coin 2:Guild Coin 3:Card Ticket");
+
+ClearData();
+ShopSettings( @menu );
+npcshopitem "Emistry_Shop",512,100;
+npcshopdelitem "Emistry_Shop",512;
+for(set .@i,0; .@i < getarraysize( @ItemLists ); set .@i,.@i+1)
+	npcshopadditem "Emistry_Shop",@ItemLists[.@i],@ItemCost[.@i];
+mes "Okay...wait awhile";
+mes "^00FF00____________________________^000000";
+CurrencyInfo( @Currency$ );
+mes "^00FF00____________________________^000000";
+callshop "Emistry_Shop",1;
+npcshopattach "Emistry_Shop";
+end;
+
+
+function	ShopSettings	{
+	switch( getarg(0) ){
+	
+	
+	
+		Case 1:
+		if( #gpc2 == 1) {
+			mes "[Marcus]";
+			mes "Ya reclamaste tu Emperium!";
+			emotion e_bzz;
+			close;}
+			
+			//THIS PART WERE all items they will get
+
+		
+		
+		//**********************************************************
+			mes "[Marcus]";
+			mes "Bienvenido, te proporcionaremos un Emperium para que puedas iniciar una Guild.";
+			mes " ";
+			mes "Solo puedes reclamar un Emperium por cuenta";
+			next;
+			getitem 714,1;	//1 Emperium
+			getitem 658,3;	//3 Emperium
+			mes "Que Valkirya bendiga a tu camino.";
+			mes " ";
+			mes "Y que el nombre de tu Guild resuene por todos los rincones de Midgard.";
+			set #gpc2, 1;
+			//warp "prontera",156,172;
+			close;
+			break;
+	
+	
+	 
+		Case 2:
+			// Currency [ Item ID / Variable Name GUILD COIN 1]
+			set @Currency$,"40073";
+			// Item ID Lists
+			setarray @ItemLists[0],2285,2315,2322,2310,2504,2529,2406,2404,2102,2104,2106,2353,5122,2114,2516,2417,2517,2418,2601,2608,2605;		//5127,2519,2650,2651;
+			// Item Price
+			setarray @ItemCost[0],5,5,5,5,5,10,5,5,5,5,5,10,10,10,15,15,15,15,5,5,5;			//1,1,1,1;
+			break;
+			 
+			
+		Case 3:
+			// Currency [ Item ID / Variable Name GUILD COIN 2]
+			set @Currency$,"40074";
+			// Item ID Lists
+			setarray @ItemLists[0],2285,2315,2322,2310,2504,2529,2527,2366,2327,2318,2334,2406,2404,2102,2104,2106,2353,5122,2114,2516,2417,2517,2418,5128,2354,2520,2419,2528,2424,2123,2601,2608,2605,2603,2604,2602;		//5127,2519,2650,2651;
+			// Item Price
+			setarray @ItemCost[0],5,5,5,5,5,10,10,15,15,15,10,5,5,5,5,5,10,10,10,15,15,15,15,15,15,15,15,15,15,15,5,5,5,5,5,5;			//1,1,1,1;
+			break;	
+			
+			
+		Case 4:
+			// Currency [ Item ID / Variable Name GUILD COIN 3]
+			set @Currency$,"40075";
+			// Item ID Lists
+			setarray @ItemLists[0],5170,2285,2315,2322,2310,2504,2529,2387,2527,2366,2327,2318,2334,2406,2404,2102,2104,2106,2124,2353,5122,2114,5124,2115,2516,2417,2517,2418,5128,2354,2520,2419,5126,2518,2648,2649,2528,2424,2601,2621,2608,2626,2605,2625,2603,2623,2604,2624,2602,2622;		//5127,2519,2650,2651;
+			// Item Price
+			setarray @ItemCost[0],15,5,5,5,5,5,10,10,15,15,15,15,10,5,5,5,5,5,10,10,10,10,20,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,5,10,5,10,5,10,5,10,5,10,5,10;			//1,1,1,1;
+			break;	
+			
+
+
+		Case 5:
+			// Currency [ Item ID / Variable Name GUILD COIN 1]
+			set @Currency$,"40080";
+			// Item ID Lists
+			setarray @ItemLists[0],4119,4107,4035,4058,4141,4105,4092,4100;
+			// Item Price
+			setarray @ItemCost[0],1,1,1,1,2,2,2,2;
+			break;
+
+
+
+			
+			
+			
+		//Case 2:
+			// Currency [ Item ID / Variable Name BRAVERY BADGE]
+			set @Currency$,"7828";
+			// Item ID Lists
+			setarray @ItemLists[0],13036,13411,1183,1425,1632,1634,1543,1380,13305,1739,1279,1924,1978,1574,1824,13108,13172,13174,2538,2539,2540,2435,2436,2437,2376,2377,2378,2379,2380,2381,2382,2733,2720,2721,2722,2723,2724,2725;
+			// Item Price
+			setarray @ItemCost[0],100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,50,50,50,50,50,50,80,80,80,80,80,80,80,500,500,500,500,500,500,500;
+			break;
+		//Case 3:
+			// Currency [ Item ID / Variable Name KVM BADGE]
+			set @Currency$,"#CASHPOINTS";
+			// Item ID Lists
+			setarray @ItemLists[0],1486,1426,1187,13418,13417,13416,13042,13307,1382,1310,1546,1641,1640,2002,1981,1927,1282,1281,1743,1827,1826,1577,1576,13179,13178,13177,13176,13110,2394,2395,2396,2444,2445,2446,2549,2772,2773,2774;
+			// Item Price
+			setarray @ItemCost[0],2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,2000,840,120,15,580,70,10,630,1200,200,30;
+			break;
+		// Case 4,5,6.....etc...
+		default:
+			ErrorNotice( "Invalid Menu Selection for Menu "+@menu+"." );
+			close;
+	}
+	
+	
+if( @Currency$ == "" )
+	ErrorNotice( "Invalid Currency Setting in Menu "+@menu+" ." );
+if( getarraysize( @ItemCost ) != getarraysize( @ItemLists ) || getarraysize( @ItemLists ) != getarraysize( @ItemCost ) )
+	ErrorNotice( "Missing or Extra Value of Item or Cost Settings in Menu "+@menu+" ." );
+return;
+}
+
+function	ErrorNotice	{
+	mes "^FF0000ERROR^000000 - "+getarg(0);
+	mes "^00FF00____________________________^000000";
+	mes "Inform this Message to ^0000FFGame Staffs^000000 immediately !";
+	close;
+}
+
+function	CurrencyInfo	{
+	if( getitemname( atoi( getarg(0) ) ) != "null" ){
+		mes "Item Currency : ^FF0000"+getitemname( atoi( getarg(0) ) )+"^000000";
+		mes "Available Amount : ^0000FF"+ValueConvert( countitem( atoi( getarg(0) ) ) )+"^000000";
+	}else if( getitemname( atoi( getarg(0) ) ) == "null" ){
+		mes "Variable Currency : ^FF0000"+getarg(0)+"^000000";
+		mes "Available Amount : ^0000FF"+ValueConvert( getd( getarg(0) ) )+"^000000";
+	}
+return;
+}
+
+function	ValidateCost	{
+	if( getitemname( atoi( getarg(0) ) ) != "null" ){
+		if( countitem( atoi( getarg(0) ) ) < getarg(1) ) return 1;
+	}else{
+		if( getd( getarg(0) ) < getarg(1) ) return 1;
+	}
+return 0;
+}
+
+function ClearData	{
+	set @Currency$,"";
+	set @TotalCost,0;
+	deletearray @bought_nameid[0],getarraysize( @bought_nameid );
+	deletearray @bought_quantity[0],getarraysize( @bought_quantity );
+	deletearray @ItemLists[0],getarraysize( @ItemLists );
+	deletearray @ItemCost[0],getarraysize( @ItemCost );
+return;
+}
+
+function	ValueConvert	{
+	set .@num, atoi(""+getarg(0));
+	if ( .@num == 0 || .@num >= 2147483647 ) return getarg(0);
+	set .@l, getstrlen(""+.@num);
+	for ( set .@i,0; .@i < .@l; set .@i, .@i + 1 ) {
+		set .@num$, .@num % pow(10,.@i+1) / pow(10,.@i) + .@num$;
+			if ( (.@i+1) % 3 == 0 && .@i+1 != .@l ) set .@num$, ","+ .@num$;
+	}
+	return .@num$;
+}
+
+OnBuyItem:
+	ShopSettings( @menu );
+	for(set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1)
+		for(set @j,0; @j < getarraysize( @ItemLists ); set @j,@j+1)
+			if( @ItemLists[@j] == @bought_nameid[@i] )
+			set @TotalCost,@TotalCost + ( @ItemCost[@j] * @bought_quantity[@i] );
+	mes "^FF0000       BILLING LIST^000000";
+	mes "^00FF00____________________________^000000";
+	for( set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1 )
+			mes "^FF0000"+@bought_quantity[@i]+" x ^0000FF"+getitemname( @bought_nameid[@i] )+"^000000";
+	mes "^00FF00____________________________^000000";
+
+	if( getitemname( atoi( @Currency$ ) ) != "null" )
+		mes "Total Cost : ^0000FF"+ValueConvert( @TotalCost )+" x "+getitemname( atoi( @Currency$ ) )+"^000000";
+	else if( getitemname( atoi( @Currency$ ) ) == "null" ){
+		mes "Total Cost : ^0000FF"+ValueConvert( @TotalCost )+" "+@Currency$+"^000000";
+	}
+	
+	mes "^00FF00____________________________^000000";
+	if( ValidateCost( @Currency$,@TotalCost ) ){
+		if( getitemname( atoi( @Currency$ ) ) != "null" )
+			mes "[ ^FF0000X^000000 ] Insufficient ^0000FF"+getitemname( atoi( @Currency$ ) )+"^000000";
+		else{
+			mes "[ ^FF0000X^000000 ] Insufficient ^0000FF"+@Currency$+"^000000";
+		}
+	}else{
+		if( select( "^0000FFPurchase^000000:Cancel" ) == 1 ){
+			if( getitemname( atoi( @Currency$ ) ) != "null" )
+				delitem atoi( @Currency$ ),@TotalCost;
+			else{
+				set getd( @Currency$ ),getd( @Currency$ ) - @TotalCost;
+			}
+			for(set @i,0; @i < getarraysize( @bought_nameid ); set @i,@i+1)
+				getitem @bought_nameid[@i],@bought_quantity[@i];
+			message strcharinfo(0),"Purchased "+getarraysize( @bought_nameid )+" Items.";
+			mes "Thank you for shopping.";
+		}
+	}
+ClearData();
+close;
+
+close;
+OnInit:
+	waitingroom "Guild Pack",0;
+	end;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+bat_room,160,147,3	script	Telma	701,{
+
+mes "[Telma]";
+	mes "Welcome, mighty warrior.";
+	mes "Do you need supplies for your battles?";
+	mes "I can exchange supplies for your badges...";
+	next;
+	
+	switch(select("150 Condensed White Potion:90 Blue Potion:3 Poison Bottle:30 Fire Bottle:30 Acid Bottle:30 Plant Bottle:30 Marine Sphere Bottle:15 Glistening Coat:50 Yellow Gemstone:50 Red Gemstone:100 Blue Gemstone:5 Speed Potion:20 Cobweb")) {
+		case 1:		callsub S_BuyConsumableBG,547,150;	// Condensed White Potion
+		case 2:		callsub S_BuyConsumableBG,505,90;	// Blue Potion
+		case 3:		callsub S_BuyConsumableBG,678,3;	// Poison Bottle
+		case 4:		callsub S_BuyConsumableBG,7135,30;	// Fire Bottle
+		case 5:		callsub S_BuyConsumableBG,7136,30;	// Acid Bottle
+		case 6:		callsub S_BuyConsumableBG,7137,30;	// Plant Bottle
+		case 7:		callsub S_BuyConsumableBG,7138,30;	// Marine Sphere Bottle
+		case 8:		callsub S_BuyConsumableBG,7139,15;	// Glistening Coat
+		case 9:		callsub S_BuyConsumableBG,715,50;	// Yellow Gemstone
+		case 10:	callsub S_BuyConsumableBG,716,50;	// Red Gemstone
+		case 11:	callsub S_BuyConsumableBG,717,100;	// Blue Gemstone
+		case 12:	callsub S_BuyConsumableBG,12016,5;	// Speed Potion
+		case 13:	callsub S_BuyConsumableBG,1025,20;	// Cobweb
+	}
+	end;
+
+S_BuyConsumableBG:
+	set .@item_id, getarg(0);
+	set .@amt, getarg(1);
+	
+	mes "[Telma]";
+	mes "Do you want it for?...";
+	next;
+	if (select("~ Battleground") == 1) .@bg_item = 1;
+	mes "[Telma]";
+	mes "How many sets of ^0000FF"+ .@amt +" "+ getitemname(.@item_id) +"s^000000 do you want?";
+	mes "1 = "+ .@amt   +" supplies = 1 badge";
+	mes "2 = "+ .@amt*2 +" supplies = 2 badges";
+	mes "3 = "+ .@amt*3 +" supplies = 3 badges";
+	mes "etc..";
+	next;
+	input .@sets;
+	mes "[Telma]";
+	if (.@sets < 1) {
+		mes "Enter a positive amount, greater than zero.";
+		close;
+	}
+	mes "So you want ^0000FF"+ (.@amt*.@sets) +" "+ getitemname(.@item_id) +"s^000000...";
+	mes "Remember these can only be used in "+((.@item_id)?"BattleGround":"WoE Maps");
+	mes "It will cost you "+ .@sets +" badge(s)...";
+	next;
+	switch(select("Give her "+ .@sets +" Bravery Badge(s):Give her "+ .@sets +" Valor Badge(s)")) {
+		case 1: set .@badge,7828; set .@cost,1; break;
+		case 2: set .@badge,7829; set .@cost,1; break;
+		}
+
+	.@bgchar = getBattleFlag("bg_reserved_char_id");
+	.@woechar = getBattleFlag("woe_reserved_char_id");
+	mes "[Telma]";
+	if (countitem(.@badge) < (.@cost*.@sets)) {
+		mes "You do not have enough ^FF0000"+getitemname(.@badge)+"s^000000 to buy "+(.@amt*.@sets)+" "+getitemname(.@item_id)+"s.";
+	} else if (!checkweight(.@item_id, .@amt*.@sets)) {
+		mes "You are overweight or have too many items in your inventory.";
+	} else {
+		delitem .@badge, .@cost*.@sets;
+		if (.@bg_item) // Battleground's Consumables
+			getitem2 .@item_id,(.@amt*.@sets),1,0,0, 254, 0, .@bgchar & 0xFFFF, .@bgchar >> 0x10;
+		else
+			getitem2 .@item_id,(.@amt*.@sets),1,0,0, 254, 0, .@woechar & 0xFFFF, .@woechar >> 0x10;
+		mes "Here are your: ^0000FF"+(.@amt*.@sets)+" "+getitemname(.@item_id)+"s^000000!";
+		mes "Remember they can only be used in "+((.@item_id)?"BattleGround":"WoE Maps");
+	}
+	close;
+}
+
+
+*/
+
+
+
+
+	

@@ -1,0 +1,231 @@
+
+
+
+FirstTown,201,218,3	script	rfrwe#1	664,{
+
+
+
+set .nombreNPC$,"rfrwe#1";
+
+
+if ($contadorprueba22>5) {
+	mes "Felicidades, hasta la proxima"; 
+	atcommand ("@hidenpc " + .nombreNPC$);
+	atcommand ("@reloadnpc npc/custom/warper.txt");
+	end;}
+
+set .item,501;
+mes "Tienes "  + countitem(.item) + " " + getitemname(.item);
+
+set $contadorprueba22,$contadorprueba22+countitem(.item);
+delitem .item,countitem(.item);
+
+
+end;
+OnInit:
+set .nombreNPC$,"rfrwe#1";
+sleep 1000;
+if ($contadorprueba22>5){
+atcommand ("@hidenpc " + .nombreNPC$);}
+end;
+
+}
+
+
+
+
+
+-	script	Sample	-1,{
+OnInit:
+bindatcmd("mail","Sample::OnAtcommand");
+end;
+OnAtcommand:
+if( strcharinfo(3) == "prontera" ){
+ message strcharinfo(0),"Mail Disabled here.";
+}else
+ openmail;
+end;
+}
+
+
+
+
+
+arena_5,145,99,3	script	Alice ddd	664,{
+mes "hola";
+
+set title$,200003;
+//achievementremove (200003);
+//achievementinfo (200003,ACHIEVEINFO_COMPLETE);
+//achievementcomplete (200003,strcharinfo(0));
+//achievementexists (200003);
+//achievementadd (200003);
+end;
+
+
+}	//FIN SCRIPT
+
+
+
+
+-	script	comando#Instance	-1,{
+
+ OnComandInstance:
+ getareausers "arena_4",152,163,129,118;
+
+//getmapxy( @mapname$, @mapx, @mapy,BL_PC );
+ 
+mapwarp "arena_4","arena_5",159,111,0; 
+
+
+//mapwarp "prontera","alberta",150,150,0;
+
+
+                end;
+
+OnInit:
+      bindatcmd "instancia", strnpcinfo(0) +"::OnComandInstance", 99, 99;
+      end;
+ 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function	script	AdaptationCir	{
+//sc_end SC_POEMBRAGI;
+//if (getstatus(SC_POEMBRAGI)){mes "no puedes usar montura"; end;}
+//atcommand "@useskill 666 5 "+ strcharinfo(0);
+//atcommand "@useskill 304 1 "+ strcharinfo(0);
+
+
+setmounting();
+//atcommand "@useskill 304 1 "+ strcharinfo(0);
+end;}
+
+
+
+//BUG DE MONTURA
+-	script	riding	-1,{
+OnPCLoginEvent: 
+ if (!checkriding()) {
+	setriding;}
+end;
+
+OnPCLogoutEvent:
+if (checkriding()) {
+	setriding 0;}
+end;
+
+}
+
+
+
+
+
+
+//NPC QUE CAMINA
+firstcity,181,249,5	script	Sample#walk_talk	1198,{
+mes "hola";
+skill 26,2,0;
+end;
+
+OnInit:
+waitingroom "Walking Dead",0;
+
+/*
+setarray .Message$,"Mesage 1",
+					"Mesage 1",
+					"Mesage 2",
+					"Mesage 3",
+					"Mesage 4";
+*/		
+//while( loopwlnpc==1 ){
+while( 1 ){
+npcspeed 300;
+	npcwalkto rand(182,250),rand(200,249);
+	npctalk .Message$[ rand( getarraysize( .Message$ ) ) ];
+	sleep rand(7000,10000);
+}
+
+
+end;
+
+
+}
+
+
+
+//FAMILIARES
+function	script	familiarFuego	{
+set numInvocacion,3;
+
+if (x3 <=numInvocacion){
+mercenary_create 2114,60000;
+set x3,x3+1;
+}
+
+
+else if (x3 <=(numInvocacion*3)){
+mercenary_create 2115,60000;
+set x3,x3+1;
+}
+
+
+else if (x3 >=(numInvocacion*4)){
+mercenary_create 2116,60000;
+specialeffect2 EF_HEAL; bonus_script "{ bonus bStr,10; }",60;
+bonus_script "{ bonus bAtk2,60; }",60;
+set x3,x3+1;
+}
+
+end;
+}
+
+
+
+
+
+arena_5,163,99,3	script	Alice dd	665,{
+
+
+getmapxy(@mapname$,@mapx,@mapy,BL_NPC);  	//NPC
+getmapxy(@mapname2$,@map2x,@map2y,BL_PC);  	//PLAYER
+
+mes @mapname$  + "    " + @mapx  + "  " + @mapy;		//NPC
+mes @mapname2$ + "    " + @map2x + "  " + @map2y;		//PLAYER
+
+
+
+set .@i, distance(@mapx,@mapy,@map2x,@map2y);
+if( .@i > 4 ){
+   mes "Debes estas mas cerca para poder cortar el fruto.";
+end;
+}
+
+mes "hola";
+end;
+
+
+}	//FIN SCRIPT
+
+
+

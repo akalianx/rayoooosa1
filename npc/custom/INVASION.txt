@@ -1,0 +1,3 @@
+//nombre del mapa	monster	/ nombre del monstruo / id monster / cantidad / milisegundos
+
+prontera.gat,0,0	monster	Lunatic	1063,1000,5000

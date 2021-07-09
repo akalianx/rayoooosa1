@@ -1,0 +1,490 @@
+moc_para01,38,95,5	script	Artifact Crafter#pa0829	510 ,{
+
+
+
+
+if (MaxWeight - Weight < 1000) {
+		mes "Tienes sobre peso, reducelo e intenta de nuevo.";
+		close;
+	}
+
+	if (checkweight(1201,1) == 0) {
+		mes "Tienes demasiados items en tu inventario, guarda o deshazte de algunos.";
+		close;
+	}
+	
+	disable_items;
+	mes "[Artifact Crafter]";
+	mes "Mi trabajo es incrustar nuevos encantamientos a armas y armaduras.";
+	mes "Al hacerlo perderas el Refine y Carta que tenga el equipo.";
+	next;
+	mes "[Artifact Crafter]";
+	mes "Recuerda que dichos artefactos pueden romperse.";
+	mes "A menos que traigas contigo 1 ^0000FF" +getitemname(40143)+ "^000000 , el cual puede evitar que se rompa tu equipo durante una ocasion.";
+	next;
+	mes "^0000FFQue deseas encantar hoy?^000000";
+
+
+
+
+
+for ( set .@s,0; .@s < getarraysize(.enchant_slot); set .@s,.@s + 1) {
+		switch(.enchant_slot[.@s]) {
+			case EQI_HEAD_TOP: set .@c_slot$,"Top Headgear"; break;
+			case EQI_HEAD_MID: set .@c_slot$,"Mid Headgear"; break;
+			case EQI_HEAD_LOW: set .@c_slot$,"Low Headgear"; break;
+			case EQI_GARMENT: set .@c_slot$,"Garment"; break;
+			case EQI_HAND_L : set .@c_slot$,"Shield"; break;
+			case EQI_SHOES: set .@c_slot$,"Shoes"; break;
+			case EQI_ARMOR: set .@c_slot$,"Armor"; break;
+			
+		
+		}
+		set .@c_m$,.@c_m$ + ((getequipid(.enchant_slot[.@s]) != -1)?.@c_slot$ + " - "+getitemname(getequipid(.enchant_slot[.@s])):"") + ( (.enchant_slot[.@s+1] != 0)?":":"");
+	}
+	set .@c_m$,.@c_m$ + ":- Cancel";
+	set .@c,select(.@c_m$);
+	if(.@c > getarraysize(.enchant_slot)) close;
+	set .@part,.enchant_slot[.@c-1];
+	next;
+	
+	
+	set .@hg,getequipid(.@part); // Saving Item ID
+	set .@ref,getequiprefinerycnt(.@part); 	// Saving Refine Level, if there is one
+	set .@card1,getequipcardid(.@part,0); // Save Item ID of Card Slot 1		
+					
+	
+
+
+
+
+
+
+
+//ITEM REQUERIDO PARA ENCANTAR
+set .@itemRequerido,1;   
+set .@minProba,1500;   
+set .@MaxProba,2800;   
+
+//HATS TOP
+if (getequipid(EQI_HEAD_TOP)&&getiteminfo(getequipid(.@part),5)==256){set .@enchant_type,1;             set .@Cantidad,2;}
+
+//SHOES
+else if (getequipid(EQI_SHOES)&&getiteminfo(getequipid(.@part),5)==64){set .@enchant_type,3;             set .@Cantidad,7;}
+
+//ARMADURAS
+else if (getequipid(EQI_ARMOR)&&getiteminfo(getequipid(.@part),5)==16){set .@enchant_type,4;             set .@Cantidad,10;}
+
+//ESCUDOS
+else if (getequipid(EQI_HAND_L)&&getiteminfo(getequipid(.@part),5)!=32){mes "Este item no es un escudo."; end;}
+else if (getequipid(EQI_HAND_L)&&getiteminfo(getequipid(.@part),5)==32){set .@enchant_type,2;             set .@Cantidad,10;}
+
+
+
+
+
+
+mes "Item seleccionado: ^0000FF"+getitemname(getequipid(.@part))+"^000000";
+mes " ";
+mes "Para encantarlo necesitas ^0000FF" + .@Cantidad + " " + getitemname(.@itemRequerido) + "^000000.";
+mes "Deseas proceder con el encantamiento?";
+
+	if(select("- SI:- No") - 1) close;
+next;
+
+
+
+			
+					
+/*
+	if (countitem(6380) < 2 ) {
+		next;
+		mes "[Artifact Crafter]";
+		mes " ";
+		mes "You have to have 2 Mora Coins and an item to be reinforced before I can do my work.";
+		close;
+	}
+*/	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+switch(.@enchant_type) {
+
+
+//====================================================================//
+//============================= HATS TOP =============================//
+//====================================================================//
+case 1:
+
+	
+if (countitem(.@itemRequerido) < .@Cantidad ) {
+		next;
+		mes "[Artifact Crafter]";
+		mes " ";
+		mes "Tienes: ^0000FF" + countitem(.@itemRequerido) + " " + getitemname(.@itemRequerido) + "^000000.";
+		mes "Necesitas ^0000FF" + .@Cantidad + " " + getitemname(.@itemRequerido) + "^000000 para encantar tu equipo, regresa cuando las tengas.";
+		close;
+	}
+
+
+
+
+
+	set .@i, rand(1,.@MaxProba);
+		if (.@i <= .@minProba+700) {
+			// Basic combinations
+			// (raw: .@i increments by 31, 4 repeats)
+			setarray .@enchant_slot3[0],4700,4710,4720,4730,4740,4750; //str, int, dex, agi, vit y luk +1,
+			
+			    
+			setarray .@enchants[3],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+				
+		
+		mes "[Artifact Crafter]";
+		
+		}
+		
+		else if (.@i <= .@MaxProba) {
+			
+			
+			
+			if (countitem(40143)>=1){
+			mes "[Artifact Crafter]";
+			mes "Ups, por poco se rompe tu equipo.";
+			 
+			delitem 40143,1;
+			
+			setarray .@enchant_slot3[0],4700,4710,4720,4730,4740,4750; //str, int, dex, agi, vit y luk +1,
+			
+			    
+			setarray .@enchants[3],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+			}
+			
+			
+			
+			
+			else if (countitem(40143)<1){
+			
+			
+			next;
+			specialeffect2 155;
+			mes "[Artifact Crafter]";
+			mes " ";
+			delequip .@part;
+			delitem .@itemRequerido,.@Cantidad; //Mora_Coin
+			mes "^FF0000Oh no... Se ha roto, cosas que pasan, buena suerte para la proxima.^000000";
+			close;
+			
+			}
+			
+		
+		
+		
+		}
+	
+		break;
+	
+
+
+
+
+
+
+
+//===================================================================//
+//============================= ESCUDOS =============================//
+//===================================================================//	
+
+case 2:
+
+	if (countitem(.@itemRequerido) < .@Cantidad ) {
+		next;
+		mes "[Artifact Crafter]";
+		mes " ";
+		mes "Tienes: ^0000FF" + countitem(.@itemRequerido) + " " + getitemname(.@itemRequerido) + "^000000.";
+		mes "Necesitas ^0000FF" + .@Cantidad + " " + getitemname(.@itemRequerido) + "^000000 para encantar tu equipo, regresa cuando las tengas.";
+		close;
+	}
+
+
+
+
+
+
+	set .@i, rand(1,.@MaxProba);
+		if (.@i <= .@minProba) {
+			// Basic combinations
+			// (raw: .@i increments by 31, 4 repeats)
+			setarray .@enchant_slot2[0],4720,4796,4710,4801; //Dexterity1,HP200,Inteligence1,SP100
+			setarray .@enchant_slot3[0],4786,4760,4711,4721; //Mdef2,Matk1,Inteligence2,Dexterity2
+			  
+			setarray .@enchants[2],
+				.@enchant_slot2[rand(getarraysize(.@enchant_slot2))],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+				  
+		mes "[Artifact Crafter]";
+		
+		}
+		
+		else if (.@i <= .@MaxProba) {
+			
+			
+				if (countitem(40143)>=1){
+				mes "[Artifact Crafter]";
+				mes "Ups, por poco se rompe tu equipo.";
+				 
+				delitem 40143,1;
+				setarray .@enchant_slot2[0],4720,4796,4710,4801; //Dexterity1,HP200,Inteligence1,SP100
+				setarray .@enchant_slot3[0],4786,4760,4711,4721; //Mdef2,Matk1,Inteligence2,Dexterity2
+				  
+				setarray .@enchants[2],
+				.@enchant_slot2[rand(getarraysize(.@enchant_slot2))],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+				}
+			
+			
+						else if (countitem(40143)<1){
+							specialeffect2 155;
+							next;
+							delequip .@part;
+							delitem .@itemRequerido,.@Cantidad; //Mora_Coin
+							mes "[Artifact Crafter]";
+							mes "^FF0000Oh no... Se ha roto, cosas que pasan, buena suerte para la proxima.^000000";
+							close;
+							}
+		}
+		break;
+
+
+
+
+
+
+	
+
+//=================================================================//
+//============================= SHOES =============================//
+//=================================================================//
+case 3:
+
+	
+if (countitem(.@itemRequerido) < .@Cantidad ) {
+		next;
+		mes "[Artifact Crafter]";
+		mes " ";
+		mes "Tienes: ^0000FF" + countitem(.@itemRequerido) + " " + getitemname(.@itemRequerido) + "^000000.";
+		mes "Necesitas ^0000FF" + .@Cantidad + " " + getitemname(.@itemRequerido) + "^000000 para encantar tu equipo, regresa cuando las tengas.";
+		close;
+	}
+
+
+
+
+
+	set .@i, rand(1,.@MaxProba);
+		if (.@i <= .@minProba) {
+			// Basic combinations
+			// (raw: .@i increments by 31, 4 repeats)
+			setarray .@enchant_slot3[0],4700,4710,4720,4730,4740,4750; //str, int, dex, agi, vit y luk +1,
+			
+			    
+			setarray .@enchants[3],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+		
+
+		mes "[Artifact Crafter]";
+		
+		}
+		
+		else if (.@i <= .@MaxProba) {
+		
+		
+				if (countitem(40143)>=1){
+				mes "[Artifact Crafter]";
+				mes "Ups, por poco se rompe tu equipo.";
+				delitem 40143,1;
+				
+				setarray .@enchant_slot3[0],4700,4710,4720,4730,4740,4750; //str, int, dex, agi, vit y luk +1,
+				setarray .@enchants[3],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+				
+				}
+
+							else if (countitem(40143)<1){		
+							next;
+							specialeffect2 155;
+							mes "[Artifact Crafter]";
+							mes " ";
+							delequip .@part;
+							delitem .@itemRequerido,.@Cantidad; //Mora_Coin
+							mes "^FF0000Oh no... Se ha roto, cosas que pasan, buena suerte para la proxima.^000000";
+							close;
+							}
+		}
+	
+		break;
+		
+
+
+
+
+
+
+
+//=====================================================================//
+//============================= ARMADURAS =============================//
+//=====================================================================//
+case 4:
+
+	if (countitem(.@itemRequerido) < .@Cantidad ) {
+		next;
+		mes "[Artifact Crafter]";
+		mes " ";
+		mes "Tienes: ^0000FF" + countitem(.@itemRequerido) + " " + getitemname(.@itemRequerido) + "^000000.";
+		mes "Necesitas ^0000FF" + .@Cantidad + " " + getitemname(.@itemRequerido) + "^000000 para encantar tu equipo, regresa cuando las tengas.";
+		close;
+	}
+
+
+
+
+
+
+		set .@i, rand(1,.@MaxProba);
+		if (.@i <= .@minProba) {
+			// Basic combinations
+			// (raw: .@i increments by 31, 4 repeats)
+			setarray .@enchant_slot2[0],4867,4799,4929,40146,4791,4891,4792,4788,4761,4766; //MHP+3%, HP+500, MSP+1%, SP+50, DEF+3, MDEF+3, DEF+6, MDEF+6, MATK+2%, ATK+2%
+			setarray .@enchant_slot3[0],4700,4710,4720,4730,4740,4750;
+			  
+			setarray .@enchants[2],
+				.@enchant_slot2[rand(getarraysize(.@enchant_slot2))],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+		
+
+
+		mes "[Artifact Crafter]";
+		}
+		
+		else if (.@i <= (.@MaxProba-600)) {
+			// Basic combinations
+			// (raw: .@i increments by 31, 4 repeats)
+			setarray .@enchant_slot2[0],4867,4799,4929,40146,4791,4891,4792,4788,4761,4766; //MHP+3%, HP+500, MSP+1%, SP+50, DEF+3, MDEF+3, DEF+6, MDEF+6, MATK+2%, ATK+2%
+			setarray .@enchant_slot3[0],4711,4721,4701,4751,4731,4741;
+			  
+			setarray .@enchants[2],
+				.@enchant_slot2[rand(getarraysize(.@enchant_slot2))],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+		
+
+		mes "[Artifact Crafter]";
+		}
+		
+		else if (.@i <= (.@MaxProba-300)) {
+			// Basic combinations
+			// (raw: .@i increments by 31, 4 repeats)
+			setarray .@enchant_slot2[0],4867,4799,4929,40146,4791,4891,4792,4788,4761,4766; //MHP+3%, HP+500, MSP+1%, SP+50, DEF+3, MDEF+3, DEF+6, MDEF+6, MATK+2%, ATK+2%
+			setarray .@enchant_slot3[0],4732,4712,4752,4722,4702,4742;
+			  
+			setarray .@enchants[2],
+				.@enchant_slot2[rand(getarraysize(.@enchant_slot2))],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+		
+
+
+		mes "[Artifact Crafter]";
+		}
+		
+		
+		else if (.@i <= .@MaxProba) {
+			
+				if (countitem(40143)>=1){
+				mes "[Artifact Crafter]";
+				mes "Ups, por poco se rompe tu equipo.";
+				delitem 40143,1;
+				
+				setarray .@enchant_slot2[0],4867,4799,4929,40146,4791,4891,4792,4788,4761,4766; //MHP+3%, HP+500, MSP+1%, SP+50, DEF+3, MDEF+3, DEF+6, MDEF+6, MATK+2%, ATK+2%
+				setarray .@enchant_slot3[0],4700,4710,4720,4730,4740,4750;
+				setarray .@enchants[2],
+				.@enchant_slot2[rand(getarraysize(.@enchant_slot2))],
+				.@enchant_slot3[rand(getarraysize(.@enchant_slot3))];
+				}
+							
+							else if (countitem(40143)<1){
+							specialeffect2 155;
+							next;
+							delequip .@part;
+							delitem .@itemRequerido,.@Cantidad; //Mora_Coin
+							mes "[Artifact Crafter]";
+							mes "^FF0000Oh no... Se ha roto, cosas que pasan, buena suerte para la proxima.^000000";
+							close;
+							}
+		}
+		break;
+
+
+
+		
+		
+	} //fin switch
+	
+	
+
+	specialeffect2 EF_REPAIRWEAPON;
+	delitem .@itemRequerido,.@Cantidad; //Mora_Coin
+	delequip .@part;
+	
+	
+	
+	//getitem2 .@hg,1,1,.@ref,0,.@card1,.@enchants[1],.@enchants[2],.@enchants[3];
+	getitem2 .@hg,1,1,0,0,0,.@enchants[1],.@enchants[2],.@enchants[3];
+	equip .@hg;
+	
+	
+	mes " ";
+	mes "Parece que hemos tenido exito encantando tu equipo.";
+	close;
+
+
+
+
+
+
+
+
+
+
+
+
+
+OnInit:
+setarray .enchant_slot[0],EQI_HEAD_TOP,EQI_ARMOR;
+waitingroom "Enchants",0;
+end;
+
+
+	
+	
+
+
+
+
+
+
+
+
+}

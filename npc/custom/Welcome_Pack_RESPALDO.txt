@@ -1,0 +1,491 @@
+/*
+1:	Acolyte
+2:	Archer
+3:	Mage
+4:	Merchant
+5:	Swordman
+6:	Thief
+7:	Gunslinger
+8:	Ninja
+9:	Super Novice
+10:	TaeKwon Kid
+*/
+
+
+
+
+league,143,167,5	script	Melty	80,{
+
+/*	
+	if ( #wpack || callsub( L_check ) ) {
+		#wpack = 1;
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+	}
+*/	
+
+
+	
+	mes "[Melty]";
+	mes "Hola aventurero, te damos la bienvenida a Tenarius-Ro";
+	next;
+	mes "[Melty]";
+	mes "Dejanos darte un regalo por elegirnos.";
+	mes " ";
+	mes "Elije sabiamente el paquete que mas te interese.";
+	next;
+	mes "^3355FF[IMPORTANTE]^000000";
+	mes " ";
+	mes "^3355FFEste pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+	next;
+	switch(select("Acolyte:Archer:Mage:Merchant:Swordman:Thief:Gunslinger:Ninja:Super Novice:TaeKwon Kid:Cancel")) {
+		
+	
+
+	
+//**********************ACOLYTE**********************//	
+	
+		case 1:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+			getitem 1519,1;		//Weapon 1:	Chain
+			getitem 1612,1;		//Weapon 2:	Arc Wand
+			getitem 2320,1;		//Armor: 	Formal Suit [1]
+			getitem 2508,1;		//Garmet:	Ragamuffin Manteau 	
+			getitem 2447,1;		//Shoes:	Army Boots
+			getitem 2602,1;		//Acce:		Earring int +2
+		//	getitem 2604,1;		//Acce:		Glove dex +2
+		//	getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+//**********************ARCHER**********************//	
+	
+		case 2:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+			getitem 1712,1;		//Weapon 1:	Crossbow [0]
+			getitem 1713,1;		//Weapon 2:	Arbalest [1] 
+			getitem 2320,1;		//Armor: 	Formal Suit [1]
+			getitem 2508,1;		//Garmet:	Ragamuffin Manteau 	
+			getitem 2447,1;		//Shoes:	Army Boots
+		//	getitem 2602,1;		//Acce:		Earring int +2
+			getitem 2604,1;		//Acce:		Glove dex +2
+		//	getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************MAGE**********************//	
+	
+		case 3:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+				getitem 1609,1;		//Weapon 1:	Staff [0]  
+				getitem 1614,1;		//Weapon 2:	Wand of Occult [0]
+				getitem 2320,1;		//Armor: 	Formal Suit [1]
+				getitem 2508,1;		//Garmet:	Ragamuffin Manteau 	
+				getitem 2447,1;		//Shoes:	Army Boots
+			//	getitem 2602,1;		//Acce:		Earring int +2
+				getitem 2604,1;		//Acce:		Glove dex +2
+			//	getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************MERCHANT**********************//	
+	
+		case 4:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+			getitem 1353,1;		//Weapon 1:	Battle Axe [0]   
+			getitem 1360,1;		//Weapon 2:	Two-Handed Axe [1]
+			getitem 2320,1;		//Armor: 	Formal Suit [1]
+			getitem 2508,1;		//Garmet:	Ragamuffin Manteau 	
+			getitem 2447,1;		//Shoes:	Army Boots
+		//	getitem 2602,1;		//Acce:		Earring int +2
+		//	getitem 2604,1;		//Acce:		Glove dex +2
+			getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+		
+
+
+
+//**********************SWORDMAN**********************//	
+	
+		case 5:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+			getitem 1112,1;		//Weapon 1:	Rapier [0]  
+			getitem 1123,1;		//Weapon 2:	Haedonggum [1]
+			getitem 2320,1;		//Armor: 	Formal Suit [1]
+			getitem 2508,1;		//Garmet:	Ragamuffin Manteau 	
+			getitem 2447,1;		//Shoes:	Army Boots
+		//	getitem 2602,1;		//Acce:		Earring int +2
+		//	getitem 2604,1;		//Acce:		Glove dex +2
+			getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************THIEF**********************//	
+	
+		case 6:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+			getitem 1218,1;		//Weapon 1:	Stiletto [0]
+			getitem 1222,1;		//Weapon 2:	Damascus [1] 
+			getitem 2320,1;		//Armor: 	Formal Suit [1]
+			getitem 2508,1;		//Garmet:	Ragamuffin Manteau 	
+			getitem 2447,1;		//Shoes:	Army Boots
+		//	getitem 2602,1;		//Acce:		Earring int +2
+		//	getitem 2604,1;		//Acce:		Glove dex +2
+			getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************GUNSLINGER**********************//	
+	
+		case 7:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+			getitem 13100,1;	//Weapon 1:	Six Shooter [1] 
+			getitem 13102,1;	//Weapon 2:	Crimson Bolt [1] 
+			getitem 2320,1;		//Armor: 	Formal Suit [1]
+			getitem 2508,1;		//Garmet:	Ragamuffin Manteau 	
+			getitem 2447,1;		//Shoes:	Army Boots
+		//	getitem 2602,1;		//Acce:		Earring int +2
+			getitem 2604,1;		//Acce:		Glove dex +2
+		//	getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+//**********************NINJA**********************//	
+	
+		case 8:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+			getitem 13010,1;	//Weapon 1:	Asura [2]
+			getitem 13003,1;	//Weapon 2:	Cowardice Blade [1] 
+			getitem 2320,1;		//Armor: 	Formal Suit [1]
+			getitem 2508,1;		//Garmet:	Ragamuffin Manteau 	
+			getitem 2447,1;		//Shoes:	Army Boots
+		//	getitem 2602,1;		//Acce:		Earring int +2
+			getitem 2604,1;		//Acce:		Glove dex +2
+		//	getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+
+//**********************SUPER NOVICE**********************//	
+	
+		case 9:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+			getitem 1218,1;		//Weapon 1:	Stiletto [0]
+			getitem 1622,1;		//Weapon 2:	Hypnotist's Staff [2] 
+			getitem 2340,1;		//Armor: 	Novice Breastplate [1]
+			getitem 2512,1;		//Garmet:	Novice Manteau [1]
+			getitem 2416,1;		//Shoes:	Novice Shoes [1] 
+			getitem 2658,1;		//Acce:		Nile Rose [1]
+		//	getitem 2602,1;		//Acce:		Earring int +2
+		//	getitem 2604,1;		//Acce:		Glove dex +2
+		//	getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+
+//**********************TAEKWON KID**********************//	
+	
+		case 10:
+			.@myip$ = getcharip();
+
+			if ( callsub( L_check ) ) {
+			mes "^3355FFYa has reclamado un paquete de bienvenida en este PC^000000";
+			mes " ";
+			mes "^3355FFTe recordamos que este pack de bienvenida solo puedes reclamarlo una vez por PC^000000";
+			close;
+			}
+			
+
+			query_sql("INSERT INTO `welcomepack` VALUES (NULL," + getcharid(3) + ",'" + escape_sql(strcharinfo(0)) + "','" + .@myip$ + "')");
+			
+			//THIS PART WERE all items they will get
+
+		//HAT RANDOM	
+		// Lif Doll Hat/ Vanilmirth Hat / Filir Hat / Amistr Cap
+			setarray .@RandItem[0],5253,5289,5405,5766;  
+			set .@RandItemCount,getarraysize(.@RandItem);
+			getitem(.@Randitem[rand(.@RandItemCount)],1);
+		
+		//**********************************************************
+		
+			getitem 1612,1;		//Weapon 2:	Arc Wand
+			getitem 1551,1;		//Weapon 2:	Bible [2]
+			getitem 2320,1;		//Armor: 	Formal Suit [1]
+			getitem 2508,1;		//Garmet:	Ragamuffin Manteau 	
+			getitem 2447,1;		//Shoes:	Army Boots
+			getitem 2602,1;		//Acce:		Earring int +2
+		//	getitem 2604,1;		//Acce:		Glove dex +2
+		//	getitem 2601,1;		//Acce:		Ring str +2
+			
+				
+			set #wpack, 1;
+			//warp "prontera",156,172;
+			close;
+
+
+
+
+
+
+
+		case 11:
+			mes "^616D7ENo te preocupes, puedes volver mas tarde.";
+			close;
+	}
+	end;
+L_check:
+	return query_sql("SELECT 1 FROM `welcomepack` join login on login.`last_ip` = `welcomepack`.`last_ip` where login.account_id = "+ getcharid(3), .@tmp );
+OnInit:
+	waitingroom "Paquete de Bienvenida",0;
+	end;
+}

@@ -1,0 +1,214 @@
+/*
+prontera,151,215,8	script	Lucila	611,{
+
+if(Lucila == 0){
+		mes "[Lucila]";
+		mes "buen dia " + strcharinfo(0) + ", traigo unas orejitas costume que te van a  encantar.";
+		mes "Si te interesa te la puedo dar a cambio de algunas cosas.";
+		next;
+		if(select("^FF0000No por ahora^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+			next;
+			mes "[Lucila]";
+			mes "Hasta la proxima, ten un excelente dia.";
+			end; } //FIN MENU
+
+
+		mes "[Lucila]";
+		mes "^0000FFMuchas gracias, necesito los siguientes items";
+		mes "^0000FF100 Wrapping Paper [ID 7175]^000000";
+		mes "^0000FF100 Wrapping Lace [ID 7174]^000000";
+		mes "^0000FF100 Horseshoe [ID 944]^000000";
+		mes "^0000FF10 Gift Box (Verde) [ID 667]^000000";
+		set Lucila,1;
+		end;
+}
+
+if (Lucila == 1){
+		if ( countitem(7175) < 100 || countitem(7174) < 100 || countitem(944) < 100 || countitem(667) < 10) {
+	
+		mes "[Lucila]";
+		mes " ";
+		mes "No tienes suficientes items, vuelve cuando tengas todo lo necesario.";
+		mes "^0000FF" + countitem(7175) +"/100 " + getitemname(7175) + "^000000.";
+		mes "^0000FF" + countitem(7174) +"/100 " + getitemname(7174) + "^000000.";
+		mes "^0000FF" + countitem(944) +"/100 " + getitemname(944) + "^000000.";
+		mes "^0000FF" + countitem(667) +"/10 " + getitemname(667) + "^000000.";
+		
+		end;}
+		
+	mes "[Lucila]";		
+	mes "Muchas gracias, veo que traes todos los items, aqui tienes recompensa.";
+	mes "Ten un excelente dia.";
+	next;
+	delitem 7175,100;
+	delitem 7174,100;
+	delitem 944,100;
+	delitem 667,10;
+	
+	
+	
+	
+	getitem 19769,1;
+	set Lucila,0;
+	
+	
+end;
+}
+
+
+
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+prontera,159,215,8	script	Catshiro	10091,{
+
+if(Catshiro == 0){
+		mes "[Catshiro]";
+		mes "buen dia " + strcharinfo(0) + ", estoy de paso por la ciudad, vendiendo capas de temporada.";
+		mes "Si te interesa puedo vendertela a cambio de algunos items.";
+		next;
+		if(select("^FF0000No por ahora^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+			next;
+			mes "[Catshiro]";
+			mes "Hasta la proxima, ten un excelente dia.";
+			end; } //FIN MENU
+
+
+		mes "[Catshiro]";
+		mes "^0000FFMuchas gracias, necesito los siguientes items";
+		mes "^0000FF100 Fluff [ID 914]^000000";
+		mes "^0000FF50 Soft Feather [ID 7063]^000000";
+		mes "^0000FF30 Red Stocking [ID 7034]^000000";
+		mes "^0000FF100 Bloody Rune [ID 7563]^000000";
+		mes "^0000FF10 Gift Box (Roja) [ID 664]^000000";
+		set Catshiro,1;
+		end;
+}
+
+if (Catshiro == 1){
+		if ( countitem(914) < 100 || countitem(7063) < 50 || countitem(7034) < 30 || countitem(7563) < 100 || countitem(664) < 10) {
+	
+		mes "[Catshiro]";
+		mes " ";
+		mes "No tienes suficientes items, vuelve cuando tengas todo lo necesario.";
+		mes "^0000FF" + countitem(914) +"/100 " + getitemname(914) + "^000000.";
+		mes "^0000FF" + countitem(7063) +"/50 " + getitemname(7063) + "^000000.";
+		mes "^0000FF" + countitem(7034) +"/30 " + getitemname(7034) + "^000000.";
+		mes "^0000FF" + countitem(7563) +"/100 " + getitemname(7563) + "^000000.";
+		mes "^0000FF" + countitem(664) +"/10 " + getitemname(664) + "^000000.";
+		end;}
+		
+	mes "[Catshiro]";		
+	mes "Muchas gracias, veo que traes todos los items, aqui tienes tu capa.";
+	mes "Ten un maravilloso dia.";
+	next;
+	delitem 914,100;
+	delitem 7063,50;
+	delitem 7034,30;
+	delitem 7563,100;
+	delitem 664,10;
+	
+	
+	
+	getitem 31189,1;
+	set Catshiro,0;
+	
+	
+end;
+}
+
+
+
+end;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+prontera,155,216,8	script	Alixia	714,{
+
+if(Alixia == 0){
+		mes "[Alixia]";
+		mes "buenos dias " + strcharinfo(0) + ", se acerca navidad y aun no se que regalarle a mi abuelito.";
+		mes "Me podrias conseguir algunos items?... a cambio te dare un gorrito que quiero mucho.";
+		next;
+		if(select("^FF0000No por ahora^000000:^0000FFClaro, que necesitas?^000000") == 1) {
+			next;
+			mes "[Alixia]";
+			mes "Vuelve cuando gustes, ten un excelente dia.";
+			end; } //FIN MENU
+
+
+		mes "[Alixia]";
+		mes "^0000FFMuchas gracias, necesito los siguientes items";
+		mes "^0000FF100 Small Snow Flower [ID 6098]^000000";
+		mes "^0000FF50 Glacial Heart [ID 7561]^000000";
+		mes "^0000FF100 Ice Cream [ID 536]^000000";
+		mes "^0000FF100 Candy Cane [ID 530]^000000";
+		mes "^0000FF5 Gift Box (Amarilla) [ID 665]^000000";
+		set Alixia,1;
+		end;
+}
+
+if (Alixia == 1){
+		if ( countitem(6098) < 100 || countitem(7561) < 50 || countitem(536) < 100 || countitem(530) < 100 || countitem(665) < 5) {
+	
+		mes "[Alixia]";
+		mes " ";
+		mes "No tienes suficientes items, vuelve cuando tengas todo lo necesario.";
+		mes "^0000FF" + countitem(6098) +"/100 " + getitemname(6098) + "^000000.";
+		mes "^0000FF" + countitem(7561) +"/50 " + getitemname(7561) + "^000000.";
+		mes "^0000FF" + countitem(536) +"/100 " + getitemname(536) + "^000000.";
+		mes "^0000FF" + countitem(530) +"/100 " + getitemname(530) + "^000000.";
+		mes "^0000FF" + countitem(665) +"/5 " + getitemname(665) + "^000000.";
+		end;}
+		
+	mes "[Alixia]";		
+	mes "Muchas gracias, veo que traes todo, mi abuelito estara feliz.";
+	mes "Aqui tienes tu recompensa.";
+	next;
+	delitem 6098,100;
+	delitem 7561,50;
+	delitem 536,100;
+	delitem 530,100;
+	delitem 665,5;
+	
+	getitem 20242,1;
+	set Alixia,0;
+	
+	
+end;
+}
+
+
+
+end;
+}
+
+*/

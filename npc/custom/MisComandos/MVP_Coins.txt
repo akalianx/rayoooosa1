@@ -1,0 +1,93 @@
+
+//======================================MVP COINS -  MVP FACIL====================================//
+
+-	script	DrafMvpFacil	-1,{
+OnNPCKillEvent:
+for( .@i = 0; .@i < .mvp_facil_size; .@i++ )
+	if( killedrid == .mvp_facil[.@i] ){
+		dispbottom "Has Obtenido 1 MVP Coin";
+		getitem 40472,1;
+		callfunc("rangoMVP");
+		end;
+	}
+
+end;
+
+OnInit:
+setarray .mvp_facil[0],1115,1492,1147,1688,1583,1623,1389,1046,1087,1190,1272,1418,1157,1658,1630,1059,1159,1038,1511,1885,1373,1150,1039,1086,1785,1112,1312,1251,1252,2068;
+.mvp_facil_size = getarraysize( .mvp_facil );
+
+
+end;
+}
+
+
+
+//======================================MVP COINS -  MVP DIFICIL====================================//
+
+-	script	DrafMvpDificil	-1,{
+OnNPCKillEvent:
+for( .@i = 0; .@i < .mvp_dificil_size; .@i++ )
+	if( killedrid == .mvp_dificil[.@i] ){
+		dispbottom "Has Obtenido 3 MVP Coins";
+		getitem 40472,3;
+		callfunc("rangoMVP");
+		end;
+	}
+
+end;
+
+OnInit:
+setarray .mvp_dificil[0],1871,1874,1719,1779,1685,1734,1647,1649,1651,1646,1650,1648,1751,1768,1832,1708,1917;
+.mvp_dificil_size = getarraysize( .mvp_dificil );
+
+
+end;
+}
+
+
+
+//======================================RANKING MVP====================================//
+
+function	script	rangoMVP	{
+
+query_sql "SELECT `points` FROM `ranking_mvp` WHERE `char_id` = "+getcharid(0),@points;
+	if (@points <= 30){
+		set @rango$,"Porcelana";}
+	
+	else if (@points >= 31 && @points <= 50){
+		set @rango$,"Obsidiana";}
+	
+	else if (@points >= 51 && @points <= 70){
+		set @rango$,"Acero";}
+	
+	else if (@points >= 71 && @points <= 100){
+		set @rango$,"Zafiro";}
+	
+	else if (@points >= 101 && @points <= 130){
+		set @rango$,"Esmeralda";}
+	
+	else if (@points >= 131 && @points <= 160){
+		set @rango$,"Rubi";}
+	
+	else if (@points >= 161 && @points <= 200){
+		set @rango$,"Bronce";}
+		
+	else if (@points >= 201 && @points <= 240){
+		set @rango$,"Plata";}
+	
+	else if (@points >= 241 && @points <= 270){
+		set @rango$,"Oro";}
+	
+	else if (@points >= 271){
+		set @rango$,"Platino";}
+	
+	
+	
+	
+	
+	query_sql "UPDATE `ranking_mvp` SET rango = '"+@rango$+"' WHERE char_id = "+getcharid(0);
+	query_sql "insert into `ranking_mvp` value ( "+ getcharid(0) +", '"+ escape_sql( strcharinfo(0) ) +"', 1,'"+@rango$+"' ) on duplicate key update `points` = if ( `points` + 1 > 200000000000, 0, `points` + 1 )";
+
+end;
+}

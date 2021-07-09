@@ -1,0 +1,81 @@
+moc_para01,32,95,5	script	Jane	633,{
+ 
+    mes "Bienvenido a nuestra tienda de balas elementales.";
+	mes "1 ^E00707Red Blood^000000 = 500 Balas de Fuego";
+	mes "1 ^0C2DD5Crystal Blue^000000 = 500 Balas de Agua";
+	mes "1 ^34AB07Green Live^000000 = 500 Balas de Tierra";
+	mes "1 ^05827EWind of Verdure^000000 = 500 Balas de Viento";
+	next;
+	mes "Que balas te interesa comprar";
+    switch(select("Fuego:Agua:Viento:Tierra:Salir")) {
+    
+	case 1: 
+		
+		next;
+		if (countitem (990)<1) 
+		{mes "Lo sentimos, pero no traes un Red Blood en tu inventario";
+		mes "Hasta la proxima";
+		end;}
+		
+		mes "Aqui tienes 1 Flare Cartridge con 500 Flare Bullet";
+		delitem 990,1;
+		getitem 40135,1;
+		break;
+	
+	
+	case 2: 
+		
+		next;
+		if (countitem (991)<1) 
+		{mes "Lo sentimos, pero no traes un Crystal Blue en tu inventario";
+		mes "Hasta la proxima";
+		end;}
+		
+		mes "Aqui tienes 1 Ice Cartridge con 500 Ice Bullet";
+		delitem 991,1;
+		getitem 40136,1;
+		break;
+    
+	
+	
+	case 3: 
+		
+		next;
+		if (countitem (992)<1) 
+		{mes "Lo sentimos, pero no traes un Wind of Verdure en tu inventario";
+		mes "Hasta la proxima";
+		end;}
+		
+		mes "Aqui tienes 1 Lightning Cartridge con 500 Lightning Bullet";
+		delitem 992,1;
+		getitem 40137,1;
+		break;
+	
+	
+	case 4: 
+		
+		next;
+		if (countitem (993)<1) 
+		{mes "Lo sentimos, pero no traes un Green Live en tu inventario";
+		mes "Hasta la proxima";
+		end;}
+		
+		mes "Aqui tienes 1 Stone Cartridge con 500 Stone Bullet";
+		delitem 993,1;
+		getitem 40140,1;
+		break;
+		
+		
+		
+		
+		case 5: break;
+    }
+  
+  
+  
+    end;
+	
+OnInit:
+	waitingroom "Balas Elementales",0;
+	end;
+}

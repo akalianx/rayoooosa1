@@ -1,0 +1,328 @@
+
+
+
+//=====================@PELETERO=====================//
+-	script	peletero	-1,{
+
+
+OnInit:
+	bindatcmd "peletero",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_peleteria ORDER BY points DESC LIMIT "+$@top,@countPeletero[0];
+	query_sql "SELECT char_id FROM profesion_peleteria ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingPeletero]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_peleteria ORDER BY points DESC LIMIT "+$@top,.@namesPeletero$[0];
+	query_sql "SELECT rango FROM profesion_peleteria ORDER BY points DESC LIMIT "+$@top,@rangoPeletero$[0];
+
+	dispbottom "[Top " +$@top +" Ranking de Peletero]";
+	dispbottom " ";
+	for (set .@rankingPeletero, 0; .@rankingPeletero < $@top; set .@rankingPeletero, .@rankingPeletero + 1){
+		dispbottom "";
+		if (@countPeletero[.@rankingPeletero]==0){
+		dispbottom "Top ^FF0000" +(.@rankingPeletero + 1)+"^000000 ^0000FF"+.@namesPeletero$[.@rankingPeletero]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingPeletero + 1)+"^000000 ^0000FF        "+.@namesPeletero$[.@rankingPeletero]+"^000000" +" [^FF0000" + @rangoPeletero$[.@rankingPeletero]+" ^000000 - "+@countPeletero[.@rankingPeletero]+" Pts]";
+	}
+	end;
+}
+
+
+
+
+
+//=====================@PESCA=====================//
+-	script	pesca	-1,{
+
+
+OnInit:
+	bindatcmd "pesca",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_pesca ORDER BY points DESC LIMIT "+$@top,@countpesca[0];
+	query_sql "SELECT char_id FROM profesion_pesca ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingpesca]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_pesca ORDER BY points DESC LIMIT "+$@top,.@namespesca$[0];
+	query_sql "SELECT rango FROM profesion_pesca ORDER BY points DESC LIMIT "+$@top,@rangopesca$[0];
+
+	dispbottom "[Top " +$@top +" Ranking de Pesca]";
+	dispbottom " ";
+	for (set .@rankingpesca, 0; .@rankingpesca < $@top; set .@rankingpesca, .@rankingpesca + 1){
+		dispbottom "";
+		if (@countpesca[.@rankingpesca]==0){
+		dispbottom "Top ^FF0000" +(.@rankingpesca + 1)+"^000000 ^0000FF"+.@namespesca$[.@rankingpesca]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingpesca + 1)+"^000000 ^0000FF        "+.@namespesca$[.@rankingpesca]+"^000000" +" [^FF0000" + @rangopesca$[.@rankingpesca]+" ^000000 - "+@countpesca[.@rankingpesca]+" Pts]";
+	}
+	end;
+}
+
+
+
+
+//=====================@MINERIA=====================//
+-	script	mineria	-1,{
+
+
+OnInit:
+	bindatcmd "mineria",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_minero ORDER BY points DESC LIMIT "+$@top,@countminero[0];
+	query_sql "SELECT char_id FROM profesion_minero ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingminero]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_minero ORDER BY points DESC LIMIT "+$@top,.@namesminero$[0];
+	query_sql "SELECT rango FROM profesion_minero ORDER BY points DESC LIMIT "+$@top,@rangominero$[0];
+
+	dispbottom "[Top " +$@top +" Ranking de Mineria]";
+	dispbottom " ";
+	for (set .@rankingminero, 0; .@rankingminero < $@top; set .@rankingminero, .@rankingminero + 1){
+		dispbottom "";
+		if (@countminero[.@rankingminero]==0){
+		dispbottom "Top ^FF0000" +(.@rankingminero + 1)+"^000000 ^0000FF"+.@namesminero$[.@rankingminero]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingminero + 1)+"^000000 ^0000FF        "+.@namesminero$[.@rankingminero]+"^000000" +" [^FF0000" + @rangominero$[.@rankingminero]+" ^000000 - "+@countminero[.@rankingminero]+" Pts]";
+	}
+	end;
+}
+
+
+
+
+//=====================@HERBORISTA=====================//
+-	script	herborista	-1,{
+
+
+OnInit:
+	bindatcmd "herborista",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_herborista ORDER BY points DESC LIMIT "+$@top,@countherbo[0];
+	query_sql "SELECT char_id FROM profesion_herborista ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingherborista]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_herborista ORDER BY points DESC LIMIT "+$@top,.@namesherbo$[0];
+	query_sql "SELECT rango FROM profesion_herborista ORDER BY points DESC LIMIT "+$@top,@rangoherbo$[0];
+
+	dispbottom "[Top " +$@top +" Ranking de Herboristeria]";
+	dispbottom " ";
+	for (set .@rankingherborista, 0; .@rankingherborista < $@top; set .@rankingherborista, .@rankingherborista + 1){
+		dispbottom "";
+		if (@countherbo[.@rankingherborista]==0){
+		dispbottom "Top ^FF0000" +(.@rankingherborista + 1)+"^000000 ^0000FF"+.@namesherbo$[.@rankingherborista]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingherborista + 1)+"^000000 ^0000FF        "+.@namesherbo$[.@rankingherborista]+"^000000" +" [^FF0000" + @rangoherbo$[.@rankingherborista]+" ^000000 - "+@countherbo[.@rankingherborista]+" Pts]";
+	}
+	end;
+}
+
+
+
+//=====================@ESCRIBA=====================//
+-	script	escriba	-1,{
+
+
+OnInit:
+	bindatcmd "escriba",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_escriba ORDER BY points DESC LIMIT "+$@top,@countescriba[0];
+	query_sql "SELECT char_id FROM profesion_escriba ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingescriba]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_escriba ORDER BY points DESC LIMIT "+$@top,.@namesescriba$[0];
+	query_sql "SELECT rango FROM profesion_escriba ORDER BY points DESC LIMIT "+$@top,@rangoescriba$[0];
+
+	dispbottom "[Top " +$@top +" Ranking de Escriba]";
+	dispbottom " ";
+	for (set .@rankingescriba, 0; .@rankingescriba < $@top; set .@rankingescriba, .@rankingescriba + 1){
+		dispbottom "";
+		if (@countescriba[.@rankingescriba]==0){
+		dispbottom "Top ^FF0000" +(.@rankingescriba + 1)+"^000000 ^0000FF"+.@namesescriba$[.@rankingescriba]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingescriba + 1)+"^000000 ^0000FF        "+.@namesescriba$[.@rankingescriba]+"^000000" +" [^FF0000" + @rangoescriba$[.@rankingescriba]+" ^000000 - "+@countescriba[.@rankingescriba]+" Pts]";
+	}
+	end;
+}
+
+
+
+//=====================@JOYERIA=====================//
+-	script	joyeria	-1,{
+
+
+OnInit:
+	bindatcmd "joyeria",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_joyero ORDER BY points DESC LIMIT "+$@top,@countjoye[0];
+	query_sql "SELECT char_id FROM profesion_joyero ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingjoyero]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_joyero ORDER BY points DESC LIMIT "+$@top,.@namesjoye$[0];
+	query_sql "SELECT rango FROM profesion_joyero ORDER BY points DESC LIMIT "+$@top,@rangojoye$[0];
+
+	dispbottom "[Top " +$@top +" Ranking de Joyeria]";
+	dispbottom " ";
+	for (set .@rankingjoyero, 0; .@rankingjoyero < $@top; set .@rankingjoyero, .@rankingjoyero + 1){
+		dispbottom "";
+		if (@countjoye[.@rankingjoyero]==0){
+		dispbottom "Top ^FF0000" +(.@rankingjoyero + 1)+"^000000 ^0000FF"+.@namesjoye$[.@rankingjoyero]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingjoyero + 1)+"^000000 ^0000FF        "+.@namesjoye$[.@rankingjoyero]+"^000000" +" [^FF0000" + @rangojoye$[.@rankingjoyero]+" ^000000 - "+@countjoye[.@rankingjoyero]+" Pts]";
+	}
+	end;
+}
+
+
+
+//=====================@RUNERO=====================//
+-	script	runero	-1,{
+
+
+OnInit:
+	bindatcmd "runero",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_runas ORDER BY points DESC LIMIT "+$@top,@countRunas[0];
+	query_sql "SELECT char_id FROM profesion_runas ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingRunas]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_runas ORDER BY points DESC LIMIT "+$@top,.@namesRunas$[0];
+	query_sql "SELECT rango FROM profesion_runas ORDER BY points DESC LIMIT "+$@top,@rangoRunas$[0];
+
+	dispbottom "[Top " +$@top +" Ranking de Runero]";
+	dispbottom " ";
+	for (set .@rankingRunas, 0; .@rankingRunas < $@top; set .@rankingRunas, .@rankingRunas + 1){
+		dispbottom "";
+		if (@countRunas[.@rankingRunas]==0){
+		dispbottom "Top ^FF0000" +(.@rankingRunas + 1)+"^000000 ^0000FF"+.@namesRunas$[.@rankingRunas]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingRunas + 1)+"^000000 ^0000FF        "+.@namesRunas$[.@rankingRunas]+"^000000" +" [^FF0000" + @rangoRunas$[.@rankingRunas]+" ^000000 - "+@countRunas[.@rankingRunas]+" Pts]";
+	}
+	end;
+}
+
+
+
+//=====================@FARMACEUTICO=====================//
+-	script	farmaceutico	-1,{
+
+
+OnInit:
+	bindatcmd "farmaceutico",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_farmaceutico ORDER BY points DESC LIMIT "+$@top,@countFarma[0];
+	query_sql "SELECT char_id FROM profesion_farmaceutico ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingFarmaceutico]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_farmaceutico ORDER BY points DESC LIMIT "+$@top,.@namesfarma$[0];
+	query_sql "SELECT rango FROM profesion_farmaceutico ORDER BY points DESC LIMIT "+$@top,@rangoFarma$[0];
+
+	dispbottom "[Top " +$@top +" Ranking de Farmaceutico]";
+	dispbottom " ";
+	for (set .@rankingFarmaceutico, 0; .@rankingFarmaceutico < $@top; set .@rankingFarmaceutico, .@rankingFarmaceutico + 1){
+		dispbottom "";
+		if (@countFarma[.@rankingFarmaceutico]==0){
+		dispbottom "Top ^FF0000" +(.@rankingFarmaceutico + 1)+"^000000 ^0000FF"+.@namesfarma$[.@rankingFarmaceutico]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingFarmaceutico + 1)+"^000000 ^0000FF        "+.@namesfarma$[.@rankingFarmaceutico]+"^000000" +" [^FF0000" + @rangoFarma$[.@rankingFarmaceutico]+" ^000000 - "+@countFarma[.@rankingFarmaceutico]+" Pts]";
+	}
+	end;
+}
+
+
+
+//=====================@ARMERO=====================//
+-	script	armero	-1,{
+
+
+OnInit:
+	bindatcmd "armero",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_armero ORDER BY points DESC LIMIT "+$@top,@countArmero[0];
+	query_sql "SELECT char_id FROM profesion_armero ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingArmero]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_armero ORDER BY points DESC LIMIT "+$@top,.@namesArmero$[0];
+	query_sql "SELECT rango FROM profesion_armero ORDER BY points DESC LIMIT "+$@top,@rangoArmero$[0];
+
+
+	dispbottom "[Top " +$@top +" Ranking de Armero]";
+	dispbottom " ";
+	for (set .@rankingArmero, 0; .@rankingArmero < $@top; set .@rankingArmero, .@rankingArmero + 1){
+		dispbottom "";
+		if (@countArmero[.@rankingArmero]==0){
+		dispbottom "Top ^FF0000" +(.@rankingArmero + 1)+"^000000 ^0000FF"+.@namesArmero$[.@rankingArmero]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingArmero + 1)+"^000000 ^0000FF        "+.@namesArmero$[.@rankingArmero]+"^000000" +" [^FF0000" + @rangoArmero$[.@rankingArmero]+" ^000000 - "+@countArmero[.@rankingArmero]+" Pts]";
+	}
+	end;
+}
+
+
+
+
+
+//=====================@SASTRE=====================//
+-	script	sastre	-1,{
+
+
+OnInit:
+	bindatcmd "sastre",strnpcinfo(0)+"::OnAtcommand";
+	end;
+
+OnAtcommand:
+set $@top, 10;
+
+	query_sql "SELECT points FROM profesion_sastreria ORDER BY points DESC LIMIT "+$@top,@countsastreria[0];
+	query_sql "SELECT char_id FROM profesion_sastreria ORDER BY points DESC LIMIT "+$@top,@char_id[0];
+	//query_sql "SELECT `name` from `char` WHERE `char_id` = '"+@char_id[.@rankingsastreria]+"'",.@names$[0];
+	query_sql "SELECT name FROM profesion_sastreria ORDER BY points DESC LIMIT "+$@top,.@namessastreria$[0];
+	query_sql "SELECT rango FROM profesion_sastreria ORDER BY points DESC LIMIT "+$@top,@rangosastreria$[0];
+
+
+	dispbottom "[Top " +$@top +" Ranking de Sastre]";
+	dispbottom " ";
+	for (set .@rankingsastreria, 0; .@rankingsastreria < $@top; set .@rankingsastreria, .@rankingsastreria + 1){
+		dispbottom "";
+		if (@countsastreria[.@rankingsastreria]==0){
+		dispbottom "Top ^FF0000" +(.@rankingsastreria + 1)+"^000000 ^0000FF"+.@namessastreria$[.@rankingsastreria]+"^000000 " ;
+		}
+		else 
+			dispbottom "Top ^FF0000" +(.@rankingsastreria + 1)+"^000000 ^0000FF        "+.@namessastreria$[.@rankingsastreria]+"^000000" +" [^FF0000" + @rangosastreria$[.@rankingsastreria]+" ^000000 - "+@countsastreria[.@rankingsastreria]+" Pts]";
+	}
+	end;
+}

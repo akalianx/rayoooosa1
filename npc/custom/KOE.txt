@@ -1,0 +1,253 @@
+//===== Hercules Script ===========================================
+//= King of Emperium Hill
+//===== By: =======================================================
+//= AnnieRuru
+//===== Current Version: ==========================================
+//= 1.2
+//===== Compatible With: ==========================================
+//= hercules & rathena 2018-04-08
+//===== Description: ==============================================
+//= defends the emperium in the middle of the map until times up
+//===== Topic =====================================================
+//= http://hercules.ws/board/topic/4495-gvg-king-of-emperium-hill/
+//===== Additional Comments: ======================================
+//= Finally there is a topic for this !
+//=================================================================
+ 
+-	script	KoE	FAKE_NPC,{
+OnInit:
+        disablenpc "The King#KoE";
+        disablenpc "Exit#KoE";
+		enablenpc "KOE Soldier#KoE";
+		enablenpc "The King#KoE2";
+        bindatcmd "koe", strnpcinfo(0)+"::OnCommand", 99,100;
+		set #koe1, 2;
+        end;
+OnCommand:
+        if ( compare( .@atcmd_parameters$, "on" ) ) goto L_start;
+        else if ( compare( .@atcmd_parameters$, "off" ) ) goto L_end;
+        else {
+                dispbottom "type - '@koe on' to start the event";
+                dispbottom "type - '@koe off' to end the event";
+        }
+        end;
+
+
+L_start:
+//OnClock2005: // everyday 8pm starts
+OnTue0300: // Miercoles 20:00
+//OnThu0300: // Miercoles 20:00
+OnSat0300: // Miercoles 20:00
+
+		if ( .start ) end;
+        gvgon "guild_vs1";
+        announce "The King of Emperium Hill has begun!", bc_all;
+        .start = true;
+        enablenpc "The King#KoE";
+		disablenpc "The King#KoE2";
+        disablenpc "Exit#KoE";
+		disablenpc "Exit2#KoE";
+		disablenpc "KOE Soldier#KoE";
+        $koegid = 0;
+		//$koegid22 = 1;
+		donpcevent "::OnRevKoE";
+        maprespawnguildid "guild_vs1", $koegid, 3;
+        killmonster "guild_vs1", "KoE::OnEmpDead";
+        monster "guild_vs1",49,49, "EMPERIUM", 1288, 1, "KoE::OnEmpDead";
+        end;
+
+
+
+L_end:
+//OnClock2100: // everyday 8:30pm ends
+OnTue0330: // Miercoles 20:30
+//OnThu0330: // Miercoles 20:30
+OnSat0330: // Miercoles 20:30
+
+        gvgoff "guild_vs1";
+        announce "The King of Emperium Hill is over!", bc_all;
+        .start = 0;
+        enablenpc "Exit#KoE";
+		enablenpc "Exit2#KoE";
+        disablenpc "The King#KoE";
+		enablenpc "The King#KoE2";
+		enablenpc "KOE Soldier#KoE";
+        killmonster "guild_vs1", "KoE::OnEmpDead";
+//      maprespawnguildid "guild_vs1", $koegid, 2; // uncomment this line to kick non-owner off the map when event ends
+        end;
+
+
+OnEmpDead:
+        $koegid = getcharid(2);
+        announce "The current King of Emperium Hill is the ["+ strcharinfo(2) +"] guild.", bc_all;
+        donpcevent "::OnRevKoE";
+        maprespawnguildid "guild_vs1", $koegid, 2;
+        killmonster "guild_vs1", "KoE::OnEmpDead";
+        sleep 500;
+        if ( .start )
+                monster "guild_vs1",49,49, "EMPERIUM", 1288, 1, "KoE::OnEmpDead";
+        end;
+}
+ 
+ 
+ // KoE INFORMACION
+
+prontera,143,198,4	script	The King#KoE2	89,{
+        mes "[The King]";
+        mes "Hola.";
+        mes "Te gustaria participar en ^FF0000King of Emperium Hill Tournament^000000?";
+		mes "El evento se lleva a cabo los dias ^FF0000Lunes, Miercoles y Viernes^000000 de ^0000FF20:00 a 20:30^000000 horario Mexico.";
+        next;
+		mes "Para participar necesitas tener o estar en una Guild y tener activa la skill ^0000FFApproval^000000.";
+		mes " ";
+		mes "^FF0000King of Emperium [KOE]^000000 es una simulacion de WOE.";
+OnInit:		
+OnTue0330: // Miercoles 20:30
+OnSat0330: // Miercoles 20:30
+	waitingroom "King of Emperium",0;
+	end;		
+}
+ 
+// KoE Entrance
+//league,139,167,4	script	The King#KoE	89,{
+prontera,143,198,4	script	The King#KoE	89,{
+        mes "[The King]";
+        if ( !getcharid(2) ) {
+                mes "You must have a guild to participate in the ^FF0000King of Emperium Hill Tournament^000000.";
+                close;
+        }
+        mes "Hola.";
+        mes "Te gustaria participar en ^FF0000King of Emperium Hill Tournament^000000?";
+		mes "El evento se lleva a cabo los dias ^FF0000Lunes, Miercoles y Viernes^000000 de ^0000FF20:00 a 20:30^000000 horario Mexico.";
+        if ( select ( "Si", "No" ) == 2 ) close;
+        if ( !getvariableofnpc( .start, "KoE" ) ) close;
+		{
+        switch( rand(1,4) ){
+        //case 1: warp "guild_vs1", 50, 88; $KOECON = 1; end;
+        //case 2: warp "guild_vs1", 88, 50; $KOECON = 1; end;
+        //case 3: warp "guild_vs1", 50, 11; $KOECON = 1; end;
+        //case 4: warp "guild_vs1", 11, 50; $KOECON = 1; end;
+		case 1: warp "guild_vs1", 50, 88; set #koe1, 1; end;
+        case 2: warp "guild_vs1", 88, 50; set #koe1, 1; end;
+        case 3: warp "guild_vs1", 50, 11; set #koe1, 1; end;
+        case 4: warp "guild_vs1", 11, 50; set #koe1, 1; end;
+        }
+		}
+OnInit:		
+OnTue0330: // Miercoles 20:30
+OnSat0330: // Miercoles 20:30
+	waitingroom "King of Emperium",0;
+	end;			
+}
+ 
+ 
+
+
+
+ 
+
+
+// KoE Exit
+guild_vs1,49,56,5	script	Exit#KoE	90,{
+
+			if( #koe1 == 2) {
+			mes "[KOE Control]";
+			mes "Ya reclamaste tus Monedas!";
+			next;
+			warp "Save",0,0;
+			close;}
+
+
+        mes "[Exit]";
+        mes "Hasta la proxima.";
+		close2;
+        warp "Save",0,0;
+        if ( getcharid(2) == $koegid )
+            {   getitem 40065, 5; // configure prize here - KOE Coin
+				//getitem 501, 5;
+				set #koe1, 2;}
+				else if ( #koe1 == 1)
+					{ getitem 40065, 3;
+					//getitem 501, 3;
+					set #koe1, 2;}
+			end;
+}
+ 
+
+// KoE Exit PRONTERA SOLDADO
+prontera,143,208,3	script	KOE Soldier#KoE	417,{
+
+
+			if( #koe1 == 2) {
+			mes "[KOE Control]";
+			mes "Ya reclamaste tus Monedas!";
+			close;}
+			
+					
+
+        mes "[Exit]";
+        mes "Hasta la proxima.";
+		close2;
+        warp "Save",0,0;
+        if ( getcharid(2) == $koegid )
+            {   getitem 40065, 5; // configure prize here - KOE Coin
+				//getitem 501, 5;
+				set #koe1, 2;}
+				else if ( #koe1 == 1)
+					{ getitem 40065, 3;
+					//getitem 501, 3;
+					set #koe1, 2;}
+			end;
+	
+
+}
+ 
+
+
+
+
+
+ 
+ 
+ 
+// Flags
+guild_vs1,49,38,4	script	King of Emperium Hill#1::koe_flag	722,{
+        if ( !$koegid ) end;
+        mes "[King of Emperium Hill]";
+        mes "The Current King of Emperium Hill is the ^0000FF ["+ getguildname($koegid) +"] ^000000 guild.";
+        close;
+//OnInit: // Uncomment this line to make the emblem stay after @reloadscript
+OnRevKoE:
+        flagemblem $koegid;
+        end;
+}
+
+
+
+guild_vs1,61,49,6	duplicate(koe_flag)	King of Emperium Hill#2	722
+guild_vs1,38,49,2	duplicate(koe_flag)	King of Emperium Hill#3	722
+guild_vs1,49,61,0	duplicate(koe_flag)	King of Emperium Hill#4	722
+
+
+
+
+guild_vs1	mapflag	pvp_noparty
+guild_vs1	mapflag	nobranch
+guild_vs1	mapflag	nomemo
+guild_vs1	mapflag	nopenalty
+guild_vs1	mapflag	noreturn
+guild_vs1	mapflag	nosave	SavePoint
+guild_vs1	mapflag	noteleport
+guild_vs1	mapflag	gvg_noparty
+guild_vs1	mapflag	nowarp
+guild_vs1	mapflag	nowarpto
+guild_vs1	mapflag	guildlock
+//guild_vs1	mapflag	noicewall
+
+
+
+
+
+
+
+

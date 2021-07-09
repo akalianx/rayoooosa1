@@ -1,0 +1,115 @@
+
+//======================================================================================//
+//===================================== QUEST Minstrel ===============================//
+//======================================================================================//
+
+
+
+FirstTown,301,234,4	script	Minstrel	480,{
+
+//======================CONFIGURACIONES======================
+setarray .item_Minstrel[0],916,7115,7101,7063,2220;
+setarray .cantidad_Minstrel[0],50,30,30,10,1;
+set .@recompemsa1,19966;
+set .@zenyMinstrel,50000;
+set .nombreNPC$,"^0000FF[Roke Feller]^000000";
+
+
+
+
+//MENSAJE DE BIENVENIDA
+if (Minstrel_Quest == 1) {
+	for (set .@i, 0; .@i < getarraysize( .item_Minstrel ); set .@i, .@i + 1){		
+		if (countitem(.item_Minstrel[.@i]) < .cantidad_Minstrel[.@i] ) {
+		next;
+		mes .nombreNPC$;
+		mes "No tienes suficientes items para completar la quest.";
+		mes " ";
+		
+			for (set .@i, 0; .@i < getarraysize( .item_Minstrel ); set .@i, .@i + 1){
+						mes "";
+						if (countitem(.item_Minstrel[.@i]) < .cantidad_Minstrel[.@i])
+						mes "^C02908" + countitem(.item_Minstrel[.@i]) + "/"  + .cantidad_Minstrel[.@i] + " " + getitemname(.item_Minstrel[.@i]) + "  ID: (" + .item_Minstrel[.@i] + ").^000000";
+						if (countitem(.item_Minstrel[.@i]) >= .cantidad_Minstrel[.@i])
+						mes "^0000FF" + countitem(.item_Minstrel[.@i]) + "/"  + .cantidad_Minstrel[.@i] + " " + getitemname(.item_Minstrel[.@i]) + "  ID: (" + .item_Minstrel[.@i] + ").^000000";
+					}
+		
+		
+		end;
+		}
+	
+	}
+
+
+if (zeny < .@zenyMinstrel && Minstrel_Quest==1) {
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficiente zeny para realizar los "+getitemname(.@recompemsa1)+".";
+	mes "Requieres la cantidad de " + callfunc("F_InsertComma",.@zenyMinstrel) + "z.";
+	end;
+	}
+
+
+
+mes .nombreNPC$;
+mes " ";
+mes "Veo que haz traido todo. Aqui tienes tu recompensa ^0000FF" + getitemname(.@recompemsa1) + " ^000000.";
+next;
+
+for (set .@i, 0; .@i < getarraysize( .item_Minstrel ); set .@i, .@i + 1){
+delitem .item_Minstrel[.@i],.cantidad_Minstrel[.@i];
+		}
+
+set Zeny, Zeny-.@zenyMinstrel;
+getitem .@recompemsa1,1;
+set Minstrel_Quest,0;
+
+close;
+} //FIN == if (Minstrel_Quest == 1)
+
+
+
+
+
+//SI ACEPTAS LA QUEST
+if (Minstrel_Quest == 0) {
+mes .nombreNPC$;
+mes " ";
+mes "Buenos dias aventurero, te gustaria crear unos fabulosos " + getitemname(.@recompemsa1) + "?";
+mes "Con los cuales podras estar a la moda.";
+if(select("^FF0000En otro momento^000000:^0000FFSi, Claro^000000") == 1) {
+next;
+mes .nombreNPC$;
+mes " ";
+mes "Ok, vuelve si cambias de opinion.";
+end; } //FIN MENU
+next;
+mes .nombreNPC$;
+mes " ";
+set Minstrel_Quest,1;
+	mes "Excelente, para poder fabricarlos, deberas pagar la cantidad de " + callfunc("F_InsertComma",.@zenyMinstrel) + "z y traer los siguientes items:";
+next;
+
+
+mes "^0000FF[Lista de Materiales]^000000";
+					for (set .@i, 0; .@i < getarraysize( .item_Minstrel ); set .@i, .@i + 1){
+						mes "";
+						mes "^0000FF" + countitem(.item_Minstrel[.@i]) + "/"  + .cantidad_Minstrel[.@i] + " " + getitemname(.item_Minstrel[.@i]) + "  ID: (" + .item_Minstrel[.@i] + ").^000000";
+					}
+}   // === FIN  if (Minstrel_Quest == 0)
+
+
+close;
+	
+end;
+
+
+
+//CARTEL
+OnInit:
+	waitingroom "Costume Minstrel Hat",0;
+end;
+
+
+
+}

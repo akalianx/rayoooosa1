@@ -1,0 +1,1022 @@
+
+
+moc_para01,36,36,5	script	Marcus Bathory	10306,{
+
+	if(c_run==true){
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "^0000FF"+getd("." + currentquest$ + "_collectionname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ currentquest$ + "_collectionitem"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+getitemname(getd("."+currentquest$+"_collectionitem["+.@j+"]"))+" - "+countitem(getd("."+currentquest$+"_collectionitem["+.@j+"]"))+"/"+getd("."+currentquest$+"_collectionitem["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item: ^0000FF"+((getd("." +currentquest$+"_collectionprize"))?getitemname(getd("." +currentquest$+"_collectionprize"))+" - "+getd("." +currentquest$+"_collectionamount")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +currentquest$+"_collectionzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +currentquest$+"_collectionexp["+0+"]")+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +currentquest$+"_collectionexp["+1+"]")+"^000000";
+		next;
+		if(select("Finish:Abort") == 2){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "Quest aborted.";
+			set currentquest$, "";
+			set c_run, false;
+			close;
+		}
+		goto L_checkitems;
+	}
+
+	if(h_run==true){
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "^0000FF"+getd("." + currentquest$ + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ currentquest$ + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@j)+"]");
+			mes "^FF0000"+strmobinfo(1,getd("."+currentquest$+"_huntingmob["+.@j+"]"))+" - "+getd(currentquest$+"_"+.@currentmob+"_"+(.@j+1)+"_killcount")+"/"+getd("."+currentquest$+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +currentquest$+"_huntingprize"))?getitemname(getd("." +currentquest$+"_huntingprize"))+" - "+getd("." +currentquest$+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +currentquest$+"_huntingprize2"))?getitemname(getd("." +currentquest$+"_huntingprize2"))+" - "+getd("." +currentquest$+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +currentquest$+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +currentquest$+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +currentquest$+"_huntingexp["+1+"]")*7+"^000000";
+
+		next;
+		if(select("Finish:Abort") == 2){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "Quest aborted.";
+			for(set .@x, 1; .@x < .@size; set .@x,.@x+2){
+				set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@x-1)+"]");
+				setd(currentquest$+"_"+.@currentmob+"_"+.@x+"_killcount", 0);
+			}
+			set currentquest$, "";
+			set h_run, false;
+			close;
+		}
+		goto L_checkmobs;
+	}
+
+	mes "[^FF7700Marcus Bathory^000000]";
+	mes "Buen dia aventurero, necesito que cumplas unas misiones por mi, a cambio te recompensare con Experiencia";
+	mes "^0000FFNota: Los monstruos de las ciudades no se cuentan en la caceria.^000000";
+	next;
+	mes "[^FF7700Marcus Bathory^000000]";
+	mes "Selecciona las quest segun tu nivel";
+	mes " ";
+	mes "^0000FFNota: Al entregar cada quest, podras volver a retomarla despues de 3 horas.^000000";
+	next;
+
+	switch(select((.collection)?"Collection Quests":"",
+				(.hunting)?"Nivel [01 - 30]":"",
+				(.hunting)?"Nivel [31 - 50]":"",
+				(.hunting)?"Nivel [51 - 70]":"",
+				(.hunting)?"Nivel [71 - 85]":"",
+				(.hunting)?"Nivel [86 - 90]":"",
+				(.hunting)?"Nivel [91 - 99]":"",
+				"Exit")) {
+
+	case 1:
+		set .@collectmenu$, "";
+		for( set .@i,0; .@i < .collectionquestcount; set .@i,.@i+1){
+			if (.@i) set .@collectmenu$,.@collectmenu$+":";
+			set .@collectmenu$, .@collectmenu$ + "[" + getd("." +(.@i+1)+"_collectionmin") + " - " + getd("." +(.@i+1)+"_collectionmax") + "] " + getd("." + (.@i+1) + "_collectionname$");
+		}
+		set .@selection,select(.@collectmenu$);
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_collection_delay")){
+				set .@time_left, getd(.@selection + "_collection_delay")-gettimetick(2);
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_collection_repeat") == true){
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_collectionname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_collectionitem"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+getitemname(getd("."+.@selection+"_collectionitem["+.@j+"]"))+" - "+getd("."+.@selection+"_collectionitem["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item: ^0000FF"+((getd("." +.@selection+"_collectionprize"))?getitemname(getd("." +.@selection+"_collectionprize"))+" - "+getd("." +.@selection+"_collectionamount")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_collectionzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_collectionexp["+0+"]")+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_collectionexp["+1+"]")+"^000000";
+		next;
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		if(BaseLevel >= getd("." +.@selection+"_collectionmin") && BaseLevel <= getd("." +.@selection+"_collectionmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "Quest aceptada.";
+			set c_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+
+
+case 2:
+
+	if(BaseLevel < 1 || BaseLevel > 30){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 1 && BaseLevel <= 30){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=1 && getd("." +(.@i+1)+"_huntingmax")<=30)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+case 3:
+
+	if(BaseLevel < 31 || BaseLevel > 50){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 31 && BaseLevel <= 50){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=31 && getd("." +(.@i+1)+"_huntingmax")<=50)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+case 4:
+
+	if(BaseLevel < 51 || BaseLevel > 70){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 51 && BaseLevel <= 70){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=51 && getd("." +(.@i+1)+"_huntingmax")<=70)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+
+
+
+case 5:
+
+	if(BaseLevel < 71 || BaseLevel > 85){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 71 && BaseLevel <= 85){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=71 && getd("." +(.@i+1)+"_huntingmax")<=85)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+
+
+
+
+case 6:
+
+	if(BaseLevel < 86 || BaseLevel > 90){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 86 && BaseLevel <= 90){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=86 && getd("." +(.@i+1)+"_huntingmax")<=90)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+case 7:
+
+	if(BaseLevel < 91 || BaseLevel > 99){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+	
+	if(BaseLevel >= 91 && BaseLevel <= 99){
+		set .@huntmenu$, "";
+		
+		for( set .@i,0; .@i < .huntingquestcount; set .@i,.@i+1){
+			if (.@i) set .@huntmenu$,.@huntmenu$+":";{
+			
+			if (getd("." +(.@i+1)+"_huntingmin")>=91 && getd("." +(.@i+1)+"_huntingmax")<=99)	
+			set .@huntmenu$, .@huntmenu$ + "Nivel [" + getd("." +(.@i+1)+"_huntingmin") + " - " + getd("." +(.@i+1)+"_huntingmax") + "] " + getd("." + (.@i+1) + "_huntingname$");
+			}
+			
+		}
+		set .@selection,select(.@huntmenu$);
+		
+		if(BaseLevel < getd("." +.@selection+"_huntingmin") || BaseLevel > getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			end;
+		}
+		
+		
+		if(.quest_repeat == true){
+			if(gettimetick(2) < getd(.@selection + "_hunting_delay")){
+				set .@time_left, getd(.@selection + "_hunting_delay")-gettimetick(2);
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You have to wait ^0000FF"+Time2Str(.@time_left)+"^000000 to do this quest again.";
+				close;
+			}
+		}
+		else{
+			if(getd(.@selection + "_hunting_repeat") == true){
+				mes "[^FF7700Marcus Bathory^000000]";
+				mes "You already did this quest.";
+				mes "Please choose another one.";
+				close;
+			}
+		}
+		
+		
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "^0000FF"+getd("." + .@selection + "_huntingname$")+"^000000";
+		mes "--------------------------------";
+		set .@size, getarraysize(getd("."+ .@selection + "_huntingmob"));
+		for( set .@j, 0; .@j < .@size; set .@j,.@j+2){
+			mes "^FF0000"+strmobinfo(1,getd("."+.@selection+"_huntingmob["+.@j+"]"))+" - "+getd("."+.@selection+"_huntingmob["+(.@j+1)+"]")+" ea.^000000";
+		}
+		mes "--------------------------------";
+		mes "[Reward]";
+		mes "Item 1: ^0000FF"+((getd("." +.@selection+"_huntingprize"))?getitemname(getd("." +.@selection+"_huntingprize"))+" - "+getd("." +.@selection+"_huntingamount")+" ea.^000000":"Nothing^000000");
+		mes "Item 2: ^0000FF"+((getd("." +.@selection+"_huntingprize2"))?getitemname(getd("." +.@selection+"_huntingprize2"))+" - "+getd("." +.@selection+"_huntingamount2")+" ea.^000000":"Nothing^000000");
+		mes "Zeny: ^0000FF"+getd("." +.@selection+"_huntingzeny")+"^000000";
+		mes "Base EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+0+"]")*7+"^000000";
+		mes "Job EXP: ^0000FF"+getd("." +.@selection+"_huntingexp["+1+"]")*7+"^000000";
+		next;
+
+
+		
+		
+		if(select("Accept:Decline") == 2){
+			close;
+		}
+		
+
+		if(BaseLevel >= getd("." +.@selection+"_huntingmin") && BaseLevel <= getd("." +.@selection+"_huntingmax")){
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "Quest accepted.";
+			set h_run, true;
+			set currentquest$, .@selection;
+			close;
+		}
+		else{
+			mes "[^FF7700Marcus Bathory^000000]";
+			mes "No tienes el nivel requerido para tomar esta quest.";
+			close;
+		}
+
+	}
+
+
+
+
+	case 8:
+		close;
+	}
+
+
+
+
+L_checkitems:
+	set .@size, getarraysize(getd("."+currentquest$+"_collectionitem"));
+	for( set .@k,0; .@k < .@size; set .@k,.@k+2){
+		if(countitem(getd("."+currentquest$+"_collectionitem["+.@k+"]"))>=getd("."+currentquest$+"_collectionitem["+(.@k+1)+"]")){
+			set .@checkitem,.@checkitem+2;
+		}
+	}
+	if(.@checkitem<.@size){
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "You don't have everything.";
+		close;
+	}
+	for( set .@delcount,0; .@delcount < .@size; set .@delcount,.@delcount+2){
+		delitem getd("."+currentquest$+"_collectionitem["+.@delcount+"]"),getd("."+currentquest$+"_collectionitem["+(.@delcount+1)+"]");
+	}
+	mes "[^FF7700Marcus Bathory^000000]";
+	mes "Congratulation! Here is your Reward.";
+	if(getd("." +currentquest$+"_collectionprize")!=0) getitem(getd("." +currentquest$+"_collectionprize"),getd("." +currentquest$+"_collectionamount"));
+	set Zeny,Zeny+getd("." +currentquest$+"_collectionzeny");
+	getexp getd("." +currentquest$+"_collectionexp["+0+"]"),getd("." +currentquest$+"_collectionexp["+1+"]");
+	setd(currentquest$ + "_collection_delay"),gettimetick(2)+.quest_delay;
+	setd(currentquest$ + "_collection_repeat"),true;
+	set currentquest$, "";
+	set c_run, false;
+	close;
+
+L_checkmobs:
+	set .@size, getarraysize(getd("."+currentquest$+"_huntingmob"));
+	set .@goal, .@size/2;
+	for(set .@i, 1; .@i < .@size; set .@i,.@i+2){
+		set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@i-1)+"]");
+		if(getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")==getd("."+currentquest$+"_huntingmob["+.@i+"]")){
+			set .@checkmonster, .@checkmonster+1;
+			if(.@checkmonster==.@goal){
+				goto L_checkmobs2;
+			}
+			continue;
+		}
+		goto L_checkmobs2;
+	}
+
+L_checkmobs2:
+	if(.@checkmonster<.@goal){
+		mes "[^FF7700Marcus Bathory^000000]";
+		mes "You didn't kill everything.";
+		close;
+	}
+	mes "[^FF7700Marcus Bathory^000000]";
+	mes "Congratulation! Here is your Reward.";
+	set .@size, getarraysize(getd("."+currentquest$+"_huntingmob"));
+	for(set .@x, 1; .@x < .@size; set .@x,.@x+2){
+		set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@x-1)+"]");
+		setd(currentquest$+"_"+.@currentmob+"_"+.@x+"_killcount", 0);
+	}
+	if(getd("." +currentquest$+"_huntingprize")!=0) getitem(getd("." +currentquest$+"_huntingprize"),getd("." +currentquest$+"_huntingamount"));
+	if(getd("." +currentquest$+"_huntingprize2")!=0) getitem(getd("." +currentquest$+"_huntingprize2"),getd("." +currentquest$+"_huntingamount2"));
+	set Zeny, Zeny+getd("." +currentquest$+"_huntingzeny");
+	getexp getd("." +currentquest$+"_huntingexp["+0+"]"),getd("." +currentquest$+"_huntingexp["+1+"]");
+	setd(currentquest$ + "_hunting_delay"),gettimetick(2)+.quest_delay;
+	setd(currentquest$ + "_hunting_repeat"),true;
+	set currentquest$, "";
+	set h_run, false;
+	close;
+
+OnNPCKillEvent:
+	if(h_run!=true) end;
+	set .@size, getarraysize(getd("."+currentquest$+"_huntingmob"));
+	for(set .@i, 1; .@i < .@size; set .@i,.@i+2){
+		if(killedrid==getd("."+currentquest$+"_huntingmob["+(.@i-1)+"]")){
+			set .@currentmob, getd("."+currentquest$+"_huntingmob["+(.@i-1)+"]");
+			if(getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")<getd("."+currentquest$+"_huntingmob["+.@i+"]")){
+				setd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount", getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")+1);
+				dispbottom getd("."+currentquest$+"_huntingname$")+": ["+strmobinfo(1,.@currentmob)+"] ("+ getd(currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount")+"/"+getd("."+currentquest$+"_huntingmob["+.@i+"]")+")";
+			}
+			if(getcharid(1) != 0 && .party_support == true){
+				getmapxy(.@map1$,.@x1,.@y1);
+				set .@killerid, getcharid(3);
+				set .@currentquest$, currentquest$;
+				getpartymember getcharid(1),1;
+				getpartymember getcharid(1),2;
+				for(set .@j, 0; .@j < $@partymembercount; .@j++){
+					if(isloggedin($@partymemberaid[.@j], $@partymembercid[.@j])){
+						if(h_run==true && $@partymemberaid[.@j] != .@killerid && .@currentquest$ == getvar(currentquest$, $@partymembercid[.@j]) && readparam(HP, $@partymembercid[.@j]) > 0){
+							getmapxy(.@map2$,.@x2,.@y2,BL_PC,rid2name($@partymemberaid[.@j]));
+							if(.@map1$ == .@map2$ && distance(.@x1,.@y1,.@x2,.@y2) < .party_range){
+								set .@kill_amt,getvar(getd(.@currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount"), $@partymembercid[.@j]);
+								set .@kill_goal,getd("."+.@currentquest$+"_huntingmob["+.@i+"]");
+								if(.@kill_amt<.@kill_goal)
+								{
+									setd(.@currentquest$+"_"+.@currentmob+"_"+.@i+"_killcount", .@kill_amt+1, $@partymembercid[.@j]);
+									dispbottom getd("."+.@currentquest$+"_huntingname$")+": ["+strmobinfo(1,.@currentmob)+"] ("+(.@kill_amt+1)+"/"+.@kill_goal+")", 0xB6FF00, $@partymembercid[.@j];
+								}
+							}
+						}
+					}
+				}
+			}
+			break;
+		}
+	}
+	end;
+
+OnInit:
+
+waitingroom "Misiones Individual",0;
+
+	function AddCollection;
+	function AddHunting;
+
+	//Activate/Deactivate quest categories (true/1 - activated, false/0 - deactivated)
+	set .collection, false;
+	set .hunting, true;
+
+	//Quest Delay (seconds)
+	//24 hours = 86400 seconds
+	//set .quest_delay, 0;
+	set .quest_delay, 10800;
+	
+
+	//Activate/Deactivate repeatable quests (true/1 - activated, false/0 - deactivated)
+	set .quest_repeat, true;
+
+	//Activate/Deactivate party support (true/1 - activated, false/0 - deactivated)
+	set .party_support, false;
+
+	//Max range for party support (+- x & y coordinations)
+	set .party_range, 25;
+
+	//Checks if quests are loaded (prevents out of index)
+	if(.questsloaded==true) end;
+	set .questsloaded, true;
+
+
+
+
+
+
+
+	//Add Collection Quests here (You can add as many required items as you want)
+	//AddCollection("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Item ID>,<Item Amount>,...);
+	//AddCollection("Bloody Branch Wisdom",99,255,12103,1,500000,10000,2000,604,150,7939,5,7203,5);
+
+
+
+			AddCollection("Costume Bandit Beard",1,99,40006,1,0,0,0,1040,100,1017,100,2241,1);
+
+			AddCollection("Costume Bride's Corolla",1,99,40007,1,0,0,0,710,100,629,150,1032,300,2253,1,2207,1);
+
+			AddCollection("Costume Cat Ear Beret",1,99,40008,1,0,0,0,7263,200,7298,200,7206,300,979,1,5172,1);
+
+			AddCollection("Costume Wandering Wolf Helm",1,99,40011,1,0,0,0,40012,1,6252,1);
+
+
+	//Add Hunting Quests here (You can add as many required mobs as you want)
+	//AddHunting("<Quest Name>",<Min Lvl>,<Max Lvl>,<Reward|Item ID>,<Reward|Item Amount>,<Zeny Reward>,<Base EXP>,<Job EXP>,<Monster ID>,<Monster Amount>,...);
+	//AddHunting("Leveling Quest 1-70",1,70,32503,2,500000,300000,150000,1219,25);
+
+			
+			
+
+
+
+
+//QUEST [01-30]
+			AddHunting("30 Lunatic",1,30,40095,1,503,40,0,7000,7000,1063,30);
+			AddHunting("30 Pupa",1,30,40095,1,503,40,0,7000,7000,1008,30);
+			AddHunting("30 Peco Peco Egg",1,30,40095,1,503,40,0,7000,7000,1047,30);
+			AddHunting("30 Picky",1,30,40095,1,503,40,0,7000,7000,1049,30);
+			AddHunting("35 Hornet",1,30,40095,1,503,45,0,12000,12000,1004,35);
+			AddHunting("35 Condor",1,30,40095,1,503,45,0,12000,12000,1009,35);
+			AddHunting("35 Spore",1,30,40095,1,503,150,0,12000,12000,1014,35);
+			AddHunting("35 Muka",1,30,40095,1,503,45,0,12000,12000,1055,35);
+			AddHunting("35 Peco Peco",1,30,40095,1,503,45,0,12000,12000,1019,35);
+			AddHunting("35 Poison Spore",1,30,40095,1,503,45,0,12000,12000,1077,35);
+			
+			
+			
+			
+//QUEST [31-50]
+			AddHunting("40 Elder Willow",31,50,40095,1,504,30,0,40000,40000,1033,40);
+			AddHunting("40 Thara Frog",31,50,40095,1,504,30,0,40000,40000,1034,40);
+			AddHunting("40 Cruiser",31,50,40095,1,504,30,0,40000,40000,1248,40);
+			AddHunting("40 Orc Warrior",31,50,40095,1,504,30,0,40000,40000,1023,40);
+			AddHunting("40 Megalodon",31,50,40095,1,504,30,0,40000,40000,1064,40);
+			AddHunting("40 Orc Skeleton",31,50,40095,1,504,30,0,40000,40000,1152,40);
+			AddHunting("40 Zenorc",31,50,40095,1,504,30,0,40000,40000,1177,40);
+			AddHunting("40 Mummy",31,50,40095,1,504,30,0,40000,40000,1041,40);
+			
+			
+			
+
+//QUEST [51-70]
+			AddHunting("50 Sohee",51,70,40095,2,504,40,0,45000,45000,1170,50);
+			AddHunting("50 Marionette",51,70,40095,2,504,40,0,45000,45000,1143,50);
+			AddHunting("50 Grand Peco",51,70,40095,2,504,40,0,45000,45000,1369,50);
+			AddHunting("40 Marduk",51,70,40095,2,504,50,0,45000,45000,1140,40);
+			AddHunting("40 Miyabi Doll",51,70,40095,2,504,50,0,45000,45000,1404,40);
+			AddHunting("50 Firelock Soldier",51,70,40095,2,504,50,0,45000,45000,1403,50);
+			AddHunting("50 Bathory",51,70,40095,3,504,50,0,45000,45000,1102,50);
+			AddHunting("50 Zipper Bear",51,70,40095,2,504,50,0,45000,45000,1417,50);
+			AddHunting("50 Rafflesia",51,70,40095,2,504,50,0,45000,45000,1162,50);
+			AddHunting("50 Pitman",51,70,40095,2,504,50,0,45000,45000,1616,50);
+			AddHunting("50 Nereid",86,90,40095,2,504,50,0,33780,20520,1255,50);
+			
+
+//QUEST [71-85]
+			AddHunting("40 Pasana",71,85,40095,2,504,50,0,150000,150000,1154,40);
+			AddHunting("80 Pasana",71,85,40095,5,504,70,0,360000,360000,1154,80);
+			AddHunting("40 Raydric Archer",71,85,40095,2,504,50,0,150000,150000,1276,40);
+			AddHunting("40 Grand Peco",71,85,40095,2,504,50,0,150000,150000,1369,40);
+			AddHunting("40 Sleeper",71,85,40095,2,504,50,0,150000,150000,1386,40);
+			AddHunting("40 Rideword",71,85,40095,2,504,50,0,150000,150000,1195,40);
+			AddHunting("40 Uzhas",71,85,40095,2,504,50,0,150000,150000,1883,40);
+			AddHunting("80 Uzhas",71,85,40095,5,504,70,0,360000,360000,1883,80);
+			AddHunting("40 Goat",71,85,40095,2,504,50,0,150000,150000,1372,40);
+			AddHunting("40 Wraith",71,85,40095,2,504,50,0,150000,150000,1192,40);
+			AddHunting("80 Wraith",71,85,40095,5,504,70,0,360000,360000,1192,80);
+			AddHunting("50 Deviruchi",71,850,40095,2,504,70,0,360000,360000,1109,50);
+
+
+
+//QUEST [86-90]
+			AddHunting("50 Baba Yaga",86,90,40095,2,40097,1,0,77490,77490,1882,50);
+			AddHunting("100 Baba Yaga",86,90,40095,5,40097,1,0,180810,180810,1882,100);
+			AddHunting("50 Evil Druid",86,90,40095,2,40097,1,0,86700,54810,1117,50);
+			AddHunting("100 Evil Druid",86,90,40095,5,40097,1,0,202300,127890,1117,100);
+			AddHunting("50 Merman",86,90,40095,2,40097,1,0,135000,90000,1264,50);
+			AddHunting("50 Injustice",86,90,40095,2,40097,1,0,63540,44640,1257,50);
+			AddHunting("100 Injustice",86,90,40095,5,40097,1,0,148260,104160,1257,100);
+			AddHunting("50 Rybio",86,90,40095,2,40097,1,0,189510,105600,1201,50);
+			AddHunting("50 Kaho",86,90,40095,2,40097,1,0,119700,13500,1072,50);
+			AddHunting("100 Kaho",86,90,40095,5,40097,1,0,279300,31500,1072,100);
+			AddHunting("50 Anubis",86,90,40095,2,40097,1,0,840000,660000,1098,50);
+			AddHunting("50 Medusa",86,90,40095,2,40097,1,0,206280,140910,1148,50);
+			AddHunting("50 Stalactic Golem",86,90,40095,2,40097,1,0,174240,80850,1148,50);
+			AddHunting("50 Anolian",86,90,40095,2,40097,1,0,17700,111000,1206,50);
+			AddHunting("50 Nine Tails",86,90,40095,2,40097,1,0,84360,24750,1180,50);
+			
+			
+//QUEST [91-99]			
+			AddHunting("50 Gold Acidus",91,99,40095,2,1,1,0,841290,240690,1713,50);
+			AddHunting("50 mavka",91,99,40095,2,1,1,0,249030,190590,1884,50);
+			AddHunting("50 Tatacho",91,99,40095,2,1,1,0,711000,414750,1986,50);
+			AddHunting("50 Cornus",91,99,40095,2,1,1,0,925620,132810,1992,50);
+			AddHunting("50 Naga",91,99,40095,2,1,1,0,910800,490440,1993,50);
+			AddHunting("50 Centipede",91,99,40095,2,1,1,0,821910,470460,1987,50);
+			AddHunting("50 Banshee",91,99,40095,2,1,1,0,510000,360000,1867,50);
+			AddHunting("50 Kasa",91,99,40095,2,1,1,0,1470000,1140000,1833,50);
+			AddHunting("50 Ice Titan",91,99,40095,2,1,1,0,416160,237840,1777,50);
+			AddHunting("50 Anubis",91,99,40095,2,1,1,0,840000,660000,1098,50);
+			AddHunting("50 Necromancer",91,99,40095,2,1,1,0,1350000,1050000,1870,50);
+			AddHunting("50 Abyssmal Knight",91,99,40095,2,1,1,0,254070,188040,1219,50);
+			AddHunting("50 Succubus",91,99,40095,2,1,1,0,160710,129660,1370,50);
+			AddHunting("50 Incubus",91,99,40095,2,1,1,0,157620,126360,1374,50);
+			AddHunting("50 Galion",91,99,40095,2,1,1,0,300600,101040,1783,50);
+			
+			
+			
+			
+			
+			
+
+
+
+
+
+
+	end;
+
+
+	function AddCollection{
+		set .collectionquestcount,.collectionquestcount+1;
+		setd ("." +.collectionquestcount+"_collectionname$", getarg(0));
+		setd ("." +.collectionquestcount+"_collectionmin", getarg(1));
+		setd ("." +.collectionquestcount+"_collectionmax", getarg(2));
+		setd ("." +.collectionquestcount+"_collectionprize", getarg(3));
+		setd ("." +.collectionquestcount+"_collectionamount", getarg(4));
+		setd ("." +.collectionquestcount+"_collectionzeny", getarg(5));
+		set .@argcount, 6;
+		set .@size, getarraysize(getd("."+ .collectionquestcount + "_collectionexp"));
+		setd ("." +.collectionquestcount+"_collectionexp["+.@size+"]",getarg(.@argcount)); 
+		setd ("." +.collectionquestcount+"_collectionexp["+(.@size+1)+"]",getarg(.@argcount+1)); 
+		set .@argcount, .@argcount+2;
+		set .@size, getarraysize(getd("."+ .collectionquestcount + "_collectionitem"));
+		while(getarg(.@argcount,-1)!=-1 && getarg(.@argcount+1,-1)!=-1){
+			setd ("."+.collectionquestcount+"_collectionitem["+.@size+"]",getarg(.@argcount)); 
+			setd ("."+.collectionquestcount+"_collectionitem["+(.@size+1)+"]",getarg(.@argcount+1));
+			set .@argcount,.@argcount+2;
+			set .@size, .@size+2;
+		}
+		return;
+	}
+
+	function AddHunting{
+		set .huntingquestcount,.huntingquestcount+1;
+		setd ("." +.huntingquestcount+"_huntingname$", getarg(0));
+		setd ("." +.huntingquestcount+"_huntingmin", getarg(1));
+		setd ("." +.huntingquestcount+"_huntingmax", getarg(2));
+		setd ("." +.huntingquestcount+"_huntingprize", getarg(3));
+		setd ("." +.huntingquestcount+"_huntingamount", getarg(4));
+		setd ("." +.huntingquestcount+"_huntingprize2", getarg(5));
+		setd ("." +.huntingquestcount+"_huntingamount2", getarg(6));
+		setd ("." +.huntingquestcount+"_huntingzeny", getarg(7));
+		set .@size, getarraysize(getd("."+ .huntingquestcount + "_huntingexp"));
+		set .@argcount, 8;
+		setd ("." +.huntingquestcount+"_huntingexp["+.@size+"]",getarg(.@argcount));
+		setd ("." +.huntingquestcount+"_huntingexp["+(.@size+1)+"]",getarg(.@argcount+1)); 
+		set .@argcount, .@argcount+2;
+		set .@size, getarraysize(getd("."+ .huntingquestcount + "_huntingmob"));
+		while(getarg(.@argcount,-1)!=-1 && getarg(.@argcount+1,-1)!=-1){
+			setd ("."+.huntingquestcount+"_huntingmob["+.@size+"]",getarg(.@argcount)); 
+			setd ("."+.huntingquestcount+"_huntingmob["+(.@size+1)+"]",getarg(.@argcount+1));
+			set .@argcount, .@argcount+2;
+			set .@size, .@size+2;
+		}
+		return;
+	}
+}
+
+
+moc_para01,30,10,0	warp	moc_pro	2,3,FirstTown,209,121
+FirstTown,204,122,0	warp	moc_pro	2,3,moc_para01,30,15
+moc_para01,49,86,0	warp	moc_pro	2,3,moc_para01,48,35
+moc_para01,48,39,0	warp	moc_pro	2,3,moc_para01,44,86
+moc_para01,47,161,0	warp	moc_pro	2,3,moc_para01,48,22
+moc_para01,48,15,0	warp	moc_pro	2,3,moc_para01,47,170
+
+
+FirstTown,204,125,2	script	Boletin#guildA	837,{
+end;
+
+OnInit:
+waitingroom "Adventure's Guild",0;
+end;
+}

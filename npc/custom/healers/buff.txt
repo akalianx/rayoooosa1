@@ -1,0 +1,199 @@
+prontera.gat,155,187,4	script	Buff	811,{
+//league,141,169,4	script	Buff	811,{
+	
+cutin "3rd_ab_valkyrie",2;
+
+if (BaseLevel <= 50) {
+	
+	set .@Price,0;	// Zeny required for heal
+	set .@Buffs,1;	// Also Buff players? (1: yes / 0: no)
+	set .@Delay,0;	// Heal delay, in seconds
+
+	if (@HD > gettimetick(2)) end;
+	if (.@Price) {
+		mes "Hola ^0000FF"+strcharinfo(0)+"^000000";
+		mes " ";
+		mes "Para personajes de nivel 1 al 50";
+		mes " ";
+		mes "El servicio de Heal es Gratis.";
+		//mes "El servicio de Heal Tiene un costo de ^FF0000"+callfunc("F_InsertComma",.@Price)+" Zeny^000000.";
+		//if (Zeny < .@Price) end;
+		if(select("^0055FFHeal^000000:^777777Cancel^000000") == 2){ cutin "",255; end;}
+		//set Zeny, Zeny-.@Price;
+	}
+	specialeffect2 EF_HEAL2; percentheal 100,100;
+	if (.@Buffs) {
+		specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,240000,10;
+		specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+	}
+	if (.@Delay) set @HD, gettimetick(2)+.@Delay;
+cutin "",255;
+	end;
+	
+	} // Cierra nivel 50
+
+
+
+
+else if (BaseLevel > 50 && BaseLevel <= 80) {
+cutin "3rd_ab_valkyrie",2;
+
+if(countitem(40454)>=1){
+set .@Price, 1000;
+//set .@Price, 0;
+}
+else {
+set .@Price, 3000;
+//set .@Price, 0;
+}
+
+	//set .@Price,3000;	// Zeny required for heal
+	set .@Buffs,1;	// Also Buff players? (1: yes / 0: no)
+	set .@Delay,0;	// Heal delay, in seconds
+
+	if (@HD > gettimetick(2)) end;
+	if (.@Price) {
+		mes "Hola ^0000FF"+strcharinfo(0)+"^000000";
+		mes " ";
+		if (Zeny < .@Price) { mes "No tienes Suficiente zeny, para utilizar el servicio de heal";  cutin "",255; end;}
+		mes "Para personajes de nivel 51 al 80";
+		mes " ";
+		mes "El servicio de Heal Tiene un costo de ^FF0000"+callfunc("F_InsertComma",.@Price)+" Zeny^000000.";
+		if(select("^0055FFHeal^000000:^777777Cancel^000000") == 2) { cutin "",255; end;}
+		set Zeny, Zeny-.@Price;
+	}
+	specialeffect2 EF_HEAL2; percentheal 100,100;
+	 
+	if (.@Buffs) {
+		specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,240000,10;
+		specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+	}
+	if (.@Delay) set @HD, gettimetick(2)+.@Delay;
+	cutin "",255;
+	end;
+	
+	} // Cierra nivel 80
+
+
+else if (BaseLevel > 80 && BaseLevel <= 95) {
+cutin "3rd_ab_valkyrie",2;
+if(countitem(40454)>=1){
+set .@Price, 3000;
+//set .@Price, 0;
+}
+else {
+set .@Price, 5000;
+//set .@Price, 0;
+}
+
+	//set .@Price,5000;	// Zeny required for heal
+	set .@Buffs,1;	// Also Buff players? (1: yes / 0: no)
+	set .@Delay,0;	// Heal delay, in seconds
+
+	if (@HD > gettimetick(2)) end;
+	if (.@Price) {
+		mes "Hola ^0000FF"+strcharinfo(0)+"^000000";
+		mes " ";
+		if (Zeny < .@Price) { mes "No tienes Suficiente zeny, para utilizar el servicio de heal";  cutin "",255; end;}
+		mes "Para personajes de nivel 81 al 95";
+		mes " ";
+		mes "El servicio de Heal Tiene un costo de ^FF0000"+callfunc("F_InsertComma",.@Price)+" Zeny^000000.";
+		if(select("^0055FFHeal^000000:^777777Cancel^000000") == 2) { cutin "",255; end;}
+		set Zeny, Zeny-.@Price;
+	}
+	specialeffect2 EF_HEAL2; percentheal 100,100;
+	 
+	if (.@Buffs) {
+		specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,240000,10;
+		specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+	}
+	if (.@Delay) set @HD, gettimetick(2)+.@Delay;
+	cutin "",255;
+	end;
+	
+	} // Cierra nivel 80
+
+
+
+
+else if (BaseLevel > 95) {
+if(countitem(40454)>=1){
+set .@Price, 3000;
+//set .@Price, 0;
+}
+else {
+set .@Price, 5000;
+//set .@Price, 0;
+}
+	//set .@Price,5000;	// Zeny required for heal
+	set .@Buffs,0;	// Also Buff players? (1: yes / 0: no)
+	set .@Delay,0;	// Heal delay, in seconds
+
+	if (@HD > gettimetick(2)) end;
+	if (.@Price) {
+		mes "Hola ^0000FF"+strcharinfo(0)+"^000000";
+		mes " ";
+		if (Zeny < .@Price) { mes "No tienes Suficiente zeny, para utilizar el servicio de heal"; cutin "",255; end;}
+		mes "Para personajes de nivel mayor a 95";
+		mes " ";
+		mes "El servicio de Heal Tiene un costo de ^FF0000"+callfunc("F_InsertComma",.@Price)+" Zeny^000000.";
+		mes "A partir de nivel 96 en adelante, no se daran Buffs";
+		if(select("^0055FFHeal^000000:^777777Cancel^000000") == 2) { cutin "",255; end;}
+		set Zeny, Zeny-.@Price;
+	}
+	specialeffect2 EF_HEAL2; 
+	percentheal 100,100;
+	
+	if (.@Buffs) {
+		specialeffect2 EF_INCAGILITY; sc_start SC_INCREASEAGI,240000,10;
+		specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+	}
+	if (.@Delay) set @HD, gettimetick(2)+.@Delay;
+cutin "",255;
+	end;
+
+
+
+
+	} // Cierra nivel 99
+
+
+
+
+end;
+}
+
+
+
+
+FirstTown,216,216,4	duplicate(Buff)	Buff#ciuIni1	811
+FirstTown,215,76,4	duplicate(Buff)	Buff#ciuIni2	811
+FirstTown,92,358,4	duplicate(Buff)	Buff#ciuIni3	811
+FirstTown,43,232,4	duplicate(Buff)	Buff#ciuIni4	811
+alberta,31,244,4	duplicate(Buff)	Buff#alb	811
+aldebaran,133,119,4 	duplicate(Buff)	Buff#ald	811
+amatsu,193,88,4 	duplicate(Buff)	Buff#ama	811
+ayothaya,212,175,4 	duplicate(Buff)	Buff#ayo	811
+brasilis,191,222,4	duplicate(Buff)	Buff#bra	811
+comodo,183,158,4 	duplicate(Buff)	Buff#com	811
+einbech,56,35,4 	duplicate(Buff)	Buff#ein	811
+einbroch,56,201,4 	duplicate(Buff)	Buff#ebr	811
+geffen,127,63,4 	duplicate(Buff)	Buff#gef	811
+gonryun,156,122,4	duplicate(Buff)	Buff#gon	811
+hugel,98,166,4	duplicate(Buff)	Buff#hug	811
+izlude,136,95,4	duplicate(Buff)	Buff#izl	811
+lighthalzen,168,103,4	duplicate(Buff)	Buff#lig	811
+louyang,205,104,4	duplicate(Buff)	Buff#lou	811
+manuk,271,143,4	duplicate(Buff)	Buff#man	811
+mid_camp,203,288,4	duplicate(Buff)	Buff#mid	811
+morocc,162,93,4	duplicate(Buff)	Buff#moc	811
+moscovia,217,191,4	duplicate(Buff)	Buff#mos	811
+nameless_n,256,218,4	duplicate(Buff)	Buff#nam	811
+niflheim,198,179,4	duplicate(Buff)	Buff#nif	811
+payon,179,112,4	duplicate(Buff)	Buff#pay	811
+rachel,124,116,4	duplicate(Buff)	Buff#rac	811
+splendide,200,150,4	duplicate(Buff)	Buff#spl	811
+umbala,106,156,3	duplicate(Buff)	Buff#umb	811
+veins,222,128,4	duplicate(Buff)	Buff#vei	811
+xmas,143,137,6	duplicate(Buff)	Buff#xma	811
+yuno,144,187,4	duplicate(Buff)	Buff#yun	811

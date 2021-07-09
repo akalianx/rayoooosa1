@@ -1,0 +1,271 @@
+//====================================================================================
+//Script Name: Vote For Points NPC Script for FluxCP
+//SVN: Tested in rAthena r156513
+//Developed By: JayPee Mateo
+//Version: 1.0
+//Requirement(s): FluxCP V4P Addon
+//Description: This is a npc script for FluxCP Vote for points in order for the players
+//to claim their vote points
+//====================================================================================
+
+arena_5,162,105,4	script	VoteForPoints	831,{
+
+//Function Prototypes
+function garbagecol;//Garbage collection for the Character variables
+garbagecol();
+function add_item; //Syntanx: add_item(ITEMID,QUANTITY,POINTS,CATEGORY);
+function makeCategory;//This will return a list of the categories
+function getItemsByCat;//This will return the list of items associated to the particular category
+function getItemDetails;//This will return the details of the item
+function getPoints;//This will return the points of the player stored in the database
+function updatePoints;//This will updates the points of the player stored in the database
+
+
+//NPC Name
+set .npcname$,"[ Vote For Points ]";
+	
+//Initialization of the Rewards
+
+//HATS
+add_item(5303,1,70,"Hats"); 	//Flower Crown [0]
+add_item(5300,1,70,"Hats");		//Bullock Helm [0]
+add_item(5199,1,70,"Hats");		//Baseball Cap [0] 
+add_item(5683,1,70,"Hats");		//Baphomet Horns Model [0] imitacion [0]
+add_item(5382,1,100,"Hats");	//Bell Ribbon [1] 
+add_item(5427,1,100,"Hats");	//Black Tea Kochakaden Hat [1]
+add_item(5183,1,100,"Hats");	//Bird Nest Hat [0]
+add_item(5465,1,170,"Hats");	//Hat Of Fortune [1]
+add_item(5098,1,200,"Hats");	//Tiger Mask [0]
+add_item(5511,1,200,"Hats");	//Samambaia [1] 
+add_item(5025,1,200,"Hats");	//Helm of Angel [0]
+add_item(5205,1,230,"Hats");	//Emperor's Laurel Crown [0]
+add_item(40101,1,300,"Hats");	//Teleport Card
+
+
+//PETS
+add_item(9035,1,100,"Pets");		//Red Deleter Egg 
+add_item(9036,1,100,"Pets");		//Diabolic Egg 
+add_item(9037,1,100,"Pets");		//Wanderer Egg 
+//add_item(9038,1,100,"Pets");		//New Year Doll Egg 
+add_item(9031,1,100,"Pets");		//Spring Rabbit Egg 
+add_item(9028,1,200,"Pets");	//hard rice cake egg
+
+
+
+//CONSUMIBLES
+//add_item(533,30,10,"Consumibles");   	//grape juice
+//add_item(533,30,10,"Consumibles");   	//Blue Potion Box 25 pociones azules
+//add_item(13989,1,10,"Consumibles");   	//Acid Bomb 10 Box  10 Fire Bottles and 10 Acid Bottles
+//add_item(533,1,10,"Consumibles");   	//Poison Bottle 5 Box 5 poison bottle
+//add_item(40125,1,50,"Consumibles");   	//Party Recall Scroll
+//add_item(7776,1,70,"Consumibles");   	//gym pass
+//add_item(40013,1,70,"Consumibles");   	//field manual 25%
+//add_item(985,50,100,"Consumibles");   	//50 Elunium    
+//add_item(984,50,100,"Consumibles");   	//50 Oridecon
+//add_item(40070,1,350,"Consumibles");   	//Ticket Reset Skill    
+//add_item(40071,1,350,"Consumibles");   	//Ticket Reset Status
+
+
+
+
+//Script Start	
+	mes .npcname$;
+	mes "Buen dia estimado usuario.";
+	mes "Al votar por Tenarius RO, puedes obtener puntos de votacion, que puedes intercambiar por increibles items.";
+	
+	switch(select("Convertir en Monedas:Intercambiar mis puntos:Ver mis puntos:Salir"))
+	{
+		
+		case 1:
+		next;
+		/*mes "Da clic en el siguiente enlace para ir a nuestra pagina de votacion.";
+		mes " ";
+		mes "<URL>Ir a votar<INFO>http://tenarius-ro.com/index.php?module=voteforpoints/</INFO></URL>";
+		*/
+		set .@points,getPoints(getcharid(3));
+		set .@rpoints,getPoints(getcharid(3));
+		updatePoints(getcharid(3),.@rpoints);
+		set #MiCash,#MiCash+.@rpoints;
+		//getitem 501,.@rpoints;
+		
+		
+		
+		close;
+		
+		
+		case 2:
+		next;
+			mes .npcname$;
+			mes "Por favor elige una categoria:";
+			set .@selected,select(makeCategory())-1;
+		next;
+			mes .npcname$;
+			mes "Elige el item que quieres:";
+			set .@selected,select(getItemsByCat(@listCat$[.@selected]))-1;
+			
+		next;
+			mes .npcname$;						
+			set .@ritemid,getItemDetails(@itemKeys[.@selected],"itemid");
+			set .@rquantity,getItemDetails(@itemKeys[.@selected],"quantity");
+			set .@rpoints,getItemDetails(@itemKeys[.@selected],"points");
+			mes "Item ID:"+.@ritemid;
+			mes "Nombre del Item: "+getitemname(.@ritemid);
+			mes "Cantidad: "+.@rquantity+" pc(s).";
+			mes "Requieres: "+.@rpoints+" pt(s).";
+			mes "\n";
+			mes "Quieres este item?";
+			if(select("Si:No")==1)
+			{
+				set .@points,getPoints(getcharid(3));
+				if(.@points>=.@rpoints)
+				{
+					next;
+					mes .npcname$;			
+					updatePoints(getcharid(3),.@rpoints);
+					getitem .@ritemid,.@rquantity;
+					mes "Aqui vamos!. Gracias por votar. No olvides votar de nuevo. :D";
+				}
+				else
+					next;
+					mes "Disculpa, no tienes puntos suficientes para este item.";				
+			}
+			else
+			{
+				next;
+				mes .npcname$;			
+				mes "Okay bye!";
+			}			
+			garbagecol();
+		close;
+		
+		case 3:
+			next;
+			mes .npcname$;			
+			set .@points,getPoints(getcharid(3));			
+			mes "Tienes "+.@points+" pt(s).";
+			garbagecol();
+		close;
+		
+		case 4:
+			close;
+
+	}
+end;
+
+//Functions Bodies
+	function updatePoints {
+		set .@account_id,getarg(0);
+		set .@usedPoints,getarg(1);
+		query_sql("UPDATE `cp_v4p_voters` SET points=(points-"+.@usedPoints+") WHERE account_id='"+.@account_id+"'");
+		return;
+	}
+
+	function getPoints {
+		set .@account_id,getarg(0);
+		query_sql("SELECT `points` FROM `cp_v4p_voters` WHERE account_id="+.@account_id+" LIMIT 1",.@points);
+		if(getarraysize(.@points)==0)
+			return 0;		
+		return .@points[0];
+	}
+
+	function getItemDetails {
+		set .@key,getarg(0); //Key
+		set .@detail$,getarg(1); //What details to return such as ItemID, Points, Quantity, Category
+		
+		if(strtolower(.@detail$) == strtolower("ItemID"))
+			return @itemID[.@key];
+		else if(strtolower(.@detail$) == strtolower("Quantity"))
+			return @itemQ[.@key];
+		else if(strtolower(.@detail$) == strtolower("Points"))
+			return @points[.@key];
+		else if(strtolower(.@detail$) == strtolower("Category"))
+			return @category$[.@key];
+	}
+
+	function getItemsByCat {		
+		set .@selectedCat$,getarg(0);
+		set .@make_string$,"";
+		set .@x,0;
+		for(set .@i,0; .@i<getarraysize(@category$); set .@i,.@i+1)
+		{
+			if(strtolower(.@selectedCat$) == strtolower(@category$[.@i]))
+			{
+				setarray @itemKeys[.@x],.@i;
+				if(.@make_string$ == "")
+					set .@make_string$,getitemname(@itemID[.@i]);
+				else
+					set .@make_string$,.@make_string$+":"+getitemname(@itemID[.@i]);
+				
+				set .@x,.@x+1;
+			}
+		}
+		return .@make_string$;
+	}
+	
+	
+	function makeCategory {
+		set .@make_string$,"";
+		for(set .@i,0; .@i<getarraysize(@category$); set .@i,.@i+1)
+		{			
+			if(.@make_string$ == "")
+			{
+				setarray @listCat$[getarraysize(@listCat$)],@category$[.@i];
+				set .@make_string$,@category$[.@i];
+			}
+			else
+			{
+				if(compare(.@make_string$,@category$[.@i])==0)
+				{
+					setarray @listCat$[getarraysize(@listCat$)],@category$[.@i];
+					set .@make_string$,.@make_string$+":"+@category$[.@i];				
+				}
+			}
+		}
+		return .@make_string$;
+	}
+			
+	function add_item
+	{
+		set .@itemID,getarg(0,-1); //IteID
+		set .@itemQ,getarg(1,-1); //Item Quantity
+		set .@points,getarg(2,-1);
+		set .@cat$,getarg(3,"Uncategorized"); //Category
+		
+		
+		if(.@itemID == -1)
+		{
+			debugmes "Invalid Item ID. Script not completely loaded.";
+			end;
+		}
+		else if(.@itemQ == -1)
+		{
+			debugmes "Invalid Item Quantity. Script not completely loaded.";
+			end;
+		}
+		else if(.@points == -1)
+		{
+			debugmes "Points assignment error. Script not completely loaded.";
+			end;
+		}
+		set .@key,getarraysize(@itemID);
+		setarray @itemID[.@key],.@itemID;
+		setarray @itemQ[.@key],.@itemQ;
+		setarray @points[.@key],.@points;
+		setarray @category$[.@key],.@cat$;
+		return 1; //return 1 as success
+	}
+	
+	function garbagecol{
+		deletearray @itemID[0],128;
+		deletearray @itemQ[0],128;
+		deletearray @points[0],128;	
+		deletearray @category$[0],128;	
+		deletearray @listCat$[0],128;
+		deletearray @itemKeys[0],128;
+		return;
+	}
+	
+	OnInit:
+	waitingroom "Vota Por Puntos",0;
+	end;
+}

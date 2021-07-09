@@ -1,0 +1,221 @@
+
+-	script	caceriaExpress	-1,{
+
+				OnNPCKillEvent:
+
+
+			//RAFLESIA HERBORISTA
+			if (killedrid == 1162  && strcharinfo(3) == "FirstTown" ){
+
+					  //ID , % , CANTIDAD
+	setarray .@reward,	40211, 50, 1, 		//Hierba Pegajosa
+						40220, 40, 1, 		//Semilla Espinosa
+						40222, 50, 1, 		//Loto Rojo
+						40223, 40, 1, 		//Flor de Loto
+						40214, 40, 1, 		//Hierba Venenosa Amoena
+						40216, 40, 1, 		//Hierba Venenosa Nerium
+						40217, 40, 1, 		//Hierba Venenosa Rantana
+						40253, 40, 1, 		//Hoja de Morera
+						40226, 40, 1, 		//Amarilis
+						40412, 40, 1, 		//Canamo Hemp
+						40212, 30, 1, 		//Hierba Medicinal
+						40212, 20, 1, 		//Hierba Medicinal
+						40213, 20, 1, 		//Hierba de Encantamiento
+						40218, 10, 1, 		//Hierba Venenosa Scoporia
+						40219, 10, 1, 		//Hierba Venenosa Seratum
+						40221, 20, 1, 		//Diente de Leon Raro
+						40224, 25, 1, 		//Tulipan Dorado
+						40225, 10, 1, 		//Flor del Amanecer
+						40227, 10, 1, 		//Flor de Algodon
+						40228, 10, 1, 		//Flor de Amahara
+						40251, 10, 1, 		//Flor de Lino
+						40341, 3, 1, 		//Rough Footgear Rune
+						40252, 5, 1; 		//Capullo de Gusano de Seda
+						
+	
+						
+						set .@size, getarraysize( .@reward );
+						for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+							.@percent[.@i] = .@total + .@reward[.@i];
+							.@total += .@reward[.@i];
+						}
+						.@r = rand( .@total +1 );
+						for( set .@i, 1; .@i < .@size; .@i += 3 )
+							if( .@percent[.@i] > .@r )
+								break;
+						getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+
+
+			end;
+			}
+
+
+		//WOLF PELETERO	
+		else if (killedrid == 1013  && strcharinfo(3) == "FirstTown" ){		
+				
+				setarray .@reward,	7115, 40, 1, 	
+									7101, 40, 1,
+									919, 40, 1,
+									936, 40, 1,
+									916, 20, 1, 		//Feather of Birds
+									7065, 40, 1,
+									7107, 40, 1,
+									916, 40, 1, 		//Feather of Birds
+									949, 40, 1, 		//Feather
+									949, 30, 1, 		//Feather
+									40305, 10, 1,
+									949, 10, 1, 		//Feather
+									949, 20, 1, 		//Feather
+									40304, 20, 1,
+									916, 10, 1, 		//Feather of Birds
+									40301, 10, 1,
+									40338, 5, 1;			
+						
+							
+						
+					set .@size, getarraysize( .@reward );
+					for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+						.@percent[.@i] = .@total + .@reward[.@i];
+						.@total += .@reward[.@i];
+					}
+					.@r = rand( .@total +1 );
+					for( set .@i, 1; .@i < .@size; .@i += 3 )
+						if( .@percent[.@i] > .@r )
+							break;
+					getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+
+			end;
+			}					
+				
+				
+	
+
+		//STAPO MINERO
+		else if (killedrid == 1784  && strcharinfo(3) == "FirstTown" ){		
+				
+				setarray .@reward,	40173, 40, 1, 		//Gema Cristalizada Verde
+						40170, 40, 1, 		//Gema Cristalizada Roja
+						40174, 40, 1, 		//Gema Cristalizada Negra
+						40172, 40, 1, 		//Gema Cristalizada Azul
+						40171, 40, 1, 		//Gema Cristalizada Amarilla
+						40175, 20, 1, 		//Cristal Mayagma	
+						40177, 20, 1, 		//Cristal Kori
+						40178, 20, 1, 		//Cristal Pyrus
+						40170, 30, 1, 		//Gema Cristalizada Roja
+						40174, 30, 1, 		//Gema Cristalizada Negra
+						40172, 30, 1, 		//Gema Cristalizada Azul
+						40173, 30, 1, 		//Gema Cristalizada Verde
+						40171, 30, 1, 		//Gema Cristalizada Amarilla
+						40179, 20, 1, 		//Cristal Aquos	
+						40176, 20, 1, 		//Cristal Manuk
+						40180, 20, 1, 		//Cristal Ventus
+						40170, 20, 1, 		//Gema Cristalizada Roja
+						40174, 20, 1, 		//Gema Cristalizada Negra
+						40172, 20, 1, 		//Gema Cristalizada Azul
+						40173, 20, 1, 		//Gema Cristalizada Verde
+						40171, 20, 1, 		//Gema Cristalizada Amarilla
+						40406, 20, 1, 		//Bavarium Dorado	
+						40407, 20, 1, 		//Bavarium Platinum	
+						40408, 20, 1, 		//Bavarium Broce
+						40177, 20, 1, 		//Cristal Kori
+						40181, 15, 1, 		//Runa de Cristal
+						40182, 15, 1, 		//Cristal de la Noche
+						40183, 15, 1, 		//Cristal Kiseki
+						40170, 10, 1, 		//Gema Cristalizada Roja
+						40174, 10, 1, 		//Gema Cristalizada Negra
+						40172, 15, 1, 		//Gema Cristalizada Azul
+						40173, 15, 1, 		//Gema Cristalizada Verde
+						40171, 15, 1, 		//Gema Cristalizada Amarilla
+						40184, 15, 1, 		//Piedra Ilusoria
+						40404, 15, 1, 		//Iron Fragment
+						40405, 15, 1, 		//Aluminum Fragment
+						40339, 5, 1; 		//Rough Weapon Rune
+						
+							
+						
+					set .@size, getarraysize( .@reward );
+					for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+						.@percent[.@i] = .@total + .@reward[.@i];
+						.@total += .@reward[.@i];
+					}
+					.@r = rand( .@total +1 );
+					for( set .@i, 1; .@i < .@size; .@i += 3 )
+						if( .@percent[.@i] > .@r )
+							break;
+					getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+
+			end;
+			}	
+				
+				
+				
+
+		//ASTER PESCADOR	
+		else if (killedrid == 1266  && strcharinfo(3) == "FirstTown" ){		
+				
+				setarray .@reward,	40236, 40, 1, 		//Pez Azul
+									40238, 40, 1, 		//Pez de Rio
+									40236, 30, 1, 		//Pez Azul
+									40238, 30, 1, 		//Pez de Rio
+									40236, 20, 1, 		//Pez Azul
+									40238, 20, 1, 		//Pez de Rio
+									40237, 30, 1, 		//Camaron Gigante
+									40239, 30, 1, 		//Pez Aguja
+									40241, 30, 1, 		//Salmon
+									40250, 20, 1, 		//Cangrejo
+									40247, 15, 1, 		//Anguila Raro
+									40240, 15, 1, 		//Pez Rikudo Raro
+									40243, 15, 1,		//Pez de Luna Raro		
+									40246, 40, 1, 		//Macarela
+									40308, 40, 1, 		//Tuna
+									40244, 40, 1, 		//Marlin
+									40246, 30, 1, 		//Macarela
+									40308, 30, 1, 		//Tuna
+									40244, 30, 1, 		//Marlin
+									40246, 20, 1, 		//Macarela
+									40308, 20, 1, 		//Tuna
+									40244, 20, 1, 		//Marlin
+									40248, 30, 1, 		//Pulpo
+									40245, 7, 1, 		//Estrella de Mar
+									40235, 20, 1, 		//Calamar
+									40249, 15, 1, 		//Tiburon Raro
+									40242, 5, 1, 		//Pez Volador Raro
+									40340, 5, 1, 		//Rough Garment Rune
+									40234, 5, 1; 		//Calamar Gigante Raro
+						
+							
+						
+					set .@size, getarraysize( .@reward );
+					for( set .@i, 1; .@i < .@size; .@i += 3 ) {
+						.@percent[.@i] = .@total + .@reward[.@i];
+						.@total += .@reward[.@i];
+					}
+					.@r = rand( .@total +1 );
+					for( set .@i, 1; .@i < .@size; .@i += 3 )
+						if( .@percent[.@i] > .@r )
+							break;
+					getitem .@reward[ .@i-1 ], .@reward[ .@i+1 ];
+
+			end;
+			}					
+				
+	
+				
+				end;   //END KILL EVENT
+
+
+
+end;
+
+
+OnInit:
+//announce "Monstruos han invadido el Pueblo de los Inicios",bc_all;
+end;
+
+}
+
+
+
+//FirstTown	mapflag	noteleport
+//FirstTown	mapflag	noskill
+

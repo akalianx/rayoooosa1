@@ -1,0 +1,32 @@
+prontera,158,171,5	script	add storage	87,{
+ if( getgmlevel() < 98 ) end;
+
+mes "You can add an item in all account storage.";
+
+mes "Note: if one storage is full, the storage database will contain an extra line for this storage.";
+
+mes "(ID reins: ^ff000012622^000000)";
+
+next;
+
+if( select( "Add an item ID", "Leave" ) -1 ) close;
+
+input .@item_id;
+
+if( getiteminfo( .@item_id,0 ) == -1 ) {
+
+mes "Unknown item id.";
+
+close;
+
+}
+
+query_sql "INSERT INTO `storage` (`id`, `account_id`, `nameid`, `amount`, `equip`, `identify`, `refine`, `attribute`, `card0`, `card1`, `card2`, `card3`, `expire_time`, `unique_id`) "+
+
+"SELECT NULL, `login`.`account_id`, '"+ .@item_id +"', '1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0' FROM `login` WHERE `account_id` > 1";
+
+mes "Item add. Players must relog to see the item in storage.";
+
+close;
+
+}

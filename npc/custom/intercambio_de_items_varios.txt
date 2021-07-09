@@ -1,0 +1,240 @@
+//switch(select("5 Rough Elunium = 1 Elunium:5 Rough Oridecon = 1 Oridecon:10 War Badge = 1 Valor Badge:15 War Badge = 1 Bravery Badge:Valor Badge Box:Bravery Badge Box:WOE Draft Badge Fragment:Salir")) {   }
+
+
+first_cas01,47,100,3	script	Mikael	681 ,{
+//setarray .@CoinID[0],32000;
+set .nombreNPC$,"^0000FF[MIkael]^000000";
+
+//MENSAJE DE BIENVENIDA
+mes "Hola " + "^A20103" + strcharinfo(0) + "^000000" + " mi nombre es ^A20103" + "Mikael." + "^000000";
+mes " ";
+mes "Aqui podras intercambiar diferentes tipos items como piedras, medallas y mas...";
+mes" ";
+next;
+
+
+
+//MENU
+
+switch(select("5 Rough Elunium = 1 Elunium:5 Rough Oridecon = 1 Oridecon:Salir")) {   
+	case 1:    if( countitem(757) < 5 ) {
+		mes "No tienes al menos 5 "+getitemname( 757 );
+		end;}
+	
+		set .@Amount,( countitem(757) / 5 );
+		delitem 757,( .@Amount * 5 );
+		getitem 985,.@Amount;
+		mes "Listo...Has obtenido "+.@Amount+" "+getitemname(985);
+		close;
+		break;
+
+  
+
+
+case 2:     if( countitem(756) < 5 ){
+		mes "No tienes al menos 5 "+getitemname( 756 );
+		end;}
+	
+		set .@Amount,( countitem(756) / 5 );
+		delitem 756,( .@Amount * 5 );
+		getitem 984,.@Amount;
+		mes "Listo...Has obtenido "+.@Amount+" "+getitemname(984);
+		close;
+		break;
+
+case 3: close; break;
+
+
+
+
+} //FIN SWITCH
+
+
+
+end;
+
+
+OnInit:
+	waitingroom "Intercambiador",0;
+	end;
+
+
+}
+
+
+
+
+
+
+
+
+/*
+case 3:     
+		.@item = 32000;
+		.@rate = 10;
+
+		.@countitem = countitem( .@item );
+		if (countitem( .@item ) <= 9){
+		mes "No tienes suficientes War Badge";
+		close;
+		}
+		if (countitem( .@item ) >= .@rate){
+		mes "Por 10 War Badge recibes 1 Valor Badge .";
+		mes " ";
+		mes "Puedes convertir "+.@countitem+" "+getitemname( .@item )+" en "+( .@countitem / .@rate )+" Valor Badge.";
+		next;
+		//if( .@countitem )
+		mes "Deseas convertir tu War Badge en Valor Badge?";
+			if( select( "Si","Cancelar" ) == 1 ){
+				next;
+				mes "Cuantas Valor Badge deseas obtener?";
+			mes "Cantidad : 1 ~ "+(( countitem( .@item ))/ .@rate);
+			input .@Amount,0, (countitem( .@item )  );
+			if( .@Amount ){
+				delitem .@CoinID[.@i],.@Amount*.@rate;
+				getitem 7829,.@Amount;
+				next;
+				mes "Listo, Hemos convertido tus War Badge";
+			}
+				
+				
+				
+				/*
+				delitem .@item,.@countitem;
+				#CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+				mes "Done";
+				*/
+			}
+		}
+	
+		break;
+
+
+
+
+case 4:     
+		.@item = 32000;
+		.@rate = 15;
+
+		.@countitem = countitem( .@item );
+		if (countitem( .@item ) <= 14){
+		mes "No tienes suficientes War Badge";
+		close;
+		}
+		if (countitem( .@item ) >= .@rate){
+		mes "Por 15 War Badge recibes 1 Bravery Badge .";
+		mes " ";
+		mes "Puedes convertir "+.@countitem+" "+getitemname( .@item )+" en "+( .@countitem / .@rate )+" Bravery Badge.";
+		next;
+		//if( .@countitem )
+		mes "Deseas convertir tu War Badge en Bravery Badge?";
+			if( select( "Si","Cancelar" ) == 1 ){
+				next;
+				mes "Cuantas Bravery Badge deseas obtener?";
+			mes "Cantidad : 1 ~ "+(( countitem( .@item ))/ .@rate);
+			input .@Amount,0, (countitem( .@item )  );
+			if( .@Amount ){
+				delitem .@CoinID[.@i],.@Amount*.@rate;
+				getitem 7828,.@Amount;
+				next;
+				mes "Listo, Hemos convertido tus War Badge";
+			}
+				
+				
+				
+				/*
+				delitem .@item,.@countitem;
+				#CASHPOINTS = #CASHPOINTS + ( .@countitem * .@rate );
+				mes "Done";
+				*/
+			}
+		}
+	
+		break;
+
+
+
+
+
+
+case 5: 
+
+	if ( countitem(7829) < 50 || countitem(1) < 20 ) {
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crear esta caja, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(1) +"/20 " + getitemname(1) + "^000000.";
+	mes "^0000FF" + countitem(7829) +"/50 " + getitemname(7829) + "^000000.";
+	
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearla?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+
+	delitem 1,20;
+	delitem 7829,50;
+	getitem 40141,1;
+
+	end;
+	break;
+
+
+
+case 6: 
+
+	if ( countitem(7828) < 50 || countitem(1) < 20 ) {
+	
+	mes .nombreNPC$;
+	mes " ";
+	mes "No tienes suficientes items para crear esta caja, vuelve cuando tengas todo lo necesario.";
+	mes "^0000FF" + countitem(1) +"/20 " + getitemname(1) + "^000000.";
+	mes "^0000FF" + countitem(7828) +"/50 " + getitemname(7828) + "^000000.";
+	
+	end;}
+	
+	next;
+	mes .nombreNPC$;
+	mes "Estas seguro de crearla?";
+	if(select("^FF0000No por ahora^000000:^0000FFClaro, vamos a fabricarlos^000000") == 1) {
+	next;
+	mes .nombreNPC$;
+	mes "Vuelve cuando gustes, ten un excelente dia.";
+	end; } //FIN MENU
+
+	delitem 1,20;
+	delitem 7828,50;
+	getitem 40142,1;
+
+	end;
+	break;
+
+
+
+
+case 7:    if( countitem(40167) < 25 )
+		mes "No tienes al menos 25 "+getitemname( 40167 );
+	else{
+		set .@Amount,( countitem(40167) / 25 );
+		delitem 40167,( .@Amount * 25 );
+		getitem 40157,.@Amount;
+		mes "Listo...Has obtenido "+.@Amount+" "+getitemname(40157);
+		}
+		break;
+
+
+
+
+
+
+
+
+case 8: end;
+*/
+

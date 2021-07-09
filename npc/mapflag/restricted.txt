@@ -1,0 +1,277 @@
+//===== rAthena Script =======================================
+//= Mapflag: Restricted.
+//===== By: ==================================================
+//= rAthena Dev Team
+//===== Current Version: =====================================
+//= 1.4
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: ========================================= 
+//= Disables items configured in item_noequip.txt
+//= and skills configured in skill_nocast_db.txt.
+//===== Additional Comments: ================================= 
+//= 1.0 Initial script. [Komurka]
+//= 1.1 Added WoE:SE Map restrictions. [L0ne_W0lf]
+//= 1.2 Added Endless Tower Restrictions. (bugreport:4707) [L0ne_W0lf]
+//= 1.3 Added Orc's Memory, Nidhoggur's Nest and towns restrictions. [Daegaladh]
+//= 1.4 Renewal split. [Euphy]
+//============================================================
+
+//Aldebaran Turbo Track
+alde_tt02	mapflag	restricted	1
+turbo_n_1	mapflag	restricted	1
+turbo_n_4	mapflag	restricted	1
+turbo_n_8	mapflag	restricted	1
+turbo_n_16	mapflag	restricted	1
+turbo_e_4	mapflag	restricted	1
+turbo_e_8	mapflag	restricted	1
+turbo_e_16	mapflag	restricted	1
+
+//Jail
+sec_pri	mapflag	restricted	2
+bat_room	mapflag	restricted	2
+
+
+
+
+
+//Izlude Battle Arena
+force_1-1	mapflag	restricted	3
+force_2-1	mapflag	restricted	3
+force_3-1	mapflag	restricted	3
+force_4-1	mapflag	restricted	3
+force_5-1	mapflag	restricted	3
+force_1-2	mapflag	restricted	3
+force_1-3	mapflag	restricted	3
+prt_are_in	mapflag	restricted	3
+
+//WoE:SE Maps
+schg_cas01	mapflag	restricted	4
+schg_cas02	mapflag	restricted	4
+schg_cas03	mapflag	restricted	4
+schg_cas04	mapflag	restricted	4
+schg_cas05	mapflag	restricted	4
+arug_cas01	mapflag	restricted	4
+arug_cas02	mapflag	restricted	4
+arug_cas03	mapflag	restricted	4
+arug_cas04	mapflag	restricted	4
+arug_cas05	mapflag	restricted	4
+
+//Sealed Shrine ==================
+1@cata	mapflag	restricted	5
+2@cata	mapflag	restricted	5
+
+//Endless Tower ==================
+1@tower	mapflag	restricted	6
+2@tower	mapflag	restricted	6
+3@tower	mapflag	restricted	6
+4@tower	mapflag	restricted	6
+5@tower	mapflag	restricted	6
+6@tower	mapflag	restricted	6
+
+//Orc's Memory ===================
+1@orcs	mapflag	restricted	6
+2@orcs	mapflag	restricted	6
+
+// Nidhoggr's Instance ===========
+1@nyd	mapflag	restricted	6
+2@nyd	mapflag	restricted	6
+
+//Towns
+alberta	mapflag	restricted	7
+aldebaran	mapflag	restricted	7
+amatsu	mapflag	restricted	7
+ayothaya	mapflag	restricted	7
+brasilis	mapflag	restricted	7
+comodo	mapflag	restricted	7
+einbroch	mapflag	restricted	7
+einbech	mapflag	restricted	7
+geffen	mapflag	restricted	7
+gonryun	mapflag	restricted	7
+izlude	mapflag	restricted	7
+jawaii	mapflag	restricted	7
+hugel	mapflag	restricted	7
+lighthalzen	mapflag	restricted	7
+louyang	mapflag	restricted	7
+//manuk	mapflag	restricted	7
+mid_camp	mapflag	restricted	7
+moc_ruins	mapflag	restricted	7
+morocc	mapflag	restricted	7
+moscovia	mapflag	restricted	7
+niflheim	mapflag	restricted	7
+prontera	mapflag	restricted	7
+payon	mapflag	restricted	7
+pay_arche	mapflag	restricted	7
+rachel	mapflag	restricted	7
+splendide	mapflag	restricted	7
+umbala	mapflag	restricted	7
+veins	mapflag	restricted	7
+xmas	mapflag	restricted	7
+yuno	mapflag	restricted	7
+
+
+//Dungeons
+
+vend_zone	mapflag	restricted	8
+alde_dun01	mapflag	restricted	8
+alde_dun02	mapflag	restricted	8
+alde_dun03	mapflag	restricted	8
+alde_dun04	mapflag	restricted	8
+gef_dun00	mapflag	restricted	8
+gef_dun01	mapflag	restricted	8
+gef_dun02	mapflag	restricted	8
+gef_dun03	mapflag	restricted	8
+gl_cas01	mapflag	restricted	8
+gl_cas02	mapflag	restricted	8
+gl_church	mapflag	restricted	8
+gl_chyard	mapflag	restricted	8
+gl_dun01	mapflag	restricted	8
+gl_dun02	mapflag	restricted	8
+gl_in01	mapflag	restricted	8
+gl_knt01	mapflag	restricted	8
+gl_knt02	mapflag	restricted	8
+gl_prison	mapflag	restricted	8
+gl_prison1	mapflag	restricted	8
+gl_sew01	mapflag	restricted	8
+gl_sew02	mapflag	restricted	8
+gl_sew03	mapflag	restricted	8
+gl_sew04	mapflag	restricted	8
+gl_step	mapflag	restricted	8
+glast_01	mapflag	restricted	8
+in_sphinx1	mapflag	restricted	8
+in_sphinx2	mapflag	restricted	8
+in_sphinx3	mapflag	restricted	8
+in_sphinx4	mapflag	restricted	8
+in_sphinx5	mapflag	restricted	8
+iz_dun00	mapflag	restricted	8
+iz_dun01	mapflag	restricted	8
+iz_dun02	mapflag	restricted	8
+iz_dun03	mapflag	restricted	8
+iz_dun04	mapflag	restricted	8
+izlu2dun	mapflag	restricted	8
+anthell01	mapflag	restricted	8
+anthell02	mapflag	restricted	8
+knight_1-1	mapflag	restricted	8
+knight_2-1	mapflag	restricted	8
+knight_3-1	mapflag	restricted	8
+mjo_dun01	mapflag	restricted	8
+mjo_dun02	mapflag	restricted	8
+mjo_dun03	mapflag	restricted	8
+moc_pryd01	mapflag	restricted	8
+moc_pryd02	mapflag	restricted	8
+moc_pryd03	mapflag	restricted	8
+moc_pryd04	mapflag	restricted	8
+moc_pryd05	mapflag	restricted	8
+moc_pryd06	mapflag	restricted	8
+moc_prydb1	mapflag	restricted	8
+orcsdun01	mapflag	restricted	8
+orcsdun02	mapflag	restricted	8
+pay_dun00	mapflag	restricted	8
+pay_dun01	mapflag	restricted	8
+pay_dun02	mapflag	restricted	8
+pay_dun03	mapflag	restricted	8
+pay_dun04	mapflag	restricted	8
+prt_maze01	mapflag	restricted	8
+prt_maze02	mapflag	restricted	8
+prt_maze03	mapflag	restricted	8
+xmas_dun01	mapflag	restricted	8
+xmas_dun02	mapflag	restricted	8
+beach_dun	mapflag	restricted	8
+beach_dun2	mapflag	restricted	8
+beach_dun3	mapflag	restricted	8
+tur_dun01	mapflag	restricted	8
+tur_dun02	mapflag	restricted	8
+tur_dun03	mapflag	restricted	8
+tur_dun04	mapflag	restricted	8
+tur_dun05	mapflag	restricted	8
+tur_dun06	mapflag	restricted	8
+mag_dun01	mapflag	restricted	8
+mag_dun02	mapflag	restricted	8
+ama_dun01	mapflag	restricted	8
+ama_dun02	mapflag	restricted	8
+ama_dun03	mapflag	restricted	8
+gon_dun01	mapflag	restricted	8
+gon_dun02	mapflag	restricted	8
+gon_dun03	mapflag	restricted	8
+um_dun01	mapflag	restricted	8
+um_dun02	mapflag	restricted	8
+lou_dun03	mapflag	restricted	8
+lou_dun02	mapflag	restricted	8
+lou_dun01	mapflag	restricted	8
+gefenia01	mapflag	restricted	8
+gefenia02	mapflag	restricted	8
+gefenia03	mapflag	restricted	8
+gefenia04	mapflag	restricted	8
+ayo_dun01	mapflag	restricted	8
+ayo_dun02	mapflag	restricted	8
+ein_dun01	mapflag	restricted	8
+ein_dun02	mapflag	restricted	8
+que_sign01	mapflag	restricted	8
+que_sign02	mapflag	restricted	8
+lhz_que01	mapflag	restricted	8
+lhz_dun01	mapflag	restricted	8
+lhz_dun02	mapflag	restricted	8
+lhz_dun03	mapflag	restricted	8
+lhz_cube	mapflag	restricted	8
+juperos_01	mapflag	restricted	8
+juperos_02	mapflag	restricted	8
+jupe_area1	mapflag	restricted	8
+jupe_area2	mapflag	restricted	8
+jupe_core	mapflag	restricted	8
+jupe_ele	mapflag	restricted	8
+jupe_ele_r	mapflag	restricted	8
+jupe_gate	mapflag	restricted	8
+thana_step	mapflag	restricted	8
+thana_boss	mapflag	restricted	8
+tha_scene01	mapflag	restricted	8
+tha_t01	mapflag	restricted	8
+tha_t02	mapflag	restricted	8
+tha_t03	mapflag	restricted	8
+tha_t04	mapflag	restricted	8
+tha_t07	mapflag	restricted	8
+tha_t05	mapflag	restricted	8
+tha_t06	mapflag	restricted	8
+tha_t08	mapflag	restricted	8
+tha_t09	mapflag	restricted	8
+tha_t10	mapflag	restricted	8
+tha_t11	mapflag	restricted	8
+tha_t12	mapflag	restricted	8
+odin_tem01	mapflag	restricted	8
+odin_tem02	mapflag	restricted	8
+odin_tem03	mapflag	restricted	8
+kh_kiehl02	mapflag	restricted	8
+kh_kiehl01	mapflag	restricted	8
+kh_dun02	mapflag	restricted	8
+kh_dun01	mapflag	restricted	8
+ra_san01	mapflag	restricted	8
+ra_san02	mapflag	restricted	8
+ra_san03	mapflag	restricted	8
+ra_san04	mapflag	restricted	8
+ra_san05	mapflag	restricted	8
+ra_temin	mapflag	restricted	8
+ra_temple	mapflag	restricted	8
+ra_temsky	mapflag	restricted	8
+ice_dun01	mapflag	restricted	8
+ice_dun02	mapflag	restricted	8
+ice_dun03	mapflag	restricted	8
+ice_dun04	mapflag	restricted	8
+nameless_i	mapflag	restricted	8
+nameless_n	mapflag	restricted	8
+nameless_in	mapflag	restricted	8
+abbey01	mapflag	restricted	8
+abbey02	mapflag	restricted	8
+abbey03	mapflag	restricted	8
+mosk_in	mapflag	restricted	8
+mosk_ship	mapflag	restricted	8
+mosk_fild01	mapflag	restricted	8
+mosk_fild02	mapflag	restricted	8
+mosk_dun01	mapflag	restricted	8
+mosk_dun02	mapflag	restricted	8
+mosk_dun03	mapflag	restricted	8
+bra_dun01	mapflag	restricted	8
+bra_dun02	mapflag	restricted	8
+que_thor	mapflag	restricted	8
+thor_camp	mapflag	restricted	8
+thor_v01	mapflag	restricted	8
+thor_v02	mapflag	restricted	8
+thor_v03	mapflag	restricted	8

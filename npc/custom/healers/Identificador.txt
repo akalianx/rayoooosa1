@@ -1,0 +1,93 @@
+prontera.gat,164,171,3	script	Identificador	86,{
+
+getinventorylist;
+set @identify, 0;
+for(set @i, 0; @i < @inventorylist_count; set @i, @i + 1) {
+	if (@inventorylist_identify[@i] == 0) set @identify, @identify + 1;
+}
+
+if (@identify == 0) {
+	mes @name$;
+	mes "Qué lástima, no tienes items que pueda identificar.";
+	close;
+}
+if (@identify < 2) {
+	set @total,@identify;
+	mes @name$;
+	mes "Sólo tienes 1 item sin identificar en tu inventario.";
+	mes "Lo identificare por: "+@price+" Zeny.";
+} else {
+	mes @npcname$;
+	set @total,@identify * @price;
+	mes "¡Vaya! tienes ^c50000"+@identify+"^000000 items sin identificar en el inventario.";
+	mes "Todo te costará: ^c50000"+@total+"^000000 Zeny.";
+}
+
+next;
+mes @name$;
+mes "¡Oh se me olvidaba!.";
+mes @name$;
+mes "Si tienes alguna ^00AA00Magnifier^000000 por cada item yo podría no cobrarte.";
+mes @name$;
+mes "Entonces ¿empiezo?";
+next;
+menu "¡Si!",-,"Creo que después",L_NO;
+
+if(Zeny < @total) {
+	mes @name$;
+	mes "Lo siento pero no tienes suficiente zeny para poder usar mis servicios.";
+	close;
+}
+
+getinventorylist;
+set @identified, 0;
+for(set @i, 0; @i < @inventorylist_count; set @i, @i + 1) {
+	if (@inventorylist_identify[@i] == 0) {
+		if (countitem(611) > 0) {
+			delitem 611,1;
+		} else {
+			set Zeny, Zeny - @price;
+		}
+		delitem2 @inventorylist_id[@i],1,0,0,0,0,0,0,0;
+		getitem @inventorylist_id[@i],1;
+		set @identified, @identified + 1;
+	}
+}
+
+mes @name$;
+mes "¡Listo terminé!.";
+next;
+mes @name$;
+mes "Han sido un total de: ^c50000"+@identified+"^000000 items.";
+mes "¡Nos vemos pronto!";
+close;
+
+L_NO:
+	mes @name$;
+	mes "Ok, recuerda que podrás regresar cuando quieras.";
+	close;
+
+
+OnInit:
+	waitingroom "Identificador",0;
+	end;
+
+}
+
+FirstTown,209,180,6	duplicate(Identificador)	identificador#ciuIni1	86
+FirstTown,43,217,6	duplicate(Identificador)	identificador#ciuIni2	86
+FirstTown,82,351,6	duplicate(Identificador)	identificador#ciuIni3	86
+league,146,170,4	duplicate(Identificador)	identificador#league	86
+brasilis,203,224,4	duplicate(Identificador)	identificador#brasilis	86
+alberta,48,226,1	duplicate(Identificador)	identificador#alberta	86
+morocc,151,95,6	duplicate(Identificador)	identificador#morocc	86
+aldebaran,154,109,4	duplicate(Identificador)	identificador#aldebarna	86
+amatsu,121,139,3	duplicate(Identificador)	identificador#amatsu	86
+ayothaya,214,191,4	duplicate(Identificador)	identificador#ayothaya	86
+comodo,189,140,4	duplicate(Identificador)	identificador#comodo	86
+geffen,115,67,6	duplicate(Identificador)	identificador#geffen	86
+gonryun,151,106,7	duplicate(Identificador)	identificador#gonryun	86
+hugel,84,149,5	duplicate(Identificador)	identificador#hugel	86
+izlude,121,118,5	duplicate(Identificador)	identificador#izlude	86
+lighthalzen,153,85,5	duplicate(Identificador)	identificador#lighthalzen	86
+

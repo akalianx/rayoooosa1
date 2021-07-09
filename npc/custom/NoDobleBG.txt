@@ -1,0 +1,474 @@
+//====================== FUNCION GEPARD ID ======================
+
+-	script	GePard_Registry	0,{
+OnPCLoginEvent:
+	unique_id$ = get_unique_id();
+end;
+OnPCLogoutEvent:
+	unique_id$ = "";
+end;
+}
+
+function	script	getgpmapunits	{
+	.@map_name$ = getarg(0);
+	.@unique_id$ = unique_id$;
+	getmapunits(BL_PC,.@map_name$,.@AccountID);
+	for(.@i=0;.@i<getarraysize(.@AccountID);.@i++)
+		if(getvar(unique_id$,getcharid(0,rid2name(.@AccountID[.@i]))) == .@unique_id$)
+			.@count++;
+	return .@count;
+}
+
+
+
+
+
+//====================== FUNCION INTERNET IP ======================
+
+function	script	getipmapunits	{
+	.@map_name$ = getarg(0);
+	.@ip$ = getcharip();
+	getmapunits(BL_PC,.@map_name$,.@name$);
+	
+	for(.@i=0;.@i<getarraysize(.@name$);.@i++)
+		if(getcharip(.@name$[.@i]) == .@ip$)
+			.@count++;
+	return .@count;
+}
+
+
+
+/*
+prontera,152,183,5	script	Warper IP Test	446,{
+	if(getipmapunits("izlude") > 0){
+		mes "you already have a char inside this map";
+	}else{
+		warp "izlude",152,183;
+	}
+end;
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//============================= SCRIPT NO DOLE LOGIN bat_b02 CAPTURE THE FLAG =============================\\
+
+-	script	DL_bat_b02	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .senderbat_b02$, "bat_b02";
+set .Limit,1;
+end;
+
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.senderbat_b02$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		
+		
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa.";
+		
+		atcommand ("@kick " + strcharinfo(0));
+		//warp "prontera",156,183;
+		//atcommand ("@ban 2d " + strcharinfo(0));
+		
+	}
+	
+	sleep2 10000;
+	if(getmapusers("bat_b02")<4 && strcharinfo(3)== "bat_b02"){
+	dispbottom "Lo siento, BG ha terminado por uso de doble cuenta.";
+	sleep2 1000;
+		mapwarp "bat_b02","prontera",156,183;
+		disablenpc "Team1_Flag";
+		disablenpc "Team2_Flag";
+		donpcevent "#guictf_respawn::OnBGStop";
+		donpcevent "#croctf_respawn::OnBGStop";
+		set $@BG_Status, 2;
+		set .Team1_Score, 0;
+		set .Team2_Score, 0;
+		sleep 5000;
+		donpcevent "BG_Queue_Join::OnEndArena";
+		bg_updatescore "bat_b02",0,0;
+	}
+
+end;
+
+
+
+
+}
+
+
+
+//============================= SCRIPT NO DOLE LOGIN bat_b04 Flavius Stone Control=============================\\
+
+-	script	DL_bat_b04	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .senderbat_b04$, "bat_b04";
+set .Limit,1;
+end;
+
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.senderbat_b04$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa.";
+		atcommand ("@kick " + strcharinfo(0));
+		warp "prontera",156,183;
+	}
+
+
+	sleep2 10000;
+	if(getmapusers("bat_b04")<4 && strcharinfo(3)== "bat_b04"){
+	dispbottom "Lo siento, BG ha terminado por uso de doble cuenta.";
+	sleep2 1000;
+		mapwarp "bat_b04","prontera",156,183;
+		stopnpctimer;
+		donpcevent "#guisc_respawn::OnBGStop";
+		donpcevent "#crosc_respawn::OnBGStop";
+		set $@BG_Status, 2;
+		set .guillaume_score, 0;
+	set .croix_score, 0;
+	for( set .@i, 1; .@i < 7; set .@i, .@i + 1) { // Stop Running Timers
+		stopnpctimer "Neutral Stone#" + .@i;
+		stopnpctimer "csp" + .@i; // Croix Stone Point
+		stopnpctimer "gsp" + .@i; // Guillaume Stone Point
+	}
+	sleep 5000;
+	setarray .Stone[1],0,0,0,0,0,0;
+	donpcevent "BG_Queue_Join::OnEndArena";
+	bg_updatescore "bat_b04",0,0;
+	for( set .@i, 1; .@i < 7; set .@i, .@i + 1) { // Return Stones to Starting Position and Normalize Stone Points
+		donpcevent "Neutral Stone#" + .@i + "::OnBGStop";
+		donpcevent "csp" + .@i + "::OnBGStop";
+		donpcevent "gsp" + .@i + "::OnBGStop";
+	}
+	}
+
+
+
+end;
+
+}
+
+
+
+//============================= SCRIPT NO DOLE LOGIN bat_a02  Tierra Valley Eye of Storm=============================\\
+
+-	script	DL_bat_a02	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .senderbat_a02$, "bat_a02";
+set .Limit,1;
+end;
+
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.senderbat_a02$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa.";
+		atcommand ("@kick " + strcharinfo(0));
+		warp "prontera",156,183;
+	}
+
+	sleep2 10000;
+		if(getmapusers("bat_a02")<4 && strcharinfo(3)== "bat_a02"){
+		dispbottom "Lo siento, BG ha terminado por uso de doble cuenta.";
+		sleep2 1000;
+			mapwarp "bat_a02","prontera",156,183;
+			donpcevent "Neutral_Flag::OnDisable";
+			stopnpctimer "North_Base";
+			stopnpctimer "South_Base";
+			donpcevent "#guieoe_respawn::OnBGStop";
+			donpcevent "#croeoe_respawn::OnBGStop";
+			set $@BG_Status, 2;
+			set .Team1_Score, 0;
+			set .Team2_Score, 0;
+			sleep 5000;
+			donpcevent "BG_Queue_Join::OnEndArena";
+			bg_updatescore "bat_a02",0,0;
+			donpcevent "GEoSNBW::OnDisable";
+			//donpcevent "GEoSCBW::OnDisable";
+			donpcevent "GEoSSBW::OnDisable";
+			donpcevent "CEoSNBW::OnDisable";
+			//donpcevent "CEoSCBW::OnDisable";
+			donpcevent "CEoSSBW::OnDisable";
+		}
+
+
+end;
+
+
+
+
+}
+
+
+//============================= SCRIPT NO DOLE LOGIN bat_a03   Tierra Bossnia =============================\\
+
+-	script	DL_bat_a03	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .senderbat_a03$, "bat_a03";
+set .Limit,1;
+end;
+
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.senderbat_a03$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa.";
+		atcommand ("@kick " + strcharinfo(0));
+		warp "prontera",156,183;
+	}
+
+
+	sleep2 10000;
+	if(getmapusers("bat_a03")<4 && strcharinfo(3)== "bat_a03"){
+	dispbottom "Lo siento, BG ha terminado por uso de doble cuenta.";
+	sleep2 1000;
+		mapwarp "bat_a03","prontera",156,183;
+		stopnpctimer;
+		stopnpctimer "Guillaume_Boss";
+		stopnpctimer "Croix_Boss";
+		donpcevent "#gtb_respawn::OnBGStop";
+		donpcevent "#ctb_respawn::OnBGStop";
+		donpcevent "Balance_Flag::OnBGStop";
+		killmonster "bat_a03","Guillaume_Boss::OnBoss";
+		killmonster "bat_a03","Croix_Boss::OnBoss";
+		set $@BG_Status, 2;
+		set .Neutral_Base, 0;
+		set .guillaume_boss, 0;
+		set .croix_boss, 0;
+		donpcevent "BG_Queue_Join::OnEndArena";
+		bg_updatescore "bat_a03",.croix_boss,.guillaume_boss;
+	}
+
+
+
+
+end;
+
+}  
+
+
+
+
+
+
+
+
+//============================= SCRIPT NO DOLE LOGIN bat_a04  Tierra Domination =============================\\
+
+-	script	DL_bat_a04	-1,{
+
+//=============================\\
+//=======CONFIGURAR AQUI=======\\
+//=============================\\
+
+OnInit:
+set .senderbat_a04$, "bat_a04";
+set .Limit,1;
+end;
+
+
+
+OnPCLoadMapEvent:
+getmapxy(.@amap$,.@mapx,.@mapy,0);
+query_sql("SELECT last_ip FROM `login` WHERE account_id = "+getcharid(3)+"", .@LastIP$);
+query_sql("SELECT account_id FROM `login` WHERE last_ip = '"+.@LastIP$+"'", .@AccountId);
+set .@aidtemp,getcharid(3,strcharinfo(0));
+	for(set .@i ,0;.@i<getarraysize(.@AccountId);set .@i,.@i+1){
+		if(attachrid(.@AccountId[.@i])){
+			getmapxy(.@qmap$,.@qmapx,.@qmapy,0);
+				if(getgpmapunits(.senderbat_a04$) > .Limit){
+						set .@j,.@j+1;
+					}
+				}
+		}
+		detachrid;
+	
+attachrid .@aidtemp;
+	if(.@j > 1) {
+		dispbottom "Lo siento, no esta permitido el Double Login en este mapa.";
+		atcommand ("@kick " + strcharinfo(0));
+		warp "prontera",156,183;
+	}
+
+
+	sleep2 10000;
+	if(getmapusers("bat_a04")<4 && strcharinfo(3)== "bat_a04"){
+	dispbottom "Lo siento, BG ha terminado por uso de doble cuenta.";
+	sleep2 1000;
+		mapwarp "bat_a04","prontera",156,183;
+		stopnpctimer "Dom_N_Base";
+		stopnpctimer "Dom_S_Base";
+		stopnpctimer "Dom_C_Base";
+		donpcevent "#guiDOM_respawn::OnBGStop";
+		donpcevent "#croDOM_respawn::OnBGStop";
+		set $@BG_Status, 2;
+		set .Team1_Score, 0;
+		set .Team2_Score, 0;
+		sleep 5000;
+		donpcevent "BG_Queue_Join::OnEndArena";
+		bg_updatescore "bat_a04",0,0;
+		donpcevent "GDomNBW::OnDisable";
+		donpcevent "GDomCBW::OnDisable";
+		donpcevent "GDomSBW::OnDisable";
+		donpcevent "CDomNBW::OnDisable";
+		donpcevent "CDomCBW::OnDisable";
+		donpcevent "CDomSBW::OnDisable";
+	}
+
+
+
+
+end;
+
+
+
+
+}
+
+
+
+//------------------- MAP FLAGS PARA CASTILLOS -------------------
+//aldebaran	mapflag	loadevent
+//payon	mapflag	loadevent
+//izlude	mapflag	loadevent
+prtg_cas01	mapflag	loadevent
+prtg_cas02	mapflag	loadevent
+prtg_cas03	mapflag	loadevent
+prtg_cas04	mapflag	loadevent
+prtg_cas05	mapflag	loadevent
+aldeg_cas01	mapflag	loadevent
+aldeg_cas02	mapflag	loadevent
+aldeg_cas03	mapflag	loadevent
+aldeg_cas04	mapflag	loadevent
+aldeg_cas05	mapflag	loadevent
+payg_cas01	mapflag	loadevent
+payg_cas02	mapflag	loadevent
+payg_cas03	mapflag	loadevent
+payg_cas04	mapflag	loadevent
+payg_cas05	mapflag	loadevent
+gefg_cas01	mapflag	loadevent
+gefg_cas02	mapflag	loadevent
+gefg_cas03	mapflag	loadevent
+gefg_cas04	mapflag	loadevent
+gefg_cas05	mapflag	loadevent
+arug_cas01	mapflag	loadevent
+arug_cas02	mapflag	loadevent
+arug_cas03	mapflag	loadevent
+arug_cas04	mapflag	loadevent
+arug_cas05	mapflag	loadevent
+schg_cas01	mapflag	loadevent
+schg_cas02	mapflag	loadevent
+schg_cas03	mapflag	loadevent
+schg_cas04	mapflag	loadevent
+schg_cas05	mapflag	loadevent
+prontera_pv	mapflag	loadevent
+guild_vs1	mapflag	loadevent
+bat_b02	mapflag	loadevent
+bat_b04	mapflag	loadevent
+bat_a02	mapflag	loadevent
+bat_a03	mapflag	loadevent
+bat_a04	mapflag	loadevent
+		
+
+
+
+
+
+
+
+
+
+

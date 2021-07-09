@@ -1,0 +1,674 @@
+first_cas01,96,54,3	script	Sakai	10085,{
+
+
+
+//MENSAJE DE BIENVENIDA
+mes "Hola " + "^A20103" + strcharinfo(0) + "^000000" + " mi nombre es ^A20103" + "Sakai." + "^000000";
+mes " ";
+mes "Aqui podras cambiar tu hat a costume";
+mes" ";
+next;
+
+
+
+
+
+//MENU
+switch(select("Sunglasses:Sakkat:Kitty Band:Bunny Band:Zealotus Mask:Magni's Cap:Ulle's Cap:Fricca's Circlet:Angel Wing:Evil Wing:Marionette Doll:Succubus Horn:Incubus Horn:Angel Wing Ears:Evil Wing Ears:Cowboy Hat:Wedding Veil:Big Ribbon:Cute Ribbon:Wizard Hat:Red Ribbon:Lazy Smokie:Small Ribbons:Ghost Bandana:Decorative Golden Bell:Assassin Mask:Helm:Dark Blinder:Munak Hat:Bongun Hat:Flower Crown:Valkyrie Helm:Gas Mask:Drooping Cat:Kitsune Mask:Boy's Cap:Captain's Hat:Neko Mimi Kafra:Majestic Goat Model:Crown:Deviruchi Hat:Bao Bao:Blush:Blue Ribbon:Bell Ribbon:Panda Hat:Cresent Hairpin:Jewel Crown:Beret:Iron Cain:Halo:Puppy Headband:Romantic Flower:Romantic White Flower:Black Frame Glasses:Red Glasses:Corsair")) {   
+
+
+
+//Sunglasses [0]
+case 1:    if( countitem(2201) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2201 ) + "^000000 en tu inventario";
+	else{
+		delitem 2201,1;
+		getitem 40018,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Sakkat [0]
+case 2:    if( countitem(2280) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2280 ) + "^000000 en tu inventario";
+	else{
+		delitem 2280,1;
+		getitem 40019,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Kitty Band
+case 3:    if( countitem(2213) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2213 ) + "^000000 en tu inventario";
+	else{
+		delitem 2213,1;
+		getitem 40020,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+//Bunny Band
+case 4:    if( countitem(2214) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2214 ) + "^000000 en tu inventario";
+	else{
+		delitem 2214,1;
+		getitem 40021,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Zealotus Mask
+case 5:    if( countitem(5121) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5121 ) + "^000000 en tu inventario";
+	else{
+		delitem 5121,1;
+		getitem 40022,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Magni's Cap
+case 6:    if( countitem(5122) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5122 ) + "^000000 en tu inventario";
+	else{
+		delitem 5122,1;
+		getitem 40023,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Ulle's Cap
+case 7:    if( countitem(5123) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5123 ) + "^000000 en tu inventario";
+	else{
+		delitem 5123,1;
+		getitem 40024,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+
+//Fricca's Circlet
+case 8:    if( countitem(5124) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5124 ) + "^000000 en tu inventario";
+	else{
+		delitem 5124,1;
+		getitem 40025,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Angel Wing
+case 9:    if( countitem(2254) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2254 ) + "^000000 en tu inventario";
+	else{
+		delitem 2254,1;
+		getitem 40001,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Evil Wing
+case 10:    if( countitem(2255) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2255 ) + "^000000 en tu inventario";
+	else{
+		delitem 2255,1;
+		getitem 40026,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+//Marionette Doll
+case 11:    if( countitem(5141) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5141 ) + "^000000 en tu inventario";
+	else{
+		delitem 5141,1;
+		getitem 40027,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Succubus Horn
+case 12:    if( countitem(5066) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5066 ) + "^000000 en tu inventario";
+	else{
+		delitem 5066,1;
+		getitem 40028,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+
+//Incubus Horn
+case 13:    if( countitem(5072) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5072 ) + "^000000 en tu inventario";
+	else{
+		delitem 5072,1;
+		getitem 40029,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Angel Wing Ears
+case 14:    if( countitem(5074) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5074 ) + "^000000 en tu inventario";
+	else{
+		delitem 5074,1;
+		getitem 40030,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Evil Wing Ears
+case 15:    if( countitem(5068) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5068 ) + "^000000 en tu inventario";
+	else{
+		delitem 5068,1;
+		getitem 40031,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+//Cowboy Hat
+case 16:    if( countitem(5075) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5075 ) + "^000000 en tu inventario";
+	else{
+		delitem 5075,1;
+		getitem 40032,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Wedding Veil
+case 17:    if( countitem(2206) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2206 ) + "^000000 en tu inventario";
+	else{
+		delitem 2206,1;
+		getitem 40033,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+//Big Ribbon
+case 18:    if( countitem(2244) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2244 ) + "^000000 en tu inventario";
+	else{
+		delitem 2244,1;
+		getitem 40034,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Cute Ribbon
+case 19:    if( countitem(2250) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2250 ) + "^000000 en tu inventario";
+	else{
+		delitem 2250,1;
+		getitem 40035,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+		
+		
+		
+//Wizard Hat
+case 20:    if( countitem(2252) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2252 ) + "^000000 en tu inventario";
+	else{
+		delitem 2252,1;
+		getitem 40036,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;		
+		
+		
+	
+//Red Ribbon	
+case 21:    if( countitem(5083) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5083 ) + "^000000 en tu inventario";
+	else{
+		delitem 5083,1;
+		getitem 40037,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;			
+		
+		
+//Lazy Smokie
+case 22:    if( countitem(5084) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5084 ) + "^000000 en tu inventario";
+	else{
+		delitem 5084,1;
+		getitem 40038,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;			
+		
+
+
+//Small Ribbons
+case 23:    if( countitem(5085) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5085 ) + "^000000 en tu inventario";
+	else{
+		delitem 5085,1;
+		getitem 40039,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;			
+				
+
+
+//Ghost Bandana
+case 24:    if( countitem(2274) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2274 ) + "^000000 en tu inventario";
+	else{
+		delitem 2274,1;
+		getitem 40040,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;	
+
+
+//Decorative Golden Bell
+case 25:    if( countitem(5091) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5091 ) + "^000000 en tu inventario";
+	else{
+		delitem 5091,1;
+		getitem 40041,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;	
+
+
+//Assassin Mask
+case 26:    if( countitem(5096) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5096 ) + "^000000 en tu inventario";
+	else{
+		delitem 5096,1;
+		getitem 40042,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;	
+
+
+
+
+//Helm
+case 27:    if( countitem(2228) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2228 ) + "^000000 en tu inventario";
+	else{
+		delitem 2228,1;
+		getitem 40083,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;	
+
+
+//Dark Blinder 
+case 28:    if( countitem(5104) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5104 ) + "^000000 en tu inventario";
+	else{
+		delitem 5104,1;
+		getitem 40084,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;	
+
+
+//Munak Hat
+case 29:    if( countitem(2264) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2264 ) + "^000000 en tu inventario";
+	else{
+		delitem 2264,1;
+		getitem 40087,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;	
+
+
+//Bongun Hat
+case 30:    if( countitem(5046) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5046 ) + "^000000 en tu inventario";
+	else{
+		delitem 5046,1;
+		getitem 40088,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;	
+
+
+//Flower Crown
+case 31:    if( countitem(5303) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5303 ) + "^000000 en tu inventario";
+	else{
+		delitem 5303,1;
+		getitem 40089,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Valkyrie Helm
+case 32:    if( countitem(5171) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5171 ) + "^000000 en tu inventario";
+	else{
+		delitem 5171,1;
+		getitem 40090,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+//Gas Mask
+case 33:    if( countitem(5005) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5005 ) + "^000000 en tu inventario";
+	else{
+		delitem 5005,1;
+		getitem 40091,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Drooping Cat
+case 34:    if( countitem(5058) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5058 ) + "^000000 en tu inventario";
+	else{
+		delitem 5058,1;
+		getitem 40092,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Kitsune Mask
+case 35:    if( countitem(5069) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5069 ) + "^000000 en tu inventario";
+	else{
+		delitem 5069,1;
+		getitem 40098,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+//Boy's Cap
+case 36:    if( countitem(5016) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5016 ) + "^000000 en tu inventario";
+	else{
+		delitem 5016,1;
+		getitem 40099,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Captain's Hat
+case 37:    if( countitem(5184) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5184 ) + "^000000 en tu inventario";
+	else{
+		delitem 5184,1;
+		getitem 40102,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Neko Mimi Kafra
+case 38:    if( countitem(5387) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5387 ) + "^000000 en tu inventario";
+	else{
+		delitem 5387,1;
+		getitem 40103,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Majestic Goat Model
+case 39:    if( countitem(5683) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5683 ) + "^000000 en tu inventario";
+	else{
+		delitem 5683,1;
+		getitem 40104,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+//Crown
+case 40:    if( countitem(2235) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2235 ) + "^000000 en tu inventario";
+	else{
+		delitem 2235,1;
+		getitem 40105,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+		
+		
+//Deviruchi Hat
+case 41:    if( countitem(5038) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5038 ) + "^000000 en tu inventario";
+	else{
+		delitem 5038,1;
+		getitem 40106,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Bao Bao
+case 42:    if( countitem(5042) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5042 ) + "^000000 en tu inventario";
+	else{
+		delitem 5042,1;
+		getitem 40107,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Blush
+case 43:    if( countitem(5040) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5040 ) + "^000000 en tu inventario";
+	else{
+		delitem 5040,1;
+		getitem 40108,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+	
+	
+//Blue Ribbon
+case 44:    if( countitem(5404) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5404 ) + "^000000 en tu inventario";
+	else{
+		delitem 5404,1;
+		getitem 40109,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Bell Ribbon
+case 45:    if( countitem(5382) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5382 ) + "^000000 en tu inventario";
+	else{
+		delitem 5382,1;
+		getitem 40110,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+		
+
+//Panda Hat
+case 46:    if( countitem(5030) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5030 ) + "^000000 en tu inventario";
+	else{
+		delitem 5030,1;
+		getitem 40111,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Cresent Hairpin
+case 47:    if( countitem(5048) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5048 ) + "^000000 en tu inventario";
+	else{
+		delitem 5048,1;
+		getitem 40112,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+		
+		
+//Jewel Crown
+case 48:    if( countitem(5002) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5002 ) + "^000000 en tu inventario";
+	else{
+		delitem 5002,1;
+		getitem 40113,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Beret
+case 49:    if( countitem(5172) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5172 ) + "^000000 en tu inventario";
+	else{
+		delitem 5172,1;
+		getitem 40114,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+//Iron Cain
+case 50:    if( countitem(2266) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2266 ) + "^000000 en tu inventario";
+	else{
+		delitem 2266,1;
+		getitem 40115,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+//Halo
+case 51:    if( countitem(2282) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2282 ) + "^000000 en tu inventario";
+	else{
+		delitem 2282,1;
+		getitem 40116,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Puppy Headband
+case 52:    if( countitem(5118) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5118 ) + "^000000 en tu inventario";
+	else{
+		delitem 5118,1;
+		getitem 40117,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Romantic Flower
+case 53:    if( countitem(2269) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 2269 ) + "^000000 en tu inventario";
+	else{
+		delitem 2269,1;
+		getitem 40127,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Romantic White Flower
+case 54:    if( countitem(5206) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5206 ) + "^000000 en tu inventario";
+	else{
+		delitem 5206,1;
+		getitem 40128,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+
+//Black Frame Glasses
+case 55:    if( countitem(5401) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5401 ) + "^000000 en tu inventario";
+	else{
+		delitem 5401,1;
+		getitem 40129,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+//Red Glasses
+case 56:    if( countitem(5288) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5288 ) + "^000000 en tu inventario";
+	else{
+		delitem 5288,1;
+		getitem 40130,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+//Corsair
+case 57:    if( countitem(5019) < 1 )
+		mes "No tienes un ^0000FF" +getitemname( 5019 ) + "^000000 en tu inventario";
+	else{
+		delitem 5019,1;
+		getitem 40189,1; 
+		mes "Listo, has convertido tu hat a costume";
+		}
+		break;
+
+
+} 
+
+
+
+close;
+OnInit:
+	waitingroom "Hat to Costume",0;
+	end;
+}
+
+
+

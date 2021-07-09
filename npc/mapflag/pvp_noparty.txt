@@ -1,0 +1,17 @@
+//===== rAthena Script =======================================
+//= Mapflag: Ignore parties.
+//===== By: ==================================================
+//= rAthena Dev Team
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: ========================================= 
+//= Ignores party alliances on PvP-enabled maps.
+//===== Additional Comments: ================================= 
+//= 1.0 Initial script.
+//============================================================
+prontera_pv	mapflag	pvp_noparty
+prt_pvp	mapflag	pvp_noparty
+guild_vs3	mapflag	pvp_noparty
+arena_4	mapflag	pvp_noparty
